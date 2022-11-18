@@ -1,0 +1,139 @@
+function hienthidanhmucluachon() {
+    $(".header__category").removeClass("undisplay");
+    $(".header__category").addClass("display");
+}
+function khonghienthidanhmucluachon() {
+    $(".header__category").removeClass("display");
+    $(".header__category").addClass("undisplay");
+}
+// slide show
+
+// go to top
+var showGoToTop = 300;
+
+$(window).scroll(function () {
+    if ($(this).scrollTop() >= showGoToTop) {
+        $('#go-to-top').fadeIn();
+    } else {
+        $('#go-to-top').fadeOut();
+    }
+});
+$('#go-to-top').click(function () {
+    $('html, body').animate({ scrollTop: 0 }, 'slow');
+});
+// change img
+function changeImg(id) {
+    let imgPath = document.getElementById(id).getAttribute('src');
+    document.getElementById('img-main').setAttribute('src', imgPath);
+}
+function check() {
+    var type = document.getElementsByName("mau");
+    if (type[0].checked) {
+        var val = type[0].value;
+        console.log(val);
+    }
+    else if (type[1].checked) {
+        var val = type[1].value;
+        console.log(val);
+    }
+    else if (type[2].checked) {
+        var val = type[2].value;
+        console.log(val);
+    }
+}
+$(document).ready(function () {
+    if ($(window).width() < 739) {
+        $('.collapse').removeClass('show');
+        $('.footer_toggle').attr('data-toggle', 'collapse');
+    }
+    else {
+        $('.collapse').addClass('show');
+        $('.footer_toggle').removeAttr('data-toggle');
+    }
+    $(window).resize(function () {
+        if ($(window).width() < 739) {
+            $('.collapse').removeClass('show');
+            $('.footer_toggle').attr('data-toggle', 'collapse');
+        }
+        else {
+            $('.collapse').addClass('show');
+            $('.footer_toggle').removeAttr('data-toggle');
+
+        }
+    });
+    // click mega menu
+    $('.header_nav-list .header_nav-list-item a').click(function () {
+        $('.header_nav-list-item a').removeClass('active');
+        $(this).addClass('active');
+    });
+    $('.ng-has-child1 > a i').click(function (e) {
+        e.preventDefault();
+        $('.ul-has-child1').toggle('slow');
+        $('.cong').toggleClass('hidden');
+        $('.tru').toggleClass('hidden');
+    })
+
+    $('.ng-has-child2 > a i').click(function (e) {
+        e.preventDefault();
+    })
+    $('#trigger-mobile').click(function (e) {
+        $('.mobile-main-menu').toggleClass('xyz');
+        $('.overlay').toggleClass('hidden');
+    })
+    $('.overlay').click(function (e) {
+        $('.mobile-main-menu').toggleClass('xyz');
+        $('.overlay').toggleClass('hidden');
+    })
+    // click thông tin đơn hàng trang pay
+    $('.summary-heading-price').click(function () {
+        $('.summary-content').toggle('slow');
+        $('.summary-heading-price h4 i').toggleClass('dropdown');
+    })
+})
+function hienthi(id, name) {
+    $(`#${name}`).toggle('slow');
+    $(`.cong${id}`).toggleClass('hidden');
+    $(`.tru${id}`).toggleClass('hidden');
+}
+function yeuThich(name) {
+    if ($(`.${name}`).find('i.far').length !== 0) {
+        $(`.${name} .far`).remove();
+        $(`.${name}`).append(`<i class="home-product-item__like-icon-fill fas fa-heart" style="font-size: 24px;margin-top: 7px;"></i>`);
+    }
+    else if ($(`.${name}`).find('i.fas').length !== 0) {
+        $(`.${name} .fas`).remove();
+        $(`.${name}`).append(`<i class="home-product-item__like-icon-fill far fa-heart" style="font-size: 24px;margin-top: 7px;"></i>`);
+    }
+}
+function cong(id) {
+    var value = document.getElementById(`text_so_luong-${id}`).value
+    document.getElementById(`text_so_luong-${id}`).value = parseInt(value) + 1;
+}
+function tru(id) {
+    var value = document.getElementById(`text_so_luong-${id}`).value
+    if (parseInt(value) > 1) {
+        document.getElementById(`text_so_luong-${id}`).value = parseInt(value) - 1;
+    }
+
+}
+function validate(evt) {
+    var theEvent = evt || window.event;
+
+    // Handle paste
+    if (theEvent.type === 'paste') {
+        key = event.clipboardData.getData('text/plain');
+    } else {
+        // Handle key press
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode(key);
+    }
+    var regex = /[0-9]|\./;
+    if (!regex.test(key)) {
+        theEvent.returnValue = false;
+        if (theEvent.preventDefault) theEvent.preventDefault();
+    }
+}
+
+function xoa(id) {
+    $(`.cart-body-row-${id}`).fadeOut();
+}

@@ -1,0 +1,242 @@
+.content {
+    margin-top: 10px;
+}
+.main-header a{
+    color: var(--black-color);
+    font-size: 20px;
+    font-weight: 500;
+}
+.main-header a:hover {
+    text-decoration: none;
+}
+.main-customer-info {
+    display: flex;
+    margin-bottom: 20px;
+}
+.main-customer-info-logged {
+    font-size: 16px;
+    margin-left: 25px;
+}
+.form-label {
+    text-align: left;
+    font-size: 16px;
+    font-weight: 700;
+    line-height:1.8rem;
+    padding-bottom: 6px;
+}
+.form-control {
+    height: 50px;
+    padding: 8px 12px;
+    border: 1px solid #b3b3b3;
+    border-radius: unset !important;
+    outline: none !important;
+    font-size: 1.4rem;
+}
+.form-control:focus {
+    border-color: unset !important;
+    border: 1px solid #1dbfaf !important;
+}
+.form-control:hover {
+    border-color: #1dbfaf;
+}
+.form-group.invalid .form-control {
+    border-color: #f33a58;
+}
+.form-group.invalid .form-message {
+    color: #f33a58;
+}
+.main-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    align-items: center;
+}
+.continue a{
+    color: var(--black-color);
+    font-size: 20px;
+    font-weight: 500;
+    vertical-align: middle;
+}
+.fi-rs-angle-left {
+    font-size: 16px !important;
+    font-weight: 600;
+}
+.continue a:hover {
+    text-decoration: none;
+}
+.btn-pay {
+    padding: 20px 40px;
+    width: 100%;
+    background-color: var(--black-color);
+    color: var(--white-color);
+    font-size: 20px;
+    font-weight: 500;
+}
+.sliderbar {
+    margin-top: 30px;
+    
+}
+.row-sliderbar {
+    margin: 10px 0;
+}
+.col-2 span {
+    font-size: 16px;
+}
+.col-6 span {
+    font-size: 16px;
+}
+.slider-footer {
+    margin-top: 20px;
+}
+.row-sliderbar-footer {
+    margin: 20px 0;
+}
+.col-4 img {
+    width: 82px;
+    position: relative;
+    height: 105px;
+}
+.row-sliderbar .col-4 {
+    max-width: 23.333333%;
+}
+.row-sliderbar .col-6 {
+    max-width: 50%;
+    text-align: center;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.row-sliderbar .col-8 {
+    max-width:67% !important;
+    justify-content: end;
+    padding: 0;
+}
+.row-sliderbar .col-2 {
+    text-align: right;
+    align-items: center;
+    display: flex;
+    right: -45px;
+}
+@media (max-width:1199px) {
+    .row-sliderbar .col-2 {
+        right: -21px;
+    }
+}
+@media (min-width:992px) and (max-width:1023px) {
+    .col-lg-6.col-12.hidden-sm.hidden-xs {
+        display:none;
+    }
+    .summary {
+        border-top: 1px solid #000;
+    }
+    .summary-content.hidden {
+        display: block;
+    }
+    .summary-content.hidden .sliderbar .sliderbar-content .row.row-sliderbar .col-6 img {
+        width: 80px;
+    }
+    .summary-content.hidden .sliderbar .sliderbar-content .row.row-sliderbar .col-6:first-child{
+        justify-content: flex-start !important;
+        max-width: 143px;
+    }
+    .sliderbar-content span {
+        font-size: 16px;
+    }
+    .summary-content.hidden .sliderbar .sliderbar-content .row.row-sliderbar .col-6 h5 {
+        margin: 0;
+        margin-right: 70px;
+    }
+}
+.notice {
+    position: absolute;
+    background-color: #d9121f;
+    color: var(--white-color);
+    padding: 1px 6px;
+    font-size: 10px;
+    border-radius: 50%;
+    top: -8px;
+    left: 82px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.summary {
+    border-bottom: 1px solid #000;
+    padding: 10px 5px;
+}
+.summary-heading {
+    display: flex;
+    justify-content: space-between;
+}
+.color-box {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.foo {
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(0, 0, 0, .2);
+    cursor: pointer;
+    margin-right: 5px;
+}
+
+.yellow {
+    background: yellow;
+}
+
+.pink {
+    background: #ff7792;
+}
+
+.blue {
+    background: #13b4ff;
+}
+
+.purple {
+    background: #ab3fdd;
+}
+
+.red {
+    background: #e30b0b;
+}
+
+.dark_grey {
+    background: #565454;
+}
+
+.grey {
+    background: grey;
+}
+
+.light_blue {
+    background: lightblue;
+}
+
+.dark_blue {
+    background: darkblue;
+}
+
+.dark_green {
+    background: darkgreen;
+}
+
+.green {
+    background: #20be20;
+}
+
+.brown {
+    background: brown;
+}
+.size_choosed {
+    margin:0;
+    height:fit-content;
+}
+.cart-name {
+    padding-right: 5px;
+}

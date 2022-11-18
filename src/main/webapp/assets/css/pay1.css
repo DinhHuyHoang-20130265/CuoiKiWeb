@@ -1,0 +1,23 @@
+#textbox{
+    height: 200px !important; 
+    font-size: 14px;
+  }
+  .sale_code{
+    margin: 5px 15px;
+    width: 50%;
+    font-size: 14px;
+    height: 40px !important;
+  }
+  .codebutt{
+    margin: 5px 0;
+    font-size: 15px;
+    width: 20%; 
+  }
+  .selection-pay{
+    padding: 5px 15px;
+  }
+  .selection-btn{
+    font-size: 16px;
+    font-weight: 400;
+  }
+  
