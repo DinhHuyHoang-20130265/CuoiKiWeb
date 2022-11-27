@@ -1640,16 +1640,16 @@ $(document).ready(async function () {
     var listProducts = object.map(function (element) {
       if (element.size.indexOf(idsize) !== -1) {
         return `<div class="col-lg-4 col-md-6 col-12 mb-20 blogBox moreBox" style="margin-bottom: 20px; display:none">
-                  <a href="./ProductDetail.html" class="product__new-item">
+                  <a href="./ProductDetail.jsp" class="product__new-item">
                     <div class="card" style="width: 100%">
                       <div>
                         <img class="card-img-top" src="./assets/imgProduct/images/${element.imglink}" alt="Card image cap">
                         <form action="" class="hover-icon hidden-sm hidden-xs">
                           <input type="hidden">
-                          <a href="./pay.html" class="btn-add-to-cart" title="Mua ngay">
+                          <a href="./pay.jsp" class="btn-add-to-cart" title="Mua ngay">
                             <i class="fas fa-cart-plus"></i>
                           </a>
-                          <a href="./cart.html" class="btn-add-to-cart" title="Đưa vào trang ưu thích" style="margin-top: 10px">
+                          <a href="./cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích" style="margin-top: 10px">
                                 <i class="fas fa-heart"></i>
                           </a>
                           <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">
