@@ -249,7 +249,7 @@
                     </div>
                     <div class="cart-body-right">
                         <div class="cart-total">
-                            <label for="">Thành tiền:</label>
+                            <label>Thành tiền:</label>
                             <span class="total__price">1260000₫</span>
                         </div>
                         <div class="cart-buttons">
