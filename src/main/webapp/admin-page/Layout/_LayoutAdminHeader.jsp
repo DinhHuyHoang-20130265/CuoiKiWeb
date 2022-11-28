@@ -1,4 +1,4 @@
-<%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022
@@ -78,7 +78,7 @@
                     <footer>
                         <ul>
                             <li>
-                                <a href=""> Xem tất cả </a>
+                                <a href="#"> Xem tất cả </a>
                             </li>
                         </ul>
                     </footer>
@@ -90,7 +90,10 @@
                     <div class="img"
                          style="background-image: url('https://avatars3.githubusercontent.com/u/3959008?v=3&s=40')">
                     </div>
-                    <span class="name"> Admin </span>
+                    <%
+                            AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+                    %>
+                    <span class="name"> <%=admin.getUsername()%> </span>
                 </a>
                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
                     <a class="dropdown-item" href="#">
@@ -100,7 +103,7 @@
                     <a class="dropdown-item" href="#">
                         <i class="fa fa-gear icon"></i> Cài đặt </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/CuoiKiWeb_war/LogoutAdminController">
                         <i class="fa fa-power-off icon"></i> Đăng xuất </a>
                 </div>
             </li>

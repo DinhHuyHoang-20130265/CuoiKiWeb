@@ -5,28 +5,35 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AdminRole implements Serializable {
-    private List<String> roles;
+    private int role_id;
+    private String role_permission;
 
-    public AdminRole(List<String> roles) {
-        this.roles = roles;
-    }
-
-    public List<String> getRoles() {
-        return roles;
+    public AdminRole(int role_id, String role_permission) {
+        this.role_id = role_id;
+        this.role_permission = role_permission;
     }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public int getRole_id() {
+        return role_id;
     }
-    //  Phương thức kiểm tra vai trò
-    public boolean accept(String role) {
-        if (role == null) return false;
-        return roles.contains(role);
+
+    public void setRole_id(int role_id) {
+        this.role_id = role_id;
     }
+
+    public String getRole_permission() {
+        return role_permission;
+    }
+
+    public void setRole_permission(String role_permission) {
+        this.role_permission = role_permission;
+    }
+
     @Override
     public String toString() {
         return "AdminRole{" +
-                "roles=" + roles +
+                "role_id=" + role_id +
+                ", role_permission='" + role_permission + '\'' +
                 '}';
     }
 }

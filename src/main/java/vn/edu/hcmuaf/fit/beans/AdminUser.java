@@ -1,18 +1,22 @@
 package vn.edu.hcmuaf.fit.beans;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
 
 public class AdminUser implements Serializable{
     private String id;
     private String username;
     private String pass;
     private String email;
-    private AdminRole role;
-    public AdminUser(String id, String username, String pass, String email, AdminRole role) {
+    private boolean status;
+    private HashMap<String, List<String>> role;
+    public AdminUser(String id, String username, String pass, String email, boolean status, HashMap<String, List<String>> role) {
         this.id = id;
         this.username = username;
         this.pass = pass;
         this.email = email;
+        this.status = status;
         this.role = role;
     }
 
@@ -50,12 +54,18 @@ public class AdminUser implements Serializable{
     public void setEmail(String email) {
         this.email = email;
     }
+    public boolean getStatus() {
+        return status;
+    }
 
-    public AdminRole getRole() {
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+    public HashMap<String, List<String>> getRole() {
         return role;
     }
 
-    public void setRole(AdminRole role) {
+    public void setRole(HashMap<String, List<String>> role) {
         this.role = role;
     }
 
@@ -66,6 +76,7 @@ public class AdminUser implements Serializable{
                 ", username='" + username + '\'' +
                 ", pass='" + pass + '\'' +
                 ", email='" + email + '\'' +
+                ", status='" + status + '\'' +
                 ", role=" + role.toString() +
                 '}';
     }
