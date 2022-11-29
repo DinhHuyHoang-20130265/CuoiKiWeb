@@ -1,7 +1,6 @@
 package vn.edu.hcmuaf.fit.DAO;
 
 import vn.edu.hcmuaf.fit.beans.AdminUser;
-import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.List;
@@ -12,7 +11,10 @@ public class AdminUserDAO {
 
     public AdminUserDAO() {
         users = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("select * from admin_user").mapToBean(AdminUser.class).stream().collect(Collectors.toList());
+            return handle.createQuery("select a.id, a.username, a.pass, a.account_status from user_account a where a.role = 1")
+                    .mapToBean(AdminUser.class)
+                    .stream()
+                    .collect(Collectors.toList());
         });
     }
 
@@ -38,7 +40,7 @@ public class AdminUserDAO {
     public boolean checkStatus(String username) {
         for (AdminUser user : this.users) {
             if (user.getUsername().equals(username)) {
-                if (user.getStatus())
+                if (user.getAccount_status() == 1)
                     return true;
             }
         }

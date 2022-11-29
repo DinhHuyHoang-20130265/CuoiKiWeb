@@ -42,7 +42,7 @@
 
     //----------------------Kiểm tra thử đăng nhập hay chưa--------------------//
     if (request.getSession().getAttribute("userAdmin") == null) {
-        // Sendredirect tới login
+        // Send redirect tới login
         response.sendRedirect("login.jsp");
 
     } else {

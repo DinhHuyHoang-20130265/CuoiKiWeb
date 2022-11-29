@@ -46,12 +46,6 @@
             background: #0b7dda;
         }
 
-        form.example::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
         @media (max-width: 1199px) {
             .shoesnews .product__new-item .card .card-img-top {
                 height: 174px;

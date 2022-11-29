@@ -1,3 +1,4 @@
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -48,6 +49,16 @@
 </head>
 
 <body>
+<%
+
+    //----------------------Kiểm tra thử đăng nhập hay chưa--------------------//
+    if (request.getSession().getAttribute("userAdmin") == null) {
+        // Sendredirect tới login
+        response.sendRedirect("login.jsp");
+
+    } else {
+        AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+%>
 <div class="main-wrapper">
     <div class="app" id="app">
         <jsp:include page="Layout/_LayoutAdminHeader.jsp"></jsp:include>
@@ -426,3 +437,4 @@
 </body>
 
 </html>
+<%}%>
