@@ -12,7 +12,10 @@ public class SiteUserDAO {
 
     public SiteUserDAO() {
         users = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("select * from site_user").mapToBean(SiteUser.class).stream().collect(Collectors.toList());
+            return handle.createQuery("select a.id, a.username, a.pass, a.account_status from user_account a where a.role = 0")
+                    .mapToBean(SiteUser.class)
+                    .stream()
+                    .collect(Collectors.toList());
         });
     }
 
@@ -38,8 +41,7 @@ public class SiteUserDAO {
     public boolean checkStatus(String username) {
         for (SiteUser user : this.users) {
             if (user.getUsername().equals(username)) {
-                if (user.getUser_status() == 1)
-                    return true;
+                return user.getAccount_status() == 1;
             }
         }
         return false;

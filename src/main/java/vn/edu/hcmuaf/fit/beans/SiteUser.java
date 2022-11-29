@@ -6,13 +6,13 @@ public class SiteUser implements Serializable {
     private String id;
     private String username;
     private String pass;
-    private Byte user_status;
+    private Byte account_status;
 
-    public SiteUser(String id, String username, String pass, Byte user_status) {
+    public SiteUser(String id, String username, String pass, Byte account_status) {
         this.id = id;
         this.username = username;
         this.pass = pass;
-        this.user_status = user_status;
+        this.account_status = account_status;
     }
     public SiteUser() {
     }
@@ -40,12 +40,12 @@ public class SiteUser implements Serializable {
         this.pass = pass;
     }
 
-    public Byte getUser_status() {
-        return user_status;
+    public Byte getAccount_status() {
+        return account_status;
     }
 
-    public void setUser_status(Byte user_status) {
-        this.user_status = user_status;
+    public void setAccount_status(Byte account_status) {
+        this.account_status = account_status;
     }
 
     @Override
@@ -54,7 +54,7 @@ public class SiteUser implements Serializable {
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", pass='" + pass + '\'' +
-                ", user_status=" + user_status +
+                ", account_status=" + account_status +
                 '}';
     }
 }

@@ -5,7 +5,6 @@ import vn.edu.hcmuaf.fit.DAO.AdminUserRoleDAO;
 import vn.edu.hcmuaf.fit.beans.AdminRole;
 import vn.edu.hcmuaf.fit.beans.AdminUser;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class AdminLoginService {
@@ -49,13 +48,9 @@ public class AdminLoginService {
         return account;
     }
 
-    public HashMap<String, List<String>> getListRole(String username) {
+    public List<AdminRole> getListRole(String username) {
         AdminUserRoleDAO DAO = new AdminUserRoleDAO(username);
-        HashMap<String, List<String>> list = new HashMap<>();
-        DAO.getRoleList().forEach(adminRole -> {
-            list.put(adminRole.getRole_permission(), DAO.getPermission(adminRole.getRole_permission()));
-        });
-        return list;
+        return DAO.getRoleList();
     }
 
     public static void main(String[] args) {

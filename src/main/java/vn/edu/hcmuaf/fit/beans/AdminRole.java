@@ -5,35 +5,35 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AdminRole implements Serializable {
-    private int role_id;
-    private String role_permission;
+    private String table;
+    private String permission;
 
-    public AdminRole(int role_id, String role_permission) {
-        this.role_id = role_id;
-        this.role_permission = role_permission;
+    public AdminRole(String table, String permission) {
+        this.table = table;
+        this.permission = permission;
     }
 
-    public int getRole_id() {
-        return role_id;
+    public String getTable() {
+        return table;
     }
 
-    public void setRole_id(int role_id) {
-        this.role_id = role_id;
+    public void setTable(String table) {
+        this.table = table;
     }
 
-    public String getRole_permission() {
-        return role_permission;
+    public String getPermission() {
+        return permission;
     }
 
-    public void setRole_permission(String role_permission) {
-        this.role_permission = role_permission;
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 
     @Override
     public String toString() {
         return "AdminRole{" +
-                "role_id=" + role_id +
-                ", role_permission='" + role_permission + '\'' +
+                "role_id=" + table +
+                ", role_permission='" + permission + '\'' +
                 '}';
     }
 }

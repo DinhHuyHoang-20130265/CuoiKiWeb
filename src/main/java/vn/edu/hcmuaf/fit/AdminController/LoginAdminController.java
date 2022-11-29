@@ -88,7 +88,7 @@ public class LoginAdminController extends HttpServlet {
             AdminUser account = service.getInstance().getAccountAdminUser(username, password);
 
             //  2. Lấy role của account này và set cho nó
-            HashMap<String, List<String>> role = service.getInstance().getListRole(username);
+            List<AdminRole> role = service.getInstance().getListRole(username);
             account.setRole(role);
 
             //  Tạo đối tượng admin rồi lưu vào session
