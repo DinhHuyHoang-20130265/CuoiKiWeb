@@ -32,8 +32,8 @@ public class AdminRole implements Serializable {
     @Override
     public String toString() {
         return "AdminRole{" +
-                "role_id=" + table +
-                ", role_permission='" + permission + '\'' +
+                "table=" + table +
+                ", permission='" + permission + '\'' +
                 '}';
     }
 }

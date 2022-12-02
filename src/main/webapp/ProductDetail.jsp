@@ -1,3 +1,4 @@
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,6 +75,156 @@
             top: 14px;
             right: 34px;
         }
+    }
+
+    .container-rate-tab {
+        position: relative;
+        width: 400px;
+        background: #c7c7c7;
+        padding: 20px 30px;
+        border: 1px solid #444;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .container-rate-tab .post {
+        display: none;
+    }
+
+    .container-rate-tab .text {
+        font-size: 25px;
+        color: #666;
+        font-weight: 500;
+    }
+
+    .container-rate-tab .edit {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        font-size: 16px;
+        color: #666;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .container-rate-tab .edit:hover {
+        text-decoration: underline;
+    }
+
+    .container-rate-tab .star-widget input {
+        display: none;
+    }
+
+    .container-rate-tab .star-widget label {
+        font-size: 40px;
+        color: #444;
+        padding: 10px;
+        float: right;
+        transition: all 0.2s ease;
+    }
+
+    .container-rate-tab input:not(:checked) ~ label:hover,
+    .container-rate-tab input:not(:checked) ~ label:hover ~ label {
+        color: #fd4;
+    }
+
+    .container-rate-tab input:checked ~ label {
+        color: #fd4;
+    }
+
+    .container-rate-tab input#rate-5:checked ~ label {
+        color: #fe7;
+        text-shadow: 0 0 20px #952;
+    }
+
+    #rate-1:checked ~ form header:before {
+        content: "Không thích";
+    }
+
+    #rate-2:checked ~ form header:before {
+        content: "Chưa tốt ";
+    }
+
+    #rate-3:checked ~ form header:before {
+        content: "Bình thường ";
+    }
+
+    #rate-4:checked ~ form header:before {
+        content: "Tốt ";
+    }
+
+    #rate-5:checked ~ form header:before {
+        content: "Rất tốt ";
+    }
+
+    .container-rate-tab .container form {
+        display: none;
+    }
+
+    .container-rate-tab input:checked ~ form {
+        display: block;
+    }
+
+    .container-rate-tab form header {
+        width: 100%;
+        font-size: 25px;
+        color: #fe7;
+        font-weight: 500;
+        margin: 5px 0 20px 0;
+        text-align: center;
+        transition: all 0.2s ease;
+    }
+
+    .container-rate-tab form .textarea {
+        height: 100px;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    .container-rate-tab form .textarea textarea {
+        height: 100%;
+        width: 100%;
+        outline: none;
+        color: #414141;
+        border: 1px solid #333;
+        padding: 10px;
+        font-size: 17px;
+        resize: none;
+    }
+
+    .container-rate-tab .textarea textarea:focus {
+        border-color: #444;
+    }
+    .btn-rate {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .container-rate-tab form .btn {
+        height: 45px;
+        width: 100%;
+        margin: 15px 0;
+    }
+
+    .container-rate-tab-btn {
+        width: 100px;
+        height: 30px;
+        border: 1px solid #444;
+        outline: none;
+        background: #ededed;
+        color: #727272;
+        font-size: 17px;
+        font-weight: 500;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    form .btn button:hover {
+        background: #1b1b1b;
     }
 
     @media (max-width: 768px) {
@@ -438,12 +589,44 @@
                 </div>
             </div>
             <div id="danhgia" class="tabcontent">
+                <% SiteUser user = (SiteUser) request.getSession().getAttribute("user");
+                    if (user == null) {
+                %>
                 <div class="box">
                     <div class="box1">
                         <h1 style="margin-top:12px">Thêm Đánh giá</h1>
                         <button class="butt1">Đăng nhập để đánh giá</button>
                     </div>
                 </div>
+                <% } else {%>
+                <div class="container container-rate-tab">
+                    <div class="post">
+                        <div class="text">Cảm ơn bạn đã đánh giá!</div>
+                        <div class="edit">Chỉnh sửa</div>
+                    </div>
+                    <div class="star-widget">
+                        <input type="radio" name="rate" id="rate-5">
+                        <label for="rate-5" class="fas fa-star"></label>
+                        <input type="radio" name="rate" id="rate-4">
+                        <label for="rate-4" class="fas fa-star"></label>
+                        <input type="radio" name="rate" id="rate-3">
+                        <label for="rate-3" class="fas fa-star"></label>
+                        <input type="radio" name="rate" id="rate-2">
+                        <label for="rate-2" class="fas fa-star"></label>
+                        <input type="radio" name="rate" id="rate-1">
+                        <label for="rate-1" class="fas fa-star"></label>
+                        <form action="#">
+                            <header></header>
+                            <div class="textarea">
+                                <textarea cols="30" placeholder="Nhập trải nghiệm cụ thể..."></textarea>
+                            </div>
+                            <div class="btn-rate">
+                                <button class="container-rate-tab-btn" type="submit">Đánh giá</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <%}%>
             </div>
         </div>
     </div>
@@ -857,6 +1040,21 @@
 
     // Get the element with id="defaultOpen" and click on it
     document.getElementById("defaultOpen").click();
+</script>
+<script>
+    const btn = document.querySelector(".container-rate-tab-btn");
+    const post = document.querySelector(".container-rate-tab .post");
+    const widget = document.querySelector(".star-widget");
+    const editBtn = document.querySelector(".container-rate-tab .edit");
+    btn.onclick = ()=>{
+        widget.style.display = "none";
+        post.style.display = "block";
+        editBtn.onclick = ()=>{
+            widget.style.display = "block";
+            post.style.display = "none";
+        }
+        return false;
+    }
 </script>
 </body>
 

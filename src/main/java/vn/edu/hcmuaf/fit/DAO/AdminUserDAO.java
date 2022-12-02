@@ -46,4 +46,8 @@ public class AdminUserDAO {
         }
         return false;
     }
+
+    public static void main(String[] args) {
+        System.out.println(new AdminUserDAO().users);
+    }
 }

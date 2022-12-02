@@ -23,7 +23,7 @@ public class ProductDAO {
         });
     }
 
-    public void loadProduct(int page, int num_per_page, String order_by, String category, String color
+    public void loadProductWithCondition(int page, int num_per_page, String order_by, String category, String color
             , double[] price, String size, String search) {
         String query = "SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," +
                 " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
@@ -100,7 +100,6 @@ public class ProductDAO {
             temp.add(listProduct.get(i));
         }
         listProduct = (ArrayList<Product>) temp;
-        System.out.println(listProduct);
     }
 
     public ArrayList<Product> getListProduct() {
@@ -112,6 +111,6 @@ public class ProductDAO {
     }
 
     public static void main(String[] args) {
-        new ProductDAO().loadProduct(2, 6, "2", "donam", "red", new double[]{260000, 420000}, "XL", "polo");
+        new ProductDAO().loadProductWithCondition(2, 6, "2", "donam", "red", new double[]{260000, 420000}, "XL", "polo");
     }
 }

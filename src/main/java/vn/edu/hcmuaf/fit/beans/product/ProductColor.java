@@ -4,28 +4,38 @@ import java.io.Serializable;
 import java.util.List;
 
 public class ProductColor implements Serializable {
-    private List<String> values;
+    private int id;
+    private String size_name;
 
     public ProductColor() {
     }
 
-    public ProductColor(List<String> values) {
-        this.values = values;
+    public ProductColor(int id, String size_name) {
+        this.id = id;
+        this.size_name = size_name;
     }
 
-
-    public List<String> getValues() {
-        return values;
+    public int getId() {
+        return id;
     }
 
-    public void setValues(List<String> values) {
-        this.values = values;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getSize_name() {
+        return size_name;
+    }
+
+    public void setSize_name(String size_name) {
+        this.size_name = size_name;
     }
 
     @Override
     public String toString() {
         return "ProductColor{" +
-                ", values=" + values +
+                "id=" + id +
+                ", size_name='" + size_name + '\'' +
                 '}';
     }
 }

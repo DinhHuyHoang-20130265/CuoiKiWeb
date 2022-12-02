@@ -1,4 +1,7 @@
-<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022
@@ -6,7 +9,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% SiteUser user = (SiteUser) session.getAttribute("user"); %>
+<% SiteUser user = (SiteUser) session.getAttribute("user");%>
 <div class="overlay hidden"></div>
 <!-- mobile menu -->
 <div class="mobile-main-menu">
@@ -60,161 +63,162 @@
                     <a href="intro.jsp">Giới thiệu</a>
                 </li>
                 <li class="ng-scope ng-has-child1">
-                    <a href="Product.jsp">Sản phẩm <i class="fas fa-plus cong"></i>
+                    <a href="Product.jsp?category=all">Sản phẩm <i class="fas fa-plus cong"></i>
                         <i class="fas fa-minus tru hidden"></i></a>
                     <ul class="ul-has-child1">
                         <li class="ng-scope ng-has-child2">
-                            <a href="Product.jsp">Tất cả sản phẩm</a>
+                            <a href="Product.jsp?category=all">Tất cả sản phẩm</a>
                         </li>
-                        <li class="ng-scope ng-has-child2">
-                            <a href="Product.jsp">Đồ Nam
-                                <i class="fas fa-plus cong2" onclick="hienthi(2,`abc2`)"></i>
-                                <i class="fas fa-minus tru2 hidden" onclick="hienthi(2,`abc2`)"></i></a>
-                            <ul class="ul-has-child2 hidden" id="abc2">
-                                <li class="ng-scope ng-has-child2">
-                                    <a href="Product.jsp">Áo Thun Nam
-                                        <i class="fas fa-plus cong3" onclick="hienthi(3,`abc3`)"></i>
-                                        <i class="fas fa-minus tru3 hidden" onclick="hienthi(3,`abc3`)"></i></a>
-                                    <ul class="ul-has-child2 hidden" id="abc3">
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Áo Thun Tay Dài Nam</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Áo Thun Polo Nam </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="ng-scope ng-has-child2">
-                                    <a href="Product.jsp">Áo Sơ Mi Nam
-                                        <i class="fas fa-plus cong4" onclick="hienthi(4,`abc4`)"></i>
-                                        <i class="fas fa-minus tru4 hidden" onclick="hienthi(4,`abc4`)"></i></a>
-                                    <ul class="ul-has-child2 hidden" id="abc4">
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nam</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Áo Sơ Mi Tay Dài Nam </a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="ng-scope ng-has-child2">
-                                    <a href="Product.jsp">Quần Short Nam
-                                        <i class="fas fa-plus cong5" onclick="hienthi(5,`abc5`)"></i>
-                                        <i class="fas fa-minus tru5 hidden" onclick="hienthi(5,`abc5`)"></i></a>
-                                    <ul class="ul-has-child2 hidden" id="abc5">
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Short Kaki Nam</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Short Jean Nam</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Short Thun Nam</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="ng-scope ng-has-child2">
-                                    <a href="Product.jsp">Quần Dài Nam
-                                        <i class="fas fa-plus cong6" onclick="hienthi(6,`abc6`)"></i>
-                                        <i class="fas fa-minus tru6 hidden" onclick="hienthi(6,`abc6`)"></i></a>
-                                    <ul class="ul-has-child2 hidden" id="abc6">
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Jean Cá Tính Nam</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Jogger Nam</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Kaki Nam</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="ng-scope ng-has-child2">
-                            <a href="Product.jsp">Đồ Nữ<i class="fas fa-plus cong4" onclick="hienthi(7,`abc7`)"></i>
-                                <i class="fas fa-minus tru7 hidden" onclick="hienthi(7,`abc7`)"></i></a>
-                            <ul class="ul-has-child2 hidden" id="abc7">
-                                <li class="ng-scope ng-has-child2">
-                                    <a href="Product.jsp">Áo Thun Nữ
-                                        <i class="fas fa-plus cong8" onclick="hienthi(8,`abc8`)"></i>
-                                        <i class="fas fa-minus tru8 hidden" onclick="hienthi(8,`abc8`)"></i></a>
-                                    <ul class="ul-has-child2 hidden" id="abc8">
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Áo Thun Tay Ngắn Nữ</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Áo Thun Tay Dài Nữ</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="ng-scope ng-has-child2">
-                                    <a href="Product.jsp">Áo Sơ Mi Nữ
-                                        <i class="fas fa-plus cong9" onclick="hienthi(9,`abc9`)"></i>
-                                        <i class="fas fa-minus tru9 hidden" onclick="hienthi(9,`abc9`)"></i></a>
-                                    <ul class="ul-has-child2 hidden" id="abc9">
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nữ</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Áo Sơ Mi Tay Dài Nữ</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="ng-scope ng-has-child2">
-                                    <a href="Product.jsp">Quần Short Nữ
-                                        <i class="fas fa-plus cong10" onclick="hienthi(10,`abc10`)"></i>
-                                        <i class="fas fa-minus tru10 hidden" onclick="hienthi(10,`abc10`)"></i></a>
-                                    <ul class="ul-has-child2 hidden" id="abc10">
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Short Kaki Nữ</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Short Jean Nữ</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="ng-scope ng-has-child2">
-                                    <a href="Product.jsp">Quần Dài Nữ
-                                        <i class="fas fa-plus cong11" onclick="hienthi(11,`abc11`)"></i>
-                                        <i class="fas fa-minus tru11 hidden" onclick="hienthi(11,`abc11`)"></i></a>
-                                    <ul class="ul-has-child2 hidden" id="abc11">
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Jogger Nữ</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Jean Đơn Giản Nữ</a>
-                                        </li>
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Quần Jean Cá Tính Nữ</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="ng-scope">
-                                    <a href="Product.jsp">Chân Váy</a>
-                                </li>
-                                <li class="ng-scope">
-                                    <a href="Product.jsp">Yếm</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="ng-scope ng-has-child2">
-                            <a href="Product.jsp">Đồ Unisex<i class="fas fa-plus cong12"
-                                                              onclick="hienthi(12,`abc12`)"></i>
-                                <i class="fas fa-minus tru5 hidden" onclick="hienthi(12,`abc12`)"></i></a>
-                            <ul class="ul-has-child2 hidden" id="abc12">
-                                <li class="ng-scope ng-has-child2">
-                                    <a href="Product.jsp">Áo Thun Unisex
-                                        <i class="fas fa-plus cong13" onclick="hienthi(13,`abc13`)"></i>
-                                        <i class="fas fa-minus tru13 hidden" onclick="hienthi(13,`abc13`)"></i></a>
-                                    <ul class="ul-has-child2 hidden" id="abc13">
-                                        <li class="ng-scope">
-                                            <a href="Product.jsp">Áo Thun Tay Ngắn Unisex</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
+                        <!--                     <li class="ng-scope ng-has-child2">
+                                                <a href="Product.jsp">Đồ Nam
+                                                    <i class="fas fa-plus cong2" onclick="hienthi(2,`abc2`)"></i>
+                                                    <i class="fas fa-minus tru2 hidden" onclick="hienthi(2,`abc2`)"></i></a>
+                                                <ul class="ul-has-child2 hidden" id="abc2">
+                                                    <li class="ng-scope ng-has-child2">
+                                                        <a href="Product.jsp">Áo Thun Nam
+                                                            <i class="fas fa-plus cong3" onclick="hienthi(3,`abc3`)"></i>
+                                                            <i class="fas fa-minus tru3 hidden" onclick="hienthi(3,`abc3`)"></i></a>
+                                                        <ul class="ul-has-child2 hidden" id="abc3">
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Áo Thun Tay Dài Nam</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Áo Thun Polo Nam </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="ng-scope ng-has-child2">
+                                                        <a href="Product.jsp">Áo Sơ Mi Nam
+                                                            <i class="fas fa-plus cong4" onclick="hienthi(4,`abc4`)"></i>
+                                                            <i class="fas fa-minus tru4 hidden" onclick="hienthi(4,`abc4`)"></i></a>
+                                                        <ul class="ul-has-child2 hidden" id="abc4">
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nam</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Áo Sơ Mi Tay Dài Nam </a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="ng-scope ng-has-child2">
+                                                        <a href="Product.jsp">Quần Short Nam
+                                                            <i class="fas fa-plus cong5" onclick="hienthi(5,`abc5`)"></i>
+                                                            <i class="fas fa-minus tru5 hidden" onclick="hienthi(5,`abc5`)"></i></a>
+                                                        <ul class="ul-has-child2 hidden" id="abc5">
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Short Kaki Nam</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Short Jean Nam</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Short Thun Nam</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="ng-scope ng-has-child2">
+                                                        <a href="Product.jsp">Quần Dài Nam
+                                                            <i class="fas fa-plus cong6" onclick="hienthi(6,`abc6`)"></i>
+                                                            <i class="fas fa-minus tru6 hidden" onclick="hienthi(6,`abc6`)"></i></a>
+                                                        <ul class="ul-has-child2 hidden" id="abc6">
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Jean Cá Tính Nam</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Jogger Nam</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Kaki Nam</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="ng-scope ng-has-child2">
+                                                <a href="Product.jsp">Đồ Nữ<i class="fas fa-plus cong4" onclick="hienthi(7,`abc7`)"></i>
+                                                    <i class="fas fa-minus tru7 hidden" onclick="hienthi(7,`abc7`)"></i></a>
+                                                <ul class="ul-has-child2 hidden" id="abc7">
+                                                    <li class="ng-scope ng-has-child2">
+                                                        <a href="Product.jsp">Áo Thun Nữ
+                                                            <i class="fas fa-plus cong8" onclick="hienthi(8,`abc8`)"></i>
+                                                            <i class="fas fa-minus tru8 hidden" onclick="hienthi(8,`abc8`)"></i></a>
+                                                        <ul class="ul-has-child2 hidden" id="abc8">
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Áo Thun Tay Ngắn Nữ</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Áo Thun Tay Dài Nữ</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="ng-scope ng-has-child2">
+                                                        <a href="Product.jsp">Áo Sơ Mi Nữ
+                                                            <i class="fas fa-plus cong9" onclick="hienthi(9,`abc9`)"></i>
+                                                            <i class="fas fa-minus tru9 hidden" onclick="hienthi(9,`abc9`)"></i></a>
+                                                        <ul class="ul-has-child2 hidden" id="abc9">
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nữ</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Áo Sơ Mi Tay Dài Nữ</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="ng-scope ng-has-child2">
+                                                        <a href="Product.jsp">Quần Short Nữ
+                                                            <i class="fas fa-plus cong10" onclick="hienthi(10,`abc10`)"></i>
+                                                            <i class="fas fa-minus tru10 hidden" onclick="hienthi(10,`abc10`)"></i></a>
+                                                        <ul class="ul-has-child2 hidden" id="abc10">
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Short Kaki Nữ</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Short Jean Nữ</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="ng-scope ng-has-child2">
+                                                        <a href="Product.jsp">Quần Dài Nữ
+                                                            <i class="fas fa-plus cong11" onclick="hienthi(11,`abc11`)"></i>
+                                                            <i class="fas fa-minus tru11 hidden" onclick="hienthi(11,`abc11`)"></i></a>
+                                                        <ul class="ul-has-child2 hidden" id="abc11">
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Jogger Nữ</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Jean Đơn Giản Nữ</a>
+                                                            </li>
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Quần Jean Cá Tính Nữ</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="ng-scope">
+                                                        <a href="Product.jsp">Chân Váy</a>
+                                                    </li>
+                                                    <li class="ng-scope">
+                                                        <a href="Product.jsp">Yếm</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="ng-scope ng-has-child2">
+                                                <a href="Product.jsp">Đồ Unisex<i class="fas fa-plus cong12"
+                                                                                  onclick="hienthi(12,`abc12`)"></i>
+                                                    <i class="fas fa-minus tru5 hidden" onclick="hienthi(12,`abc12`)"></i></a>
+                                                <ul class="ul-has-child2 hidden" id="abc12">
+                                                    <li class="ng-scope ng-has-child2">
+                                                        <a href="Product.jsp">Áo Thun Unisex
+                                                            <i class="fas fa-plus cong13" onclick="hienthi(13,`abc13`)"></i>
+                                                            <i class="fas fa-minus tru13 hidden" onclick="hienthi(13,`abc13`)"></i></a>
+                                                        <ul class="ul-has-child2 hidden" id="abc13">
+                                                            <li class="ng-scope">
+                                                                <a href="Product.jsp">Áo Thun Tay Ngắn Unisex</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li> -->
+                        <%CategoryService.getInstance().CreateCategoryMenu(out);%>
                     </ul>
                 </li>
                 <li class="ng-scope">
@@ -232,11 +236,11 @@
         </li>
         <li>
             <i class="fas fa-phone-square-alt footer__item-icon">Liên hệ: </i>
-            <a href="tel:19006750">19006750</a>
+            <a href="tel:0373132765">0373132765</a>
         </li>
         <li>
             <i class="fas fa-envelope-square footer__item-icon">Email: </i>
-            <a href="mailto:support@sapo.vn">support@gmail.vn</a>
+            <a href="mailto:support@gmail.vn">support@gmail.vn</a>
         </li>
     </ul>
 </div>
@@ -346,127 +350,128 @@
                         <div class="row">
                             <ul class="col-8 no-padding level0">
                                 <li class="level1">
-                                    <a class="hmega" href="Product.jsp">Tất cả sản phẩm</a>
+                                    <a class="hmega" href="Product.jsp?category=all">Tất cả sản phẩm</a>
                                 </li>
-                                <li class="level1">
-                                    <a class="hmega">Đồ Nam</a>
-                                    <ul class="level1">
-                                        <li class="level2">
-                                            <a href="Product.jsp">Áo Thun Nam</a>
-                                            <ul class="level2">
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Áo Thun Tay Dài Nam</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Áo Thun Polo Nam</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="level2">
-                                            <a href="Product.jsp">Áo Sơ Mi Nam</a>
-                                            <ul class="level2">
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nam</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Áo Sơ Mi Tay Dài Nam</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="level2">
-                                            <a href="Product.jsp">Quần Short Nam</a>
-                                            <ul class="level2">
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Short Kaki Nam</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Short Jean Nam</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Short Thun Nam</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="level2">
-                                            <a href="Product.jsp">Quần Dài Nam</a>
-                                            <ul class="level2">
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Jean Cá Tính Nam</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Jogger Nam</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Kaki Nam</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="level1">
-                                    <a class="hmega">Đồ Nữ</a>
-                                    <ul class="level1">
-                                        <li class="level2">
-                                            <a href="Product.jsp">Áo Thun Nữ</a>
-                                            <ul class="level2">
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Áo Thun Tay Ngắn Nữ</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Áo Thun Tay Dài</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="level2">
-                                            <a href="Product.jsp">Áo Sơ Mi Nữ</a>
-                                            <ul class="level2">
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nữ</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Áo Sơ Mi Tay Dài Nữ</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="level2">
-                                            <a href="Product.jsp">Quần Short Nữ</a>
-                                            <ul class="level2">
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Short Kaki Nữ</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Short Jean Nữ</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="level2">
-                                            <a href="Product.jsp">Quần Dài Nữ</a>
-                                            <ul class="level2">
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Jogger Nữ</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Jean Đơn Giản Nữ</a>
-                                                </li>
-                                                <li class="level3">
-                                                    <a href="Product.jsp">Quần Jean Cá Tính Nữ</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li class="level2">
-                                            <a href="Product.jsp">Chân Váy</a>
-                                        </li>
-                                        <li class="level2"><a href="Product.jsp">Yếm</a></li>
-                                    </ul>
-                                </li>
-                                <li class="level1">
-                                    <a class="hmega">Đồ Unisex</a>
-                                    <ul class="level1">
-                                        <li class="level2">
-                                            <a href="Product.jsp">Áo Thun Unisex</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                <!--     <li class="level1">
+                                         <a class="hmega" href="Product.jsp?category=">Đồ Nam</a>
+                                         <ul class="level1">
+                                             <li class="level2">
+                                                 <a href="Product.jsp">Áo Thun Nam</a>
+                                                 <ul class="level2">
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Áo Thun Tay Dài Nam</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Áo Thun Polo Nam</a>
+                                                     </li>
+                                                 </ul>
+                                             </li>
+                                             <li class="level2">
+                                                 <a href="Product.jsp">Áo Sơ Mi Nam</a>
+                                                 <ul class="level2">
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nam</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Áo Sơ Mi Tay Dài Nam</a>
+                                                     </li>
+                                                 </ul>
+                                             </li>
+                                             <li class="level2">
+                                                 <a href="Product.jsp">Quần Short Nam</a>
+                                                 <ul class="level2">
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Short Kaki Nam</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Short Jean Nam</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Short Thun Nam</a>
+                                                     </li>
+                                                 </ul>
+                                             </li>
+                                             <li class="level2">
+                                                 <a href="Product.jsp">Quần Dài Nam</a>
+                                                 <ul class="level2">
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Jean Cá Tính Nam</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Jogger Nam</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Kaki Nam</a>
+                                                     </li>
+                                                 </ul>
+                                             </li>
+                                         </ul>
+                                     </li>
+                                     <li class="level1">
+                                         <a class="hmega">Đồ Nữ</a>
+                                         <ul class="level1">
+                                             <li class="level2">
+                                                 <a href="Product.jsp">Áo Thun Nữ</a>
+                                                 <ul class="level2">
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Áo Thun Tay Ngắn Nữ</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Áo Thun Tay Dài</a>
+                                                     </li>
+                                                 </ul>
+                                             </li>
+                                             <li class="level2">
+                                                 <a href="Product.jsp">Áo Sơ Mi Nữ</a>
+                                                 <ul class="level2">
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nữ</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Áo Sơ Mi Tay Dài Nữ</a>
+                                                     </li>
+                                                 </ul>
+                                             </li>
+                                             <li class="level2">
+                                                 <a href="Product.jsp">Quần Short Nữ</a>
+                                                 <ul class="level2">
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Short Kaki Nữ</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Short Jean Nữ</a>
+                                                     </li>
+                                                 </ul>
+                                             </li>
+                                             <li class="level2">
+                                                 <a href="Product.jsp">Quần Dài Nữ</a>
+                                                 <ul class="level2">
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Jogger Nữ</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Jean Đơn Giản Nữ</a>
+                                                     </li>
+                                                     <li class="level3">
+                                                         <a href="Product.jsp">Quần Jean Cá Tính Nữ</a>
+                                                     </li>
+                                                 </ul>
+                                             </li>
+                                             <li class="level2">
+                                                 <a href="Product.jsp">Chân Váy</a>
+                                             </li>
+                                             <li class="level2"><a href="Product.jsp">Yếm</a></li>
+                                         </ul>
+                                     </li>
+                                     <li class="level1">
+                                         <a class="hmega">Đồ Unisex</a>
+                                         <ul class="level1">
+                                             <li class="level2">
+                                                 <a href="Product.jsp">Áo Thun Unisex</a>
+                                             </li>
+                                         </ul>
+                                     </li> -->
+                                <%CategoryService.getInstance().CreateCategoryMenuNotMobile(out);%>
                             </ul>
                             <div class="col-4">
                                 <a href="#">

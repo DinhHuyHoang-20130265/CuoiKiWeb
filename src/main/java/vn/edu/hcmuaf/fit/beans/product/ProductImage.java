@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class ProductImage implements Serializable {
     private String prod_id;
     private String prod_img_link;
-
     public ProductImage(){}
 
     public ProductImage(String prod_id, String prod_img_link) {

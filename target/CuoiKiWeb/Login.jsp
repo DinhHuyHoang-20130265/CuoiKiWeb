@@ -1,7 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
-
+<%
+    //  Nếu như đã đăng nhập rồi thì sẽ không thể tới trang này foward tới index
+    if (request.getSession().getAttribute("user") != null) {
+        response.sendRedirect("index.jsp");
+    }
+%>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -191,7 +196,6 @@
             Validator.minLength('#password', 6)
         ]
     });
-</script>
 </script>
 </body>
 
