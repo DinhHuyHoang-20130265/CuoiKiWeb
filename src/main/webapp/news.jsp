@@ -84,7 +84,6 @@
     }
   }
 </style>
-
 <body>
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
   <!-- content -->

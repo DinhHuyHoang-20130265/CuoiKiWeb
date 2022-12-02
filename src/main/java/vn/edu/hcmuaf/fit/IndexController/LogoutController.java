@@ -16,7 +16,7 @@ public class LogoutController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /*
-        Đăng nhập làm bởi Đinh Huy Hoàng - 20130265
+        Đăng xuất làm bởi Đinh Huy Hoàng - 20130265
         */
         // Lấy session từ web
         HttpSession session = request.getSession();

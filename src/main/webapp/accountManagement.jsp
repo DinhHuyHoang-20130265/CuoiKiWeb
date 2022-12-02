@@ -1,3 +1,4 @@
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,6 +59,16 @@
     }
 </style>
 <body>
+<%
+
+    //----------------------Kiểm tra thử đăng nhập hay chưa--------------------//
+    if (request.getSession().getAttribute("user") == null) {
+        // Sendredirect tới login
+        response.sendRedirect("Login.jsp");
+
+    } else {
+        SiteUser admin = (SiteUser) request.getSession().getAttribute("user");
+%>
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
 <!-- content -->
 <div class="container">
@@ -179,7 +190,9 @@
                                     <div class="col-3">05-06-2021</div>
                                     <div class="col-3">3.000.000 VNĐ</div>
                                     <div class="col-2">
-                                        <span class="btn-stt blue">Đang xác nhận</span>
+                                        <div class="fa-3x" style="font-size: 1.5em !important;">
+                                            <i class="fas fa-spinner fa-spin" style="color: blue;"></i>
+                                        </div>
                                     </div>
                                     <div class="col-2">
                                         <a href="" data-toggle="modal" data-target="#myModal">Xem</a>
@@ -190,7 +203,10 @@
                                     <div class="col-3">05-06-2021</div>
                                     <div class="col-3">3.000.000 VNĐ</div>
                                     <div class="col-2">
-                                        <span class="btn-stt green">Đã giao</span>
+                                        <div class="fa-3x" style="font-size: 1.5em !important;">
+                                            <i class="fas fa-check"
+                                               style="margin-right: 0px !important;color: #006500;"></i>
+                                        </div>
                                     </div>
                                     <div class="col-2">
                                         <a href="">Xem</a>
@@ -201,7 +217,9 @@
                                     <div class="col-3">05-06-2021</div>
                                     <div class="col-3">3.000.000 VNĐ</div>
                                     <div class="col-2">
-                                        <span class="btn-stt red">Đã hủy</span>
+                                        <div class="fa-3x" style="font-size: 1.5em !important;">
+                                            <i class="fa fa-times" aria-hidden="true" style="color: red"></i>
+                                        </div>
                                     </div>
                                     <div class="col-2">
                                         <a href="">Xem</a>
@@ -312,3 +330,4 @@
 </body>
 
 </html>
+<%}%>

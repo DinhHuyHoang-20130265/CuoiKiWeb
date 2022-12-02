@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.beans.product;
 
+import vn.edu.hcmuaf.fit.beans.category.Category;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;

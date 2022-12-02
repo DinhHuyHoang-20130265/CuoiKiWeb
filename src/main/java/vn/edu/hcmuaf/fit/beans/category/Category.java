@@ -4,20 +4,19 @@ import java.io.Serializable;
 
 public class Category implements Serializable {
     private String id;
-    private String name;
-    private String desc;
+    private String cate_name;
+    private String cate_desc;
     private String parent_id;
-    private int status;
-
+    private Byte cate_status;
     public Category() {
     }
 
-    public Category(String id, String name, String desc, String parent_id, int status) {
+    public Category(String id, String cate_name, String cate_desc, String parent_id, Byte cate_status) {
         this.id = id;
-        this.name = name;
-        this.desc = desc;
+        this.cate_name = cate_name;
+        this.cate_desc = cate_desc;
         this.parent_id = parent_id;
-        this.status = status;
+        this.cate_status = cate_status;
     }
 
     public String getId() {
@@ -28,20 +27,20 @@ public class Category implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getCate_name() {
+        return cate_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCate_name(String cate_name) {
+        this.cate_name = cate_name;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getCate_desc() {
+        return cate_desc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setCate_desc(String cate_desc) {
+        this.cate_desc = cate_desc;
     }
 
     public String getParent_id() {
@@ -52,11 +51,22 @@ public class Category implements Serializable {
         this.parent_id = parent_id;
     }
 
-    public int getStatus() {
-        return status;
+    public Byte getCate_status() {
+        return cate_status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setCate_status(Byte cate_status) {
+        this.cate_status = cate_status;
+    }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id='" + id + '\'' +
+                ", cate_name='" + cate_name + '\'' +
+                ", cate_desc='" + cate_desc + '\'' +
+                ", parent_id='" + parent_id + '\'' +
+                ", cate_status=" + cate_status +
+                '}';
     }
 }

@@ -1,6 +1,5 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
-import com.mysql.cj.log.Log;
 import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.services.LoginService;
 
