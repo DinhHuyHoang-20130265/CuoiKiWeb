@@ -128,10 +128,14 @@
                         <span class="form-message"></span>
                     </div>
                     <%ForgotPasswordStatus string = (ForgotPasswordStatus) request.getSession().getAttribute("forgotPassword");%>
+                    <%String success = (String) request.getSession().getAttribute("success");%>
                     <h5 style="text-align:left; color: green; font-size: 16px;">
                         <%if (string != null && string.isComplete()) {%>
                         <i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 16px"></i>
                         Chúc mừng bạn dã đổi mật khẩu thành công, mời bạn đăng nhập
+                        <%} else if (success != null) {%>
+                        <i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 16px"></i>
+                        Chúc mừng bạn dã đăng ký tài khoản thành công, mời bạn đăng nhập
                         <%}%>
                     </h5>
                     <% String status = (String) request.getAttribute("loginStatus");%>

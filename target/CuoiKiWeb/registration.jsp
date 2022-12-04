@@ -109,11 +109,17 @@
     <div class="registration__form">
         <div class="row">
             <div class="col-sm-12 col-lg-6">
-                <form action="" method="POST" class="form" id="form-1">
+                <form method="POST" class="form" id="form-1">
                     <h3 class="heading">ĐĂNG KÍ</h3>
                     <div class="form-group">
                         <label for="fullname" class="form-label">Tên đầy đủ</label>
-                        <input id="fullname" name="fullname" type="text" placeholder="VD: Quốc Trung"
+                        <input id="fullname" name="fullname" type="text" placeholder="VD: Nguyễn Văn A"
+                               class="form-control">
+                        <span class="form-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="username" class="form-label">Tên đăng nhập</label>
+                        <input id="username" name="username" type="text" placeholder="VD: abc123"
                                class="form-control">
                         <span class="form-message"></span>
                     </div>
@@ -129,35 +135,19 @@
                                class="form-control">
                         <span class="form-message"></span>
                     </div>
-
                     <div class="form-group matkhau">
                         <label for="password_confirmation" class="form-label">Nhập lại mật khẩu</label>
                         <input id="password_confirmation" name="password_confirmation" placeholder="Nhập lại mật khẩu"
                                type="password" class="form-control">
                         <span class="form-message"></span>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Giới tính</label>
-                        <div>
-                            <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="gender" value="male">Nam
-                            </div>
-                            <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="gender" value="female">Nữ
-                            </div>
-                            <div class="form-check-inline">
-                                <input type="radio" class="form-check-input" name="gender" value="order">Khác
-                            </div>
-                        </div>
-                        <span class="form-message"></span>
-                    </div>
-
                     <button class="form-submit btn-blocker" style="border-radius: unset;">Đăng ký <i
                             class="fas fa-arrow-right"
                             style="font-size: 16px;margin-left: 10px;"></i></button>
                     <p style="font-size: 16px;margin: 10px 0;">Bạn đã có tài khoản? <a href="Login.jsp"
                                                                                        style="color: black; font-weight: bold">Đăng
                         nhập</a></p>
+                    <input type="text" id="role" name="role" value="register" style="display: none">
                 </form>
             </div>
             <div class="col-sm-12 col-lg-6">
@@ -198,13 +188,10 @@
         rules: [
             Validator.isRequired('#fullname', 'Vui lòng nhập tên đầy đủ'),
             Validator.isRequired('#email'),
+            Validator.isRequired('#username'),
             Validator.isEmail('#email'),
             Validator.minLength('#password', 6),
-            Validator.isRequired('#password_confirmation'),
-            Validator.isRequired('input[name="gender"]'),
-            Validator.isConfirmed('#password_confirmation', function () {
-                return document.querySelector('#form-1 #password').value;
-            }, 'Mật khẩu nhập lại không chính xác')
+            Validator.isRequired('#password_confirmation')
         ],
         onSubmit: function (data) {
             // call api
@@ -237,6 +224,38 @@
             show_btn2.classList.remove("hide");
         }
     });
+</script>
+<script>
+    $("#form-1").on('submit', function (e) {
+        e.preventDefault();
+        const fullname = $("#fullname").val();
+        const email = $("#email").val();
+        const username = $("#username").val();
+        const password = $("#password").val();
+        const password_confirmation = $("#password_confirmation").val();
+        const role = $("#role").val();
+        const code = $("#code").val();
+        $.ajax({
+            type: 'POST',
+            url: "SignupController",
+            data: {
+                fullname : fullname,
+                email : email,
+                username : username,
+                password : password,
+                password_confirmation : password_confirmation,
+                role : role,
+                code : code
+            },
+            success : function (response) {
+                if (response.includes("success"))
+                    window.location.href = "http://localhost:8080/CuoiKiWeb_war/Login.jsp"
+                else {
+                    $("#form-1").html(response);
+                }
+            }
+        });
+    })
 </script>
 </body>
 

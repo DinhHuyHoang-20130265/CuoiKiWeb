@@ -23,10 +23,13 @@ public class LoginUserController extends HttpServlet {
         */
         String username = request.getParameter("username");
         String pass = request.getParameter("password");
-        // remove session của lấy lại mật khẩu nếu có
+        // remove session của lấy lại mật khẩu, và của bên trang đăng ký nếu có
         ForgotPasswordStatus forgotPassword = (ForgotPasswordStatus) request.getSession().getAttribute("forgotPassword");
+        String success = (String) request.getSession().getAttribute("success");
         if (forgotPassword != null)
             request.getSession().removeAttribute("forgotPassword");
+        if (success != null)
+            request.getSession().removeAttribute("success");
         // lấy ra user với username và pass ở trên kiểm tra có hay k ?
         SiteUser account = LoginService.getInstance().getAccountCustomer(username, pass);
         // nếu khác null chứng tỏ đăng nhập đúng. add user vào session User , trả về trang index;

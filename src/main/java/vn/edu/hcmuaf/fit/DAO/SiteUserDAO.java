@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.DAO;
 
 import vn.edu.hcmuaf.fit.beans.AdminUser;
+import vn.edu.hcmuaf.fit.beans.MD5;
 import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
@@ -81,7 +82,7 @@ public class SiteUserDAO {
     public void updatePasswordFromEmail(String pass1, String email) {
         JDBIConnector.get().withHandle(handle -> {
             handle.createUpdate("update user_account set pass = ? where id =?")
-                    .bind(0, pass1)
+                    .bind(0, MD5.md5(pass1))
                     .bind(1, checkEmailExits(email))
                     .execute();
             return null;
