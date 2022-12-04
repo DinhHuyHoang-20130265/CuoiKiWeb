@@ -16,9 +16,7 @@ public class MailService {
      *  không tồn tại, còn nội dung như thế nào thì tùy thuộc vào type
      */
     // Đăng kí khách hàng
-
     public static final int REGISTER_KH = 1;
-
 
     //--------------------------------- Khai báo thuộc tính cần thiết để gửi email ---------------------------------
     //  Properties để thiết lập server
