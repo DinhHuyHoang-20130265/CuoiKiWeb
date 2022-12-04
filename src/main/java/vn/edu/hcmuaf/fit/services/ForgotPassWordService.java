@@ -1,8 +1,8 @@
 package vn.edu.hcmuaf.fit.services;
 
+import vn.edu.hcmuaf.fit.DAO.AdminUserDAO;
 import vn.edu.hcmuaf.fit.DAO.SiteUserDAO;
 import vn.edu.hcmuaf.fit.beans.MailConfiguration;
-import vn.edu.hcmuaf.fit.beans.SiteUser;
 
 import java.util.Date;
 import java.util.Random;
@@ -43,16 +43,28 @@ public class ForgotPassWordService {
     public String checkEmailExits(String email) {
         SiteUserDAO DAO = new SiteUserDAO();
         return DAO.checkEmailExits(email);
+    }
 
+    public String checkAdminEmailExits(String email) {
+        AdminUserDAO DAO = new AdminUserDAO();
+        return DAO.checkEmailExits(email);
     }
 
     public void updateVerifyCodeAndTimeOut(String id, String code, String expiry) {
         SiteUserDAO DAO = new SiteUserDAO();
         DAO.updateVerifyCodeAndTimeOut(id, code, expiry);
     }
-
+    public void updateAdminVerifyCodeAndTimeOut(String id, String code, String expiry) {
+        AdminUserDAO DAO = new AdminUserDAO();
+        DAO.updateVerifyCodeAndTimeOut(id, code, expiry);
+    }
     public boolean checkAccountExists(String id_account) {
         SiteUserDAO DAO = new SiteUserDAO();
+        return DAO.checkIdStatus(id_account);
+    }
+
+    public boolean checkAdinAccountExists(String id_account) {
+        AdminUserDAO DAO = new AdminUserDAO();
         return DAO.checkIdStatus(id_account);
     }
 
@@ -68,6 +80,11 @@ public class ForgotPassWordService {
 
     public void updatePasswordFromEmail(String pass1, String email) {
         SiteUserDAO DAO = new SiteUserDAO();
+        DAO.updatePasswordFromEmail(pass1, email);
+    }
+
+    public void updatePasswordAdminFromEmail(String pass1, String email) {
+        AdminUserDAO DAO = new AdminUserDAO();
         DAO.updatePasswordFromEmail(pass1, email);
     }
 
