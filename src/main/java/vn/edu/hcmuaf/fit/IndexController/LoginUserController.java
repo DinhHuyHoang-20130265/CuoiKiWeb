@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
+import vn.edu.hcmuaf.fit.beans.ForgotPasswordStatus;
 import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.services.LoginService;
 
@@ -22,6 +23,10 @@ public class LoginUserController extends HttpServlet {
         */
         String username = request.getParameter("username");
         String pass = request.getParameter("password");
+        // remove session của lấy lại mật khẩu nếu có
+        ForgotPasswordStatus forgotPassword = (ForgotPasswordStatus) request.getSession().getAttribute("forgotPassword");
+        if (forgotPassword != null)
+            request.getSession().removeAttribute("forgotPassword");
         // lấy ra user với username và pass ở trên kiểm tra có hay k ?
         SiteUser account = LoginService.getInstance().getAccountCustomer(username, pass);
         // nếu khác null chứng tỏ đăng nhập đúng. add user vào session User , trả về trang index;

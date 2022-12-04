@@ -159,10 +159,10 @@ public class ForgotPasswordController extends HttpServlet {
                             "                                   class=\"form-control\">\n" +
                             "                            <span class=\"form-message\"></span>\n" +
                             "                        </div>\n" +
-                            "                    <p class=\"error\"\n" +
-                            "                       style=\"color: #ec3650;margin-top: 5px; font-size: 16px;\">" + (forgotPassword.getContent() == null ? "" : forgotPassword.getContent()) +
-                            "                    </p>\n" +
-                            "                        <button class=\"form-submit btn-blocker\" style=\"border-radius: unset;\">Gửi <i\n" +
+                            "                       <p class=\"error\"\n" +
+                            "                           style=\"color: #ec3650;margin-top: 5px; font-size: 16px;\">" + (forgotPassword.getContent2() == null ? "" : forgotPassword.getContent2()) +
+                            "                       </p>\n" +
+                            "                        <button type=\"submit\" class=\"form-submit btn-blocker\" style=\"border-radius: unset;\">Gửi<i\n" +
                             "                                class=\"fas fa-arrow-right\" style=\"font-size: 16px;margin-left: 10px;\"></i></button>\n" +
                             "                        <p style=\"font-size: 16px;margin: 10px 0;\">Quay trở lại <a href=\"Login.jsp\"\n" +
                             "                                                                                   style=\"color: black; font-weight: bold\">\n" +

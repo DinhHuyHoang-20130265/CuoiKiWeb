@@ -11,12 +11,10 @@ public class SiteUserDAO {
     private List<SiteUser> users;
 
     public SiteUserDAO() {
-        users = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("select a.id, a.username, a.pass, a.account_status from user_account a where a.role = 0")
-                    .mapToBean(SiteUser.class)
-                    .stream()
-                    .collect(Collectors.toList());
-        });
+        users = JDBIConnector.get().withHandle(handle -> handle.createQuery("select a.id, a.username, a.pass, a.account_status from user_account a where a.role = 0")
+                .mapToBean(SiteUser.class)
+                .stream()
+                .collect(Collectors.toList()));
     }
 
     public boolean isExits(String username) {
@@ -46,13 +44,11 @@ public class SiteUserDAO {
     }
 
     public String checkEmailExits(String email) {
-        List<String> id_account = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("select ua.id from user_account ua INNER JOIN account_information ai ON ua.id = ai.id where ai.email = ?")
-                    .bind(0, email)
-                    .mapTo(String.class)
-                    .stream()
-                    .collect(Collectors.toList());
-        });
+        List<String> id_account = JDBIConnector.get().withHandle(handle -> handle.createQuery("select ua.id from user_account ua INNER JOIN account_information ai ON ua.id = ai.id where ua.role = 0 ai.email = ?")
+                .bind(0, email)
+                .mapTo(String.class)
+                .stream()
+                .collect(Collectors.toList()));
         if (id_account.isEmpty())
             return "";
         return id_account.get(0);
