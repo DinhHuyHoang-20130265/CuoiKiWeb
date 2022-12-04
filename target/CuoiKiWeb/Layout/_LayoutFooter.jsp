@@ -43,7 +43,7 @@
                     </li>
                     <li class="footer__item">
                         <p><i class="fas fa-envelope-square footer__item-icon"></i> Email: <a
-                                href="mailto:abc@gmail.com">abc@gmail.com</a></p>
+                                href="mailto:pntshopnlu@gmail.com">pntshopnlu@gmail.com</a></p>
                     </li>
                     <li>
                         <a href=""><i class="fab fa-facebook" style="font-size: 24px; margin-right: 10px"></i></a>
