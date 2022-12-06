@@ -29,7 +29,7 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(String id, String prod_name, String prod_desc, Byte prod_status, String main_img_link, double price, Date released_date, String released_by, int quantity, int warranty_day, int view_count, Date updated_date, String updated_by, List<ProductColor> colors, List<ProductSize> sizes, List<ProductImage> images, List<ProductSale> sales, List<Category> categories, int quantity_cart) {
+    public Product(String id, String prod_name, String prod_desc, Byte prod_status, String main_img_link, double price, Date released_date, String released_by, int quantity, int warranty_day, int view_count, Date updated_date, String updated_by, List<ProductColor> colors, List<ProductSize> sizes, List<ProductImage> images, ProductSale sales, List<Category> categories, int quantity_cart) {
 
         this.id = id;
         this.prod_name = prod_name;
