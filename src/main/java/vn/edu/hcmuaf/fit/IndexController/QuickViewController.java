@@ -17,9 +17,10 @@ public class QuickViewController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("idQuickview");
+        String id = request.getParameter("idQuickview").substring(4);
         System.out.println(id);
         Product product = ProductService.getInstance().getProductAndDetails(id);
+        System.out.println(product);
         request.setAttribute("productDetails", product);
         request.getRequestDispatcher("ajax/ajax_QuickView.jsp").forward(request, response);
     }

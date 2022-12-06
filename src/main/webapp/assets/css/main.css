@@ -1398,6 +1398,7 @@ h7 {
     list-style: none;
     display: flex;
     padding: unset;
+    overflow-x: scroll;
 }
 
 .all-img-2 li {
