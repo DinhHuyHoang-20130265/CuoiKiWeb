@@ -1,18 +1,21 @@
 package vn.edu.hcmuaf.fit.beans;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
 
-public class AdminUser implements Serializable{
+public class AdminUser implements Serializable {
     private String id;
     private String username;
     private String pass;
-    private String email;
-    private AdminRole role;
-    public AdminUser(String id, String username, String pass, String email, AdminRole role) {
+    private Byte account_status;
+    private List<AdminRole> role;
+
+    public AdminUser(String id, String username, String pass, Byte account_status, List<AdminRole> role) {
         this.id = id;
         this.username = username;
         this.pass = pass;
-        this.email = email;
+        this.account_status = account_status;
         this.role = role;
     }
 
@@ -43,30 +46,37 @@ public class AdminUser implements Serializable{
         this.pass = pass;
     }
 
-    public String getEmail() {
-        return email;
+    public Byte getAccount_status() {
+        return account_status;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAccount_status(Byte account_status) {
+        this.account_status = account_status;
     }
 
-    public AdminRole getRole() {
+    public List<AdminRole> getRole() {
         return role;
     }
 
-    public void setRole(AdminRole role) {
+    public void setRole(List<AdminRole> role) {
         this.role = role;
     }
 
     @Override
     public String toString() {
+        if (role != null)
+            return "AdminUser{" +
+                    "id='" + id + '\'' +
+                    ", username='" + username + '\'' +
+                    ", pass='" + pass + '\'' +
+                    ", account_status='" + account_status + '\'' +
+                    ", role=" + role +
+                    '}';
         return "AdminUser{" +
                 "id='" + id + '\'' +
                 ", username='" + username + '\'' +
                 ", pass='" + pass + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role.toString() +
+                ", account_status='" + account_status + '\'' +
                 '}';
     }
 }

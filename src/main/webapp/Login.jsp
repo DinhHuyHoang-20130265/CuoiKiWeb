@@ -1,7 +1,13 @@
+<%@ page import="vn.edu.hcmuaf.fit.beans.ForgotPasswordStatus" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
-
+<%
+    //  Nếu như đã đăng nhập rồi thì sẽ không thể tới trang này foward tới index
+    if (request.getSession().getAttribute("user") != null) {
+        response.sendRedirect("index.jsp");
+    }
+%>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -121,6 +127,17 @@
                                class="form-control">
                         <span class="form-message"></span>
                     </div>
+                    <%ForgotPasswordStatus string = (ForgotPasswordStatus) request.getSession().getAttribute("forgotPassword");%>
+                    <%String success = (String) request.getSession().getAttribute("success");%>
+                    <h5 style="text-align:left; color: green; font-size: 16px;">
+                        <%if (string != null && string.isComplete()) {%>
+                        <i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 16px"></i>
+                        Chúc mừng bạn dã đổi mật khẩu thành công, mời bạn đăng nhập
+                        <%} else if (success != null) {%>
+                        <i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 16px"></i>
+                        Chúc mừng bạn dã đăng ký tài khoản thành công, mời bạn đăng nhập
+                        <%}%>
+                    </h5>
                     <% String status = (String) request.getAttribute("loginStatus");%>
                     <h5 style="text-align:left; color: red;">
                         <%= status == null ? "" : status%>
@@ -191,7 +208,6 @@
             Validator.minLength('#password', 6)
         ]
     });
-</script>
 </script>
 </body>
 

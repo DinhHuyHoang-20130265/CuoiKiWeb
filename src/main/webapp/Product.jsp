@@ -1,3 +1,8 @@
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -253,7 +258,8 @@
             <div class="col-lg-9 col-12">
                 <div class="sort-wrap row">
                     <div class="sort-left col-12 col-lg-6">
-                        <h1 class="coll-name">Tất cả sản phẩm</h1>
+                        <h1 class="coll-name"><%=request.getParameter("category").equals("all") ? "Tất cả sản phẩm" : CategoryService.getInstance().getCateWithID(request.getParameter("category")).getCate_name()%>
+                        </h1>
                     </div>
                     <div class="sort-right col-12 col-lg-6">
                         <div class="sortby">
@@ -284,11 +290,77 @@
                         </div>
                     </div>
                 </div>
+                <%SiteUser user = (SiteUser) request.getSession().getAttribute("user");%>
+                <%List<Product> first6Product = ProductService.getInstance().loadProductWithCondition(1, 6, null, request.getParameter("category"), null, null, null, null);%>
                 <div class="row row-product" id="products">
+                    <% for (Product p : first6Product) {%>
+                    <div class="col-lg-4 col-md-6 col-12 mb-20"
+                         style="margin-bottom: 20px;">
+                        <a href="./ProductDetail.jsp?id=<%=p.getId()%>" class="product__new-item">
+                            <div class="card" style="width: 100%">
+                                <div>
+                                    <img class="card-img-top" src="<%=p.getMain_img_link()%>" alt="Card image cap">
+                                    <form class="hover-icon hidden-sm hidden-xs">
+                                        <input type="hidden">
+                                        <% if (user != null) {%>
+                                        <a class="btn-add-to-cart" id="addListLike<%=p.getId()%>"
+                                           title="Đưa vào danh sách yêu thích"
+                                           style="margin-top: 10px">
+                                            <i class="fas fa-heart"></i>
+                                        </a>
+                                        <%}%>
+                                        <a class="quickview quickviewProduct"
+                                           title="Xem nhanh" id="view<%=p.getId()%>">
+                                            <i class="fas fa-search"></i>
+                                        </a>
+                                    </form>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title custom__name-product">
+                                        <%=p.getProd_name()%>
+                                    </h5>
+                                    <div class="product__price">
+                                        <%if (p.getSales() != null) {%>
+                                        <p class="card-text price-color product__price-old"><%=p.getPrice()%>đ</p>
+                                        <p class="card-text price-color product__price-new"><%=Math.round(p.getPrice() * (1 - (p.getSales().getDiscount_rate()) * 0.01))%>
+                                            đ</p>
+                                        <%} else {%>
+                                        <p class="card-text price-color product__price-old"></p>
+                                        <p class="card-text price-color product__price-new"><%=p.getPrice()%>đ</p>
+                                        <%}%>
+                                    </div>
+                                    <div class="home-product-item__action">
+                            <span class="home-product-item__like home-product-item__like--liked">
+                                <i class="home-product-item__like-icon-empty far fa-heart"></i>
+                                <i class="home-product-item__like-icon-fill fas fa-heart"></i>
+                            </span>
+                                        <div class="home-product-item__rating">
+                                            <i class="home-product-item__star--gold fas fa-star"></i>
+                                            <i class="home-product-item__star--gold fas fa-star"></i>
+                                            <i class="home-product-item__star--gold fas fa-star"></i>
+                                            <i class="home-product-item__star--gold fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <span class="home-product-item__sold"><%= p.getView_count()%> Lượt xem</span>
+                                    </div>
+                                    <%if (p.getSales() != null) {%>
+                                    <div class="sale-off">
+                                        <span class="sale-off-percent"><%=p.getSales().getDiscount_rate()%>%</span>
+                                        <span class="sale-off-label">GIẢM</span>
+                                    </div>
+                                    <%}%>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <%}%>
                 </div>
                 <div class="loadmore" id="loadMore">
                     <a style="cursor: pointer;" class="loadmore-btn">Tải thêm</a>
                 </div>
+                <input id="page" name="page" value="2" style="display: none">
+                <input id="category" name="category" value="<%=request.getParameter("category")%>"
+                       style="display: none">
             </div>
         </div>
     </div>
@@ -466,121 +538,7 @@
 <!-- The Modal -->
 <div class="modal" id="myModal">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="mb-2 main-img-2">
-                            <img src="./assets/imgProduct/images/men/1.jpg" alt="" id="img-main"
-                                 xoriginal="./assets/imgProduct/images/men/1.jpg"/>
-                        </div>
-                        <ul class="all-img-2">
-                            <li class="img-item-2">
-                                <img src="./assets/imgProduct/images/men/1.jpg" alt="" onclick="changeImg('one')"
-                                     id="one"/>
-                            </li>
-                            <li class="img-item-2">
-                                <img src="./assets/imgProduct/images/men/1-a.jpg" alt="" onclick="changeImg('two')"
-                                     id="two"/>
-                            </li>
-                            <li class="img-item-2">
-                                <img src="./assets/imgProduct/images/men/1-b.jpg" alt="" onclick="changeImg('three')"
-                                     id="three"/>
-                            </li>
-                            <li class="img-item-2">
-                                <img src="./assets/imgProduct/images/men/1-c.jpg" alt="" onclick="changeImg('four')"
-                                     id="four"/>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-6">
-                        <div class="info-product">
-                            <h3 class="product-name">
-                                <a href="" title="">Áo len sọc lớn màu</a>
-                            </h3>
-                            <div class="status-product">Trạng thái: <b>Còn hàng</b></div>
-                            <div class="infor-oder">Loại sản phẩm: <b>Đồ Nam</b></div>
-                            <div class="price-product">
-                                <div class="special-price">
-                                    <span>540.000đ</span>
-                                </div>
-                                <div class="price-old">
-                                    Giá gốc:
-                                    <del>650.000đ</del>
-                                    <span class="discount">(-20%)</span>
-                                </div>
-                            </div>
-                            <div class="product-description">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur ducimus vero
-                                quibusdam adipisci
-                                dolore id veritatis tempore ipsa obcaecati alias libero, minus sequi nam corrupti esse
-                                nulla eum,
-                                similique deleniti?
-                            </div>
-                            <div class="product__color d-flex" style="align-items: center">
-                                <div class="title" style="font-size: 16px; margin-right: 10px">
-                                    Màu:
-                                </div>
-                                <div class="select-swap d-flex">
-                                    <div class="circlecheck">
-                                        <input type="radio" id="f-option" class="circle-1" name="selector" checked/>
-                                        <label for="f-option"></label>
-                                        <div class="outer-circle"></div>
-                                    </div>
-                                    <div class="circlecheck">
-                                        <input type="radio" id="g-option" class="circle-2" name="selector"/>
-                                        <label for="g-option"></label>
-                                        <div class="outer-circle"></div>
-                                    </div>
-                                    <div class="circlecheck">
-                                        <input type="radio" id="h-option" class="circle-3" name="selector"/>
-                                        <label for="h-option"></label>
-                                        <div class="outer-circle"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product__size d-flex" style="align-items: center">
-                                <div class="title" style="font-size: 16px; margin-right: 10px">
-                                    Kích thước:
-                                </div>
-                                <div class="select-swap">
-                                    <div class="swatch-element" data-value="38">
-                                        <input type="radio" class="variant-1" id="swatch-1-38" name="mau" value="trung"
-                                               onclick="check()"/>
-                                        <label for="swatch-1-38" class="sd"><span>38</span></label>
-                                    </div>
-                                    <div class="swatch-element" data-value="39">
-                                        <input type="radio" class="variant-1" id="swatch-1-39" name="mau" value="thanh"
-                                               onclick="check()"/>
-                                        <label for="swatch-1-39" class="sd"><span>39</span></label>
-                                    </div>
-                                    <div class="swatch-element" data-value="40">
-                                        <input type="radio" class="variant-1" id="swatch-1-40" name="mau" value="hieu"
-                                               onclick="check()"/>
-                                        <label for="swatch-1-40" class="sd"><span>40</span></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product__wrap">
-                                <div class="product__amount">
-                                    <label>Số lượng: </label>
-                                    <input type="button" value="-" class="control" onclick="tru()"/>
-                                    <input type="text" value="1" class="text-input" id="text_so_luong"
-                                           onkeypress="validate(event)"/>
-                                    <input type="button" value="+" class="control" onclick="cong()"/>
-                                </div>
-                            </div>
-                            <div class="product__shopnow">
-                                <button class="shopnow2">Mua ngay</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn-default btn-close" data-dismiss="modal">
-                <i class="fas fa-times-circle"></i>
-            </button>
+        <div id="modal-content" class="modal-content">
         </div>
     </div>
 </div>
@@ -589,7 +547,51 @@
 <script src="./assets/js/bootstrap.bundle.min.js"></script>
 <script src="./assets/js/main.js"></script>
 <script src="./assets/js/product.js"></script>
-<script src="./assets/js/generateProduct.js"></script>
+<script>
+    $(document).ready(async function () {
+        load();
+    });
+    $("#loadMore").on('click', function (e) {
+        e.preventDefault();
+        const page = $("#page").val();
+        const category = $("#category").val();
+        $.ajax({
+            type: 'post',
+            url: "LoadMoreProductController",
+            data: {
+                page: page,
+                category: category
+            },
+            success: function (data) {
+                $("#products").append(data);
+                $("#page").val((parseInt($("#page").val()) + 1) + "");
+                load();
+            }
+        });
+    })
+
+    function load() {
+        const value = document.getElementsByClassName("quickviewProduct")
+        console.log(value)
+        for (let i = 0; i < value.length; i++) {
+            value.item(i).addEventListener('click', function (e) {
+                e.preventDefault();
+                const idQuickview = this.id;
+                $.ajax({
+                    type: "get",
+                    url: "QuickViewController",
+                    data: {
+                        idQuickview: idQuickview
+                    },
+                    success: function (data) {
+                        $("#modal-content").html(data);
+                        $("#myModal").modal('toggle');
+                    }
+                });
+            })
+        }
+    }
+</script>
 </body>
 
 </html>
