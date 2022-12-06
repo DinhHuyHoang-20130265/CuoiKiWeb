@@ -1,6 +1,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.RememberAccount" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminLogin" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.ReCAPTCHAConfiguration" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.ForgotPasswordStatus" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -75,6 +76,13 @@
                             <%}%>
                         ></div>
                     <div class="form-group">
+                        <%ForgotPasswordStatus string = (ForgotPasswordStatus) request.getSession().getAttribute("forgotPasswordAdmin");%>
+                        <h5 style="text-align:left; color: green; font-size: 16px;">
+                            <%if (string != null && string.isComplete()) {%>
+                            <i class="fa fa-check" aria-hidden="true" style="color: green; font-size: 16px"></i>
+                            Chúc mừng bạn dã đổi mật khẩu thành công, mời bạn đăng nhập
+                            <%}%>
+                        </h5>
                         <%if (loginAdmin != null) {%>
                         <h5 style="text-align: center; color:red" class="error"><%=loginAdmin.getContent()%>
                         </h5>

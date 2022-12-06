@@ -240,7 +240,7 @@
         </li>
         <li>
             <i class="fas fa-envelope-square footer__item-icon">Email: </i>
-            <a href="mailto:support@gmail.vn">support@gmail.vn</a>
+            <a href="mailto:pntshopnlu@gmail.com">pntshopnlu@gmail.com</a>
         </li>
     </ul>
 </div>

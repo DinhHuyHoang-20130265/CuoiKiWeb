@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.fit.DAO.AdminUserDAO;
 import vn.edu.hcmuaf.fit.DAO.AdminUserRoleDAO;
 import vn.edu.hcmuaf.fit.beans.AdminRole;
 import vn.edu.hcmuaf.fit.beans.AdminUser;
+import vn.edu.hcmuaf.fit.beans.MD5;
 
 import java.util.List;
 
@@ -41,7 +42,7 @@ public class AdminLoginService {
 
     public AdminUser getAccountAdminUser(String username, String password) {
         AdminUserDAO DAO = new AdminUserDAO();
-        AdminUser account = DAO.checkLogin(username, password);
+        AdminUser account = DAO.checkLogin(username, MD5.md5(password));
         if (account == null) {
             return null;
         }
