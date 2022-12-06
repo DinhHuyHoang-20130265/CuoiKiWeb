@@ -1,3 +1,4 @@
+<%@ page import="vn.edu.hcmuaf.fit.beans.ForgotPasswordStatus" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,24 +106,27 @@
 
 <body>
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
-<!-- forgot form -->
+<!-- forgotpassword form -->
 <div class="container">
     <div class="registration__form">
         <div class="row">
             <div class="col-sm-12 col-lg-6">
-                <form action="" method="POST" class="form" id="form-1">
-                    <h3 class="heading">Quên mật khẩu</h3>
-                    <div class="form-group">
-                        <label for="email" class="form-label">Email</label>
-                        <input id="email" name="email" type="text" placeholder="VD: email@domain.com"
-                               class="form-control">
-                        <span class="form-message"></span>
+                <form method="POST" class="form" id="form-1">
+                    <div id="content-form">
+                        <h3 class="heading">Quên mật khẩu</h3>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input id="email" name="email" type="text" placeholder="VD: email@domain.com"
+                                   class="form-control">
+                            <span class="form-message"></span>
+                        </div>
+                        <button type="submit" class="form-submit btn-blocker" style="border-radius: unset;">Gửi<i
+                                class="fas fa-arrow-right" style="font-size: 16px;margin-left: 10px;"></i></button>
+                        <p style="font-size: 16px;margin: 10px 0;">Quay trở lại <a href="Login.jsp"
+                                                                                   style="color: black; font-weight: bold">
+                            Đăng nhập</a></p>
+                        <input type="text" id="role" name="role" value="email" style="display: none">
                     </div>
-                    <button class="form-submit btn-blocker" style="border-radius: unset;">Gửi <i
-                            class="fas fa-arrow-right" style="font-size: 16px;margin-left: 10px;"></i></button>
-                    <p style="font-size: 16px;margin: 10px 0;">Quay trở lại <a href="Login.jsp"
-                                                                               style="color: black; font-weight: bold">Đăng
-                        nhập</a></p>
                 </form>
             </div>
             <div class="col-sm-12 col-lg-6">
@@ -136,7 +140,7 @@
                         <p class="text-login">Chúng tôi sẽ gửi ngay một mail mới vào trong email của bạn</p>
                     </li>
                     <li class="text-login-item"><i class="fas fa-check"></i>
-                        <p class="text-login">Nhấn vào link và đổi mật khẩu</p>
+                        <p class="text-login">Lấy mã code trong mail, nhập và đổi lại mật khẩu</p>
                     </li>
                     <li class="text-login-item"><i class="fas fa-check"></i>
                         <p class="text-login">Đăng nhập trở lại và tiếp tục mua sắm nào!</p>
@@ -158,47 +162,43 @@
         formGroupSelector: '.form-group',
         errorSelector: '.form-message',
         rules: [
-            Validator.isRequired('#fullname', 'Vui lòng nhập tên đầy đủ'),
             Validator.isRequired('#email'),
             Validator.isEmail('#email'),
-            Validator.minLength('#password', 6),
-            Validator.isRequired('#password_confirmation'),
-            Validator.isRequired('input[name="gender"]'),
-            Validator.isConfirmed('#password_confirmation', function () {
-                return document.querySelector('#form-1 #password').value;
-            }, 'Mật khẩu nhập lại không chính xác')
+            Validator.minLength('#pass1', 6),
+            Validator.isRequired('#pass2')
         ],
         onSubmit: function (data) {
-            // call api
             console.log(data);
         }
     });
 </script>
 <script>
-    const pass_field = document.querySelector('#password');
-    const show_btn = document.querySelector('.fa-eye')
-    show_btn.addEventListener("click", function () {
-        if (pass_field.type === "password") {
-            pass_field.type = "text";
-            show_btn.classList.add("hide");
-        } else {
-            pass_field.type = "password";
-            show_btn.classList.remove("hide");
-        }
-    });
-</script>
-<script>
-    const pass_field2 = document.querySelector('#password_confirmation');
-    const show_btn2 = document.querySelector('.fa-eye-2')
-    show_btn2.addEventListener("click", function () {
-        if (pass_field2.type === "password") {
-            pass_field2.type = "text";
-            show_btn2.classList.add("hide");
-        } else {
-            pass_field2.type = "password";
-            show_btn2.classList.remove("hide");
-        }
-    });
+    $("#form-1").on('submit', function (e) {
+        e.preventDefault();
+        const email = $('#email').val();
+        const role = $('#role').val();
+        const pass1 = $('#pass1').val();
+        const pass2 = $('#pass2').val();
+        const code = $('#code').val();
+        $.ajax({
+            type: 'POST',
+            url: "ForgotPasswordController",
+            data: {
+                email: email,
+                role: role,
+                pass1: pass1,
+                pass2: pass2,
+                code: code
+            },
+            success: function (response) {
+                if (response.includes("complete"))
+                    window.location.href = "http://localhost:8080/CuoiKiWeb_war/Login.jsp"
+                else {
+                    $("#content-form").html(response);
+                }
+            }
+        });
+    })
 </script>
 </body>
 

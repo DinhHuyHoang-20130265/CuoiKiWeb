@@ -1,9 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
-import vn.edu.hcmuaf.fit.beans.AdminLogin;
-import vn.edu.hcmuaf.fit.beans.AdminRole;
-import vn.edu.hcmuaf.fit.beans.AdminUser;
-import vn.edu.hcmuaf.fit.beans.RememberAccount;
+import vn.edu.hcmuaf.fit.beans.*;
 import vn.edu.hcmuaf.fit.services.AdminLoginService;
 import vn.edu.hcmuaf.fit.services.ReCAPTCHAService;
 
@@ -34,7 +31,10 @@ public class LoginAdminController extends HttpServlet {
         //  Lưu biến thông báo
         AdminLogin loginAdmin = new AdminLogin("", remember);
         boolean notify = false;
-
+        // remove session của lấy lại mật khẩu nếu có
+        ForgotPasswordStatus forgotPassword = (ForgotPasswordStatus) request.getSession().getAttribute("forgotPasswordAdmin");
+        if (forgotPassword != null)
+            request.getSession().removeAttribute("forgotPasswordAdmin");
         //  Kiểm tra xem thử đúng tài khoản có đúng hay không
         String user = service.getInstance().stringAccountAdminUser(username);
 
