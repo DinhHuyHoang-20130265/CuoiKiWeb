@@ -25,8 +25,8 @@
                         <i class="fas fa-heart"></i>
                     </a>
                     <%}%>
-                    <a data-toggle="modal" data-target="#myModal" class="quickview"
-                       title="Xem nhanh" value="<%=p.getId()%>">
+                    <a class="quickview quickviewProduct"
+                       title="Xem nhanh" id="view<%=p.getId()%>">
                         <i class="fas fa-search"></i>
                     </a>
                 </form>

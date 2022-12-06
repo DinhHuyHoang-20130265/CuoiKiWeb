@@ -33,13 +33,14 @@ public class ProductService {
         return DAO.getListProductByCateId(id);
     }
 
-    public static void main(String[] args) {
-        System.out.println(ProductService.getInstance().loadProductWithCondition(1, 6, null, "all", null, null, null, null));
-    }
 
     public Product getProductAndDetails(String id) {
         ProductDAO DAO = new ProductDAO();
         Product product = DAO.getProductAndDetails(id);
         return product;
+    }
+
+    public static void main(String[] args) {
+        ProductService.getInstance().getProductAndDetails("prod003");
     }
 }

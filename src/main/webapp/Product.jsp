@@ -300,15 +300,16 @@
                             <div class="card" style="width: 100%">
                                 <div>
                                     <img class="card-img-top" src="<%=p.getMain_img_link()%>" alt="Card image cap">
-                                    <form class="hover-icon hidden-sm hidden-xs" id="quick">
+                                    <form class="hover-icon hidden-sm hidden-xs">
                                         <input type="hidden">
                                         <% if (user != null) {%>
-                                        <a class="btn-add-to-cart" id="addListLike<%=p.getId()%>" title="Đưa vào danh sách yêu thích"
+                                        <a class="btn-add-to-cart" id="addListLike<%=p.getId()%>"
+                                           title="Đưa vào danh sách yêu thích"
                                            style="margin-top: 10px">
                                             <i class="fas fa-heart"></i>
                                         </a>
                                         <%}%>
-                                        <a class="quickview"
+                                        <a class="quickview quickviewProduct"
                                            title="Xem nhanh" id="view<%=p.getId()%>">
                                             <i class="fas fa-search"></i>
                                         </a>
@@ -547,6 +548,9 @@
 <script src="./assets/js/main.js"></script>
 <script src="./assets/js/product.js"></script>
 <script>
+    $(document).ready(async function () {
+        load();
+    });
     $("#loadMore").on('click', function (e) {
         e.preventDefault();
         const page = $("#page").val();
@@ -561,24 +565,31 @@
             success: function (data) {
                 $("#products").append(data);
                 $("#page").val((parseInt($("#page").val()) + 1) + "");
+                load();
             }
         });
     })
-    function click(e) {
-        e.preventDefault();
-        const idQuickview = $(this).id
-        console.log(idQuickview)
-        $.ajax({
-            type: "post",
-            url: "QuickViewController",
-            data: {
-                idQuickview: idQuickview
-            },
-            success: function (data) {
-                $("#modal-content").html(data);
-                $("#modal-content").modal('toggle');
-            }
-        });
+
+    function load() {
+        const value = document.getElementsByClassName("quickviewProduct")
+        console.log(value)
+        for (let i = 0; i < value.length; i++) {
+            value.item(i).addEventListener('click', function (e) {
+                e.preventDefault();
+                const idQuickview = this.id;
+                $.ajax({
+                    type: "get",
+                    url: "QuickViewController",
+                    data: {
+                        idQuickview: idQuickview
+                    },
+                    success: function (data) {
+                        $("#modal-content").html(data);
+                        $("#myModal").modal('toggle');
+                    }
+                });
+            })
+        }
     }
 </script>
 </body>

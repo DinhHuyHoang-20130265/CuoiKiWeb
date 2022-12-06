@@ -1,6 +1,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductImage" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 12/5/2022
@@ -8,7 +9,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% Product productDetails = (Product) request.getAttribute("productDetails");%>
+<%Product productDetails = (Product) request.getAttribute("productDetails");%>
+<%SiteUser user = (SiteUser) request.getSession().getAttribute("user");%>
 <!-- Modal body -->
 <div class="modal-body">
     <div class="row">
@@ -18,7 +20,11 @@
                      xoriginal="<%=productDetails.getMain_img_link()%>"/>
             </div>
             <ul class="all-img-2">
-                <%int i = 0;%>
+                <li class="img-item-2">
+                    <img src="<%=productDetails.getMain_img_link()%>" alt="" onclick="changeImg('image0')"
+                         id="image0"/>
+                </li>
+                <%int i = 1;%>
                 <%for (ProductImage image : productDetails.getImages()) {%>
                 <li class="img-item-2">
                     <img src="<%=image.getProd_img_link()%>" alt="" onclick="changeImg('image<%=i%>')"
@@ -30,7 +36,7 @@
         <div class="col-6">
             <div class="info-product">
                 <h3 class="product-name">
-                    <a href="#" title=""><%=productDetails.getProd_name()%>
+                    <a href="./ProductDetail.jsp?id=<%=productDetails.getId()%>" title=""><%=productDetails.getProd_name()%>
                     </a>
                 </h3>
                 <div class="status-product">Trạng thái:
@@ -41,6 +47,7 @@
                     for (Category category : productDetails.getCategories()) {
                         cate += category.getCate_name() + ", ";
                     }
+                    cate = cate.substring(0, cate.length() - 2);
                 %>
                 <div class="infor-oder">Loại sản phẩm: <b><%=cate%></b></div>
                 <div class="price-product">
@@ -112,7 +119,11 @@
                     </div>
                 </div>
                 <div class="product__shopnow">
-                    <button class="shopnow2">Mua ngay</button>
+                    <%if (user != null) {%>
+                    <button class="shopnow2" id="addCart<%=productDetails.getId()%>">Thêm vào giỏ hàng</button>
+                    <%} else {%>
+                    <a href="../Login.jsp" class="notify" style="color: black; font-size: 16px; font-weight: 600;margin-top: 33px;">Đăng nhập để thêm sản phẩm vào giỏ hàng</a>
+                    <%}%>
                 </div>
             </div>
         </div>
