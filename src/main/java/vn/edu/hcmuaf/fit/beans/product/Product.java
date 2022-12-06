@@ -25,11 +25,11 @@ public class Product implements Serializable {
     private List<ProductImage> images;
     private List<ProductSale> sales;
     private List<Category> categories;
-
+    private int quantity_cart;
     public Product() {
     }
 
-    public Product(String id, String prod_name, String prod_desc, Byte prod_status, String main_img_link, double price, Date released_date, String released_by, int quantity, int warranty_day, int view_count, Date updated_date, String updated_by, List<ProductColor> colors, List<ProductSize> sizes, List<ProductImage> images, List<ProductSale> sales, List<Category> categories) {
+    public Product(String id, String prod_name, String prod_desc, Byte prod_status, String main_img_link, double price, Date released_date, String released_by, int quantity, int warranty_day, int view_count, Date updated_date, String updated_by, List<ProductColor> colors, List<ProductSize> sizes, List<ProductImage> images, List<ProductSale> sales, List<Category> categories, int quantity_cart) {
         this.id = id;
         this.prod_name = prod_name;
         this.prod_desc = prod_desc;
@@ -48,6 +48,7 @@ public class Product implements Serializable {
         this.images = images;
         this.sales = sales;
         this.categories = categories;
+        this.quantity_cart = quantity_cart;
     }
 
     public String getId() {
@@ -194,6 +195,14 @@ public class Product implements Serializable {
         this.categories = categories;
     }
 
+    public int getQuantity_cart() {
+        return quantity_cart;
+    }
+
+    public void setQuantity_cart(int quantity_cart) {
+        this.quantity_cart = quantity_cart;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -215,6 +224,7 @@ public class Product implements Serializable {
                 ", images=" + images +
                 ", sales=" + sales +
                 ", categories=" + categories +
+                ", quantity_cart=" + quantity_cart +
                 '}';
     }
 }
