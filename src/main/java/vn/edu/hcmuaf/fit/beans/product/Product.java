@@ -23,13 +23,13 @@ public class Product implements Serializable {
     private List<ProductColor> colors;
     private List<ProductSize> sizes;
     private List<ProductImage> images;
-    private List<ProductSale> sales;
+    private ProductSale sales;
     private List<Category> categories;
 
     public Product() {
     }
 
-    public Product(String id, String prod_name, String prod_desc, Byte prod_status, String main_img_link, double price, Date released_date, String released_by, int quantity, int warranty_day, int view_count, Date updated_date, String updated_by, List<ProductColor> colors, List<ProductSize> sizes, List<ProductImage> images, List<ProductSale> sales, List<Category> categories) {
+    public Product(String id, String prod_name, String prod_desc, Byte prod_status, String main_img_link, double price, Date released_date, String released_by, int quantity, int warranty_day, int view_count, Date updated_date, String updated_by, List<ProductColor> colors, List<ProductSize> sizes, List<ProductImage> images, ProductSale sales, List<Category> categories) {
         this.id = id;
         this.prod_name = prod_name;
         this.prod_desc = prod_desc;
@@ -178,11 +178,11 @@ public class Product implements Serializable {
         this.images = images;
     }
 
-    public List<ProductSale> getSales() {
+    public ProductSale getSales() {
         return sales;
     }
 
-    public void setSales(List<ProductSale> sales) {
+    public void setSales(ProductSale sales) {
         this.sales = sales;
     }
 
