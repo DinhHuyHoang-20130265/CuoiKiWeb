@@ -131,4 +131,8 @@ public class CategoryService {
         } catch (Exception e) {
         }
     }
+
+    public Category getCateWithID(String category) {
+        return new CategoryDAO().getCateWithID(category);
+    }
 }
