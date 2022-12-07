@@ -122,7 +122,7 @@
                     <%if (user != null) {%>
                     <button class="shopnow2" id="addCart<%=productDetails.getId()%>">Thêm vào giỏ hàng</button>
                     <%} else {%>
-                    <a href="../Login.jsp" class="notify" style="color: black; font-size: 16px; font-weight: 600;margin-top: 33px;">Đăng nhập để thêm sản phẩm vào giỏ hàng</a>
+                    <a href="Login.jsp" class="notify" style="color: black; font-size: 16px; font-weight: 600;margin-top: 33px;">Đăng nhập để thêm sản phẩm vào giỏ hàng</a>
                     <%}%>
                 </div>
             </div>
