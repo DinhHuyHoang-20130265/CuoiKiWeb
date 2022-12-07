@@ -1,9 +1,10 @@
-﻿package vn.edu.hcmuaf.fit.beans.news;
+package vn.edu.hcmuaf.fit.beans.news;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-public class News implements Serializable{
+
+public class News implements Serializable {
     private String news_id;
     private String news_title;
     private String description;
@@ -13,6 +14,9 @@ public class News implements Serializable{
     private Date updated_date;
     private String updated_by;
     private List<NewsComment> comments;
+
+    public News() {
+    }
 
     public News(String news_id, String news_title, String description, String news_img_link, Date posted_date,
                 String posted_by, Date updated_date, String updated_by, List<NewsComment> comments) {

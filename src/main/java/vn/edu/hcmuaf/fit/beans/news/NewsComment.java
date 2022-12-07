@@ -1,8 +1,9 @@
-﻿package vn.edu.hcmuaf.fit.beans.news;
+package vn.edu.hcmuaf.fit.beans.news;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class NewsComment {
+public class NewsComment implements Serializable {
     private String comment_id;
     private String news_id;
     private String comment_by;
@@ -10,6 +11,10 @@ public class NewsComment {
     private String parent_comment;
     private Date comment_date;
     private Byte comment_status;
+
+    public NewsComment() {
+
+    }
 
     public NewsComment(String comment_id, String news_id, String comment_by, String description, String parent_comment, Date comment_date, Byte comment_status) {
         this.comment_id = comment_id;

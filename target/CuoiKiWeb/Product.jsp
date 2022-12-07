@@ -14,7 +14,7 @@
     <title>P&T Shop</title>
     <!-- link icon -->
     <link rel="stylesheet" href="./assets/uicons-regular-rounded/css/uicons-regular-rounded.css">
-    <link rel='stylesheet' href="./assets/uicons-regular-straight/css/uicons-regular-straight.css">
+    <link rel="stylesheet" href="./assets/uicons-regular-straight/css/uicons-regular-straight.css">
     <link rel="stylesheet" href="./assets/fontawesome-free-5.15.3-web/css/all.min.css">
     <!-- link css -->
     <link rel="stylesheet" href="./assets/css/normalize.min.css">
@@ -26,76 +26,76 @@
     <link rel="stylesheet" href="./assets/css/reponsive1.css">
     <link rel="stylesheet" href="./assets/css/menu-contact.css">
     <link rel="icon" href="./assets/img/logo/main.png" type="image/x-icon"/>
+    <style>
+        form.example input[type=text] {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid grey;
+            float: left;
+            width: 80%;
+            background: #f1f1f1;
+        }
+
+        form.example button {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            background: #2196F3;
+            color: white;
+            font-size: 17px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+
+        form.example button:hover {
+            background: #0b7dda;
+        }
+
+        form.example::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Mobile & tablet  */
+        @media (max-width: 1023px) {
+            .sortby {
+                float: left;
+            }
+
+            .sortby label {
+                display: none;
+            }
+
+            .sort-left {
+                margin-bottom: 20px;
+            }
+
+            .sortby2 {
+                display: block;
+            }
+
+            .sortby {
+                float: left;
+            }
+        }
+
+        /* tablet */
+        @media (min-width: 740px) and (max-width: 1023px) {
+            .card:hover .hover-icon {
+                display: none;
+            }
+        }
+
+        /* mobile */
+        @media (max-width: 739px) {
+            .card:hover .hover-icon {
+                display: none;
+            }
+        }
+    </style>
 </head>
-<style>
-    form.example input[type=text] {
-        padding: 10px;
-        font-size: 17px;
-        border: 1px solid grey;
-        float: left;
-        width: 80%;
-        background: #f1f1f1;
-    }
-
-    form.example button {
-        float: left;
-        width: 20%;
-        padding: 10px;
-        background: #2196F3;
-        color: white;
-        font-size: 17px;
-        border: 1px solid grey;
-        border-left: none;
-        cursor: pointer;
-    }
-
-    form.example button:hover {
-        background: #0b7dda;
-    }
-
-    form.example::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-
-    /* Mobile & tablet  */
-    @media (max-width: 1023px) {
-        .sortby {
-            float: left;
-        }
-
-        .sortby label {
-            display: none;
-        }
-
-        .sort-left {
-            margin-bottom: 20px;
-        }
-
-        .sortby2 {
-            display: block;
-        }
-
-        .sortby {
-            float: left;
-        }
-    }
-
-    /* tablet */
-    @media (min-width: 740px) and (max-width: 1023px) {
-        .card:hover .hover-icon {
-            display: none;
-        }
-    }
-
-    /* mobile */
-    @media (max-width: 739px) {
-        .card:hover .hover-icon {
-            display: none;
-        }
-    }
-</style>
 
 <body>
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
@@ -325,7 +325,7 @@
                                         <p class="card-text price-color product__price-new"><%=Math.round(p.getPrice() * (1 - (p.getSales().getDiscount_rate()) * 0.01))%>
                                             đ</p>
                                         <%} else {%>
-                                        <p class="card-text price-color product__price-old"></p>
+                                        <p class="card-text price-color product__price-old" style="opacity: 0">0</p>
                                         <p class="card-text price-color product__price-new"><%=p.getPrice()%>đ</p>
                                         <%}%>
                                     </div>
@@ -514,7 +514,6 @@
                                name="option2"><span>32</span>
                     </label>
                 </li>
-                </li>
                 <li class="product__filter-item">
                     <label class="form-check-label" for="check11">
                         <input type="checkbox" class="form-check-input checksize" id="check11"
@@ -572,13 +571,12 @@
 
     function load() {
         const value = document.getElementsByClassName("quickviewProduct")
-        console.log(value)
         for (let i = 0; i < value.length; i++) {
             value.item(i).addEventListener('click', function (e) {
                 e.preventDefault();
                 const idQuickview = this.id;
                 $.ajax({
-                    type: "get",
+                    type: "post",
                     url: "QuickViewController",
                     data: {
                         idQuickview: idQuickview

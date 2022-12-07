@@ -41,7 +41,7 @@
                     <p class="card-text price-color product__price-new"><%=Math.round(p.getPrice() * (1 - (p.getSales().getDiscount_rate()) * 0.01))%>
                         đ</p>
                     <%} else {%>
-                    <p class="card-text price-color product__price-old"></p>
+                    <p class="card-text price-color product__price-old" style="opacity: 0">0</p>
                     <p class="card-text price-color product__price-new"><%=p.getPrice()%>đ</p>
                     <%}%>
                 </div>

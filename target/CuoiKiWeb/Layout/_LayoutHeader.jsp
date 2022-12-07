@@ -345,7 +345,7 @@
                     <a href="intro.jsp">Giới thiệu</a>
                 </li>
                 <li class="header_nav-list-item has-mega">
-                    <a href="Product.jsp">Sản phẩm<i class="fas fa-angle-right" style="margin-left: 5px"></i></a>
+                    <a href="Product.jsp?category=all">Sản phẩm<i class="fas fa-angle-right" style="margin-left: 5px"></i></a>
                     <div class="mega-content" style="overflow-x: hidden">
                         <div class="row">
                             <ul class="col-8 no-padding level0">
