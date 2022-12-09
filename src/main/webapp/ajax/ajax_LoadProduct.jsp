@@ -1,6 +1,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 12/5/2022
@@ -10,6 +12,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%SiteUser user = (SiteUser) request.getSession().getAttribute("user");%>
 <%List<Product> next6Product = (List<Product>) request.getAttribute("next6Product");%>
+<%NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));%>
 <% for (Product p : next6Product) {%>
 <div class="col-lg-4 col-md-6 col-12 mb-20"
      style="margin-bottom: 20px;">
@@ -38,11 +41,11 @@
                 <div class="product__price">
                     <%if (p.getSales() != null) {%>
                     <p class="card-text price-color product__price-old"><%=p.getPrice()%>đ</p>
-                    <p class="card-text price-color product__price-new"><%=Math.round(p.getPrice() * (1 - (p.getSales().getDiscount_rate()) * 0.01))%>
+                    <p class="card-text price-color product__price-new"><%=formatter.format(p.getPrice() * (1 - (p.getSales().getDiscount_rate()) * 0.01))%>
                         đ</p>
                     <%} else {%>
                     <p class="card-text price-color product__price-old" style="opacity: 0">0</p>
-                    <p class="card-text price-color product__price-new"><%=p.getPrice()%>đ</p>
+                    <p class="card-text price-color product__price-new"><%=formatter.format(p.getPrice())%>đ</p>
                     <%}%>
                 </div>
                 <div class="home-product-item__action">
