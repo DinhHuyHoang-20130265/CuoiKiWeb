@@ -1,7 +1,3 @@
-<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
-<%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
@@ -14,7 +10,7 @@
     <title>P&T Shop</title>
     <!-- link icon -->
     <link rel="stylesheet" href="./assets/uicons-regular-rounded/css/uicons-regular-rounded.css">
-    <link rel='stylesheet' href="./assets/uicons-regular-straight/css/uicons-regular-straight.css">
+    <link rel="stylesheet" href="./assets/uicons-regular-straight/css/uicons-regular-straight.css">
     <link rel="stylesheet" href="./assets/fontawesome-free-5.15.3-web/css/all.min.css">
     <!-- link css -->
     <link rel="stylesheet" href="./assets/css/normalize.min.css">
@@ -26,76 +22,76 @@
     <link rel="stylesheet" href="./assets/css/reponsive1.css">
     <link rel="stylesheet" href="./assets/css/menu-contact.css">
     <link rel="icon" href="./assets/img/logo/main.png" type="image/x-icon"/>
+    <style>
+        form.example input[type=text] {
+            padding: 10px;
+            font-size: 17px;
+            border: 1px solid grey;
+            float: left;
+            width: 80%;
+            background: #f1f1f1;
+        }
+
+        form.example button {
+            float: left;
+            width: 20%;
+            padding: 10px;
+            background: #2196F3;
+            color: white;
+            font-size: 17px;
+            border: 1px solid grey;
+            border-left: none;
+            cursor: pointer;
+        }
+
+        form.example button:hover {
+            background: #0b7dda;
+        }
+
+        form.example::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Mobile & tablet  */
+        @media (max-width: 1023px) {
+            .sortby {
+                float: left;
+            }
+
+            .sortby label {
+                display: none;
+            }
+
+            .sort-left {
+                margin-bottom: 20px;
+            }
+
+            .sortby2 {
+                display: block;
+            }
+
+            .sortby {
+                float: left;
+            }
+        }
+
+        /* tablet */
+        @media (min-width: 740px) and (max-width: 1023px) {
+            .card:hover .hover-icon {
+                display: none;
+            }
+        }
+
+        /* mobile */
+        @media (max-width: 739px) {
+            .card:hover .hover-icon {
+                display: none;
+            }
+        }
+    </style>
 </head>
-<style>
-    form.example input[type=text] {
-        padding: 10px;
-        font-size: 17px;
-        border: 1px solid grey;
-        float: left;
-        width: 80%;
-        background: #f1f1f1;
-    }
-
-    form.example button {
-        float: left;
-        width: 20%;
-        padding: 10px;
-        background: #2196F3;
-        color: white;
-        font-size: 17px;
-        border: 1px solid grey;
-        border-left: none;
-        cursor: pointer;
-    }
-
-    form.example button:hover {
-        background: #0b7dda;
-    }
-
-    form.example::after {
-        content: "";
-        clear: both;
-        display: table;
-    }
-
-    /* Mobile & tablet  */
-    @media (max-width: 1023px) {
-        .sortby {
-            float: left;
-        }
-
-        .sortby label {
-            display: none;
-        }
-
-        .sort-left {
-            margin-bottom: 20px;
-        }
-
-        .sortby2 {
-            display: block;
-        }
-
-        .sortby {
-            float: left;
-        }
-    }
-
-    /* tablet */
-    @media (min-width: 740px) and (max-width: 1023px) {
-        .card:hover .hover-icon {
-            display: none;
-        }
-    }
-
-    /* mobile */
-    @media (max-width: 739px) {
-        .card:hover .hover-icon {
-            display: none;
-        }
-    }
-</style>
 
 <body>
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
@@ -161,22 +157,54 @@
                         <ul id="color" class="color-box">
                             <li class="product__filter-item">
                                 <label class="form-check-label">
-                                    <div class="foo black th1"></div>
-                                    <div class="foo dark_grey"></div>
-                                    <div class="foo grey"></div>
-                                    <div class="foo light_blue"></div>
-                                    <div class="foo blue"></div>
-                                    <div class="foo dark_blue"></div>
-                                    <div class="foo dark_green"></div>
+                                    <div class="foo black"><input type="checkbox" class="checkcolor" value="black"
+                                                                  style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo dark_grey"><input type="checkbox" class="checkcolor"
+                                                                      value="darkgrey"
+                                                                      style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo grey"><input type="checkbox" class="checkcolor" value="grey"
+                                                                 style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo light_blue"><input type="checkbox" class="checkcolor"
+                                                                       value="lightblue"
+                                                                       style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo blue"><input type="checkbox" class="checkcolor" value="blue"
+                                                                 style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo dark_blue"><input type="checkbox" class="checkcolor"
+                                                                      value="darkblue"
+                                                                      style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo dark_green"><input type="checkbox" class="checkcolor"
+                                                                       value="darkgreen"
+                                                                       style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
                                 </label>
                                 <label class="form-check-label">
-                                    <div class="foo green"></div>
-                                    <div class="foo purple"></div>
-                                    <div class="foo pink"></div>
-                                    <div class="foo yellow"></div>
-                                    <div class="foo orange"></div>
-                                    <div class="foo red"></div>
-                                    <div class="foo brown"></div>
+                                    <div class="foo green"><input type="checkbox" class="checkcolor" value="green"
+                                                                  style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo purple"><input type="checkbox" class="checkcolor" value="purple"
+                                                                   style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo pink"><input type="checkbox" class="checkcolor" value="pink"
+                                                                 style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo yellow"><input type="checkbox" class="checkcolor" value="yellow"
+                                                                   style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo orange"><input type="checkbox" class="checkcolor" value="orange"
+                                                                   style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo red"><input type="checkbox" class="checkcolor" value="red"
+                                                                style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
+                                    <div class="foo brown"><input type="checkbox" class="checkcolor" value="brown"
+                                                                  style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                    </div>
                                 </label>
                             </li>
                         </ul>
@@ -265,20 +293,16 @@
                         <div class="sortby">
                             <label>Sắp xếp theo:</label>
                             <div class="dropdown">
-                                <button type="button" class="btn btn-dark dropdown-toggle" id="dropdownMenuButton"
-                                        data-toggle="dropdown">
-                                    Sản phẩm nổi bật
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item isactive" id="sort0">Sản phẩm nổi bật</a>
-                                    <a class="dropdown-item" id="sort1">Giá: Tăng dần</a>
-                                    <a class="dropdown-item" id="sort2">Giá: Giảm dần</a>
-                                    <a class="dropdown-item" id="sort3">Tên A->Z</a>
-                                    <a class="dropdown-item" id="sort4">Tên Z->A</a>
-                                    <a class="dropdown-item" id="sort5">Cũ nhất</a>
-                                    <a class="dropdown-item" id="sort6">Mới nhất</a>
-                                    <a class="dropdown-item" id="sort7">Bán chạy nhất</a>
-                                </div>
+                                <select id="dropdownSelect" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="margin-bottom: 0 !important; height: 30px; width: 145px; font-size: 14px;">
+                                    <option selected value ="0">Sản phẩm nổi bật</option>
+                                    <option value="1">Giá: Tăng dần</option>
+                                    <option value="2">Giá: Giảm dần</option>
+                                    <option value="3">Tên A->Z</option>
+                                    <option value="4">Tên Z->A</option>
+                                    <option value="5">Cũ nhất</option>
+                                    <option value="6">Mới nhất</option>
+                                    <option value="7">Bán chạy nhất</option>
+                                </select>
                             </div>
                         </div>
                         <div class="sortby2 hidden" style="float: right;">
@@ -290,75 +314,13 @@
                         </div>
                     </div>
                 </div>
-                <%SiteUser user = (SiteUser) request.getSession().getAttribute("user");%>
-                <%List<Product> first6Product = ProductService.getInstance().loadProductWithCondition(1, 6, null, request.getParameter("category"), null, null, null, null);%>
                 <div class="row row-product" id="products">
-                    <% for (Product p : first6Product) {%>
-                    <div class="col-lg-4 col-md-6 col-12 mb-20"
-                         style="margin-bottom: 20px;">
-                        <a href="./ProductDetail.jsp?id=<%=p.getId()%>" class="product__new-item">
-                            <div class="card" style="width: 100%">
-                                <div>
-                                    <img class="card-img-top" src="<%=p.getMain_img_link()%>" alt="Card image cap">
-                                    <form class="hover-icon hidden-sm hidden-xs">
-                                        <input type="hidden">
-                                        <% if (user != null) {%>
-                                        <a class="btn-add-to-cart" id="addListLike<%=p.getId()%>"
-                                           title="Đưa vào danh sách yêu thích"
-                                           style="margin-top: 10px">
-                                            <i class="fas fa-heart"></i>
-                                        </a>
-                                        <%}%>
-                                        <a class="quickview quickviewProduct"
-                                           title="Xem nhanh" id="view<%=p.getId()%>">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </form>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title custom__name-product">
-                                        <%=p.getProd_name()%>
-                                    </h5>
-                                    <div class="product__price">
-                                        <%if (p.getSales() != null) {%>
-                                        <p class="card-text price-color product__price-old"><%=p.getPrice()%>đ</p>
-                                        <p class="card-text price-color product__price-new"><%=Math.round(p.getPrice() * (1 - (p.getSales().getDiscount_rate()) * 0.01))%>
-                                            đ</p>
-                                        <%} else {%>
-                                        <p class="card-text price-color product__price-old"></p>
-                                        <p class="card-text price-color product__price-new"><%=p.getPrice()%>đ</p>
-                                        <%}%>
-                                    </div>
-                                    <div class="home-product-item__action">
-                            <span class="home-product-item__like home-product-item__like--liked">
-                                <i class="home-product-item__like-icon-empty far fa-heart"></i>
-                                <i class="home-product-item__like-icon-fill fas fa-heart"></i>
-                            </span>
-                                        <div class="home-product-item__rating">
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <span class="home-product-item__sold"><%= p.getView_count()%> Lượt xem</span>
-                                    </div>
-                                    <%if (p.getSales() != null) {%>
-                                    <div class="sale-off">
-                                        <span class="sale-off-percent"><%=p.getSales().getDiscount_rate()%>%</span>
-                                        <span class="sale-off-label">GIẢM</span>
-                                    </div>
-                                    <%}%>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <%}%>
+                    <!-- loadProduct o day -->
                 </div>
                 <div class="loadmore" id="loadMore">
                     <a style="cursor: pointer;" class="loadmore-btn">Tải thêm</a>
                 </div>
-                <input id="page" name="page" value="2" style="display: none">
+                <input id="page" name="page" value="1" style="display: none">
                 <input id="category" name="category" value="<%=request.getParameter("category")%>"
                        style="display: none">
             </div>
@@ -378,8 +340,7 @@
                 <li class="product__filter-item">
                     <label class="form-check-label" for="radio1">
                         <input type="radio" class="form-check-input checkGia" id="radio1" name="optradio"
-                               value="-1"><span>Tất
-                cả</span>
+                               value="-1"><span>Tất cả</span>
                     </label>
                 </li>
                 <li class="product__filter-item">
@@ -428,22 +389,40 @@
             <ul id="color" class="color-box">
                 <li class="product__filter-item">
                     <label class="form-check-label">
-                        <div type="button" class="foo black"></div>
-                        <div class="foo dark_grey"></div>
-                        <div class="foo grey"></div>
-                        <div class="foo light_blue"></div>
-                        <div class="foo blue"></div>
-                        <div class="foo dark_blue"></div>
-                        <div class="foo dark_green"></div>
+                        <div class="foo black"><input type="checkbox" class="checkcolor" value="black"
+                                                      style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                        <div class="foo dark_grey"><input type="checkbox" class="checkcolor" value="darkgrey"
+                                                          style="opacity: 0; width: 20px;height: 20px;float: left;">
+                        </div>
+                        <div class="foo grey"><input type="checkbox" class="checkcolor" value="grey"
+                                                     style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                        <div class="foo light_blue"><input type="checkbox" class="checkcolor" value="lightblue"
+                                                           style="opacity: 0; width: 20px;height: 20px;float: left;">
+                        </div>
+                        <div class="foo blue"><input type="checkbox" class="checkcolor" value="blue"
+                                                     style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                        <div class="foo dark_blue"><input type="checkbox" class="checkcolor" value="darkblue"
+                                                          style="opacity: 0; width: 20px;height: 20px;float: left;">
+                        </div>
+                        <div class="foo dark_green"><input type="checkbox" class="checkcolor" value="darkgreen"
+                                                           style="opacity: 0; width: 20px;height: 20px;float: left;">
+                        </div>
                     </label>
                     <label class="form-check-label">
-                        <div class="foo green"></div>
-                        <div class="foo purple"></div>
-                        <div class="foo pink"></div>
-                        <div class="foo yellow"></div>
-                        <div class="foo orange"></div>
-                        <div class="foo red"></div>
-                        <div class="foo brown"></div>
+                        <div class="foo green"><input type="checkbox" class="checkcolor" value="green"
+                                                      style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                        <div class="foo purple"><input type="checkbox" class="checkcolor" value="purple"
+                                                       style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                        <div class="foo pink"><input type="checkbox" class="checkcolor" value="pink"
+                                                     style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                        <div class="foo yellow"><input type="checkbox" class="checkcolor" value="yellow"
+                                                       style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                        <div class="foo orange"><input type="checkbox" class="checkcolor" value="orange"
+                                                       style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                        <div class="foo red"><input type="checkbox" class="checkcolor" value="red"
+                                                    style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                        <div class="foo brown"><input type="checkbox" class="checkcolor" value="brown"
+                                                      style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
                     </label>
                 </li>
             </ul>
@@ -514,7 +493,6 @@
                                name="option2"><span>32</span>
                     </label>
                 </li>
-                </li>
                 <li class="product__filter-item">
                     <label class="form-check-label" for="check11">
                         <input type="checkbox" class="form-check-input checksize" id="check11"
@@ -548,37 +526,103 @@
 <script src="./assets/js/main.js"></script>
 <script src="./assets/js/product.js"></script>
 <script>
-    $(document).ready(async function () {
-        load();
+    $(document).ready( function () {
+        loadproduct();
+        load("1");
+        $("input[type='radio']").each(function () {
+            this.addEventListener("change", function (e) {
+                filter(e);
+            })
+        })
+        $("input[type='checkbox']").each(function () {
+            this.addEventListener("change", function (e) {
+                filter(e);
+            })
+        })
+        $("#dropdownSelect").change(function (e) {
+            filter(e);
+        })
     });
-    $("#loadMore").on('click', function (e) {
+
+    function filter(e) {
         e.preventDefault();
+        const category = $("#category").val();
+        const price = $("input[type='radio']:checked.checkGia").val();
+        const size = $("input[type='checkbox']:checked.checksize");
+        const orderby = $("#dropdownSelect").find(':selected').val();
+        let stringSize = "";
+        size.each(function () {
+            stringSize += "'" + $(this).parent().children("span").text() + "',";
+        });
+        let stringColor = "";
+        const color = $("input[type='checkbox']:checked.checkcolor");
+        color.each(function () {
+            stringColor += "'" + this.value + "',";
+        });
+        $.ajax({
+            type: 'post',
+            url: "FilterProductController",
+            data: {
+                price: price,
+                orderby: orderby,
+                color : stringColor,
+                size : stringSize,
+                page: "1",
+                category: category
+            },
+            success: function (data) {
+                $("#products").html(data);
+                $("#page").val("2");
+                load("1");
+            }
+        });
+    }
+    function loadproduct() {
         const page = $("#page").val();
         const category = $("#category").val();
+        const price = $("input[type='radio']:checked.checkGia").val();
+        const size = $("input[type='checkbox']:checked.checksize");
+        const orderby = $("#dropdownSelect").find(':selected').val();
+        let stringSize = "";
+        size.each(function () {
+            stringSize += "'" + $(this).parent().children("span").text() + "',";
+        });
+        let stringColor = "";
+        const color = $("input[type='checkbox']:checked.checkcolor");
+        color.each(function () {
+            stringColor += "'" + this.value + "',";
+        });
         $.ajax({
             type: 'post',
             url: "LoadMoreProductController",
             data: {
                 page: page,
-                category: category
+                category: category,
+                price: price,
+                orderby: orderby,
+                color : stringColor,
+                size : stringSize
             },
             success: function (data) {
                 $("#products").append(data);
-                $("#page").val((parseInt($("#page").val()) + 1) + "");
-                load();
+                const page = $("#page").val();
+                load(page);
+                $("#page").val((parseInt(page) + 1) + "");
             }
         });
-    })
+    }
+    $("#loadMore").on('click', function () {
+        loadproduct();
+    });
 
-    function load() {
+    function load(a) {
         const value = document.getElementsByClassName("quickviewProduct")
-        console.log(value)
-        for (let i = 0; i < value.length; i++) {
+        for (let i = (parseInt(a) - 1) * 6; i < value.length; i++) {
             value.item(i).addEventListener('click', function (e) {
                 e.preventDefault();
                 const idQuickview = this.id;
                 $.ajax({
-                    type: "get",
+                    type: "post",
                     url: "QuickViewController",
                     data: {
                         idQuickview: idQuickview
@@ -586,6 +630,26 @@
                     success: function (data) {
                         $("#modal-content").html(data);
                         $("#myModal").modal('toggle');
+                        $(".circlecheck").each(function () {
+                            const $this = $(this);
+                            const id = $this.find("input").attr("id");
+                            const color = id.substring(0, id.indexOf("-"));
+                            const style = document.createElement('style');
+                            style.type = 'text/css';
+                            style.innerHTML = `
+                            .circlecheck input[type=radio].circle-` + color + `:checked ~ .outer-circle {
+                                border: 3px solid ` + color + `;
+                            }
+
+                            .circlecheck input[type=radio].circle-` + color + ` ~ .outer-circle {
+                                border-color: ` + color + `;
+                            }
+                            .circlecheck input[type=radio].circle-` + color + `:checked ~ .outer-circle::before {
+                                background: ` + color + `;
+                            }
+                            `;
+                            document.getElementsByTagName('head')[0].appendChild(style);
+                        })
                     }
                 });
             })

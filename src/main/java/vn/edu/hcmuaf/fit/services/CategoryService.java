@@ -48,6 +48,7 @@ public class CategoryService {
                 i++;
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -83,6 +84,7 @@ public class CategoryService {
                 writer.println("</li>");
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -93,13 +95,14 @@ public class CategoryService {
                 int i = 1;
                 // Nếu parent_id=null, tức là tất cả menu cha
                 if (cate.getParent_id() == null) {
-                    writer.println(" <li class=\"level" + i + "\">");
+                    writer.println("<li class=\"level" + i + "\">");
                     //In tất cả menu cha cấp 0 (parent_id=0)
                     writer.println("<a class=\"hmega\" href=\"Product.jsp?category=" + cate.getId() + "\">" + cate.getCate_name() + "</a>");
                     CreateChildMenuNotMobile(cate.getId(), writer, i);
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -120,7 +123,7 @@ public class CategoryService {
                 i++;
                 for (int j = 0; j < idChildMenu.size(); j++) {
                     writer.println("<li class=\"level" + i + "\">"); //Bắt đầu một dòng menu con với thẻ <li>
-                    writer.println("<a class=\"hmega\" href=\"Product.jsp?category=" + idChildMenu.get(j) + "\">" + nameChildMenu.get(j) + "</a>");
+                    writer.println("<a class=\"hmega\" href=\"Product.jsp?category=" + idChildMenu.get(j) + "\" style=\" font-weight: 400;\">" + nameChildMenu.get(j) + "</a>");
                     CreateChildMenuNotMobile(idChildMenu.get(j), writer, i);
                 }
                 writer.println("</ul>"); //Kết thúc một phân cấp với thẻ </ul>
@@ -129,10 +132,14 @@ public class CategoryService {
                 writer.println("</li>");
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public Category getCateWithID(String category) {
         return new CategoryDAO().getCateWithID(category);
+    }
+
+    public static void main(String[] args) {
     }
 }

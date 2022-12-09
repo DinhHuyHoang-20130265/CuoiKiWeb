@@ -1,7 +1,11 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductImage" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductSize" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductColor" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 12/5/2022
@@ -40,7 +44,7 @@
                     </a>
                 </h3>
                 <div class="status-product">Trạng thái:
-                    <b><%=productDetails.getQuantity() > 0 ? "Còn hàng" : "Hết Hàng!"%>
+                    <b><%=(productDetails.getQuantity() > 0) ? "Còn hàng" : "Hết Hàng!"%>
                     </b></div>
                 <%
                     String cate = "";
@@ -51,17 +55,26 @@
                 %>
                 <div class="infor-oder">Loại sản phẩm: <b><%=cate%></b></div>
                 <div class="price-product">
+                    <%NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));%>
                     <%if(productDetails.getSales() != null) {%>
                     <div class="special-price">
-                        <span><%=Math.round(productDetails.getPrice() * (1 - (productDetails.getSales().getDiscount_rate()) * 0.01))%>đ</span>
+                        <span><%=formatter.format(productDetails.getPrice() * (1 - (productDetails.getSales().getDiscount_rate()) * 0.01))%>đ</span>
                     </div>
                     <div class="price-old">
                         Giá gốc:
-                        <del><%=productDetails.getPrice()%>đ</del>
+                        <del><%=formatter.format(productDetails.getPrice())%>đ</del>
                         <span class="discount">(-<%=productDetails.getSales().getDiscount_rate()%>%)</span>
                     </div>
+                    <%} else {%>
+                    <div class="special-price">
+                        <span><%=formatter.format(productDetails.getPrice())%>đ</span>
+                    </div>
+                    <div class="price-old" style="opacity: 0;">
+                        <del>0</del>
+                        <span class="discount">0</span>
+                    </div>
+                    <%}%>
                 </div>
-                <%}%>
                 <div class="product-description">
                     <%=productDetails.getProd_desc()%>
                 </div>
@@ -70,20 +83,17 @@
                         Màu:
                     </div>
                     <div class="select-swap d-flex">
+                        <%for (ProductColor color : productDetails.getColors()) {%>
                         <div class="circlecheck">
-                            <input type="radio" id="f-option" class="circle-1" name="selector" checked/>
-                            <label for="f-option"></label>
+                            <input type="radio" id="<%=color.getColor_name()%>-option" class="circle-<%=color.getColor_name()%>" name="selector"/>
+                            <label for="<%=color.getColor_name()%>-option"></label>
                             <div class="outer-circle"></div>
                         </div>
-                        <div class="circlecheck">
-                            <input type="radio" id="g-option" class="circle-2" name="selector"/>
-                            <label for="g-option"></label>
-                            <div class="outer-circle"></div>
-                        </div>
-                        <div class="circlecheck">
-                            <input type="radio" id="h-option" class="circle-3" name="selector"/>
-                            <label for="h-option"></label>
-                            <div class="outer-circle"></div>
+                        <%}%>
+                        <div class="circlecheck" style="opacity: 0;">
+                            <input type="radio" id="-option" class="circle-" name="selector"/>
+                            <label for="-option">0</label>
+                            <div class="outer-circle">0</div>
                         </div>
                     </div>
                 </div>
@@ -92,37 +102,36 @@
                         Kích thước:
                     </div>
                     <div class="select-swap">
-                        <div class="swatch-element" data-value="38">
-                            <input type="radio" class="variant-1" id="swatch-1-38" name="mau" value="trung"
+                        <%for (ProductSize size : productDetails.getSizes()) {%>
+                        <div class="swatch-element" data-value="<%=size.getSize_name()%>">
+                            <input type="radio" class="variant-1" id="swatch-1-<%=size.getSize_name()%>" name="mau" value="<%=size.getSize_name()%>"
                                    onclick="check()"/>
-                            <label for="swatch-1-38" class="sd"><span>38</span></label>
+                            <label for="swatch-1-<%=size.getSize_name()%>" class="sd"><span><%=size.getSize_name()%></span></label>
                         </div>
-                        <div class="swatch-element" data-value="39">
-                            <input type="radio" class="variant-1" id="swatch-1-39" name="mau" value="thanh"
-                                   onclick="check()"/>
-                            <label for="swatch-1-39" class="sd"><span>39</span></label>
-                        </div>
-                        <div class="swatch-element" data-value="40">
-                            <input type="radio" class="variant-1" id="swatch-1-40" name="mau" value="hieu"
-                                   onclick="check()"/>
-                            <label for="swatch-1-40" class="sd"><span>40</span></label>
+                        <%}%>
+                        <div class="swatch-element" data-value="" style="opacity: 0">
+                            <input type="radio" class="variant-1" id="swatch-1" name="mau"/>
+                            <label for="swatch-1" class="sd"><span>0</span></label>
                         </div>
                     </div>
                 </div>
                 <div class="product__wrap">
                     <div class="product__amount">
                         <label>Số lượng: </label>
-                        <input type="button" value="-" class="control" onclick="tru()"/>
-                        <input type="text" value="1" class="text-input" id="text_so_luong"
-                               onkeypress="validate(event)"/>
-                        <input type="button" value="+" class="control" onclick="cong()"/>
+                        <input type="button" value="-" class="control" onclick="tru(10)"/>
+                        <input type="text" value="1" class="text-input" id="text_so_luong-10"/>
+                        <input type="button" value="+" class="control" onclick="cong(10)"/>
                     </div>
                 </div>
                 <div class="product__shopnow">
                     <%if (user != null) {%>
-                    <button class="shopnow2" id="addCart<%=productDetails.getId()%>">Thêm vào giỏ hàng</button>
+                        <%if (productDetails.getQuantity() > 0) {%>
+                         <button class="shopnow2" id="addCart<%=productDetails.getId()%>">Thêm vào giỏ hàng</button>
+                        <%} else {%>
+                        <a class="notify" style="color: red; font-size: 16px; font-weight: 600;">Hết hàng !</a>
+                        <%}%>
                     <%} else {%>
-                    <a href="../Login.jsp" class="notify" style="color: black; font-size: 16px; font-weight: 600;margin-top: 33px;">Đăng nhập để thêm sản phẩm vào giỏ hàng</a>
+                    <a href="Login.jsp" class="notify" style="color: black; font-size: 16px; font-weight: 600;">Đăng nhập để thêm sản phẩm vào giỏ hàng</a>
                     <%}%>
                 </div>
             </div>

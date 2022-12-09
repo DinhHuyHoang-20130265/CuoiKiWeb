@@ -18,10 +18,28 @@ public class LoadMoreProductController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /*
+         * Đinh Huy Hoàng -20130265
+         * sử dụng ajax
+         * */
+        String price = request.getParameter("price");
+        String orderby = request.getParameter("orderby");
+        String color = null;
+        if (request.getParameter("color") != null)
+            color = request.getParameter("color");
+        String size = null;
+        if (request.getParameter("size") != null)
+            size = request.getParameter("size");
         String page = request.getParameter("page");
         String category = request.getParameter("category");
-        List<Product> next6Product = ProductService.getInstance().loadProductWithCondition(Integer.parseInt(page), 6, null, category, null, null, null, null);
+        System.out.println(price);
+        System.out.println(orderby);
+        System.out.println(color);
+        System.out.println(page);
+        System.out.println(category);
+        List<Product> next6Product = ProductService.getInstance().loadProductWithCondition(Integer.parseInt(page), 6, orderby, category, color, price, size, null);
         request.setAttribute("next6Product", next6Product);
         request.getRequestDispatcher("ajax/ajax_LoadProduct.jsp").forward(request, response);
+        System.out.println(next6Product.size());
     }
 }

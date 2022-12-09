@@ -56,7 +56,7 @@ public class CategoryDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new CategoryDAO().getCateWithID("cate01"));
+        System.out.println(new CategoryDAO().loadAll());
     }
 
 }

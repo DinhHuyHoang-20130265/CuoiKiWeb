@@ -172,6 +172,8 @@ input[type="radio"] + .label-css::after{
 .product__shopnow {
     display: flex;
     justify-content: space-between;
+    height: 190px;
+    align-items: center;
 }
 .shopnow {
     width: 250px;
@@ -291,8 +293,6 @@ input[type="radio"] + .label-css::after{
 .circlecheck {
     display: block;
     position: relative;
-    width: 19%;
-    margin: 0 auto;
 }
 .circlecheck input[type=radio] {
     position: absolute;
