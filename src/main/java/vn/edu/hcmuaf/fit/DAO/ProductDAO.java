@@ -23,7 +23,7 @@ public class ProductDAO {
     }
 
     public List<Product> loadProductWithCondition(int page, int num_per_page, String order_by, String cate_id, String color
-            , double[] price, String size, String search) {
+            , String price, String size, String search) {
         String query = "SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," +
                 " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
                 " p.updated_date, p.updated_by FROM product p" +
@@ -35,14 +35,18 @@ public class ProductDAO {
                 query += " AND pfc.cate_id = \"" + cate_id + "\"";
         }
         if (color != null) {
-            query += " AND c.color_name = \"" + color + "\"";
+            if (!"".equals(color))
+                query += " AND c.color_name IN (" + color.substring(0, color.length() - 1) + ")";
         }
         if (price != null) {
-            if (price.length == 2 && price[0] < price[1])
-                query += " AND p.price >= " + price[0] + " AND p.price <= " + price[1];
+            if (!price.equals("-1")) {
+                String[] splited = price.split("-");
+                query += " AND p.price >= " + Double.parseDouble(splited[0]) + " AND p.price <= " + Double.parseDouble(splited[1]);
+            }
         }
         if (size != null) {
-            query += " AND s.size_name = \"" + size + "\"";
+            if (!"".equals(size))
+                query += " AND s.size_name IN (" + size.substring(0, size.length() - 1) + ")";
         }
         if (search != null) {
             query += " AND p.prod_name LIKE '%" + search + "%'";
@@ -54,11 +58,12 @@ public class ProductDAO {
                 case "2" -> query += " ORDER BY p.price DESC";
                 case "3" -> query += " ORDER BY p.prod_name ASC";
                 case "4" -> query += " ORDER BY p.prod_name DESC";
-                case "5" -> query += " ORDER BY p.released_date DESC";
-                case "6" -> query += " ORDER BY p.released_date ASC";
+                case "5" -> query += " ORDER BY p.released_date ASC";
+                case "6" -> query += " ORDER BY p.released_date DESC";
                 case "7" -> query += " ORDER BY p.quantity ASC";
             }
         }
+        System.out.println(query);
         String finalQuery = query;
         List<Product> filter = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery)
                 .mapToBean(Product.class)
@@ -127,9 +132,9 @@ public class ProductDAO {
                         .mapToBean(Product.class)
                         .one()
         );
-        List<ProductColor> colors = null;
-        List<ProductSize> sizes = null;
-        List<ProductImage> images = null;
+        List<ProductColor> colors;
+        List<ProductSize> sizes;
+        List<ProductImage> images;
         ProductSale sale = null;
         colors = JDBIConnector.get().withHandle(handle ->
                 handle.createQuery("SELECT c.prod_id, c.color_name FROM color c Where c.prod_id =?")

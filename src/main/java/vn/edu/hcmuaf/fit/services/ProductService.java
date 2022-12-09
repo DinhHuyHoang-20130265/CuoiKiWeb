@@ -17,7 +17,7 @@ public class ProductService {
     }
 
     public List<Product> loadProductWithCondition(int page, int num_per_page, String order_by, String category, String color
-            , double[] price, String size, String search) {
+            , String price, String size, String search) {
         ProductDAO DAO = new ProductDAO();
         return DAO.loadProductWithCondition(page, num_per_page, order_by, category, color, price, size, search);
     }
