@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.IndexController;
 
 import vn.edu.hcmuaf.fit.beans.ForgotPasswordStatus;
 import vn.edu.hcmuaf.fit.beans.SiteUser;
+import vn.edu.hcmuaf.fit.beans.cart.Cart;
 import vn.edu.hcmuaf.fit.services.LoginService;
 
 import javax.servlet.*;
@@ -37,6 +38,7 @@ public class LoginUserController extends HttpServlet {
         if (account != null) {
             HttpSession session = request.getSession();
             session.setAttribute("user", account);
+            session.setAttribute("cart", new Cart());
             response.sendRedirect("index.jsp");
         } else { // nếu = null chứng tỏ sai
             request.setAttribute("loginStatus", LoginService.getInstance().getStatus());

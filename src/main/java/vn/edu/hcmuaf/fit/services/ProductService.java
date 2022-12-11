@@ -36,11 +36,6 @@ public class ProductService {
 
     public Product getProductAndDetails(String id) {
         ProductDAO DAO = new ProductDAO();
-        Product product = DAO.getProductAndDetails(id);
-        return product;
-    }
-
-    public static void main(String[] args) {
-        ProductService.getInstance().getProductAndDetails("prod003");
+        return DAO.getProductAndDetails(id);
     }
 }
