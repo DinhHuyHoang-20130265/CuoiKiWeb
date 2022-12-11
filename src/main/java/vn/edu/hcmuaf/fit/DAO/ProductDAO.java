@@ -63,7 +63,6 @@ public class ProductDAO {
                 case "7" -> query += " ORDER BY p.quantity ASC";
             }
         }
-        System.out.println(query);
         String finalQuery = query;
         List<Product> filter = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery)
                 .mapToBean(Product.class)
