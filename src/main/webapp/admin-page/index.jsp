@@ -1,4 +1,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -150,27 +153,20 @@
                         <div class="card sameheight-item items" data-exclude="xs,sm,lg">
                             <div class="card-header bordered">
                                 <div class="header-block">
-                                    <h3 class="title"> Sản phẩm bán chạy </h3>
+                                    <h3 class="title"> Sản phẩm nổi bật </h3>
                                     <a href="item-editor.jsp" class="btn btn-primary btn-sm"> Thêm sản phẩm</a>
                                 </div>
                                 <div class="header-block pull-right">
-                                    <label class="search">
-                                        <input class="search-input" placeholder="Tìm...">
-                                        <i class="fa fa-search search-icon"></i>
-                                    </label>
                                     <div class="pagination">
                                         <div class="loadmore" id="loadMore">
                                             <a style="cursor: pointer;" class="btn btn-primary btn-sm loadmore-btn">
                                                 <i class="fa fa-angle-down"></i></a>
                                         </div>
-                                        <div class="loadmore" id="loadLess">
-                                            <a style="cursor: pointer;" class="btn btn-primary btn-sm loadmore-btn">
-                                                <i class="fa fa-angle-up"></i></a>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <ul class="item-list striped" id="items">
+                            <%List<Product> list = (List<Product>) ProductService.getInstance().loadProductWithCondition(1, 6, "7", "all", null, null, null, null);%>
+                            <ul class="item-list striped" id="items" style="overflow-x: scroll;">
                                 <li class="item item-list-header">
                                     <div class="item-row">
                                         <div class="item-col item-col-header fixed item-col-img xs"></div>
@@ -181,7 +177,7 @@
                                         </div>
                                         <div class="item-col item-col-header item-col-sales">
                                             <div>
-                                                <span>Đã bán</span>
+                                                <span>Lượt xem</span>
                                             </div>
                                         </div>
                                         <div class="item-col item-col-header">
@@ -196,6 +192,39 @@
                                         </div>
                                     </div>
                                 </li>
+                                <%for (Product p : list) {%>
+                                <li class="item">
+                                    <div class="item-row">
+                                        <div class="item-col fixed item-col-img xs">
+                                            <a href="">
+                                                <div class="item-img xs rounded">
+                                                    <img src="<%=p.getMain_img_link()%>" width=30px height=30px></img>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="item-col item-col-title no-overflow">
+                                            <div>
+                                                <h4 class="item-title no-wrap"> <%=p.getProd_name()%></h4>
+                                            </div>
+                                        </div>
+                                        <div class="item-col item-col-sales">
+                                            <div class="item-heading"></div>
+                                            <div> <%=p.getView_count()%> </div>
+                                        </div>
+                                        <div class="item-col item-col-stats">
+                                            <div class="item-heading">Tồn kho</div>
+                                            <div class="no-overflow">
+                                                <div class="item-stats" data-type="bar"> <%=p.getQuantity()%></div>
+                                            </div>
+                                        </div>
+                                        <div class="item-col item-col-date">
+                                            <div class="item-heading">Ngày thêm</div>
+                                            <div> <%=p.getReleased_date()%> </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <%}%>
+                                <input type="text" id="pageValue" value="2" style="display: none">
                             </ul>
                         </div>
                     </div>
@@ -269,170 +298,23 @@
 <script src="js/vendor.js"></script>
 <script src="js/app.js"></script>
 <script>
-    function getRandomDate() {
-        const maxDate = Date.now();
-        const timestamp = Math.floor(Math.random() * maxDate);
-        var d = new Date(timestamp);
-        return d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-    }
-
-    $(document).ready(function () {
-        var object = $.parseJSON(`[
-            {
-                "id": "1",
-                "name": "Áo len sọc lớn màu",
-                "price": "420000",
-                "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-                "imglink": "men/1.jpg",
-                "colors": "black, green, orange",
-                "subimglink": "men/1-a.jpg, men/1-b.jpg, men/1-c.jpg",
-                "size": "M, L, XL"
+    $("#loadMore").click(function (e) {
+        e.preventDefault();
+        const page = $("#pageValue").val();
+        console.log(page);
+        $.ajax({
+            url: "/CuoiKiWeb_war/LoadMoreIndexAdminController",
+            type: "post",
+            data: {
+                page: page,
             },
-            {
-                "id": "2",
-                "name": "Áo len sọc phối màu",
-                "price": "420000",
-                "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-                "imglink": "men/2.jpg",
-                "colors": "brown, orange",
-                "subimglink": "men/2-a.jpg, men/2-b.jpg",
-                "size": "M, L, XL"
-            },
-            {
-                "id": "3",
-                "name": "Áo len traffic",
-                "price": "420000",
-                "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-                "imglink": "men/3.jpg",
-                "colors": "brown, green, brown cream",
-                "subimglink": "men/3-a.jpg, men/3-b.jpg, men/3-c.jpg",
-                "size": "M, L, XL"
-            },
-            {
-                "id": "4",
-                "name": "Áo len nhiều màu",
-                "price": "420000",
-                "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-                "imglink": "men/4.jpg",
-                "colors": "black, grey, blue, brown, white",
-                "subimglink": "men/4-a.jpg, men/4-b.jpg, men/4-c.jpg, men/4-d.jpg, men/4-e.jpg  ",
-                "size": "M, L, XL"
-            },
-            {
-                "id": "5",
-                "name": "Áo len phối màu",
-                "price": "420000",
-                "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-                "imglink": "men/5.jpg",
-                "colors": "black, brown",
-                "subimglink": "men/5-a.jpg, men/5-b.jpg",
-                "size": "M, L, XL"
-            },
-            {
-                "id": "6",
-                "name": "Áo sweate nam",
-                "price": "450000",
-                "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-                "imglink": "men/6.jpg",
-                "colors": "cream, black ,blue, yellow",
-                "subimglink": "men/6-a.jpg, men/6-b.jpg, men/6-c.jpg, men/6-d.jpg ",
-                "size": "M, L, XL"
-            },
-            {
-                "id": "7",
-                "name": "Áo polo nam - Up to you",
-                "price": "365000",
-                "categories": "đồ nam, áo thun nam, áo thun polo nam",
-                "imglink": "men/7.jpg",
-                "colors": "black, blue, green",
-                "subimglink": "men/7-a.jpg, men/7-b.jpg, men/7-c.jpg",
-                "size": "M, L, XL"
-            },
-            {
-                "id": "8",
-                "name": "Áo polo nam - Simple day",
-                "price": "345000",
-                "categories": "đồ nam, áo thun nam, áo thun polo nam",
-                "imglink": "men/8.jpg",
-                "colors": "black, blue, pink, yellow",
-                "subimglink": "men/8-a.jpg, men/8-b.jpg, men/8-c.jpg, men/8-d.jpg ",
-                "size": "M, L, XL"
-            },
-            {
-                "id": "9",
-                "name": "Áo polo M1ATP01205BSFSO",
-                "price": "295000",
-                "categories": "đồ nam, áo thun nam, áo thun polo nam",
-                "imglink": "men/9.jpg",
-                "colors": "black, blue, yellow, red",
-                "subimglink": "men/9-a.jpg, men/9-b.jpg, men/9-c.jpg, men/9-d.jpg ",
-                "size": "L, XL, 2XL"
-            },
-            {
-                "id": "10",
-                "name": "Áo polo M1ATP01204BSFSO",
-                "price": "295000",
-                "categories": "đồ nam, áo thun nam, áo thun polo nam",
-                "imglink": "men/10.jpg",
-                "colors": "black, grey, green",
-                "subimglink": "men/10-a.jpg, men/10-b.jpg, men/10-c.jpg",
-                "size": "L, XL"
-            }]`);
-
-        function initRender() {
-            var listProducts = object.map(function (element) {
-                return `<li class="item blogBox moreBox" style="display:none">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-img xs">
-                                <a href="">
-                                    <div class="item-img xs rounded">
-                                        <img src="../assets/imgProduct/images/${element.imglink}" width=30px height=30px></img>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="item-col item-col-title no-overflow">
-                                <div>
-                                    <h4 class="item-title no-wrap"> ${element.name} </h4>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-sales">
-                                <div class="item-heading">Đã bán</div>
-                                <div> ${Math.floor(Math.random() * 10000)} </div>
-                            </div>
-                            <div class="item-col item-col-stats">
-                                <div class="item-heading">Tồn kho</div>
-                                <div class="no-overflow">
-                                    <div class="item-stats" data-type="bar"> ${Math.floor(Math.random() * 100)}</div>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-date">
-                                <div class="item-heading">Ngày thêm</div>
-                                <div> ${getRandomDate()} </div>
-                            </div>
-                        </div>
-                    </li>`
-            })
-            var renderList = listProducts.join('');
-            $('#items').html(renderList);
-        }
-
-        initRender();
-
-        function defaultLoadmore() {
-            $(".moreBox").slice(0, 6).show();
-            $("#loadMore").click(function (e) {
-                e.preventDefault();
-                $(".moreBox:hidden").slice(0, 6).show();
-                $(".col-xl-8").css({"overflow": "auto"})
-            });
-        }
-
-        defaultLoadmore();
-        $("#loadLess").click(function () {
-            initRender();
-            defaultLoadmore();
-        });
-    });
+            success : function (data){
+                $("#items").append(data);
+                const page = $("#pageValue").val();
+                $("#pageValue").val((parseInt(page) + 1) + "");
+            }
+        })
+    })
 </script>
 </body>
 

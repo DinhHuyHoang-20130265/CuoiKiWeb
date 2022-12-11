@@ -1,8 +1,6 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
-<%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %><%--
-  Created by IntelliJ IDEA.
+<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
+<%--  Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022
   Time: 11:50 AM
@@ -311,7 +309,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 m-auto pdt15">
-                    <form class="example" action="Product.jsp">
+                    <form class="example" action="#">
                         <input type="text" class="input-search" placeholder="Tìm kiếm.." name="search"/>
                         <button type="submit" class="search-btn">
                             <i class="fa fa-search"></i>
@@ -352,125 +350,6 @@
                                 <li class="level1">
                                     <a class="hmega" href="Product.jsp?category=all">Tất cả sản phẩm</a>
                                 </li>
-                                <!--     <li class="level1">
-                                         <a class="hmega" href="Product.jsp?category=">Đồ Nam</a>
-                                         <ul class="level1">
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Áo Thun Nam</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Thun Tay Dài Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Thun Polo Nam</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Áo Sơ Mi Nam</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Sơ Mi Tay Dài Nam</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Quần Short Nam</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Short Kaki Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Short Jean Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Short Thun Nam</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Quần Dài Nam</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Jean Cá Tính Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Jogger Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Kaki Nam</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                         </ul>
-                                     </li>
-                                     <li class="level1">
-                                         <a class="hmega">Đồ Nữ</a>
-                                         <ul class="level1">
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Áo Thun Nữ</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Thun Tay Ngắn Nữ</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Thun Tay Dài</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Áo Sơ Mi Nữ</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nữ</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Sơ Mi Tay Dài Nữ</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Quần Short Nữ</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Short Kaki Nữ</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Short Jean Nữ</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Quần Dài Nữ</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Jogger Nữ</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Jean Đơn Giản Nữ</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Jean Cá Tính Nữ</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Chân Váy</a>
-                                             </li>
-                                             <li class="level2"><a href="Product.jsp">Yếm</a></li>
-                                         </ul>
-                                     </li>
-                                     <li class="level1">
-                                         <a class="hmega">Đồ Unisex</a>
-                                         <ul class="level1">
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Áo Thun Unisex</a>
-                                             </li>
-                                         </ul>
-                                     </li> -->
                                 <%CategoryService.getInstance().CreateCategoryMenuNotMobile(out);%>
                             </ul>
                             <div class="col-4">
