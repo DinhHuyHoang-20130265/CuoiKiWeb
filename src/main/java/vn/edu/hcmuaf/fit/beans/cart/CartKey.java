@@ -47,10 +47,15 @@ public class CartKey {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getColor(), getSize());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof CartKey cartKey)) return false;
-        return Objects.equals(id, cartKey.id) && Objects.equals(color, cartKey.color) && Objects.equals(size, cartKey.size);
+        if (o == null || getClass() != o.getClass()) return false;
+        return id.equals(((CartKey) o).id) && color.equals(((CartKey) o).color) && size.equals(((CartKey) o).size);
     }
 
 }

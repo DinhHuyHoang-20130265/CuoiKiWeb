@@ -1,3 +1,9 @@
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.cart.Cart" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.cart.CartKey" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -113,6 +119,12 @@
     }
 </style>
 <body>
+<%
+    SiteUser user = (SiteUser) request.getSession().getAttribute("user");
+    if (user == null) {
+        response.sendRedirect("Login.jsp");
+    }
+%>
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
 <!-- content -->
 <div class="cart">
@@ -135,105 +147,68 @@
                             </div>
                         </div>
                         <div class="cart-body">
+                            <% Cart cart = (Cart) request.getSession().getAttribute("cart");
+                                int i = 1;
+                                NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));%>
+
+                            <% if (cart != null) {
+                                for (CartKey p : cart.getData().keySet()) {%>
                             <div class="row cart-body-row cart-body-row-1" style="align-items: center;">
                                 <div class="col-md-11 col-10" style="text-align: center;">
                                     <div class="row card-info" style="align-items: center;">
                                         <div class="col-md-2 col-12 card-info-img">
-                                            <a href=""><img class="cart-img" src="./assets/imgProduct/images/men/1.jpg"
+                                            <a href=""><img class="cart-img"
+                                                            src="<%=cart.getData().get(p).getMain_img_link()%>"
                                                             alt=""></a>
                                         </div>
                                         <div class="col-md-3 col-12"
                                              style="display: flex; align-items: center; padding: 0 2px 0 2px">
-                                            <a href="" class="cart-name"><h5>Áo len sọc lớn màu</h5></a>
-                                            <div class="foo light_blue"></div>
-                                            <p class="size_choosed" style="font-size: 12px;">XL</p>
+                                            <a href="" class="cart-name"><h5><%=cart.getData().get(p).getProd_name()%>
+                                            </h5></a>
+                                            <div class="foo" style="background: <%=p.getColor()%>"></div>
+                                            <p class="size_choosed" style="font-size: 12px;"><%=p.getSize()%>
+                                            </p>
                                         </div>
+                                        <%if (cart.getData().get(p).getSales() != null) {%>
                                         <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <span>420000₫</span>
+                                            <span><%=format.format(cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate()))%>₫ - (-<%=cart.getData().get(p).getSales().getDiscount_rate()%>%)</span>
                                         </div>
+                                        <%} else {%>
+                                        <div class="col-md-2 col-12" style="font-size: 16px;">
+                                            <span><%=format.format(cart.getData().get(p).getPrice())%>₫</span>
+                                        </div>
+                                        <%}%>
                                         <div class="col-md-3 col-12">
                                             <div class="cart-quantity">
-                                                <input type="button" value="-" class="control" onclick="tru(1)">
-                                                <input type="text" value="1" class="text-input" id="text_so_luong-1"
+                                                <input type="button" value="-" class="control" onclick="tru(<%=i%>)">
+                                                <input type="text" value="<%=cart.getData().get(p).getQuantity_cart()%>"
+                                                       class="text-input"
+                                                       id="text_so_luong-(<%=i%>)"
                                                        onkeypress='validate(event)'>
-                                                <input type="button" value="+" class="control" onclick="cong(1)">
+                                                <input type="button" value="+" class="control" onclick="cong(<%=i%>)">
                                             </div>
                                         </div>
+                                        <%if (cart.getData().get(p).getSales() != null) {%>
                                         <div class="col-md-2 col-12 hidden-xs" style="font-size: 16px;">
-                                            <span>420000</span>
+                                            <span><%=format.format(cart.getData().get(p).getQuantity_cart() * (cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate())))%>₫</span>
                                         </div>
+                                        <%} else {%>
+                                        <div class="col-md-2 col-12 hidden-xs" style="font-size: 16px;">
+                                            <span><%=format.format(cart.getData().get(p).getQuantity_cart() * cart.getData().get(p).getPrice())%>₫</span>
+                                        </div>
+                                        <%}%>
                                     </div>
                                 </div>
                                 <div class="col-md-1 col-2 text-right">
-                                    <a onclick="xoa(1)"><i class="fas fa-trash"></i></a>
+                                    <a href="#" id="delete<%=cart.getData().get(p).getId()%>"><i
+                                            class="fas fa-trash"></i></a>
                                 </div>
                             </div>
-                            <div class="row cart-body-row cart-body-row-2" style="align-items: center;">
-                                <div class="col-md-11 col-10" style="text-align: center;">
-                                    <div class="row card-info" style="align-items: center;">
-                                        <div class="col-md-2 col-12 card-info-img">
-                                            <a href=""><img class="cart-img" src="./assets/imgProduct/images/men/2.jpg"
-                                                            alt=""></a>
-                                        </div>
-                                        <div class="col-md-3 col-12"
-                                             style="display: flex; align-items: center; padding: 0 2px 0 2px">
-                                            <a href="" class="cart-name"><h5>Áo len sọc phối màu</h5></a>
-                                            <div class="foo black"></div>
-                                            <p class="size_choosed" style="font-size: 12px;">XXL</p>
-                                        </div>
-                                        <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <span>420000₫</span>
-                                        </div>
-                                        <div class="col-md-3 col-12">
-                                            <div class="cart-quantity">
-                                                <input type="button" value="-" class="control" onclick="tru(2)">
-                                                <input type="text" value="1" class="text-input" id="text_so_luong-2"
-                                                       onkeypress='validate(event)'>
-                                                <input type="button" value="+" class="control" onclick="cong(2)">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-12 hidden-xs" style="font-size: 16px;">
-                                            <span>420000₫</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 col-2 text-right">
-                                    <a onclick="xoa(2)"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </div>
-                            <div class="row cart-body-row cart-body-row-3" style="align-items: center;">
-                                <div class="col-md-11 col-10" style="text-align: center;">
-                                    <div class="row card-info" style="align-items: center;">
-                                        <div class="col-md-2 col-12 card-info-img">
-                                            <a href=""><img class="cart-img" src="./assets/imgProduct/images/men/3.jpg"
-                                                            alt=""></a>
-                                        </div>
-                                        <div class="col-md-3 col-12"
-                                             style="display: flex; align-items: center; padding: 0 2px 0 2px">
-                                            <a href="" class="cart-name"><h5>Áo len traffic </h5></a>
-                                            <div class="foo red"></div>
-                                            <p class="size_choosed" style="font-size: 12px;">L</p>
-                                        </div>
-                                        <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <span>420000₫</span>
-                                        </div>
-                                        <div class="col-md-3 col-12">
-                                            <div class="cart-quantity">
-                                                <input type="button" value="-" class="control" onclick="tru(3)">
-                                                <input type="text" value="1" class="text-input" id="text_so_luong-3"
-                                                       onkeypress='validate(event)'>
-                                                <input type="button" value="+" class="control" onclick="cong(3)">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-12 hidden-xs" style="font-size: 16px;">
-                                            <span>420000₫</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 col-2 text-right">
-                                    <a onclick="xoa(3)" class="xoa"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </div>
+                            <%
+                                        i++;
+                                    }
+                                }
+                            %>
                         </div>
                         <div class="cart-footer">
                             <div class="row cart-footer-row">
@@ -250,7 +225,7 @@
                     <div class="cart-body-right">
                         <div class="cart-total">
                             <label>Thành tiền:</label>
-                            <span class="total__price">1260000₫</span>
+                            <span class="total__price"><%=cart != null ? format.format(cart.total()) : 0%>₫</span>
                         </div>
                         <div class="cart-buttons">
                             <a style="display: block; text-align: center;" href="pay.jsp" class="chekout">THANH TOÁN</a>

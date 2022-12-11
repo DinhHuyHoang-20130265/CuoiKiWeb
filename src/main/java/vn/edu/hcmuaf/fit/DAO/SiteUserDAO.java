@@ -90,6 +90,6 @@ public class SiteUserDAO {
     }
 
     public static void main(String[] args) {
-        new SiteUserDAO().updatePasswordFromEmail("111111", "dinh37823@gmail.com");
+        System.out.println(new SiteUserDAO().users);
     }
 }
