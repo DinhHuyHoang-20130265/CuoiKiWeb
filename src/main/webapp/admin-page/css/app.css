@@ -3247,12 +3247,6 @@ span a {
   flex-basis: 70px;
 }
 
-@media (min-width: 576px) {
-  .items-list-page .item-list .item-col.item-col-img:not(.item-col-header) {
-    height: 80px;
-  }
-}
-
 .items-list-page .item-list .item-col.item-col-title {
   text-align: left;
   margin-left: 0 !important;

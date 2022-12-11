@@ -27,7 +27,6 @@ public class LoginAdminController extends HttpServlet {
         String username = request.getParameter("username").trim();
         String password = request.getParameter("password");
         String remember = request.getParameter("remember");
-        AdminLoginService service = new AdminLoginService();
         //  Lưu biến thông báo
         AdminLogin loginAdmin = new AdminLogin("", remember);
         boolean notify = false;
@@ -36,7 +35,7 @@ public class LoginAdminController extends HttpServlet {
         if (forgotPassword != null)
             request.getSession().removeAttribute("forgotPasswordAdmin");
         //  Kiểm tra xem thử đúng tài khoản có đúng hay không
-        String user = service.getInstance().stringAccountAdminUser(username);
+        String user = AdminLoginService.getInstance().stringAccountAdminUser(username);
 
         //  Nếu mã tài khoản trả về là null thì nhập sai tài khoản rồi
         if (user == null) {
@@ -45,7 +44,7 @@ public class LoginAdminController extends HttpServlet {
             loginAdmin.setContent("Bạn nhập sai tài khoản");
         } else {
             //  Tiếp theo kiểm tra xem tài khoản đúng rồi mà hiện tại nó bị vô hiệu hóa hay chưa
-            boolean isActive = service.getInstance().statusAccountAdminUser(username);
+            boolean isActive = AdminLoginService.getInstance().statusAccountAdminUser(username);
             //  Nếu tài khoản bị vô hiệu hóa thì thông báo
             if (!isActive) {
                 notify = true;
@@ -61,7 +60,7 @@ public class LoginAdminController extends HttpServlet {
                     loginAdmin.setContent("Bạn chưa check capcha");
                 } else {
                     //  Tới đây thì tài khoản của bạn đã oke rồi
-                    AdminUser admin = service.getInstance().getAccountAdminUser(username, password);
+                    AdminUser admin = AdminLoginService.getInstance().getAccountAdminUser(username, password);
 
                     //  Nếu không đúng mật khẩu thì lưu lại tài khoản
                     if (admin == null) {
@@ -85,10 +84,10 @@ public class LoginAdminController extends HttpServlet {
             //  Nếu tới đây là oke hết rồi, chuyển admin tới index
             //  trước đó phải lưu vô session
             //  1. Lấy AccountAdmin
-            AdminUser account = service.getInstance().getAccountAdminUser(username, password);
+            AdminUser account = AdminLoginService.getInstance().getAccountAdminUser(username, password);
 
             //  2. Lấy role của account này và set cho nó
-            List<AdminRole> role = service.getInstance().getListRole(username);
+            List<AdminRole> role = AdminLoginService.getInstance().getListRole(account.getId());
             account.setRole(role);
 
             //  Tạo đối tượng admin rồi lưu vào session

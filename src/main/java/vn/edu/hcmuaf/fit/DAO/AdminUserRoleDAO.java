@@ -17,13 +17,13 @@ public class AdminUserRoleDAO {
         List<AdminRole> list = JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("select table_name, permission  from admin_permission where id =?")
                     .bind(0, id)
-                    .map((rs, ctx) -> new AdminRole(rs.getString("table_name "), rs.getString("permission")))
+                    .map((rs, ctx) -> new AdminRole(rs.getString("table_name"), rs.getString("permission")))
                     .list();
         });
         return list;
     }
 
     public static void main(String[] args) {
-        System.out.println(new AdminUserRoleDAO("ad1").getRoleList());
+        System.out.println(new AdminUserRoleDAO("user2").getRoleList());
     }
 }

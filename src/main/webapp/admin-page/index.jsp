@@ -2,6 +2,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.AccountService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -55,8 +57,10 @@
                                         <div class="stat-icon">
                                             <i class="fa fa-rocket"></i>
                                         </div>
+                                        <%List<Product> product = ProductService.getInstance().getListProduct();%>
                                         <div class="stat">
-                                            <div class="value"> 5407</div>
+                                            <div class="value"><%=product != null ? product.size() : 0%>
+                                            </div>
                                             <div class="name"> Sản phẩm hoạt động</div>
                                         </div>
                                         <div class="progress stat-progress">
@@ -67,9 +71,16 @@
                                         <div class="stat-icon">
                                             <i class="fa fa-shopping-cart"></i>
                                         </div>
+                                        <%
+                                            int count = 0;
+                                            if (product != null)
+                                                for (Product p : product) {
+                                                    count += p.getView_count();
+                                                }
+                                        %>
                                         <div class="stat">
-                                            <div class="value"> 78464</div>
-                                            <div class="name"> Sản phẩm đã bán</div>
+                                            <div class="value"><%=count%></div>
+                                            <div class="name"> Lượt xem sản phẩm</div>
                                         </div>
                                         <div class="progress stat-progress">
                                             <div class="progress-bar" style="width: 25%;"></div>
@@ -91,8 +102,10 @@
                                         <div class="stat-icon">
                                             <i class="fa fa-users"></i>
                                         </div>
+                                        <%List<SiteUser> users = AccountService.getInstance().getAllUserServer();%>
                                         <div class="stat">
-                                            <div class="value"> 359</div>
+                                            <div class="value"><%=users != null ? users.size() : 0%>
+                                            </div>
                                             <div class="name"> Tài khoản người dùng</div>
                                         </div>
                                         <div class="progress stat-progress">
@@ -165,7 +178,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <%List<Product> list = (List<Product>) ProductService.getInstance().loadProductWithCondition(1, 6, "7", "all", null, null, null, null);%>
+                            <%
+                                List<Product> list = ProductService.getInstance().loadProductWithCondition(1, 6, "7", "all", null, null, null, null);%>
                             <ul class="item-list striped" id="items" style="overflow-x: scroll;">
                                 <li class="item item-list-header">
                                     <div class="item-row">
@@ -204,22 +218,26 @@
                                         </div>
                                         <div class="item-col item-col-title no-overflow">
                                             <div>
-                                                <h4 class="item-title no-wrap"> <%=p.getProd_name()%></h4>
+                                                <h4 class="item-title no-wrap"><%=p.getProd_name()%>
+                                                </h4>
                                             </div>
                                         </div>
                                         <div class="item-col item-col-sales">
                                             <div class="item-heading"></div>
-                                            <div> <%=p.getView_count()%> </div>
+                                            <div><%=p.getView_count()%>
+                                            </div>
                                         </div>
                                         <div class="item-col item-col-stats">
                                             <div class="item-heading">Tồn kho</div>
                                             <div class="no-overflow">
-                                                <div class="item-stats" data-type="bar"> <%=p.getQuantity()%></div>
+                                                <div class="item-stats" data-type="bar"><%=p.getQuantity()%>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="item-col item-col-date">
                                             <div class="item-heading">Ngày thêm</div>
-                                            <div> <%=p.getReleased_date()%> </div>
+                                            <div><%=p.getReleased_date()%>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
@@ -308,7 +326,7 @@
             data: {
                 page: page,
             },
-            success : function (data){
+            success: function (data) {
                 $("#items").append(data);
                 const page = $("#pageValue").val();
                 $("#pageValue").val((parseInt(page) + 1) + "");

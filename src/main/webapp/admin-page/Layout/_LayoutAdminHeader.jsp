@@ -16,7 +16,6 @@
         <form role="search">
             <div class="input-container">
                 <i class="fa fa-search"></i>
-                <input type="search" placeholder="Tìm...">
                 <div class="underline"></div>
             </div>
         </form>
@@ -100,8 +99,6 @@
                         <i class="fa fa-user icon"></i> Tài khoản </a>
                     <a class="dropdown-item" href="#">
                         <i class="fa fa-bell icon"></i> Thông báo </a>
-                    <a class="dropdown-item" href="#">
-                        <i class="fa fa-gear icon"></i> Cài đặt </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/CuoiKiWeb_war/LogoutAdminController">
                         <i class="fa fa-power-off icon"></i> Đăng xuất </a>

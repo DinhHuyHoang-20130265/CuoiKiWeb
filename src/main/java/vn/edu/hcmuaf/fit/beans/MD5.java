@@ -23,6 +23,6 @@ public class MD5 {
     }
 
     public static void main(String[] args) {
-        System.out.println(MD5.md5("123123"));
+        System.out.println(MD5.md5("111111"));
     }
 }

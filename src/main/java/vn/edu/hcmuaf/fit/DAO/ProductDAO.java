@@ -89,6 +89,74 @@ public class ProductDAO {
         return temp;
     }
 
+    public List<Product> loadProductWithConditionContainsStatus(int page, int num_per_page, String order_by, String cate_id, String color
+            , String price, String size, String search) {
+        String query = "SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," +
+                " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
+                " p.updated_date, p.updated_by FROM product p" +
+                " LEFT JOIN color c ON c.prod_id = p.id LEFT JOIN size s ON p.id = s.prod_id" +
+                " INNER JOIN product_from_cate pfc ON pfc.prod_id = p.id" +
+                " WHERE p.prod_status IN (1, 0)";
+        if (cate_id != null) {
+            if (!cate_id.equals("all"))
+                query += " AND pfc.cate_id = \"" + cate_id + "\"";
+        }
+        if (color != null) {
+            if (!"".equals(color))
+                query += " AND c.color_name IN (" + color.substring(0, color.length() - 1) + ")";
+        }
+        if (price != null) {
+            if (!price.equals("-1")) {
+                String[] splited = price.split("-");
+                query += " AND p.price >= " + Double.parseDouble(splited[0]) + " AND p.price <= " + Double.parseDouble(splited[1]);
+            }
+        }
+        if (size != null) {
+            if (!"".equals(size))
+                query += " AND s.size_name IN (" + size.substring(0, size.length() - 1) + ")";
+        }
+        if (search != null) {
+            if (!search.equals(""))
+                query += " AND p.prod_name LIKE '%" + search + "%'";
+        }
+        if (order_by != null) {
+            switch (order_by) {
+                case "0" -> query += " ORDER BY p.view_count DESC";
+                case "1" -> query += " ORDER BY p.price ASC";
+                case "2" -> query += " ORDER BY p.price DESC";
+                case "3" -> query += " ORDER BY p.prod_name ASC";
+                case "4" -> query += " ORDER BY p.prod_name DESC";
+                case "5" -> query += " ORDER BY p.released_date ASC";
+                case "6" -> query += " ORDER BY p.released_date DESC";
+                case "7" -> query += " ORDER BY p.quantity ASC";
+            }
+        }
+        String finalQuery = query;
+        List<Product> filter = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery)
+                .mapToBean(Product.class)
+                .stream()
+                .collect(Collectors.toList()));
+        List<ProductSale> sales = getListSale();
+        for (Product p : filter) {
+            for (ProductSale sale : sales) {
+                if (p.getId().equals(sale.getProduct_id()))
+                    p.setSales(sale);
+            }
+        }
+        int numpage;
+        int start = (page - 1) * num_per_page;
+        if (filter.size() - start >= num_per_page) {
+            numpage = start + num_per_page;
+        } else {
+            numpage = filter.size();
+        }
+        List<Product> temp = new ArrayList<>();
+        for (int i = start; i < numpage; i++) {
+            temp.add(filter.get(i));
+        }
+        return temp;
+    }
+
     public ArrayList<Product> getListProductByCateId(String id) {
         return (ArrayList<Product>) JDBIConnector.get().withHandle(handle ->
                 handle.createQuery("SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," +
