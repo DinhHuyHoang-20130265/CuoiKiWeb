@@ -142,4 +142,8 @@ public class CategoryService {
 
     public static void main(String[] args) {
     }
+
+    public List<Category> getCateWithProductID(String id) {
+        return new CategoryDAO().getCategoryByIdProduct(id);
+    }
 }

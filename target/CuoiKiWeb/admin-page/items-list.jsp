@@ -1,4 +1,10 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -39,6 +45,17 @@
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("product")) {
+                check = true;
+                break;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
+
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -66,51 +83,15 @@
                                     </div>
                                 </div>
                                 <div class="action dropdown">
-                                    <button class="btn  btn-sm rounded-s btn-secondary dropdown-toggle"
-                                            type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false"> Thêm điều kiện lọc
-                                    </button>
-                                    <div class="p-4 dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <div class="mb-2">Hiển thị tất cả sản phẩm theo:</div>
-                                        <div class="trigger omni-selection"><span>
-                                                    <div class=" selection-content ">
-                                                        <p class="selection-value">
-                                                            <span class="omni-text omni-text-line-1"
-                                                                  title="Tình trạng hiển thị">Tình trạng hiển thị</span>
-                                                        </p>
-                                                        <p class="selection-icon">
-                                                            <span class="omni-svg-create svg-next-icon svg-color-gray-solid svg-next-icon-size-12">
-                                                                <svg width="12" height="12">
-                                                                </svg>
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                </span>
-                                        </div>
-                                        <div class="mt-3">Là</div>
-                                        <div class="trigger omni-selection mt-2 select-menu-outer_min_width"><span>
-                                                    <div class=" selection-content ">
-                                                        <p class="selection-value"><span
-                                                                class="omni-text  omni-text-line-1"
-                                                                title="Hiển thị">Hiển thị</span></p>
-                                                        <p class="selection-icon"><span
-                                                                class="omni-svg-create svg-next-icon svg-color-gray-solid svg-next-icon-size-12"><svg
-                                                                width="12" height="12"></svg></span></p>
-                                                    </div>
-                                                </span></div>
-                                        <div class="group-filter-button d-flex">
-                                            <div class="group-filter-button__delete mr-3">
-                                                <button
-                                                        class="btn btn-default mt-3 btn-hover-oapcity"><span>Hủy</span>
-                                                </button>
-                                            </div>
-                                            <div
-                                                    class="group-filter-button__add flex-grow-1 d-flex justify-content-end">
-                                                <button class="btn btn-primary mt-3"><span>Thêm điều kiện
-                                                            lọc</span></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <select class="form-select" id="filter" aria-label="Default select example"
+                                            style="font-size: 15px; border-color: #d7dde4;">
+                                        <option selected value="0">Sắp xếp theo: Sản phẩm nổi bật</option>
+                                        <option value="3">Tên A->Z</option>
+                                        <option value="4">Tên Z->A</option>
+                                        <option value="5">Cũ nhất</option>
+                                        <option value="6">Mới nhất</option>
+                                        <option value="7">Bán chạy nhất</option>
+                                    </select>
                                 </div>
                             </h3>
                         </div>
@@ -119,7 +100,8 @@
                 <div class="items-search">
                     <form class="form-inline">
                         <div class="input-group">
-                            <input type="text" class="form-control boxed rounded-s" placeholder="Tìm kiếm...">
+                            <input type="text" id="searchProduct" class="form-control boxed rounded-s"
+                                   placeholder="Tìm kiếm...">
                             <span class="input-group-btn">
                                     <button class="btn btn-secondary rounded-s" type="button">
                                         <i class="fa fa-search"></i>
@@ -177,20 +159,108 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
+                    <%List<Product> products = ProductService.getInstance().loadProductWithConditionContainsStatus(1, 6, "0", "all", null, null, null, null);%>
                     <div id="appendItem">
+                        <%for (Product p : products) {%>
+                        <li class="item">
+                            <div class="item-row">
+                                <div class="item-col fixed item-col-check">
+                                    <label class="item-check" id="select-all-items">
+                                        <input type="checkbox" class="checkbox">
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <div class="item-col fixed item-col-img md">
+                                    <a href="">
+                                        <img src="<%=p.getMain_img_link()%>" width=40px
+                                             height=40px alt="">
+                                    </a>
+                                </div>
+                                <div class="item-col fixed pull-left item-col-title">
+                                    <div class="item-heading">Tên sản phẩm</div>
+                                    <div>
+                                        <a>
+                                            <h4 class="item-title"><%=p.getProd_name()%>
+                                            </h4>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-sales">
+                                    <div class="item-heading">Mã sản phẩm</div>
+                                    <div class="sales" style="text-align: center"><%=p.getId()%>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-stats no-overflow">
+                                    <div class="item-heading">Đã bán</div>
+                                    <div class="no-overflow"> null
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-category no-overflow">
+                                    <div class="item-heading">Loại sản Phẩm</div>
+                                    <div class="no-overflow">
+                                        <% String cate = "";
+                                            List<Category> category = CategoryService.getInstance().getCateWithProductID(p.getId());
+                                            for (Category c : category) {
+                                                cate += c.getCate_name() + ", ";
+                                            }%>
+                                        <a><%=cate.substring(0, cate.length() - 2)%>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-author">
+                                    <div class="item-heading">Trạng Thái</div>
+                                    <div class="no-overflow" style="text-align: center">
+                                        <a><%=p.getProd_status() == 1 ? "Hiển thị" : "Đã ẩn"%>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-date">
+                                    <div class="item-heading">Ngày thêm</div>
+                                    <div class="no-overflow"><%=p.getReleased_date()%>
+                                    </div>
+                                </div>
+                                <div class="item-col fixed item-col-actions-dropdown">
+                                    <div class="item-actions-dropdown">
+                                        <a class="item-actions-toggle-btn">
+                                    <span class="inactive">
+                                        <i class="fa fa-cog"></i>
+                                    </span>
+                                            <span class="active">
+                                        <i class="fa fa-chevron-circle-right"></i>
+                                    </span>
+                                        </a>
+                                        <div class="item-actions-block">
+                                            <ul class="item-actions-list">
+                                                <li>
+                                                    <a class="remove" href="#" data-toggle="modal"
+                                                       data-target="#confirm-modal" id="delete<%=p.getId()%>">
+                                                        <i class="fa fa-trash-o"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="edit" href="item-editor.jsp?id=<%=p.getId()%>">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <%}%>
                     </div>
                 </ul>
             </div>
             <nav class="text-right">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="javascript:prevPage()" id="btn_prev"> Trước </a>
+                        <a class="page-link" style="text-decoration: none;" id="btn_prev"> Trước </a>
                     </li>
                     <li class="page-item active">
-                        <a class="page-link" id="page" href="#"> 1 </a>
+                        <a class="page-link" id="page" href="#" style="text-decoration: none;">1</a>
                     </li>
-                    <a class="page-link" href="javascript:nextPage()" id="btn_next"> Kế tiếp </a>
-                    </li>
+                    <a class="page-link" id="btn_next" style="text-decoration: none;"> Kế tiếp </a>
                 </ul>
             </nav>
         </article>
@@ -247,260 +317,96 @@
 <script src="./js/vendor.js"></script>
 <script src="./js/app.js"></script>
 <script>
-    var current_page = 1;
-    var records_per_page = 6;
-
-    var objJson = $.parseJSON(`[
-        {
-            "id": "1",
-            "name": "Áo len sọc lớn màu",
-            "price": "420000",
-            "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-            "imglink": "men/1.jpg",
-            "colors": "black, green, orange",
-            "subimglink": "men/1-a.jpg, men/1-b.jpg, men/1-c.jpg",
-            "size": "M, L, XL"
-        },
-        {
-            "id": "2",
-            "name": "Áo len sọc phối màu",
-            "price": "420000",
-            "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-            "imglink": "men/2.jpg",
-            "colors": "brown, orange",
-            "subimglink": "men/2-a.jpg, men/2-b.jpg",
-            "size": "M, L, XL"
-        },
-        {
-            "id": "3",
-            "name": "Áo len traffic",
-            "price": "420000",
-            "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-            "imglink": "men/3.jpg",
-            "colors": "brown, green, brown cream",
-            "subimglink": "men/3-a.jpg, men/3-b.jpg, men/3-c.jpg",
-            "size": "M, L, XL"
-        },
-        {
-            "id": "4",
-            "name": "Áo len nhiều màu",
-            "price": "420000",
-            "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-            "imglink": "men/4.jpg",
-            "colors": "black, grey, blue, brown, white",
-            "subimglink": "men/4-a.jpg, men/4-b.jpg, men/4-c.jpg, men/4-d.jpg, men/4-e.jpg  ",
-            "size": "M, L, XL"
-        },
-        {
-            "id": "5",
-            "name": "Áo len phối màu",
-            "price": "420000",
-            "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-            "imglink": "men/5.jpg",
-            "colors": "black, brown",
-            "subimglink": "men/5-a.jpg, men/5-b.jpg",
-            "size": "M, L, XL"
-        },
-        {
-            "id": "6",
-            "name": "Áo sweate nam",
-            "price": "450000",
-            "categories": "đồ nam, áo thun nam, áo thun tay dài nam",
-            "imglink": "men/6.jpg",
-            "colors": "cream, black ,blue, yellow",
-            "subimglink": "men/6-a.jpg, men/6-b.jpg, men/6-c.jpg, men/6-d.jpg ",
-            "size": "M, L, XL"
-        },
-        {
-            "id": "7",
-            "name": "Áo polo nam - Up to you",
-            "price": "365000",
-            "categories": "đồ nam, áo thun nam, áo thun polo nam",
-            "imglink": "men/7.jpg",
-            "colors": "black, blue, green",
-            "subimglink": "men/7-a.jpg, men/7-b.jpg, men/7-c.jpg",
-            "size": "M, L, XL"
-        },
-        {
-            "id": "8",
-            "name": "Áo polo nam - Simple day",
-            "price": "345000",
-            "categories": "đồ nam, áo thun nam, áo thun polo nam",
-            "imglink": "men/8.jpg",
-            "colors": "black, blue, pink, yellow",
-            "subimglink": "men/8-a.jpg, men/8-b.jpg, men/8-c.jpg, men/8-d.jpg ",
-            "size": "M, L, XL"
-        },
-        {
-            "id": "9",
-            "name": "Áo polo M1ATP01205BSFSO",
-            "price": "295000",
-            "categories": "đồ nam, áo thun nam, áo thun polo nam",
-            "imglink": "men/9.jpg",
-            "colors": "black, blue, yellow, red",
-            "subimglink": "men/9-a.jpg, men/9-b.jpg, men/9-c.jpg, men/9-d.jpg ",
-            "size": "L, XL, 2XL"
-        },
-        {
-            "id": "10",
-            "name": "Áo polo M1ATP01204BSFSO",
-            "price": "295000",
-            "categories": "đồ nam, áo thun nam, áo thun polo nam",
-            "imglink": "men/10.jpg",
-            "colors": "black, grey, green",
-            "subimglink": "men/10-a.jpg, men/10-b.jpg, men/10-c.jpg",
-            "size": "L, XL"
-        }]`);
-
-    function prevPage() {
-        if (current_page > 1) {
-            current_page--;
-            changePage(current_page);
-        }
-    }
-
-    function nextPage() {
-        if (current_page < numPages()) {
-            current_page++;
-            changePage(current_page);
-        }
-    }
-
-    function init() {
-        var $itemActions = $(".item-actions-dropdown");
-
-        $(document).on('click', function (e) {
-            if (!$(e.target).closest('.item-actions-dropdown').length) {
-                $itemActions.removeClass('active');
+    function filterAdmin(e) {
+        e.preventDefault();
+        const page = 1;
+        const orderby = $("#filter").find(':selected').val();
+        const search = $("#searchProduct").val();
+        $.ajax({
+            url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+            type: "post",
+            data: {
+                page: page,
+                orderby: orderby,
+                search : search
+            },
+            success: function (data) {
+                $("#appendItem").html(data);
             }
-        });
+        })
+    }
 
-        $('.item-actions-toggle-btn').on('click', function (e) {
+    $(document).ready(function () {
+        $("#filter").change(function (e) {
+            filterAdmin(e);
+        })
+        $("#searchProduct").on("input", function (e) {
             e.preventDefault();
-            var $thisActionList = $(this).closest('.item-actions-dropdown');
-            $itemActions.not($thisActionList).removeClass('active');
-            $thisActionList.toggleClass('active');
-        });
-    }
-
-    function changePage(page) {
-        var btn_next = document.getElementById("btn_next");
-        var btn_prev = document.getElementById("btn_prev");
-        var list = document.getElementById("appendItem");
-        var page_span = document.getElementById("page");
-        if (page < 1) page = 1;
-        if (page > numPages()) page = numPages();
-
-        list.innerHTML = "";
-
-        for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) {
-            list.innerHTML += ` <li class="item">
-                    <div class="item-row">
-                        <div class="item-col fixed item-col-check">
-                            <label class="item-check" id="select-all-items">
-                                <input type="checkbox" class="checkbox">
-                                <span></span>
-                            </label>
-                        </div>
-                        <div class="item-col fixed item-col-img md">
-                            <a href="">
-                                <img src="../assets/imgProduct/images/${objJson[i].imglink}" width=40px height=40px></img>
-                            </a>
-                        </div>
-                        <div class="item-col fixed pull-left item-col-title">
-                            <div class="item-heading">Tên sản phẩm</div>
-                            <div>
-                                <a>
-                                    <h4 class="item-title">${objJson[i].name}</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item-col item-col-sales">
-                            <div class="item-heading">Mã sản phẩm</div>
-                            <div class="sales" style="text-align: center"> ${objJson[i].id} </div>
-                        </div>
-                        <div class="item-col item-col-stats no-overflow">
-                            <div class="item-heading">Đã bán</div>
-                            <div class="no-overflow"> ${Math.floor(Math.random() * 10000)}
-                            </div>
-                        </div>
-                        <div class="item-col item-col-category no-overflow">
-                            <div class="item-heading">Loại sản Phẩm</div>
-                            <div class="no-overflow">
-                                <a>${objJson[i].categories.substring(0, objJson[i].categories.indexOf(','))}</a>
-                            </div>
-                        </div>
-                        <div class="item-col item-col-author">
-                            <div class="item-heading">Trạng Thái</div>
-                            <div class="no-overflow" style="text-align: center">
-                                <a>${Math.floor(Math.random() * 2) == 1 ? "active" : "hidden"}</a>
-                            </div>
-                        </div>
-                        <div class="item-col item-col-date">
-                            <div class="item-heading">Ngày thêm</div>
-                            <div class="no-overflow"> ${getRandomDate()} </div>
-                        </div>
-                        <div class="item-col fixed item-col-actions-dropdown">
-                            <div class="item-actions-dropdown">
-                                <a class="item-actions-toggle-btn">
-                                    <span class="inactive">
-                                        <i class="fa fa-cog"></i>
-                                    </span>
-                                    <span class="active">
-                                        <i class="fa fa-chevron-circle-right"></i>
-                                    </span>
-                                </a>
-                                <div class="item-actions-block">
-                                    <ul class="item-actions-list">
-                                        <li>
-                                            <a class="remove" href="#" data-toggle="modal" data-target="#confirm-modal">
-                                                <i class="fa fa-trash-o "></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="edit" href="item-editor.jsp">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>`
-            init()
-        }
-        page_span.innerHTML = page;
-
-        if (page == 1) {
-            btn_prev.style.visibility = "hidden";
-        } else {
-            btn_prev.style.visibility = "visible";
-        }
-
-        if (page == numPages()) {
-            btn_next.style.visibility = "hidden";
-        } else {
-            btn_next.style.visibility = "visible";
-        }
-    }
-
-    function numPages() {
-        return Math.ceil(objJson.length / records_per_page);
-    }
-
-    window.onload = function () {
-        changePage(1);
-    };
-
-    function getRandomDate() {
-        const maxDate = Date.now();
-        const timestamp = Math.floor(Math.random() * maxDate);
-        var d = new Date(timestamp);
-        return d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-    }
+            const search = this.value
+            const page = 1;
+            const orderby = $("#filter").find(':selected').val();
+            $.ajax({
+                url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                type: "post",
+                data: {
+                    page: page,
+                    orderby: orderby,
+                    search: search
+                },
+                success: function (data) {
+                    $("#appendItem").html(data);
+                    $("#page").text(page)
+                }
+            })
+        })
+        $("#btn_prev").click(function (e) {
+            e.preventDefault();
+            const search = $("#searchProduct").val();
+            const page = parseInt($("#page").text()) - 1;
+            const orderby = $("#filter").find(':selected').val();
+            if (page > 0) {
+                $.ajax({
+                    url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                    type: "post",
+                    data: {
+                        page: page,
+                        orderby: orderby,
+                        search: search
+                    },
+                    success: function (data) {
+                        $("#appendItem").html(data);
+                        $("#page").text(page)
+                    }
+                })
+            }
+        })
+        $("#btn_next").click(function (e) {
+            e.preventDefault();
+            const page = parseInt($("#page").text()) + 1;
+            const orderby = $("#filter").find(':selected').val();
+            const search = $("#searchProduct").val();
+            $.ajax({
+                url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                type: "post",
+                data: {
+                    page: page,
+                    orderby: orderby,
+                    search: search
+                },
+                success: function (data) {
+                    if ($.trim(data)) {
+                        $("#appendItem").html(data);
+                        $("#page").text(page)
+                    }
+                }
+            })
+        })
+    })
 </script>
 </body>
 
 </html>
-<%}%>
+<%
+        }
+    }
+%>

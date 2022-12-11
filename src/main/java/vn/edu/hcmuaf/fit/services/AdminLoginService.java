@@ -49,12 +49,12 @@ public class AdminLoginService {
         return account;
     }
 
-    public List<AdminRole> getListRole(String username) {
-        AdminUserRoleDAO DAO = new AdminUserRoleDAO(username);
+    public List<AdminRole> getListRole(String id) {
+        AdminUserRoleDAO DAO = new AdminUserRoleDAO(id);
         return DAO.getRoleList();
     }
 
     public static void main(String[] args) {
-        System.out.println(new AdminLoginService().getListRole("ad1"));
+        System.out.println(new AdminLoginService().getListRole("user2"));
     }
 }
