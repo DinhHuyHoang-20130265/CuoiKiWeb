@@ -1,7 +1,6 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
-<%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.cart.Cart" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022
@@ -10,6 +9,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% SiteUser user = (SiteUser) session.getAttribute("user");%>
+<% Cart cart = (Cart) request.getSession().getAttribute("cart"); %>
 <div class="overlay hidden"></div>
 <!-- mobile menu -->
 <div class="mobile-main-menu">
@@ -300,14 +300,17 @@
                         </a>
                     </div>
                     <div class="mobile_cart visible-sm visible-xs">
+                        <% if (user == null) {%>
+                        <a href="Login.jsp" class="header__second__cart--icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </a>
+                        <%}
+                        else {%>
                         <a href="cart.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span id="header__second__cart--notice" class="header__second__cart--notice">3</span>
+                            <span id="header__second__cart--notice" class="header__second__cart--notice"><%=cart.getQuantity_cart()%></span>
                         </a>
-                        <a href="listlike.jsp" class="header__second__like--icon">
-                            <i class="far fa-heart"></i>
-                            <span id="header__second__like--notice" class="header__second__like--notice">3</span>
-                        </a>
+                        <%}%>
                     </div>
                 </div>
                 <div class="col-lg-6 m-auto pdt15">
@@ -320,10 +323,17 @@
                 </div>
                 <div class="col-3 m-auto hidden-sm hidden-xs">
                     <div class="item-car clearfix">
+                        <% if (user == null) {%>
+                        <a href="Login.jsp" class="header__second__cart--icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </a>
+                        <%}
+                        else {%>
                         <a href="cart.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span id="header__second__cart--notice" class="header__second__cart--notice">3</span>
+                            <span id="header__second__cart--notice" class="header__second__cart--notice"><%=cart.getQuantity_cart()%></span>
                         </a>
+                        <%}%>
                     </div>
                     <div class="item-like clearfix">
                         <a href="listlike.jsp" class="header__second__like--icon">
@@ -345,7 +355,8 @@
                     <a href="intro.jsp">Giới thiệu</a>
                 </li>
                 <li class="header_nav-list-item has-mega">
-                    <a href="Product.jsp?category=all">Sản phẩm<i class="fas fa-angle-right" style="margin-left: 5px"></i></a>
+                    <a href="Product.jsp?category=all">Sản phẩm<i class="fas fa-angle-right"
+                                                                  style="margin-left: 5px"></i></a>
                     <div class="mega-content" style="overflow-x: hidden">
                         <div class="row">
                             <ul class="col-8 no-padding level0">

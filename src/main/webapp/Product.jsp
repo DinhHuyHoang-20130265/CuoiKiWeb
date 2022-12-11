@@ -293,8 +293,10 @@
                         <div class="sortby">
                             <label>Sắp xếp theo:</label>
                             <div class="dropdown">
-                                <select id="dropdownSelect" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" style="margin-bottom: 0 !important; height: 30px; width: 145px; font-size: 14px;">
-                                    <option selected value ="0">Sản phẩm nổi bật</option>
+                                <select id="dropdownSelect" class="form-select form-select-lg mb-3"
+                                        aria-label=".form-select-lg example"
+                                        style="margin-bottom: 0 !important; height: 30px; width: 145px; font-size: 14px;">
+                                    <option selected value="0">Sản phẩm nổi bật</option>
                                     <option value="1">Giá: Tăng dần</option>
                                     <option value="2">Giá: Giảm dần</option>
                                     <option value="3">Tên A->Z</option>
@@ -526,7 +528,7 @@
 <script src="./assets/js/main.js"></script>
 <script src="./assets/js/product.js"></script>
 <script>
-    $(document).ready( function () {
+    $(document).ready(function () {
         loadproduct();
         load("1");
         $("input[type='radio']").each(function () {
@@ -565,8 +567,8 @@
             data: {
                 price: price,
                 orderby: orderby,
-                color : stringColor,
-                size : stringSize,
+                color: stringColor,
+                size: stringSize,
                 page: "1",
                 category: category
             },
@@ -577,6 +579,7 @@
             }
         });
     }
+
     function loadproduct() {
         const page = $("#page").val();
         const category = $("#category").val();
@@ -600,8 +603,8 @@
                 category: category,
                 price: price,
                 orderby: orderby,
-                color : stringColor,
-                size : stringSize
+                color: stringColor,
+                size: stringSize
             },
             success: function (data) {
                 $("#products").append(data);
@@ -611,6 +614,7 @@
             }
         });
     }
+
     $("#loadMore").on('click', function () {
         loadproduct();
     });
@@ -630,6 +634,7 @@
                     success: function (data) {
                         $("#modal-content").html(data);
                         $("#myModal").modal('toggle');
+                        addcart()
                         $(".circlecheck").each(function () {
                             const $this = $(this);
                             const id = $this.find("input").attr("id");
@@ -654,6 +659,33 @@
                 });
             })
         }
+    }
+
+    function addcart() {
+        $(".shopnow2").click(function (e) {
+            e.preventDefault();
+            const idAdd = this.id;
+            const amount = $("#text_so_luong-10").val();
+            const size = $(".swatch-element input[type='radio']:checked").val();
+            const color = $(".circlecheck input[type='radio']:checked").attr("id");
+            if (size == null || color == null) {
+                alert("Yêu cầu nhập đầy đủ thông tin")
+            } else {
+                $.ajax({
+                    url: "AddCartController",
+                    type: "get",
+                    data: {
+                        idAdd: idAdd,
+                        size: size,
+                        color: color,
+                        amount : amount
+                    },
+                    success: function (data) {
+                        $(".product__shopnow").html(data)
+                    }
+                })
+            }
+        })
     }
 </script>
 </body>
