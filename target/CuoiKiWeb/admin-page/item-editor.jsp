@@ -38,7 +38,7 @@
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
             if (role.getTable().equals("product")) {
-                if (role.getPermission().equals("insert") || role.getPermission().equals("update") || role.getPermission().equals("delete"))
+                if (role.getPermission().equals("insert") || role.getPermission().equals("update"))
                     check = true;
             }
         }
