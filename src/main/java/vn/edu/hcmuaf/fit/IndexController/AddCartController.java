@@ -19,6 +19,9 @@ public class AddCartController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+         /*
+            Thêm sản phẩm vào giỏ hàng Nguyễn Huy Hiệp - 20130258
+         */
         String idAdd = request.getParameter("idAdd").substring(7);
         String color = request.getParameter("color");
         String size = request.getParameter("size");
