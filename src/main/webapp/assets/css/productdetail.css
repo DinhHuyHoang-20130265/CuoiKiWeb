@@ -172,7 +172,7 @@ input[type="radio"] + .label-css::after{
 .product__shopnow {
     display: flex;
     justify-content: space-between;
-    height: 190px;
+    height: 90px;
     align-items: center;
 }
 .shopnow {
