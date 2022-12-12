@@ -15,7 +15,6 @@
     <div class="header-block header-block-search">
         <form role="search">
             <div class="input-container">
-                <i class="fa fa-search"></i>
                 <div class="underline"></div>
             </div>
         </form>
