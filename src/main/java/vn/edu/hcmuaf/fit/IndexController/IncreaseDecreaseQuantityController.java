@@ -10,8 +10,8 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "AddCartController", value = "/AddCartController")
-public class AddCartController extends HttpServlet {
+@WebServlet(name = "IncreaseDecreaseQuantityController", value = "/IncreaseDecreaseQuantityController")
+public class IncreaseDecreaseQuantityController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -19,18 +19,17 @@ public class AddCartController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         /*
-            Thêm sản phẩm vào giỏ hàng Nguyễn Huy Hiệp - 20130258
-         */
-        String idAdd = request.getParameter("idAdd").substring(7);
+        String idUpd = request.getParameter("idUpd");
+        int amount = Integer.parseInt(request.getParameter("amount"));
         String color = request.getParameter("color");
         String size = request.getParameter("size");
-        String quantity = request.getParameter("amount");
         Cart cart = (Cart) request.getSession().getAttribute("cart");
-        Product product = ProductService.getInstance().getProductAndDetails(idAdd);
-        product.setQuantity_cart(Integer.parseInt(quantity));
-        cart.put(new CartKey(idAdd, color.substring(0, color.indexOf("-")), size), product);
+        CartKey key = new CartKey(idUpd, color, size);
+        if (cart.getData().containsKey(key)) {
+            Product product = cart.getData().get(key);
+            product.setQuantity_cart(amount);
+        }
         request.getSession().setAttribute("cart", cart);
-        request.getRequestDispatcher("ajax/ajax_addCartSuccessful.jsp").forward(request, response);
+        request.getRequestDispatcher("ajax/ajax_Cart.jsp").forward(request, response);
     }
 }
