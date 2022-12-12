@@ -150,7 +150,6 @@
                             <% Cart cart = (Cart) request.getSession().getAttribute("cart");
                                 int i = 1;
                                 NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));%>
-
                             <% if (cart != null) {
                                 for (CartKey p : cart.getData().keySet()) {%>
                             <div class="row cart-body-row cart-body-row-1" style="align-items: center;">
@@ -179,12 +178,11 @@
                                         </div>
                                         <%}%>
                                         <div class="col-md-3 col-12">
-                                            <div class="cart-quantity">
+                                            <div class="cart-quantity" id="quantity-of-<%=p.getId()%>">
                                                 <input type="button" value="-" class="control" onclick="tru(<%=i%>)">
                                                 <input type="text" value="<%=cart.getData().get(p).getQuantity_cart()%>"
                                                        class="text-input"
-                                                       id="text_so_luong-(<%=i%>)"
-                                                       onkeypress='validate(event)'>
+                                                       id="text_so_luong-<%=i%>" disabled>
                                                 <input type="button" value="+" class="control" onclick="cong(<%=i%>)">
                                             </div>
                                         </div>

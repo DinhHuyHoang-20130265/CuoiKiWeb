@@ -31,7 +31,6 @@ public class AddCartController extends HttpServlet {
         product.setQuantity_cart(Integer.parseInt(quantity));
         cart.put(new CartKey(idAdd, color.substring(0, color.indexOf("-")), size), product);
         request.getSession().setAttribute("cart", cart);
-        request.setAttribute("addcart", "success");
         request.getRequestDispatcher("ajax/ajax_addCartSuccessful.jsp").forward(request, response);
     }
 }
