@@ -165,31 +165,14 @@
                     </div>
                 </div>
                 <div class="col-lg-6 m-auto pdt15">
-                    <form class="example" action="Product.jsp">
-                        <input type="text" class="input-search" id="searchProduct" placeholder="Tìm kiếm.." name="search"/>
+                    <form class="example" action="RedirectSearchInProductPageController">
+                        <input type="text" class="input-search" name="search" id="searchProduct" placeholder="Tìm kiếm.." name="search"/>
                         <button type="submit" class="search-btn">
                             <i class="fa fa-search"></i>
                         </button>
                     </form>
-                    <div id="search-result">
-                        <ul style="padding: 0; list-style-type: none" class="suggest_search">
-                            <li class="product_suggest">
-                                <a href="#">
-                                    <div class="item-img">
-                                        <img src="http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/men/1.jpg" alt="">
-                                    </div>
-                                    <div class="item-info">
-                                        <h3 style="width: 175px; margin-bottom: 0px !important;">
-                                            Samsung EB-P3300
-                                        </h3>
-                                        <strong class="price" style="width: 145px; text-align: center;">790.000₫</strong>
-                                        <div class="box-p">
-                                            <p class="price-old" style="color: red;margin: 0 !important;">990.000₫</p>
-                                            <span class="percent">(-20%)</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
+                    <div id="search-result" style="display: none">
+                        <ul style="padding: 0; list-style-type: none;overflow: scroll;overflow-x: hidden; max-height: 450px;" class="suggest_search">
                         </ul>
                     </div>
                 </div>
@@ -376,4 +359,32 @@
         </div>
     </nav>
 </header>
+<script src="./assets/js/jquery-3.6.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#searchProduct").focus(function () {
+            $("#search-result").css("display", "block")
+            $("#searchProduct").on("input", function (e) {
+                e.preventDefault();
+                const search = this.value
+                $(".search-result").css("display", "block");
+                $.ajax({
+                    url: "SearchProductController",
+                    type: "post",
+                    data: {
+                        search : search
+                    },
+                    success: function (data) {
+                        if ($.trim(data)) {
+                            $(".suggest_search").html(data);
+                        }
+                    }
+                })
+            })
+        })
+        $("#searchProduct").on("blur",function () {
+            $("#search-result").css("display", "none")
+        });
+    })
+</script>
 <!-- end header -->
