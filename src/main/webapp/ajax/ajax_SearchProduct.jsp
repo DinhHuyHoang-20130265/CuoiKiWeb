@@ -13,7 +13,7 @@
 <%NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));%>
 <%for (Product p : products) {%>
 <li class="product_suggest">
-    <a href="Product.jsp?id=<%=p.getId()%>">
+    <a href="ProductDetail.jsp?id=<%=p.getId()%>">
         <div class="item-img">
             <img src="<%=p.getMain_img_link()%>" alt="">
         </div>

@@ -165,14 +165,14 @@
                     </div>
                 </div>
                 <div class="col-lg-6 m-auto pdt15">
-                    <form class="example" action="Product.jsp">
-                        <input type="text" class="input-search" id="searchProduct" placeholder="Tìm kiếm.." name="search"/>
+                    <form class="example" action="RedirectSearchInProductPageController">
+                        <input type="text" class="input-search" name="search" id="searchProduct" placeholder="Tìm kiếm.." name="search"/>
                         <button type="submit" class="search-btn">
                             <i class="fa fa-search"></i>
                         </button>
                     </form>
                     <div id="search-result" style="display: none">
-                        <ul style="padding: 0; list-style-type: none;overflow: scroll;overflow-x: hidden; height: 450px;" class="suggest_search">
+                        <ul style="padding: 0; list-style-type: none;overflow: scroll;overflow-x: hidden; max-height: 450px;" class="suggest_search">
                         </ul>
                     </div>
                 </div>

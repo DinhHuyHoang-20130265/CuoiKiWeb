@@ -9,8 +9,8 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "SearchProductController", value = "/SearchProductController")
-public class SearchProductController extends HttpServlet {
+@WebServlet(name = "RedirectSearchInProductPageController", value = "/RedirectSearchInProductPageController")
+public class RedirectSearchInProductPageController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
@@ -19,13 +19,12 @@ public class SearchProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /*
-            Nguyễn Minh Hiếu - 20130261
-            sử dụng ajax hiển thị các sản phẩm tìm được ở ngay trang đang dùng
+           Nguyễn Minh Hiếu - 20130261
+           Chuyển trang, hiển thị tất cả các sản phẩm tìm được
          */
         String search = request.getParameter("search");
-        int numb = ProductService.getInstance().getListProduct().size();
-        List<Product> productSearch = ProductService.getInstance().loadProductWithCondition(1, numb, "0", "all", null, null, null, search);
-        request.setAttribute("productSearch", productSearch);
-        request.getRequestDispatcher("ajax/ajax_SearchProduct.jsp").forward(request, response);
+        List<Product> products = ProductService.getInstance().loadProductWithCondition(1, 6, "0", "all", null, null, null, search);
+        request.setAttribute("searchProduct", products);
+        request.getRequestDispatcher("SearchProduct.jsp").forward(request, response);
     }
 }
