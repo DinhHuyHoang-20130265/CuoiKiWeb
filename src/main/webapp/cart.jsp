@@ -150,7 +150,6 @@
                             <% Cart cart = (Cart) request.getSession().getAttribute("cart");
                                 int i = 1;
                                 NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));%>
-
                             <% if (cart != null) {
                                 for (CartKey p : cart.getData().keySet()) {%>
                             <div class="row cart-body-row cart-body-row-1" style="align-items: center;">
@@ -179,27 +178,32 @@
                                         </div>
                                         <%}%>
                                         <div class="col-md-3 col-12">
-                                            <div class="cart-quantity">
-                                                <input type="button" value="-" class="control" onclick="tru(<%=i%>)">
+                                            <div class="cart-quantity" id="quantity-of-<%=cart.getData().get(p).getId()%>">
+                                                <input type="button" value="-" class="control<%=cart.getData().get(p).getId()%>"
+                                                       onclick="tru(<%=i%>)">
                                                 <input type="text" value="<%=cart.getData().get(p).getQuantity_cart()%>"
                                                        class="text-input"
-                                                       id="text_so_luong-(<%=i%>)"
-                                                       onkeypress='validate(event)'>
-                                                <input type="button" value="+" class="control" onclick="cong(<%=i%>)">
+                                                       id="text_so_luong-<%=i%>" disabled>
+                                                <input type="button" value="+" class="control<%=cart.getData().get(p).getId()%>"
+                                                       onclick="cong(<%=i%>)">
+                                                <input type="text" id="productcolor<%=cart.getData().get(p).getId()%>"
+                                                       value="<%=p.getColor()%>" style="display: none">
+                                                <input type="text" id="productsize<%=cart.getData().get(p).getId()%>"
+                                                       value="<%=p.getSize()%>" style="display: none">
                                             </div>
                                         </div>
                                         <%if (cart.getData().get(p).getSales() != null) {%>
-                                        <div class="col-md-2 col-12 hidden-xs" style="font-size: 16px;">
+                                        <div class="col-md-2 col-12 hidden-xs" id="thanh_tien" style="font-size: 16px;">
                                             <span><%=format.format(cart.getData().get(p).getQuantity_cart() * (cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate())))%>₫</span>
                                         </div>
                                         <%} else {%>
-                                        <div class="col-md-2 col-12 hidden-xs" style="font-size: 16px;">
+                                        <div class="col-md-2 col-12 hidden-xs" id="thanh_tien" style="font-size: 16px;">
                                             <span><%=format.format(cart.getData().get(p).getQuantity_cart() * cart.getData().get(p).getPrice())%>₫</span>
                                         </div>
                                         <%}%>
                                     </div>
                                 </div>
-                                <div class="col-md-1 col-2 text-right">
+                                <div class="col-md-1 col-2 text-right delete-product">
                                     <a href="#" id="delete<%=cart.getData().get(p).getId()%>"><i
                                             class="fas fa-trash"></i></a>
                                 </div>
@@ -242,5 +246,72 @@
 <script src="./assets/js/jquery-3.6.1.min.js"></script>
 <script src="./assets/js/bootstrap.min.js"></script>
 <script src="./assets/js/main.js"></script>
+<script>
+    function deleteProduct() {
+        $(".cart-quantity").each(function () {
+            const id = $(this).attr("id").substring(12);
+            const color = $(this).children("#productcolor" + id).val();
+            const size = $(this).children("#productsize" + id).val();
+            console.log(id)
+            console.log(color)
+            console.log(size)
+            $("#delete" + id).click(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: "DeleteProductCartController",
+                    type: "get",
+                    data: {
+                        id : id,
+                        color : color,
+                        size: size
+                    },
+                    success: function (data) {
+                        $(".cart").html(data);
+                        update();
+                        deleteProduct();
+                    }
+                })
+            })
+        })
+    }
+    
+    function update() {
+        $(".cart-quantity").each(function () {
+            const id = $(this).attr("id").substring(12);
+            const color = $(this).children("#productcolor" + id).val();
+            const size = $(this).children("#productsize" + id).val();
+            $(this).children(".control" + id).each(function (e) {
+                $(this).click(function (e) {
+                    e.preventDefault();
+                    const amount = $("#quantity-of-" + id + " .text-input").val();
+                    if (parseInt(amount) < 1) {
+                        alert("Some thing went wrong!")
+                    } else {
+                        $.ajax({
+                            url: "IncreaseDecreaseQuantityController",
+                            type: "post",
+                            data: {
+                                idUpd: id,
+                                amount: amount,
+                                color: color,
+                                size: size
+                            },
+                            success: function (data) {
+                                $(".cart").html(data);
+                                update();
+                                deleteProduct();
+                            }
+                        })
+                    }
+                })
+            })
+        })
+    }
+
+    $(document).ready(function () {
+        update();
+        deleteProduct();
+    })
+</script>
 </body>
 </html>
