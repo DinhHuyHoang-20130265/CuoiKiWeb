@@ -231,17 +231,23 @@
                                         </a>
                                         <div class="item-actions-block">
                                             <ul class="item-actions-list">
+                                                <%for (AdminRole role : admin.getRole()) {
+                                                    if (role.getTable().equals("product") && role.getPermission().equals("delete")) {%>
                                                 <li>
                                                     <a class="remove" href="#" data-toggle="modal"
                                                        data-target="#confirm-modal" id="delete<%=p.getId()%>">
                                                         <i class="fa fa-trash-o"></i>
                                                     </a>
                                                 </li>
+                                                    <%}
+                                                    if (role.getTable().equals("product") && role.getPermission().equals("update")) {%>
                                                 <li>
                                                     <a class="edit" href="item-editor.jsp?id=<%=p.getId()%>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 </li>
+                                                    <%}
+                                                }%>
                                             </ul>
                                         </div>
                                     </div>
@@ -317,6 +323,49 @@
 <script src="./js/vendor.js"></script>
 <script src="./js/app.js"></script>
 <script>
+    function reloadScript() {
+        var $itemActions = $(".item-actions-dropdown");
+        $(document).on('click',function(e) {
+            if (!$(e.target).closest('.item-actions-dropdown').length) {
+                $itemActions.removeClass('active');
+            }
+        });
+        $('.item-actions-toggle-btn').on('click',function(e){
+            e.preventDefault();
+            var $thisActionList = $(this).closest('.item-actions-dropdown');
+            $itemActions.not($thisActionList).removeClass('active');
+            $thisActionList.toggleClass('active');
+        });
+    }
+
+    function deleteProduct() {
+        $(".remove").each(function () {
+            const id = $(this).attr("id").substring(6);
+            const search = $("#searchProduct").val();
+            const page = parseInt($("#page").text());
+            const orderby = $("#filter").find(':selected').val();
+            $(this).on("click", function (e) {
+                e.preventDefault();
+                $("button[type='button'].yes").on("click", function () {
+                    $.ajax({
+                        url: "/CuoiKiWeb_war/DeleteProductAdminController",
+                        type: "post",
+                        data: {
+                            id: id,
+                            search: search,
+                            page: page,
+                            orderby: orderby
+                        },
+                        success: function (data) {
+                            $("#appendItem").html(data);
+                            reloadScript()
+                        }
+                    })
+                })
+            })
+        })
+    }
+
     function filterAdmin(e) {
         e.preventDefault();
         const page = 1;
@@ -328,10 +377,12 @@
             data: {
                 page: page,
                 orderby: orderby,
-                search : search
+                search: search
             },
             success: function (data) {
                 $("#appendItem").html(data);
+                deleteProduct();
+                reloadScript()
             }
         })
     }
@@ -339,6 +390,7 @@
     $(document).ready(function () {
         $("#filter").change(function (e) {
             filterAdmin(e);
+            deleteProduct();
         })
         $("#searchProduct").on("input", function (e) {
             e.preventDefault();
@@ -356,10 +408,12 @@
                 success: function (data) {
                     $("#appendItem").html(data);
                     $("#page").text(page)
+                    deleteProduct();
+                    reloadScript();
                 }
             })
         })
-        $("#btn_prev").click(function (e) {
+        $("#btn_prev").on("click", function (e) {
             e.preventDefault();
             const search = $("#searchProduct").val();
             const page = parseInt($("#page").text()) - 1;
@@ -376,11 +430,13 @@
                     success: function (data) {
                         $("#appendItem").html(data);
                         $("#page").text(page)
+                        deleteProduct();
+                        reloadScript()
                     }
                 })
             }
         })
-        $("#btn_next").click(function (e) {
+        $("#btn_next").on("click", function (e) {
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
             const orderby = $("#filter").find(':selected').val();
@@ -397,6 +453,8 @@
                     if ($.trim(data)) {
                         $("#appendItem").html(data);
                         $("#page").text(page)
+                        deleteProduct();
+                        reloadScript()
                     }
                 }
             })

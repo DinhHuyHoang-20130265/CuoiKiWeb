@@ -10,6 +10,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% SiteUser user = (SiteUser) session.getAttribute("user");%>
 <% Cart cart = (Cart) request.getSession().getAttribute("cart"); %>
+<style>
+    <%@include file="../assets/css/main.css"%>
+</style>
+<style>
+    @media (max-width: 992px) {
+
+    }
+</style>
 <div class="overlay hidden"></div>
 <!-- mobile menu -->
 <div class="mobile-main-menu">

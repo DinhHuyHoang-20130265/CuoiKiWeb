@@ -245,8 +245,19 @@ public class ProductDAO {
         return product;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new ProductDAO().getProductAndDetails("prod003"));
+    public void RemoveProduct(String id) {
+        JDBIConnector.get().withHandle(handle -> {
+                    handle.execute("SET FOREIGN_KEY_CHECKS=0");
+                    handle.createUpdate("DELETE FROM product WHERE id =?")
+                            .bind(0, id)
+                            .execute();
+                    handle.execute("SET FOREIGN_KEY_CHECKS=1");
+                    return true;
+                }
+        );
     }
 
+    public static void main(String[] args) {
+        new ProductDAO().RemoveProduct("prod025");
+    }
 }

@@ -42,4 +42,8 @@ public class ProductService {
         ProductDAO DAO = new ProductDAO();
         return DAO.getProductAndDetails(id);
     }
+
+    public void RemoveProduct(String id) {
+        new ProductDAO().RemoveProduct(id);
+    }
 }
