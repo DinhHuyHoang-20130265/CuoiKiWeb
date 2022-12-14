@@ -17,6 +17,10 @@ public class DeleteProductCartController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /*
+        Xóa sản phầm trong giỏ hàng Nguyễn Huy Hiệp - 20130258
+        Sử dụng ajax
+         */
         String id = request.getParameter("id");
         String color = request.getParameter("color");
         String size = request.getParameter("size");
