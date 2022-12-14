@@ -1,7 +1,6 @@
 package vn.edu.hcmuaf.fit.DAO;
 
 import vn.edu.hcmuaf.fit.beans.news.News;
-import vn.edu.hcmuaf.fit.beans.product.Product;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
