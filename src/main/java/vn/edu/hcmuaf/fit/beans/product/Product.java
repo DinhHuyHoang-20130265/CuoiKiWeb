@@ -26,10 +26,12 @@ public class Product implements Serializable {
     private ProductSale sales;
     private List<Category> categories;
     private int quantity_cart;
+    private int quantity_wishlist;
+
     public Product() {
     }
 
-    public Product(String id, String prod_name, String prod_desc, Byte prod_status, String main_img_link, double price, Date released_date, String released_by, int quantity, int warranty_day, int view_count, Date updated_date, String updated_by, List<ProductColor> colors, List<ProductSize> sizes, List<ProductImage> images, ProductSale sales, List<Category> categories, int quantity_cart) {
+    public Product(String id, String prod_name, String prod_desc, Byte prod_status, String main_img_link, double price, Date released_date) {
 
         this.id = id;
         this.prod_name = prod_name;
@@ -50,6 +52,7 @@ public class Product implements Serializable {
         this.sales = sales;
         this.categories = categories;
         this.quantity_cart = quantity_cart;
+        this.quantity_wishlist = quantity_wishlist;
     }
 
     public String getId() {
@@ -204,6 +207,14 @@ public class Product implements Serializable {
         this.quantity_cart = quantity_cart;
     }
 
+    public int getQuantity_wishlist() {
+        return quantity_wishlist;
+    }
+
+    public void setQuantity_wishlist(int quantity_wishlist) {
+        this.quantity_wishlist = quantity_wishlist;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -226,6 +237,8 @@ public class Product implements Serializable {
                 ", sales=" + sales +
                 ", categories=" + categories +
                 ", quantity_cart=" + quantity_cart +
+                ", quantity_wishlist=" + quantity_wishlist +
                 '}';
     }
+
 }

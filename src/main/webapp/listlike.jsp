@@ -1,3 +1,7 @@
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.wishlist.WishList" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,6 +121,12 @@
 
 <body>
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
+<%
+    SiteUser user = (SiteUser) request.getSession().getAttribute("user");
+    if (user == null) {
+        response.sendRedirect("Login.jsp");
+    }
+%>
 <!-- content -->
 <div class="cart">
     <div class="container">
@@ -137,21 +147,32 @@
                             </div>
                         </div>
                         <div class="cart-body">
+                            <% WishList wishList = (WishList) request.getSession().getAttribute("wishlist");
+                                int i = 1;
+                                NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));%>
+                            <% if (wishList != null) {
+                                for (String id : wishList.getData().keySet()) {%>
                             <div class="row cart-body-row cart-body-row-1" style="align-items: center;">
                                 <div class="col-md-11 col-10" style="text-align: center;">
                                     <div class="row card-info" style="align-items: center;">
                                         <div class="col-md-2 col-12 card-info-img">
                                             <a href=""><img class="cart-img"
-                                                            src="./assets/imgProduct/images/men/1.jpg" alt=""></a>
+                                                            src="<%=wishList.getData().get(id).getMain_img_link()%>" alt=""></a>
                                         </div>
                                         <div class="col-md-3 col-12">
                                             <a href="" class="cart-name">
-                                                <h5>Áo len sọc lớn màu </h5>
+                                                <h5><%=wishList.getData().get(id).getProd_name()%></h5>
                                             </a>
                                         </div>
+                                        <%if (wishList.getData().get(id).getSales() != null) {%>
                                         <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <span>420000₫</span>
+                                            <span><%=format.format(wishList.getData().get(id).getPrice() * 0.01 * (100 - wishList.getData().get(id).getSales().getDiscount_rate()))%>₫ - (-<%=wishList.getData().get(id).getSales().getDiscount_rate()%>)</span>
                                         </div>
+                                        <%} else {%>
+                                        <div class="col-md-2 col-12" style="font-size: 16px;">
+                                            <span><%=format.format(wishList.getData().get(id).getPrice())%>₫</span>
+                                        </div>
+                                        <%}%>
                                         <div class="col-md-3 col-12">
                                             <div class="cart-fiding">
                                                 <a href="#">Tìm sản phẩm tương tự</a>
@@ -166,64 +187,11 @@
                                     <a onclick="xoa(1)"><i class="fas fa-trash"></i></a>
                                 </div>
                             </div>
-                            <div class="row cart-body-row cart-body-row-2" style="align-items: center;">
-                                <div class="col-md-11 col-10" style="text-align: center;">
-                                    <div class="row card-info" style="align-items: center;">
-                                        <div class="col-md-2 col-12 card-info-img">
-                                            <a href=""><img class="cart-img"
-                                                            src="./assets/imgProduct/images/men/2.jpg" alt=""></a>
-                                        </div>
-                                        <div class="col-md-3 col-12">
-                                            <a href="" class="cart-name">
-                                                <h5>Áo len sọc phối màu</h5>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <span>420000₫</span>
-                                        </div>
-                                        <div class="col-md-3 col-12">
-                                            <div class="cart-fiding">
-                                                <a href="#">Tìm sản phẩm tương tự</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <a href="cart.jsp" class="likecartbutton"> Giỏ hàng </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 col-2 text-right">
-                                    <a onclick="xoa(2)"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </div>
-                            <div class="row cart-body-row cart-body-row-3" style="align-items: center;">
-                                <div class="col-md-11 col-10" style="text-align: center;">
-                                    <div class="row card-info" style="align-items: center;">
-                                        <div class="col-md-2 col-12 card-info-img">
-                                            <a href=""><img class="cart-img"
-                                                            src="./assets/imgProduct/images/men/3.jpg" alt=""></a>
-                                        </div>
-                                        <div class="col-md-3 col-12">
-                                            <a href="" class="cart-name">
-                                                <h5>Áo len traffic </h5>
-                                            </a>
-                                        </div>
-                                        <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <span>420000₫</span>
-                                        </div>
-                                        <div class="col-md-3 col-12">
-                                            <div class="cart-fiding">
-                                                <a href="#">Tìm sản phẩm tương tự</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <a href="cart.jsp" class="likecartbutton"> Giỏ hàng </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-1 col-2 text-right">
-                                    <a onclick="xoa(3)" class="xoa"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </div>
+                            <%
+                                    i++;
+                                }
+                                }
+                            %>
                         </div>
                         <div class="cart-footer">
                             <div class="row cart-footer-row">

@@ -1,6 +1,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.cart.Cart" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.cart.Cart" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.wishlist.WishList" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022
@@ -10,6 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <% SiteUser user = (SiteUser) session.getAttribute("user");%>
 <% Cart cart = (Cart) request.getSession().getAttribute("cart"); %>
+<% WishList wishList = (WishList) request.getSession().getAttribute("wishList"); %>
 <div class="overlay hidden"></div>
 <!-- mobile menu -->
 <div class="mobile-main-menu">
@@ -191,10 +193,17 @@
                         <%}%>
                     </div>
                     <div class="item-like clearfix">
+                        <% if (user == null) {%>
+                        <a href="Login.jsp" class="header__second__like--icon">
+                            <i class="far fa-heart"></i>
+                        </a>
+                        <%}
+                        else {%>
                         <a href="listlike.jsp" class="header__second__like--icon">
                             <i class="far fa-heart"></i>
-                            <span id="header__second__like--notice" class="header__second__like--notice">3</span>
+                            <span id="header__second__like--notice" class="header__second__like--notice">0</span>
                         </a>
+                        <%}%>
                     </div>
                 </div>
             </div>

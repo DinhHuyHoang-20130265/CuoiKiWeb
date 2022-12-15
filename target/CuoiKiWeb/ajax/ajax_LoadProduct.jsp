@@ -2,7 +2,8 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page import="java.text.NumberFormat" %>
-<%@ page import="java.util.Locale" %><%--
+<%@ page import="java.util.Locale" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.wishlist.WishList" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 12/5/2022
@@ -12,6 +13,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%SiteUser user = (SiteUser) request.getSession().getAttribute("user");%>
 <%List<Product> next6Product = (List<Product>) request.getAttribute("next6Product");%>
+<%WishList wishList = (WishList) request.getSession().getAttribute("wishlist");%>
 <%NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));%>
 <% for (Product p : next6Product) {%>
 <div class="col-lg-4 col-md-6 col-12 mb-20"
@@ -23,7 +25,7 @@
                 <form class="hover-icon hidden-sm hidden-xs">
                     <input type="hidden">
                     <% if (user != null) {%>
-                    <a class="btn-add-to-cart" id="addListLike" title="Đưa vào danh sách yêu thích"
+                    <a class="btn-add-to-cart" id="addWishList" title="Đưa vào danh sách yêu thích"
                        style="margin-top: 10px">
                         <i class="fas fa-heart"></i>
                     </a>
@@ -51,7 +53,7 @@
                 <div class="home-product-item__action">
                             <span class="home-product-item__like home-product-item__like--liked">
                                 <i class="home-product-item__like-icon-empty far fa-heart"></i>
-                                <i class="home-product-item__like-icon-fill fas fa-heart"></i>
+<%--                                <i class="home-product-item__like-icon-fill fas fa-heart"></i>--%>
                             </span>
                     <div class="home-product-item__rating">
                         <i class="home-product-item__star--gold fas fa-star"></i>
