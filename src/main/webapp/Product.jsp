@@ -662,7 +662,30 @@
             })
         }
     }
-
+    function addwishlist() {
+        $(".card .btn-add-to-cart").click(function (e) {
+            e.preventDefault();
+            const id = this.id;
+            if(id == null) {
+                alert("Không thể đưa vào danh sách yêu thích")
+            }
+            else {
+                $.ajax(({
+                    url: "AddWishListController",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        $(".header__second__cart--icon").each(function () {
+                            $(this).text(data);
+                        })
+                        $(".home-product-item__action").html(`<i class="home-product-item__like-icon-fill fas fa-heart"></i>`)
+                    }
+                }))
+            }
+        })
+    }
     function addcart() {
         $(".shopnow2").click(function (e) {
             e.preventDefault();
