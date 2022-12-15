@@ -1,5 +1,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -12,6 +15,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico in the root directory -->
     <link rel="stylesheet" href="css/vendor.css">
+    <style>
+        .product__filter-item {
+            margin-right: 25px;
+        }
+    </style>
     <!-- Theme initialization -->
     <script>
         var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
@@ -23,6 +31,8 @@
             document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
         }
     </script>
+    <script src="ckeditor/ckeditor.js"></script>
+    <script src="ckfinder/ckfinder.js"></script>
 </head>
 
 <body>
@@ -76,22 +86,40 @@
                             <ul id="color" class="color-box">
                                 <li class="product__filter-item">
                                     <label class="form-check-label">
-                                        <div type="button" class="foo black"></div>
-                                        <div class="foo dark_grey"></div>
-                                        <div class="foo grey"></div>
-                                        <div class="foo light_blue"></div>
-                                        <div class="foo blue"></div>
-                                        <div class="foo dark_blue"></div>
-                                        <div class="foo dark_green"></div>
+                                        <div class="foo black"><input type="checkbox" class="checkcolor" value="black"
+                                                                      style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                                        <div class="foo dark_grey"><input type="checkbox" class="checkcolor" value="darkgrey"
+                                                                          style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                        </div>
+                                        <div class="foo grey"><input type="checkbox" class="checkcolor" value="grey"
+                                                                     style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                                        <div class="foo light_blue"><input type="checkbox" class="checkcolor" value="lightblue"
+                                                                           style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                        </div>
+                                        <div class="foo blue"><input type="checkbox" class="checkcolor" value="blue"
+                                                                     style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                                        <div class="foo dark_blue"><input type="checkbox" class="checkcolor" value="darkblue"
+                                                                          style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                        </div>
+                                        <div class="foo dark_green"><input type="checkbox" class="checkcolor" value="darkgreen"
+                                                                           style="opacity: 0; width: 20px;height: 20px;float: left;">
+                                        </div>
                                     </label>
                                     <label class="form-check-label">
-                                        <div class="foo green"></div>
-                                        <div class="foo purple"></div>
-                                        <div class="foo pink"></div>
-                                        <div class="foo yellow"></div>
-                                        <div class="foo orange"></div>
-                                        <div class="foo red"></div>
-                                        <div class="foo brown"></div>
+                                        <div class="foo green"><input type="checkbox" class="checkcolor" value="green"
+                                                                      style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                                        <div class="foo purple"><input type="checkbox" class="checkcolor" value="purple"
+                                                                       style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                                        <div class="foo pink"><input type="checkbox" class="checkcolor" value="pink"
+                                                                     style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                                        <div class="foo yellow"><input type="checkbox" class="checkcolor" value="yellow"
+                                                                       style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                                        <div class="foo orange"><input type="checkbox" class="checkcolor" value="orange"
+                                                                       style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                                        <div class="foo red"><input type="checkbox" class="checkcolor" value="red"
+                                                                    style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
+                                        <div class="foo brown"><input type="checkbox" class="checkcolor" value="brown"
+                                                                      style="opacity: 0; width: 20px;height: 20px;float: left;"></div>
                                     </label>
                                 </li>
                             </ul>
@@ -100,36 +128,118 @@
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Size: </label>
                         <div class="col-sm-10">
-                            <ul id="size" class="size-box">
+                            <ul id="size" class="size-box" style="display: inline-flex; padding-left: 20px;">
                                 <li class="product__filter-item">
-                                    <label class="form-check-label">
-                                        <div class="size">S</div>
-                                        <div class="size">M</div>
-                                        <div class="size">L</div>
-                                        <div class="size">XL</div>
-                                        <div class="size">2XL</div>
-                                        <div class="size">3XL</div>
-                                        <div class="size">4XL</div>
+                                    <label class="form-check-label" for="check1">
+                                        <input type="checkbox" class="form-check-input checksize" id="check1"
+                                               name="option2"><span>S</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check2">
+                                        <input type="checkbox" class="form-check-input checksize" id="check2"
+                                               name="option2"><span>M</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check3">
+                                        <input type="checkbox" class="form-check-input checksize" id="check3"
+                                               name="option2"><span>L</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check4">
+                                        <input type="checkbox" class="form-check-input checksize" id="check4"
+                                               name="option2"><span>XL</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check5">
+                                        <input type="checkbox" class="form-check-input checksize" id="check5"
+                                               name="option2"><span>2XL</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check6">
+                                        <input type="checkbox" class="form-check-input checksize" id="check6"
+                                               name="option2"><span>28</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check7">
+                                        <input type="checkbox" class="form-check-input checksize" id="check7"
+                                               name="option2"><span>29</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check8">
+                                        <input type="checkbox" class="form-check-input checksize" id="check8"
+                                               name="option2"><span>30</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check9">
+                                        <input type="checkbox" class="form-check-input checksize" id="check9"
+                                               name="option2"><span>31</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check10">
+                                        <input type="checkbox" class="form-check-input checksize" id="check10"
+                                               name="option2"><span>32</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check11">
+                                        <input type="checkbox" class="form-check-input checksize" id="check11"
+                                               name="option2"><span>34</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check12">
+                                        <input type="checkbox" class="form-check-input checksize" id="check12"
+                                               name="option2"><span>36</span>
                                     </label>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 form-control-label text-xs-right"> Nhập loại sản phẩm </label>
-                        <div class="col-sm-10">
-                            <select class="c-select form-control">
-                                <option value="1">Một</option>
-                                <option value="2">Hai</option>
-                                <option value="3">Ba</option>
+                        <label class="col-sm-2 form-control-label text-xs-right"> Nhập loại sản phẩm: </label>
+                        <div class="col-sm-10" style="">
+                            <select class="c-select form-control" onfocus='this.size=5;' onblur='this.size=1;' onchange='this.size=1; this.blur();'>
+                                <%List<Category> cate = CategoryService.getInstance().getAllCate();%>
+                                <%for (Category c : cate) {%>
+                                <option value="<%=c.getId()%>"><%=c.getCate_name()%></option>
+                                <%}%>
                                 <option value="other">Khác</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 form-control-label text-xs-right"> Mô tả nhanh: </label>
+                        <div class="col-sm-10">
+                            <textarea id ="description" name="description" rows="4" cols="75"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 form-control-label text-xs-right"> Mô tả: </label>
+                        <div class="col-sm-10">
+                            <div id="editor">
+                            </div>
+                            <script>
+                                CKEDITOR.replace('editor');
+                            </script>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Hình ảnh: </label>
                         <div class="col-sm-10">
                             <div class="images-container">
+                                <form action="UploadControler" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="files" multiple="true"/>
+                                    <input type="submit" />
+                                </form>
                                 <div class="image-container">
                                     <div class="controls">
                                         <a href="" class="control-btn move">
@@ -182,13 +292,6 @@
                                          style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
                                     </div>
                                 </div>
-                                <a href="#" class="add-image" data-toggle="modal" data-target="#modal-media">
-                                    <div class="image-container new">
-                                        <div class="image">
-                                            <i class="fa fa-plus"></i>
-                                        </div>
-                                    </div>
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -200,166 +303,6 @@
                 </div>
             </form>
         </article>
-        <div class="modal fade" id="modal-media">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Media Library</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            <span class="sr-only">Close</span>
-                        </button>
-                    </div>
-                    <div class="modal-body modal-tab-container">
-                        <ul class="nav nav-tabs modal-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#gallery" data-toggle="tab" role="tab">Gallery</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#upload" data-toggle="tab" role="tab">Upload</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content modal-tab-content">
-                            <div class="tab-pane fade" id="gallery" role="tabpanel">
-                                <div class="images-container">
-                                    <div class="row">
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade active in" id="upload" role="tabpanel">
-                                <div class="upload-container">
-                                    <div id="dropzone">
-                                        <form action="/" method="POST" enctype="multipart/form-data"
-                                              class="dropzone needsclick dz-clickable" id="demo-upload">
-                                            <div class="dz-message-block">
-                                                <div class="dz-message needsclick"> Drop files here or click to
-                                                    upload.
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Insert Selected</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-        <div class="modal fade" id="confirm-modal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            <i class="fa fa-warning"></i> Alert
-                        </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure want to do this?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
     </div>
 </div>
 <!-- Reference block for JS -->
@@ -407,6 +350,12 @@
         }
         ;
     });
+</script>
+<script>
+    $("button[type='submit']").click(function () {
+        const data = CKEDITOR.instances.editor.getData();
+        console.log(data)
+    })
 </script>
 </body>
 
