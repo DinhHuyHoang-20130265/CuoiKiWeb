@@ -17,26 +17,15 @@ public class WishList implements Serializable {
         return data.get(id);
     }
 
-    public int put(Product p) {
-        if (!data.containsKey(p.getId())) {
-            p.setQuantity_wishlist(p.getQuantity_wishlist() + 1);
-            data.put(p.getId(), p);
-        } else {
-            p.setQuantity_wishlist(p.getQuantity_wishlist());
-        }
-        return data.get(p.getId()).getQuantity_wishlist();
-    }
-
-    public int getQuantity_wishlist() {
-        int count = 0;
-        for (String id : data.keySet()) {
-            count += data.get(id).getQuantity_wishlist();
-        }
-        return count;
+    public void put(Product p) {
+        data.put(p.getId(), p);
     }
 
     public boolean remove(String id) {
         return data.remove(id) == null;
+    }
+    public int getQuantity() {
+        return data.keySet().size();
     }
 
     public Collection<Product> list() {
@@ -50,9 +39,9 @@ public class WishList implements Serializable {
     public static void main(String[] args) {
         WishList wishList = new WishList();
         wishList.put(new Product());
+        wishList.put( new Product());
         wishList.put(new Product());
         wishList.put(new Product());
-        wishList.put(new Product());
-        System.out.print(wishList.list());
+        System.out.print(wishList.getQuantity());
     }
 }

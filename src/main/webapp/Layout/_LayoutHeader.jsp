@@ -201,7 +201,7 @@
                         else {%>
                         <a href="listlike.jsp" class="header__second__like--icon">
                             <i class="far fa-heart"></i>
-                            <span id="header__second__like--notice" class="header__second__like--notice">0</span>
+                            <span id="header__second__like--notice" class="header__second__like--notice header_wishlist"><%=wishList.getQuantity()%></span>
                         </a>
                         <%}%>
                     </div>

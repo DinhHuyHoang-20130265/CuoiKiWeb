@@ -661,7 +661,7 @@
         }
     }
     function addwishlist() {
-        $(".card .btn-add-to-cart").click(function (e) {
+        $(".add-wishlist").on(click(function (e) {
             e.preventDefault();
             const id = this.id;
             if(id == null) {
@@ -675,14 +675,14 @@
                         id: id
                     },
                     success: function (data) {
-                        $(".header__second__cart--icon").each(function () {
+                        $(".header_wishlist").each(function () {
                             $(this).text(data);
                         })
-                        $(".home-product-item__action").html(`<i class="home-product-item__like-icon-fill fas fa-heart"></i>`)
+                        $(".home-product-item__action").html(`<i class="home-product-item__like-icon-fill fas fa-heart" style="display: contents"></i>`)
                     }
                 }))
             }
-        })
+        }))
     }
     function addcart() {
         $(".shopnow2").click(function (e) {

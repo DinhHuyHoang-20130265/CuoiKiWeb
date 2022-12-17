@@ -22,7 +22,7 @@ public class AddWishListController extends HttpServlet {
         WishList wishList = (WishList) request.getSession().getAttribute("wishList");
         Product product = ProductService.getInstance().getProductAndDetails(id);
         wishList.put(product);
-        request.getSession().setAttribute("wishlist", wishList);
+        request.getSession().setAttribute("wishList", wishList);
         request.getRequestDispatcher("ajax/ajax_addWishListSuccessful.jsp").forward(request, response);
     }
 }
