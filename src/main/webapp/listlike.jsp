@@ -147,8 +147,7 @@
                             </div>
                         </div>
                         <div class="cart-body">
-                            <% WishList wishList = (WishList) request.getSession().getAttribute("wishlist");
-                                int i = 1;
+                            <% WishList wishList = (WishList) request.getSession().getAttribute("wishList");
                                 NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));%>
                             <% if (wishList != null) {
                                 for (String id : wishList.getData().keySet()) {%>
@@ -157,11 +156,13 @@
                                     <div class="row card-info" style="align-items: center;">
                                         <div class="col-md-2 col-12 card-info-img">
                                             <a href=""><img class="cart-img"
-                                                            src="<%=wishList.getData().get(id).getMain_img_link()%>" alt=""></a>
+                                                            src="<%=wishList.getData().get(id).getMain_img_link()%>"
+                                                            alt=""></a>
                                         </div>
                                         <div class="col-md-3 col-12">
                                             <a href="" class="cart-name">
-                                                <h5><%=wishList.getData().get(id).getProd_name()%></h5>
+                                                <h5><%=wishList.getData().get(id).getProd_name()%>
+                                                </h5>
                                             </a>
                                         </div>
                                         <%if (wishList.getData().get(id).getSales() != null) {%>
@@ -188,8 +189,7 @@
                                 </div>
                             </div>
                             <%
-                                    i++;
-                                }
+                                    }
                                 }
                             %>
                         </div>
