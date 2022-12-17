@@ -1,5 +1,13 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductColor" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductSize" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductImage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -12,6 +20,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico in the root directory -->
     <link rel="stylesheet" href="css/vendor.css">
+    <style>
+        .product__filter-item {
+            margin-right: 25px;
+        }
+
+        .input-file {
+            color: transparent;
+            width: 100%;
+            height: 100%;
+        }
+
+        .input-file::before {
+            content: 'Upload ảnh';
+            color: black;
+            display: inline-block;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 10pt;
+            margin-left: 30px;
+            margin-right: 30px;
+        }
+
+        .input-file:hover::before {
+            border-color: black;
+        }
+
+        .input-file:active {
+            outline: 0;
+        }
+
+        .input-file::-webkit-file-upload-button {
+            visibility: hidden;
+        }
+    </style>
     <!-- Theme initialization -->
     <script>
         var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
@@ -23,6 +68,8 @@
             document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
         }
     </script>
+    <script src="ckeditor/ckeditor.js"></script>
+    <script src="ckfinder/ckfinder.js"></script>
 </head>
 
 <body>
@@ -52,22 +99,41 @@
         <jsp:include page="Layout/_LayoutAdminSideBar.jsp"></jsp:include>
         <article class="content item-editor-page">
             <div class="title-block">
-                <h3 class="title"> Thêm/sửa sản phẩm
+                <%if (request.getParameter("id") != null) {%>
+                <h3 class="title"> Sửa sản phẩm
                     <span class="sparkline bar" data-type="bar"></span>
                 </h3>
+                <%} else {%>
+                <h3 class="title"> Thêm sản phẩm
+                    <span class="sparkline bar" data-type="bar"></span>
+                </h3>
+                <%}%>
             </div>
-            <form name="item">
+            <%
+                Product p = null;
+                if (request.getParameter("id") != null)
+                    p = ProductService.getInstance().getProductAndDetails(request.getParameter("id"));
+            %>
+            <form name="item" method="post" enctype="multipart/form-data">
+                <input type="text" id="idEdit"
+                       value="<%=request.getParameter("id") == null ? "" : request.getParameter("id")%>"
+                       style="display: none">
+                <input type="text" id="userid"
+                       value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                       style="display:none;">
                 <div class="card card-block">
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Tên sản phẩm: </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control boxed" placeholder="Nhập tên">
+                            <input type="text" class="form-control boxed" name="name"
+                                   id="name" value="<%=(p != null) ? p.getProd_name() : ""%>" placeholder="Nhập tên">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Giá: </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control boxed" placeholder="Nhập giá">
+                            <input type="text" class="form-control boxed" name="price" id="price"
+                                   value="<%=(p != null) ? p.getPrice() : ""%>" placeholder="Nhập giá">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -75,23 +141,84 @@
                         <div class="col-sm-10">
                             <ul id="color" class="color-box">
                                 <li class="product__filter-item">
+                                    <%
+                                        List<ProductColor> colors = null;
+                                        if (p != null)
+                                            colors = p.getColors();
+                                        String color = "";
+                                        if (colors != null) {
+                                            for (ProductColor color1 : colors) {
+                                                color += color1.getColor_name() + " ";
+                                            }
+                                        }
+                                    %>
                                     <label class="form-check-label">
-                                        <div type="button" class="foo black"></div>
-                                        <div class="foo dark_grey"></div>
-                                        <div class="foo grey"></div>
-                                        <div class="foo light_blue"></div>
-                                        <div class="foo blue"></div>
-                                        <div class="foo dark_blue"></div>
-                                        <div class="foo dark_green"></div>
+                                        <div class="foo black <%=(p!= null && color.indexOf("black") != -1) ? "active" : ""%>">
+                                            <input type="checkbox" class="checkcolor" value="black"
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("black") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo dark_grey <%=(p!= null && color.indexOf("darkgrey") != -1) ? "active" : ""%>">
+                                            <input type="checkbox" class="checkcolor"
+                                                   value="darkgrey"
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("darkgrey") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo grey <%=( p!= null && color.indexOf("grey") != -1) ? "active" : ""%>">
+                                            <input
+                                                    type="checkbox" class="checkcolor" value="grey"
+                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("grey") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo light_blue <%=(p!= null && color.indexOf("lightblue") != -1) ? "active" : ""%>">
+                                            <input type="checkbox" class="checkcolor"
+                                                   value="lightblue"
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("lightblue") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo blue <%=(p!= null && color.indexOf("blue") != -1) ? "active" : ""%>">
+                                            <input
+                                                    type="checkbox" class="checkcolor" value="blue"
+                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("blue") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo dark_blue <%=(p!= null && color.indexOf("darkblue") != -1) ? "active" : ""%>">
+                                            <input type="checkbox" class="checkcolor"
+                                                   value="darkblue"
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("darkblue") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo dark_green <%=(p!= null && color.indexOf("darkgreen") != -1) ? "active" : ""%>">
+                                            <input type="checkbox" class="checkcolor"
+                                                   value="darkgreen"
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("darkgreen") != -1) ? "checked" : ""%>>
+                                        </div>
                                     </label>
                                     <label class="form-check-label">
-                                        <div class="foo green"></div>
-                                        <div class="foo purple"></div>
-                                        <div class="foo pink"></div>
-                                        <div class="foo yellow"></div>
-                                        <div class="foo orange"></div>
-                                        <div class="foo red"></div>
-                                        <div class="foo brown"></div>
+                                        <div class="foo green <%=(p!= null && color.indexOf("green") != -1) ? "active" : ""%>">
+                                            <input type="checkbox" class="checkcolor" value="green"
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("green") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo purple <%=(p!= null && color.indexOf("purple") != -1) ? "active" : ""%>">
+                                            <input type="checkbox" class="checkcolor" value="purple"
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("purple") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo pink <%=(p!= null && color.indexOf("pink") != -1) ? "active" : ""%>">
+                                            <input
+                                                    type="checkbox" class="checkcolor" value="pink"
+                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("pink") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo yellow <%=(p!= null && color.indexOf("yellow") != -1) ? "active" : ""%>">
+                                            <input type="checkbox" class="checkcolor" value="yellow"
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("yellow") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo orange <%=(p!= null && color.indexOf("orange") != -1) ? "active" : ""%>">
+                                            <input type="checkbox" class="checkcolor" value="orange"
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("orange") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo red <%=(p!= null && color.indexOf("red") != -1) ? "active" : ""%>">
+                                            <input
+                                                    type="checkbox" class="checkcolor" value="red"
+                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("red") != -1) ? "checked" : ""%>>
+                                        </div>
+                                        <div class="foo brown <%=(p!= null && color.indexOf("brown") != -1) ? "active" : ""%>">
+                                            <input type="checkbox" class="checkcolor" value="brown"
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("brown") != -1) ? "checked" : ""%>>
+                                        </div>
                                     </label>
                                 </li>
                             </ul>
@@ -99,267 +226,224 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Size: </label>
+                        <%
+                            List<ProductSize> sizes = null;
+                            if (p != null)
+                                sizes = ProductService.getInstance().getProductAndDetails(p.getId()).getSizes();
+                            String size = "";
+                            if (sizes != null) {
+                                for (ProductSize size1 : sizes) {
+                                    size += size1.getSize_name() + " ";
+                                }
+                            }
+                        %>
                         <div class="col-sm-10">
-                            <ul id="size" class="size-box">
+                            <ul id="size" class="size-box" style="display: inline-flex; padding-left: 20px;">
                                 <li class="product__filter-item">
-                                    <label class="form-check-label">
-                                        <div class="size">S</div>
-                                        <div class="size">M</div>
-                                        <div class="size">L</div>
-                                        <div class="size">XL</div>
-                                        <div class="size">2XL</div>
-                                        <div class="size">3XL</div>
-                                        <div class="size">4XL</div>
+                                    <label class="form-check-label" for="check1">
+                                        <input type="checkbox" class="form-check-input checksize" id="check1"
+                                               name="option2" <%=(p!= null && size.indexOf("S") != -1) ? "checked" : ""%>><span>S</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check2">
+                                        <input type="checkbox" class="form-check-input checksize" id="check2"
+                                               name="option2" <%=(p!= null && size.indexOf("M") != -1) ? "checked" : ""%>><span>M</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check3">
+                                        <input type="checkbox" class="form-check-input checksize" id="check3"
+                                               name="option2" <%=(p!= null && size.indexOf("L") != -1) ? "checked" : ""%>><span>L</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check4">
+                                        <input type="checkbox" class="form-check-input checksize" id="check4"
+                                               name="option2" <%=(p!= null && size.indexOf("XL") != -1) ? "checked" : ""%>><span>XL</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check5">
+                                        <input type="checkbox" class="form-check-input checksize" id="check5"
+                                               name="option2" <%=(p!= null && size.indexOf("2XL") != -1) ? "checked" : ""%>><span>2XL</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check6">
+                                        <input type="checkbox" class="form-check-input checksize" id="check6"
+                                               name="option2" <%=(p!= null && size.indexOf("28") != -1) ? "checked" : ""%>><span>28</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check7">
+                                        <input type="checkbox" class="form-check-input checksize" id="check7"
+                                               name="option2" <%=(p!= null && size.indexOf("29") != -1) ? "checked" : ""%>><span>29</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check8">
+                                        <input type="checkbox" class="form-check-input checksize" id="check8"
+                                               name="option2" <%=(p!= null && size.indexOf("30") != -1) ? "checked" : ""%>><span>30</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check9">
+                                        <input type="checkbox" class="form-check-input checksize" id="check9"
+                                               name="option2" <%=(p!= null && size.indexOf("31") != -1) ? "checked" : ""%>><span>31</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check10">
+                                        <input type="checkbox" class="form-check-input checksize" id="check10"
+                                               name="option2" <%=(p!= null && size.indexOf("32") != -1) ? "checked" : ""%>><span>32</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check11">
+                                        <input type="checkbox" class="form-check-input checksize" id="check11"
+                                               name="option2" <%=(p!= null && size.indexOf("34") != -1) ? "checked" : ""%>><span>34</span>
+                                    </label>
+                                </li>
+                                <li class="product__filter-item">
+                                    <label class="form-check-label" for="check12">
+                                        <input type="checkbox" class="form-check-input checksize" id="check12"
+                                               name="option2" <%=(p!= null && size.indexOf("36") != -1) ? "checked" : ""%>><span>36</span>
                                     </label>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 form-control-label text-xs-right"> Nhập loại sản phẩm </label>
-                        <div class="col-sm-10">
-                            <select class="c-select form-control">
-                                <option value="1">Một</option>
-                                <option value="2">Hai</option>
-                                <option value="3">Ba</option>
+                        <label class="col-sm-2 form-control-label text-xs-right"> Nhập loại sản phẩm: </label>
+                        <div class="col-sm-10" style="">
+                            <select class="c-select form-control" name="select-cate" id="select-cate"
+                                    onfocus='this.size=5;' onblur='this.size=1;'
+                                    onchange='this.size=1; this.blur();'>
+                                <%
+                                    List<Category> cate = CategoryService.getInstance().getAllCate();
+                                    Category cat = null;
+                                    if (p != null) {
+                                        for (Category c : p.getCategories()) {
+                                            if (c.getParent_id() == null)
+                                                cat = c;
+                                        }
+                                    }
+                                    ;
+                                %>
+                                <%for (Category c : cate) {%>
+                                <option value="<%=c.getId()%>" <%=(cat != null && c.getId().equals(cat.getId())) ? "selected" : ""%>><%=c.getCate_name()%>
+                                </option>
+                                <%}%>
                                 <option value="other">Khác</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 form-control-label text-xs-right"> Hiển thị: </label>
+                        <div class="col-sm-10" style="">
+                            <select class="c-select form-control" id="select-status">
+                                <% if (p != null) {%>
+                                <option value="1" <%=(p.getProd_status() == 1) ? "selected" : ""%>>Hiển thị</option>
+                                <option value="0" <%=(p.getProd_status() == 0) ? "selected" : ""%>>Ẩn</option>
+                                <%} else {%>
+                                <option value="1">Hiển thị</option>
+                                <option value="0">Ẩn</option>
+                                <%}%>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 form-control-label text-xs-right"> Số lượng tồn kho: </label>
+                        <div class="col-sm-10" style="">
+                            <input type="number" class="form-control boxed" name="quantity"
+                                   id="quantity" placeholder="Nhập số lượng" min="0"
+                                   value="<%=(p!= null )? p.getQuantity() : ""%>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 form-control-label text-xs-right"> Mô tả nhanh: </label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control boxed" id="description" name="description" value="<%=(p != null) ? p.getProd_desc() : ""%>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 form-control-label text-xs-right"> Mô tả: </label>
+                        <div class="col-sm-10">
+                            <textarea id="editor">
+                                <%=(p != null) ? p.getContent() : ""%>
+                            </textarea>
+                            <script>
+                                CKEDITOR.replace('editor');
+                            </script>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Hình ảnh: </label>
                         <div class="col-sm-10">
                             <div class="images-container">
+                                <% int i = 0;
+                                    if (p != null) {
+                                        if (p.getMain_img_link() != null) {%>
                                 <div class="image-container">
-                                    <div class="controls">
-                                        <a href="" class="control-btn move">
-                                            <i class="fa fa-arrows"></i>
-                                        </a>
-                                        <a href="" class="control-btn star">
-                                            <i class="fa"></i>
-                                        </a>
-                                        <a href="#" class="control-btn remove" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </div>
-                                    <div class="image"
-                                         style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                        Ảnh chính
-                                    </div>
-                                </div>
-                                <div class="image-container">
-                                    <div class="controls">
-                                        <a href="" class="control-btn move">
-                                            <i class="fa fa-arrows"></i>
-                                        </a>
-                                        <a href="" class="control-btn star">
-                                            <i class="fa"></i>
-                                        </a>
-                                        <a href="#" class="control-btn remove" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </div>
-                                    <div class="image"
-                                         style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                    </div>
-                                </div>
-                                <div class="image-container">
-                                    <div class="controls">
-                                        <a href="" class="control-btn move">
-                                            <i class="fa fa-arrows"></i>
-                                        </a>
-                                        <a href="" class="control-btn star">
-                                            <i class="fa"></i>
-                                        </a>
-                                        <a href="#" class="control-btn remove" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </div>
-                                    <div class="image"
-                                         style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                    </div>
-                                </div>
-                                <a href="#" class="add-image" data-toggle="modal" data-target="#modal-media">
-                                    <div class="image-container new">
-                                        <div class="image">
-                                            <i class="fa fa-plus"></i>
+                                    <div class="image" id="container<%=i%>">
+                                        <div class="controls">
+                                            <a id="remove<%=i%>" class="control-btn remove"
+                                               style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
                                         </div>
+                                        <img class='img-product-review' src='<%=p.getMain_img_link()%>'
+                                             style='height: 100%'>
                                     </div>
-                                </a>
+                                </div>
+                                <%
+                                            i++;
+                                        }
+                                    }
+                                %>
+                                <% if (p != null) {
+                                    if (p.getImages() != null) {
+                                        for (ProductImage img : p.getImages()) { %>
+                                <div class="image-container">
+                                    <div class="image" id="container<%=i%>">
+                                        <div class="controls">
+                                            <a id="remove<%=i%>" class="control-btn remove"
+                                               style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </div>
+                                        <img class='img-product-review' src='<%=img.getProd_img_link()%>'
+                                             style='height: 100%'>
+                                    </div>
+                                </div>
+                                <%
+                                                i++;
+                                            }
+                                        }
+                                    }
+                                %>
+                                <div class="image-container">
+                                    <div class="image" id="container<%=i%>">
+                                        <input type="file" id="image<%=i%>" name="files" class="input-file"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <input type="text" id="deletedFile" value="" style="display: none">
                     <div class="form-group row">
                         <div class="col-sm-10 col-sm-offset-2">
-                            <button type="submit" class="btn btn-primary"> Lưu</button>
+                            <%if (request.getParameter("id") != null) {%>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                            <% } else {%>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                            <%}%>
                         </div>
                     </div>
                 </div>
             </form>
         </article>
-        <div class="modal fade" id="modal-media">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Media Library</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            <span class="sr-only">Close</span>
-                        </button>
-                    </div>
-                    <div class="modal-body modal-tab-container">
-                        <ul class="nav nav-tabs modal-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#gallery" data-toggle="tab" role="tab">Gallery</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#upload" data-toggle="tab" role="tab">Upload</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content modal-tab-content">
-                            <div class="tab-pane fade" id="gallery" role="tabpanel">
-                                <div class="images-container">
-                                    <div class="row">
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade active in" id="upload" role="tabpanel">
-                                <div class="upload-container">
-                                    <div id="dropzone">
-                                        <form action="/" method="POST" enctype="multipart/form-data"
-                                              class="dropzone needsclick dz-clickable" id="demo-upload">
-                                            <div class="dz-message-block">
-                                                <div class="dz-message needsclick"> Drop files here or click to
-                                                    upload.
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Insert Selected</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-        <div class="modal fade" id="confirm-modal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            <i class="fa fa-warning"></i> Alert
-                        </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure want to do this?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
     </div>
 </div>
 <!-- Reference block for JS -->
@@ -407,6 +491,188 @@
         }
         ;
     });
+</script>
+<script>
+    const idProduct = $("#idEdit").val();
+    if (idProduct.length > 0) {
+        $(".remove").each(function () {
+            const id = this.id.substring(6);
+            removeFilesData(id)
+        })
+    } else {
+        removeFilesData(1)
+    }
+
+    function reloadUpLoadFile() {
+        $(".input-file").each(function () {
+            $(this).on('change', function (e) {
+                const idName = $(this).attr("id");
+                const id = idName.substr(5);
+                const value = $(this).val();
+                let name = "";
+                if (value.indexOf("\\") != -1)
+                    name = value.substring(value.lastIndexOf("\\") + 1);
+                else
+                    name = value.substring(value.lastIndexOf("/") + 1);
+                uploadFile(id, name, e)
+            })
+        });
+    }
+
+    $(".input-file").each(function () {
+        $(this).on('change', function (e) {
+            const idName = $(this).attr("id");
+            const id = idName.substr(5);
+            const value = $(this).val();
+            let name = "";
+            if (value.indexOf("\\") != -1)
+                name = value.substring(value.lastIndexOf("\\") + 1);
+            else
+                name = value.substring(value.lastIndexOf("/") + 1);
+            uploadFile(id, name, e)
+        })
+    });
+
+    function uploadFile(id, name, event) {
+        event.stopPropagation();
+        event.preventDefault();
+        const files = event.target.files;
+        const data = new FormData();
+        $.each(files, function (key, value) {
+            data.append(key, value);
+        });
+        postFilesData(id, name, data);
+    }
+
+    function removeFilesData(idDelete) {
+        $("#remove" + idDelete).on("click", function (e) {
+            e.preventDefault();
+            const id = this.id.substring(6);
+            const idProduct = $("#idEdit").val();
+            const src = $("#container" + id + " .img-product-review").attr("src");
+            let imageName = "";
+            if (src.indexOf("\\") != -1)
+                imageName = src.substring(src.lastIndexOf("\\") + 1);
+            else
+                imageName = src.substring(src.lastIndexOf("/") + 1);
+            $("#container" + id).parent().remove();
+            const value = $("#deletedFile").val();
+            if (value.length > 0)
+                $("#deletedFile").val($("#deletedFile").val() + imageName + ",");
+            else
+                $("#deletedFile").val(imageName + ",");
+            console.log($("#deletedFile").val());
+        });
+    }
+
+    function postFilesData(id, name, data) {
+        let bool = false;
+        $(".img-product-review").each(function () {
+            let nameFile = $(this).attr("src");
+            if (nameFile.indexOf(name) != -1) {
+                bool = true;
+            }
+        })
+        if (bool === false) {
+            $.ajax({
+                url: '/CuoiKiWeb_war/UpDownImageProductController',
+                type: 'POST',
+                data: data,
+                cache: false,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (data, textStatus, jqXHR) {
+                    //success
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $("#container" + id).prepend("<img class='img-product-review' src='http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + name + "' style='height: 100%'>");
+                    $(".images-container #container" + id).prepend(`<div class="controls">
+                                            <a id="remove` + id + `" class="control-btn remove" style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </div>`)
+                    $(".images-container").append(` <div class="image-container">
+                                    <div class="image" id="container` + (parseInt(id) + 1) + `">
+                                        <input type="file" id="image` + (parseInt(id) + 1) + `" name="files" class="input-file"/>
+                                    </div>
+                                </div>
+                     `)
+                    let value = $("#deletedFile").val();
+                    if (value.indexOf(name) !== -1) {
+                        value = value.replace(name + ",", "");
+                        $("#deletedFile").val(value);
+                    }
+                    console.log($("#deletedFile").val());
+                    reloadUpLoadFile();
+                    removeFilesData(id);
+
+                }
+            });
+        } else {
+            alert("Bạn đã upload ảnh này rồi !")
+        }
+    }
+</script>
+<script>
+    $("button[type='submit']").click(function (e) {
+        e.preventDefault();
+        const userID = $("#userid").val();
+        const quantity = $("#quantity").val();
+        const id = $("#idEdit").val();
+        const name = $("#name").val();
+        const price = $("#price").val();
+        const size = $("input[type='checkbox']:checked.checksize");
+        let stringSize = [];
+        size.each(function () {
+            stringSize.push($(this).parent().children("span").text());
+        });
+        let stringColor = [];
+        const color = $("input[type='checkbox']:checked.checkcolor");
+        color.each(function () {
+            stringColor.push(this.value);
+        });
+        const idCate = $('#select-cate').find(":selected").val();
+        const status = $("#select-status").find(":selected").val();
+        const desc = $('#description').val();
+        const content = CKEDITOR.instances.editor.getData();
+        let imgFile = []
+        $(".img-product-review").each(function () {
+            let nameFile = $(this).attr("src");
+            if (nameFile.indexOf("\\") != -1)
+                imgFile.push(nameFile.substring(nameFile.lastIndexOf("\\") + 1));
+            else
+                imgFile.push(nameFile.substring(nameFile.lastIndexOf("/") + 1));
+        })
+        const removed = $("#deletedFile").val();
+        const oldImg = removed.substring(0, removed.length - 1);
+        $.ajax({
+            url: "/CuoiKiWeb_war/EditInsertProductController",
+            type: "GET",
+            data: {
+                userid: userID,
+                quantity: quantity,
+                oldImg: oldImg,
+                id: id,
+                name: name,
+                price: price,
+                status: status,
+                size: stringSize,
+                color: stringColor,
+                idCate: idCate,
+                desc: desc,
+                content: content,
+                imgFile: imgFile,
+            },
+            success: function () {
+                if (id.length < 1)
+                    alert("Thêm sản phẩm thành công");
+                else
+                    alert("Cập nhật sản phẩm thành công");
+                window.location.href = "items-list.jsp"
+            }
+        })
+    })
 </script>
 </body>
 

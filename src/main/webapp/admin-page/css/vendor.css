@@ -19085,6 +19085,9 @@ a.text-dark:focus {
 .foo.active {
   border: 2px solid red;
 }
+.black {
+  background: black;
+}
 .orange {
   background: orange;
 }

@@ -6,6 +6,7 @@ import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ProductDAO {
@@ -191,7 +192,7 @@ public class ProductDAO {
 
     public Product getProductAndDetails(String id) {
         Product product = JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," +
+                handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," +
                                 " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
                                 " p.updated_date, p.updated_by FROM product p " +
                                 " WHERE p.prod_status = 1 AND p.id =?")
@@ -245,8 +246,148 @@ public class ProductDAO {
         return product;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new ProductDAO().getProductAndDetails("prod003"));
+    public void RemoveProduct(String id) {
+        JDBIConnector.get().withHandle(handle -> {
+                    handle.execute("SET FOREIGN_KEY_CHECKS=0");
+                    handle.createUpdate("DELETE FROM product WHERE id =?")
+                            .bind(0, id)
+                            .execute();
+                    handle.execute("SET FOREIGN_KEY_CHECKS=1");
+                    return true;
+                }
+        );
     }
 
+    public String generateIdProduct() {
+        List<String> id = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT id FROM user_account").mapTo(String.class).stream().collect(Collectors.toList()));
+        String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String alphaNumeric = upperAlphabet + lowerAlphabet + numbers;
+
+        StringBuilder sb = new StringBuilder();
+
+        // create an object of Random class
+        Random random = new Random();
+        // specify length of random string
+        int length = 10;
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(alphaNumeric.length());
+            char randomChar = alphaNumeric.charAt(index);
+            sb.append(randomChar);
+        }
+        if (id.contains(sb.toString())) return generateIdProduct();
+        else return sb.toString();
+    }
+
+    public void InsertNewProduct(String name, String price, int status, String userid, int quantity, String[] stringSize, String[] stringColor, String idCate, String desc, String content, String[] imgFile) {
+        String id = generateIdProduct();
+        JDBIConnector.get().withHandle(handle -> {
+                    handle.createUpdate("INSERT INTO product values (?, ?, ?, ?, ?, ?, ?, CURDATE(),?,?, 30, 0, NULL, NULL)")
+                            .bind(0, id)
+                            .bind(1, name)
+                            .bind(2, desc)
+                            .bind(3, content)
+                            .bind(4, status)
+                            .bind(5, (imgFile == null) ? "NULL" : "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[0])
+                            .bind(6, Double.parseDouble(price))
+                            .bind(7, userid)
+                            .bind(8, quantity)
+                            .execute();
+                    handle.createUpdate("INSERT INTO product_from_cate values (? ,?)")
+                            .bind(0, idCate)
+                            .bind(1, id)
+                            .execute();
+                    if (imgFile != null) {
+                        for (int i = 1; i < imgFile.length; i++) {
+                            handle.createUpdate("INSERT INTO img_product VALUES (?, ?)")
+                                    .bind(0, id)
+                                    .bind(1, "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[i])
+                                    .execute();
+                        }
+                    }
+                    if (stringSize != null) {
+                        for (int i = 0; i < stringSize.length; i++) {
+                            handle.createUpdate("INSERT INTO size VALUES (?, ?)")
+                                    .bind(0, id)
+                                    .bind(1, stringSize[i])
+                                    .execute();
+                        }
+                    }
+                    if (stringColor != null) {
+                        for (int i = 0; i < stringColor.length; i++) {
+                            handle.createUpdate("INSERT INTO color VALUES (?, ?)")
+                                    .bind(0, id)
+                                    .bind(1, stringColor[i])
+                                    .execute();
+                        }
+                    }
+                    return true;
+                }
+        );
+
+    }
+
+    public void UpdateProduct(String id, String name, String price, int status, String userid, int quantity, String[] stringSize, String[] stringColor, String idCate, String desc, String content, String[] imgFile) {
+        JDBIConnector.get().withHandle(handle -> {
+                    handle.createUpdate("UPDATE product SET prod_name = ?, prod_desc = ?, content =?, prod_status =?, main_img_link = ?, " +
+                                    "price = ?, quantity = ?, updated_date = CURDATE(), updated_by = ? WHERE id = ?")
+                            .bind(0, name)
+                            .bind(1, desc)
+                            .bind(2, content)
+                            .bind(3, status)
+                            .bind(4, (imgFile == null || imgFile.length == 0) ? "NULL" : "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[0])
+                            .bind(5, Double.parseDouble(price))
+                            .bind(6, quantity)
+                            .bind(7, userid)
+                            .bind(8, id)
+                            .execute();
+                    handle.createUpdate("DELETE FROM product_from_cate WHERE prod_id = ?")
+                            .bind(0, id)
+                            .execute();
+                    handle.createUpdate("DELETE FROM img_product WHERE prod_id=?")
+                            .bind(0, id)
+                            .execute();
+                    handle.createUpdate("DELETE FROM color WHERE prod_id=?")
+                            .bind(0, id)
+                            .execute();
+                    handle.createUpdate("DELETE FROM size WHERE prod_id=?")
+                            .bind(0, id)
+                            .execute();
+                    handle.createUpdate("INSERT INTO product_from_cate values (? ,?)")
+                            .bind(0, idCate)
+                            .bind(1, id)
+                            .execute();
+                    if (imgFile != null) {
+                        for (int i = 1; i < imgFile.length; i++) {
+                            handle.createUpdate("INSERT INTO img_product VALUES (?, ?)")
+                                    .bind(0, id)
+                                    .bind(1, "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[i])
+                                    .execute();
+                        }
+                    }
+                    if (stringSize != null) {
+                        for (int i = 0; i < stringSize.length; i++) {
+                            handle.createUpdate("INSERT INTO size VALUES (?, ?)")
+                                    .bind(0, id)
+                                    .bind(1, stringSize[i])
+                                    .execute();
+                        }
+                    }
+                    if (stringColor != null) {
+                        for (int i = 0; i < stringColor.length; i++) {
+                            handle.createUpdate("INSERT INTO color VALUES (?, ?)")
+                                    .bind(0, id)
+                                    .bind(1, stringColor[i])
+                                    .execute();
+                        }
+                    }
+                    return true;
+                }
+        );
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new ProductDAO().getProductAndDetails("es7eiZnBwf"));
+    }
 }

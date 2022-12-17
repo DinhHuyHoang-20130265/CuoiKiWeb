@@ -10,6 +10,8 @@ public class Product implements Serializable {
     private String id;
     private String prod_name;
     private String prod_desc;
+
+    private String content;
     private Byte prod_status;
     private String main_img_link;
     private double price;
@@ -31,11 +33,12 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public Product(String id, String prod_name, String prod_desc, Byte prod_status, String main_img_link, double price, Date released_date) {
+    public Product(String id, String prod_name, String prod_desc, String content, Byte prod_status, String main_img_link, double price, Date released_date) {
 
         this.id = id;
         this.prod_name = prod_name;
         this.prod_desc = prod_desc;
+        this.content = content;
         this.prod_status = prod_status;
         this.main_img_link = main_img_link;
         this.price = price;
@@ -77,6 +80,14 @@ public class Product implements Serializable {
 
     public void setProd_desc(String prod_desc) {
         this.prod_desc = prod_desc;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Byte getProd_status() {
@@ -221,6 +232,7 @@ public class Product implements Serializable {
                 "id='" + id + '\'' +
                 ", prod_name='" + prod_name + '\'' +
                 ", prod_desc='" + prod_desc + '\'' +
+                ", content='" + content + '\'' +
                 ", prod_status=" + prod_status +
                 ", main_img_link='" + main_img_link + '\'' +
                 ", price=" + price +

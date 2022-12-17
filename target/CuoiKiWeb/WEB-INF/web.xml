@@ -4,4 +4,29 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  <context-param>
+    <param-name>tempproduct.dir</param-name>
+    <param-value>CuoiKiWeb_war/assets/imgProduct/images</param-value>
+  </context-param>
+  <context-param>
+    <param-name>tempnews.dir</param-name>
+    <param-value>CuoiKiWeb_war/assets/imgNews/news</param-value>
+  </context-param>
+  <context-param>
+    <param-name>tempavatar.dir</param-name>
+    <param-value>CuoiKiWeb_war/assets/img/logo</param-value>
+  </context-param>
+  <context-param>
+    <param-name>saveproduct.dir</param-name>
+    <param-value>CuoiKiWeb/src/main/webapp/assets/imgProduct/images</param-value>
+  </context-param>
+  <context-param>
+    <param-name>savenews.dir</param-name>
+    <param-value>CuoiKiWeb/src/main/webapp/assets/imgNews/news</param-value>
+  </context-param>
+  <context-param>
+    <param-name>saveavatar.dir</param-name>
+    <param-value>CuoiKiWeb/src/main/webapp/assets/img/logo</param-value>
+  </context-param>
 </web-app>
+
