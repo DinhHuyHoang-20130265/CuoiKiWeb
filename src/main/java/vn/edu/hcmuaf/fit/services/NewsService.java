@@ -24,7 +24,4 @@ public class NewsService {
     public List<News> getListNewsByPage(int page) {
         return new NewsDAO().loadAllNewsWithPage(page);
     }
-    public List<NewsComment> getListNewsComment() {
-        return new NewsCommentDAO().loadNewsComment();
-    }
 }
