@@ -13,8 +13,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%SiteUser user = (SiteUser) request.getSession().getAttribute("user");%>
 <%List<Product> next6Product = (List<Product>) request.getAttribute("next6Product");%>
-<%WishList wishList = (WishList) request.getSession().getAttribute("wishlist");%>
+<%WishList wishList = (WishList) request.getSession().getAttribute("wishList");%>
 <%NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));%>
+<%Product productDetails = (Product) request.getAttribute("productDetails");%>
 <% for (Product p : next6Product) {%>
 <div class="col-lg-4 col-md-6 col-12 mb-20"
      style="margin-bottom: 20px;">
@@ -24,12 +25,11 @@
                 <img class="card-img-top" src="<%=p.getMain_img_link()%>" alt="Card image cap">
                 <form class="hover-icon hidden-sm hidden-xs">
                     <input type="hidden">
-                    <% if (user != null) {%>
-                    <a class="btn-add-to-cart" id="addWishList" title="Đưa vào danh sách yêu thích"
+                    <a class="btn-add-to-cart add-wishlist" id="addWishList<%=p.getId()%>"
+                       title="Đưa vào danh sách yêu thích"
                        style="margin-top: 10px">
                         <i class="fas fa-heart"></i>
                     </a>
-                    <%}%>
                     <a class="quickview quickviewProduct"
                        title="Xem nhanh" id="view<%=p.getId()%>">
                         <i class="fas fa-search"></i>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="home-product-item__action">
                             <span class="home-product-item__like home-product-item__like--liked">
-                                <i class="home-product-item__like-icon-empty far fa-heart"></i>
+                                <i class="home-product-item__like-icon-empty far fa-heart" style="display: contents"></i>
 <%--                                <i class="home-product-item__like-icon-fill fas fa-heart"></i>--%>
                             </span>
                     <div class="home-product-item__rating">

@@ -230,70 +230,70 @@
                     </div>
                 </div>
             </div>
-            <div class="row" id="comment_section">
+            <div class="row">
                 <ul id="list_comment" class="col-md-12">
                     <!-- Start List Comment 1 -->
-<%--                    <li class="box_result row">--%>
-<%--                        <div class="avatar_comment col-md-1">--%>
-<%--                            <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>--%>
-<%--                        </div>--%>
-<%--                        <div class="result_comment col-md-11">--%>
-<%--                            <h4>Nguyễn Huy Hiệp</h4>--%>
-<%--                            <p>Đôi giày này thật tuyệt vời, tôi sẽ mua 2 đôi để tặng bạn thân nhất nhân dịp sinh nhật--%>
-<%--                                sắp tới của bạn tôi</p>--%>
-<%--                            <div class="tools_comment">--%>
-<%--                                <a class="like" href="#">Thích</a>--%>
-<%--                                <span aria-hidden="true"> · </span>--%>
-<%--                                <a class="replay" href="#">Phản hồi</a>--%>
-<%--                                <span aria-hidden="true"> · </span>--%>
-<%--                                <i class="fa fa-thumbs-o-up"></i> <span class="count">1</span>--%>
-<%--                                <span aria-hidden="true"> · </span>--%>
-<%--                                <span>26m</span>--%>
-<%--                            </div>--%>
-<%--                            <ul class="child_replay">--%>
-<%--                                <li class="box_reply row">--%>
-<%--                                    <div class="avatar_comment col-md-1">--%>
-<%--                                        <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>--%>
-<%--                                    </div>--%>
-<%--                                    <div class="result_comment col-md-11">--%>
-<%--                                        <h4>Nguyễn Minh Hiếu</h4>--%>
-<%--                                        <p>Rất ủng hộ bạn, tôi cũng vừa tặng cho đứa bạn tôi 1 đôi, nó cực kỳ thích--%>
-<%--                                            luôn</p>--%>
-<%--                                        <div class="tools_comment">--%>
-<%--                                            <a class="like" href="#">Thích</a>--%>
-<%--                                            <span aria-hidden="true"> · </span>--%>
-<%--                                            <a class="replay" href="#">Phản hồi</a>--%>
-<%--                                            <span aria-hidden="true"> · </span>--%>
-<%--                                            <i class="fa fa-thumbs-o-up"></i> <span class="count">1</span>--%>
-<%--                                            <span aria-hidden="true"> · </span>--%>
-<%--                                            <span>5m</span>--%>
-<%--                                        </div>--%>
-<%--                                        <ul class="child_replay"></ul>--%>
-<%--                                    </div>--%>
-<%--                                </li>--%>
-<%--                            </ul>--%>
-<%--                        </div>--%>
-<%--                    </li>--%>
+                    <li class="box_result row">
+                        <div class="avatar_comment col-md-1">
+                            <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>
+                        </div>
+                        <div class="result_comment col-md-11">
+                            <h4>Nguyễn Huy Hiệp</h4>
+                            <p>Đôi giày này thật tuyệt vời, tôi sẽ mua 2 đôi để tặng bạn thân nhất nhân dịp sinh nhật
+                                sắp tới của bạn tôi</p>
+                            <div class="tools_comment">
+                                <a class="like" href="#">Thích</a>
+                                <span aria-hidden="true"> · </span>
+                                <a class="replay" href="#">Phản hồi</a>
+                                <span aria-hidden="true"> · </span>
+                                <i class="fa fa-thumbs-o-up"></i> <span class="count">1</span>
+                                <span aria-hidden="true"> · </span>
+                                <span>26m</span>
+                            </div>
+                            <ul class="child_replay">
+                                <li class="box_reply row">
+                                    <div class="avatar_comment col-md-1">
+                                        <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>
+                                    </div>
+                                    <div class="result_comment col-md-11">
+                                        <h4>Nguyễn Minh Hiếu</h4>
+                                        <p>Rất ủng hộ bạn, tôi cũng vừa tặng cho đứa bạn tôi 1 đôi, nó cực kỳ thích
+                                            luôn</p>
+                                        <div class="tools_comment">
+                                            <a class="like" href="#">Thích</a>
+                                            <span aria-hidden="true"> · </span>
+                                            <a class="replay" href="#">Phản hồi</a>
+                                            <span aria-hidden="true"> · </span>
+                                            <i class="fa fa-thumbs-o-up"></i> <span class="count">1</span>
+                                            <span aria-hidden="true"> · </span>
+                                            <span>5m</span>
+                                        </div>
+                                        <ul class="child_replay"></ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     <!-- Start List Comment 2 -->
-<%--                    <li class="box_result row">--%>
-<%--                        <div class="avatar_comment col-md-1">--%>
-<%--                            <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>--%>
-<%--                        </div>--%>
-<%--                        <div class="result_comment col-md-11">--%>
-<%--                            <h4>Đinh Huy Hoàng</h4>--%>
-<%--                            <p>Tuyệt vời</p>--%>
-<%--                            <div class="tools_comment">--%>
-<%--                                <a class="like" href="#">Thích</a>--%>
-<%--                                <span aria-hidden="true"> · </span>--%>
-<%--                                <a class="replay" href="#">Phản hồi</a>--%>
-<%--                                <span aria-hidden="true"> · </span>--%>
-<%--                                <i class="fa fa-thumbs-o-up"></i> <span class="count">1</span>--%>
-<%--                                <span aria-hidden="true"> · </span>--%>
-<%--                                <span>26m</span>--%>
-<%--                            </div>--%>
-<%--                            <ul class="child_replay"></ul>--%>
-<%--                        </div>--%>
-<%--                    </li>--%>
+                    <li class="box_result row">
+                        <div class="avatar_comment col-md-1">
+                            <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>
+                        </div>
+                        <div class="result_comment col-md-11">
+                            <h4>Đinh Huy Hoàng</h4>
+                            <p>Tuyệt vời</p>
+                            <div class="tools_comment">
+                                <a class="like" href="#">Thích</a>
+                                <span aria-hidden="true"> · </span>
+                                <a class="replay" href="#">Phản hồi</a>
+                                <span aria-hidden="true"> · </span>
+                                <i class="fa fa-thumbs-o-up"></i> <span class="count">1</span>
+                                <span aria-hidden="true"> · </span>
+                                <span>26m</span>
+                            </div>
+                            <ul class="child_replay"></ul>
+                        </div>
+                    </li>
                 </ul>
                 <button class="show_more" type="button">Tải thêm 10 bình luận</button>
             </div>
