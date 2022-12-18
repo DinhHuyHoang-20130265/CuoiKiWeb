@@ -189,7 +189,61 @@ public class ProductDAO {
     public void setListProduct(ArrayList<Product> listProduct) {
         this.listProduct = listProduct;
     }
+    public Product getProductHiddenAndDetails(String id) {
+        Product product = JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," +
+                                " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
+                                " p.updated_date, p.updated_by FROM product p " +
+                                " WHERE p.id =?")
+                        .bind(0, id)
+                        .mapToBean(Product.class)
+                        .one()
+        );
+        List<ProductColor> colors;
+        List<ProductSize> sizes;
+        List<ProductImage> images;
+        ProductSale sale = null;
+        colors = JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT c.prod_id, c.color_name FROM color c Where c.prod_id =?")
+                        .bind(0, id)
+                        .mapToBean(ProductColor.class)
+                        .stream()
+                        .collect(Collectors.toList())
+        );
+        sizes = JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT c.prod_id, c.size_name FROM size c Where c.prod_id =?")
+                        .bind(0, id)
+                        .mapToBean(ProductSize.class)
+                        .stream()
+                        .collect(Collectors.toList())
+        );
+        images = JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT c.prod_id, c.prod_img_link FROM img_product c Where c.prod_id =?")
+                        .bind(0, id)
+                        .mapToBean(ProductImage.class)
+                        .stream()
+                        .collect(Collectors.toList())
+        );
+        try {
+            sale = JDBIConnector.get().withHandle(handle ->
+                    handle.createQuery("SELECT DISTINCT p.promo_id, p.product_id, p.name_prom, p.desc_prom, p.discount_rate," +
+                                    " p.start_date, p.end_date FROM promotion p" +
+                                    " WHERE p.end_date > DATE(NOW()) AND p.product_id = ?")
+                            .bind(0, id)
+                            .mapToBean(ProductSale.class)
+                            .one()
+            );
+        } catch (Exception e) {
 
+        }
+        List<Category> categories = new CategoryDAO().getCategoryByIdProduct(id);
+        product.setCategories(categories);
+        product.setImages(images);
+        product.setColors(colors);
+        product.setSizes(sizes);
+        product.setSales(sale);
+        return product;
+    }
     public Product getProductAndDetails(String id) {
         Product product = JDBIConnector.get().withHandle(handle ->
                 handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," +
