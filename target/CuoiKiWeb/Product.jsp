@@ -663,7 +663,7 @@
         }
     }
     function addwishlist() {
-        $(".add-wishlist").on(click(function (e) {
+        $(".add-wishlist").click(function (e) {
             e.preventDefault();
             const id = this.id;
             if(id == null) {
@@ -684,7 +684,7 @@
                     }
                 }))
             }
-        }))
+        })
     }
     function addcart() {
         $(".shopnow2").click(function (e) {
