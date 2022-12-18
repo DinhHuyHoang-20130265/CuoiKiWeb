@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.beans;
 
+import vn.edu.hcmuaf.fit.services.UserInformationService;
+
 import java.io.Serializable;
 
 public class UserInformation implements Serializable {
@@ -16,6 +18,9 @@ public class UserInformation implements Serializable {
         this.phoneNumb = phoneNumb;
         this.address = address;
         this.avatarImgLink = avatarImgLink;
+    }
+    public UserInformation(){
+
     }
 
     public String getId() {
@@ -66,4 +71,15 @@ public class UserInformation implements Serializable {
         this.avatarImgLink = avatarImgLink;
     }
 
+    @Override
+    public String toString() {
+        return "UserInformation{" +
+                "id='" + id + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumb='" + phoneNumb + '\'' +
+                ", address='" + address + '\'' +
+                ", avatarImgLink='" + avatarImgLink + '\'' +
+                '}';
+    }
 }
