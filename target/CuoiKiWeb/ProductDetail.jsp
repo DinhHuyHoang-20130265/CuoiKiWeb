@@ -1,4 +1,12 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.DAO.ProductDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="vn.edu.hcmuaf.fit.DAO.CategoryDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductColor" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductSize" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -370,6 +378,13 @@
 </style>
 
 <body>
+
+<%
+    ProductDAO productDAO = new ProductDAO();
+    Product product = productDAO.getProductAndDetails(request.getParameter("id"));
+    NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));
+%>
+
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
 <!-- product detail -->
 <div class="container">
@@ -398,7 +413,7 @@
                     </ul>
                 </div>
                 <div id="main-img" style="cursor: pointer;">
-                    <img src="./assets/imgProduct/images/men/1.jpg" class="big-img" alt="ảnh chính" id="img-main">
+                    <img src="<%=product.getMain_img_link()%>" class="big-img" alt="ảnh chính" id="img-main">
                     <div class="sale-off sale-off-2">
                         <span class="sale-off-percent">20%</span>
                         <span class="sale-off-label">GIẢM</span>
@@ -407,20 +422,41 @@
             </div>
             <div class="col-lg-6 col-12">
                 <div class="product__name">
-                    <h2 style="text-transform: uppercase">Áo len sọc lớn màu</h2>
+                    <h2 style="text-transform: uppercase"><%=product.getProd_name()%></h2>
                 </div>
-                <div class="status-product">
-                    Trạng thái: <b>Còn hàng</b>
-                </div>
+                <% if (product.getQuantity() != 0) { %>
+                         <div class="status-product">
+                                Trạng thái: <b>Còn hàng</b>
+                         </div>
+                   <% } else { %>
+                       <div class="status-product" style="color: red">
+                               Trạng thái: <b>Hết hàng</b>
+                         </div>
+                   <%}%>
+                <%
+                    String cate = "";
+                    for (Category category : product.getCategories()) {
+                        cate += category.getCate_name() + ", ";
+                    }
+                    cate = cate.substring(0, cate.length() - 2);
+                %>
+
                 <div class="infor-oder">
-                    Loại sản phẩm: <b>Đồ Nam</b>
+                    Loại sản phẩm: <b><%=cate%></b>
                 </div>
-                <div class="product__price">
-                    <h2>420.000đ</h2>
-                </div>
+                <%if (product.getSales() != null) { %>
+                    <div class="product__price">
+                        <h2><%=format.format(product.getPrice() * (product.getPrice() * 0.01 * (100 - product.getSales().getDiscount_rate())))%>đ</h2>
+                    </div>
+                <%} else{ %>
+                    <div class="product__price">
+                    <h2><%=format.format(product.getPrice())%>đ</h2>
+                    </div>
+                <%}%>
+
                 <div class="price-old">
                     Giá gốc:
-                    <del>650.000đ</del>
+                    <del><%=format.format(product.getPrice())%>đ</del>
                     <span class="discount">(-20%)</span>
                 </div>
                 <div class="product__color d-flex" style="align-items: center;">
@@ -428,22 +464,28 @@
                         Màu:
                     </div>
                     <div class="select-swap d-flex">
-
+                        <%for (ProductColor color : product.getColors()) {%>
                         <div class="circlecheck">
-                            <input type="radio" id="f-option" class="circle-1" name="selector" checked>
-                            <label for="f-option"></label>
+                            <input type="radio" id="<%=color.getColor_name()%>-option" class="circle-<%=color.getColor_name()%>" name="selector"/>
+                            <label for="<%=color.getColor_name()%>-option"></label>
                             <div class="outer-circle"></div>
                         </div>
-                        <div class="circlecheck">
-                            <input type="radio" id="g-option" class="circle-2" name="selector">
-                            <label for="g-option"></label>
-                            <div class="outer-circle"></div>
+                        <%}%>
+                        <div class="circlecheck" style="opacity: 0;">
+                            <input type="radio" id="-option" class="circle-" name="selector"/>
+                            <label for="-option">0</label>
+                            <div class="outer-circle">0</div>
                         </div>
-                        <div class="circlecheck">
-                            <input type="radio" id="h-option" class="circle-3" name="selector">
-                            <label for="h-option"></label>
-                            <div class="outer-circle"></div>
-                        </div>
+<%--                        <div class="circlecheck">--%>
+<%--                            <input type="radio" id="g-option" class="circle-2" name="selector">--%>
+<%--                            <label for="g-option"></label>--%>
+<%--                            <div class="outer-circle"></div>--%>
+<%--                        </div>--%>
+<%--                        <div class="circlecheck">--%>
+<%--                            <input type="radio" id="h-option" class="circle-3" name="selector">--%>
+<%--                            <label for="h-option"></label>--%>
+<%--                            <div class="outer-circle"></div>--%>
+<%--                        </div>--%>
                     </div>
                 </div>
                 <div class="product__size d-flex" style="align-items: center;">
@@ -451,21 +493,32 @@
                         Kích thước:
                     </div>
                     <div class="select-swap">
-                        <div class="swatch-element" data-value="38">
-                            <input type="radio" class="variant-1" id="swatch-1-38" name="mau" value="trung"
-                                   onclick="check()">
-                            <label for="swatch-1-38" class="sd"><span>38</span></label>
+                        <%for (ProductSize size : product.getSizes()) {%>
+                        <div class="swatch-element" data-value="<%=size.getSize_name()%>">
+                            <input type="radio" class="variant-1" id="swatch-1-<%=size.getSize_name()%>" name="mau" value="<%=size.getSize_name()%>"
+                                   onclick="check()"/>
+                            <label for="swatch-1-<%=size.getSize_name()%>" class="sd"><span><%=size.getSize_name()%></span></label>
                         </div>
-                        <div class="swatch-element" data-value="39">
-                            <input type="radio" class="variant-1" id="swatch-1-39" name="mau" value="thanh"
-                                   onclick="check()">
-                            <label for="swatch-1-39" class="sd"><span>39</span></label>
+                        <%}%>
+                        <div class="swatch-element" data-value="" style="opacity: 0">
+                            <input type="radio" class="variant-1" id="swatch-1" name="mau"/>
+                            <label for="swatch-1" class="sd"><span>0</span></label>
                         </div>
-                        <div class="swatch-element" data-value="40">
-                            <input type="radio" class="variant-1" id="swatch-1-40" name="mau" value="hieu"
-                                   onclick="check()">
-                            <label for="swatch-1-40" class="sd"><span>40</span></label>
-                        </div>
+<%--                        <div class="swatch-element" data-value="38">--%>
+<%--                            <input type="radio" class="variant-1" id="swatch-1-38" name="mau" value="trung"--%>
+<%--                                   onclick="check()">--%>
+<%--                            <label for="swatch-1-38" class="sd"><span>38</span></label>--%>
+<%--                        </div>--%>
+<%--                        <div class="swatch-element" data-value="39">--%>
+<%--                            <input type="radio" class="variant-1" id="swatch-1-39" name="mau" value="thanh"--%>
+<%--                                   onclick="check()">--%>
+<%--                            <label for="swatch-1-39" class="sd"><span>39</span></label>--%>
+<%--                        </div>--%>
+<%--                        <div class="swatch-element" data-value="40">--%>
+<%--                            <input type="radio" class="variant-1" id="swatch-1-40" name="mau" value="hieu"--%>
+<%--                                   onclick="check()">--%>
+<%--                            <label for="swatch-1-40" class="sd"><span>40</span></label>--%>
+<%--                        </div>--%>
                     </div>
                 </div>
                 <div class="product__wrap">
@@ -502,20 +555,20 @@
         <div class="tab1">
             <div id="mota" class="tabcontent">
                 <div class="row">
-                    <div class="col-11">
-                        <h3 class="name__product">NIKE MERCURIAL SUPERFLY 8 ACADEMY TF</h3>
-                        <h3>Thông số kĩ thuật: </h3>
-                        <p>Phân khúc: Academy (tầm trung).</p>
-                        <p>Upper: Synthetic - Da tổng hợp cao cấp.</p>
-                        <p>Thiết kế đinh giày: Các đinh cao su hình chữ nhật, xếp chồng chéo với nhau. Theo đánh giá của
-                            nhiều
-                            người chơi thì những đinh TF hình chữ nhật lần này giúp đôi giày có thể trụ vững hơn trên
-                            sân.</p>
-                        <p>Độ ôm chân: Cao</p>
-                        <p>Bộ sưu tập: SAFARI PACK - Ra mắt tháng 4/2021</p>
-                        <p>PTrên chân các cầu thủ nổi tiếng như: Cristiano Ronaldo, Kylian Mbappé, Erling Haaland, Jadon
-                            Sancho,
-                            Leroy Sané, Romelu Lukaku...</p>
+                    <div class="col-11">  <%--<%=product.getContent()%>--%>
+<%--                        <h3 class="name__product">NIKE MERCURIAL SUPERFLY 8 ACADEMY TF</h3>--%>
+<%--                        <h3>Thông số kĩ thuật: </h3>--%>
+<%--                        <p>Phân khúc: Academy (tầm trung).</p>--%>
+<%--                        <p>Upper: Synthetic - Da tổng hợp cao cấp.</p>--%>
+<%--                        <p>Thiết kế đinh giày: Các đinh cao su hình chữ nhật, xếp chồng chéo với nhau. Theo đánh giá của--%>
+<%--                            nhiều--%>
+<%--                            người chơi thì những đinh TF hình chữ nhật lần này giúp đôi giày có thể trụ vững hơn trên--%>
+<%--                            sân.</p>--%>
+<%--                        <p>Độ ôm chân: Cao</p>--%>
+<%--                        <p>Bộ sưu tập: SAFARI PACK - Ra mắt tháng 4/2021</p>--%>
+<%--                        <p>PTrên chân các cầu thủ nổi tiếng như: Cristiano Ronaldo, Kylian Mbappé, Erling Haaland, Jadon--%>
+<%--                            Sancho,--%>
+<%--                            Leroy Sané, Romelu Lukaku...</p>--%>
                     </div>
                 </div>
             </div>
