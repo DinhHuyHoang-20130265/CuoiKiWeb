@@ -1,7 +1,9 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 12/11/2022
@@ -79,17 +81,24 @@
           </a>
           <div class="item-actions-block">
             <ul class="item-actions-list">
+              <% AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+                for (AdminRole role : admin.getRole()) {
+                if (role.getTable().equals("product") && role.getPermission().equals("delete")) {%>
               <li>
                 <a class="remove" href="#" data-toggle="modal"
                    data-target="#confirm-modal" id="delete<%=p.getId()%>">
                   <i class="fa fa-trash-o"></i>
                 </a>
               </li>
+              <%}
+                if (role.getTable().equals("product") && role.getPermission().equals("update")) {%>
               <li>
                 <a class="edit" href="item-editor.jsp?id=<%=p.getId()%>">
                   <i class="fa fa-pencil"></i>
                 </a>
               </li>
+              <%}
+              }%>
             </ul>
           </div>
         </div>
