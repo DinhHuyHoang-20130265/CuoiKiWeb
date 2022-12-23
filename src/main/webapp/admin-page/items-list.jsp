@@ -382,7 +382,7 @@
             success: function (data) {
                 $("#appendItem").html(data);
                 deleteProduct();
-                reloadScript()
+                reloadScript();
             }
         })
     }
@@ -431,7 +431,7 @@
                         $("#appendItem").html(data);
                         $("#page").text(page)
                         deleteProduct();
-                        reloadScript()
+                        reloadScript();
                     }
                 })
             }
@@ -454,7 +454,7 @@
                         $("#appendItem").html(data);
                         $("#page").text(page)
                         deleteProduct();
-                        reloadScript()
+                        reloadScript();
                     }
                 }
             })

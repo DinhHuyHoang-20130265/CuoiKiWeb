@@ -8,6 +8,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductColor" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductSize" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductImage" %>
+<%@ page import="java.util.Arrays" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -112,7 +113,7 @@
             <%
                 Product p = null;
                 if (request.getParameter("id") != null)
-                    p = ProductService.getInstance().getProductAndDetails(request.getParameter("id"));
+                    p = ProductService.getInstance().getProductHiddenAndDetails(request.getParameter("id"));
             %>
             <form name="item" method="post" enctype="multipart/form-data">
                 <input type="text" id="idEdit"
@@ -145,79 +146,81 @@
                                         List<ProductColor> colors = null;
                                         if (p != null)
                                             colors = p.getColors();
-                                        String color = "";
+                                        String colortemp = "";
                                         if (colors != null) {
                                             for (ProductColor color1 : colors) {
-                                                color += color1.getColor_name() + " ";
+                                                colortemp += color1.getColor_name() + ",";
                                             }
                                         }
+                                        String[] color = colortemp.split(",");
+                                        List<String> colorcheck = Arrays.asList(color);
                                     %>
                                     <label class="form-check-label">
-                                        <div class="foo black <%=(p!= null && color.indexOf("black") != -1) ? "active" : ""%>">
+                                        <div class="foo black <%=(p!= null && colorcheck.contains("black")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor" value="black"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("black") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("black")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo dark_grey <%=(p!= null && color.indexOf("darkgrey") != -1) ? "active" : ""%>">
+                                        <div class="foo dark_grey <%=(p!= null && colorcheck.contains("darkgrey")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor"
                                                    value="darkgrey"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("darkgrey") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("darkgrey")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo grey <%=( p!= null && color.indexOf("grey") != -1) ? "active" : ""%>">
+                                        <div class="foo grey <%=( p!= null && colorcheck.contains("grey")) ? "active" : ""%>">
                                             <input
                                                     type="checkbox" class="checkcolor" value="grey"
-                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("grey") != -1) ? "checked" : ""%>>
+                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("grey")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo light_blue <%=(p!= null && color.indexOf("lightblue") != -1) ? "active" : ""%>">
+                                        <div class="foo light_blue <%=(p!= null && colorcheck.contains("lightblue")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor"
                                                    value="lightblue"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("lightblue") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("lightblue")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo blue <%=(p!= null && color.indexOf("blue") != -1) ? "active" : ""%>">
+                                        <div class="foo blue <%=(p!= null && colorcheck.contains("blue")) ? "active" : ""%>">
                                             <input
                                                     type="checkbox" class="checkcolor" value="blue"
-                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("blue") != -1) ? "checked" : ""%>>
+                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("blue")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo dark_blue <%=(p!= null && color.indexOf("darkblue") != -1) ? "active" : ""%>">
+                                        <div class="foo dark_blue <%=(p!= null && colorcheck.contains("darkblue")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor"
                                                    value="darkblue"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("darkblue") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("darkblue")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo dark_green <%=(p!= null && color.indexOf("darkgreen") != -1) ? "active" : ""%>">
+                                        <div class="foo dark_green <%=(p!= null && colorcheck.contains("darkgreen")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor"
                                                    value="darkgreen"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("darkgreen") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("darkgreen")) ? "checked" : ""%>>
                                         </div>
                                     </label>
                                     <label class="form-check-label">
-                                        <div class="foo green <%=(p!= null && color.indexOf("green") != -1) ? "active" : ""%>">
+                                        <div class="foo green <%=(p!= null && colorcheck.contains("green")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor" value="green"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("green") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("green")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo purple <%=(p!= null && color.indexOf("purple") != -1) ? "active" : ""%>">
+                                        <div class="foo purple <%=(p!= null && colorcheck.contains("purple")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor" value="purple"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("purple") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("purple")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo pink <%=(p!= null && color.indexOf("pink") != -1) ? "active" : ""%>">
+                                        <div class="foo pink <%=(p!= null && colorcheck.contains("pink")) ? "active" : ""%>">
                                             <input
                                                     type="checkbox" class="checkcolor" value="pink"
-                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("pink") != -1) ? "checked" : ""%>>
+                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("pink")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo yellow <%=(p!= null && color.indexOf("yellow") != -1) ? "active" : ""%>">
+                                        <div class="foo yellow <%=(p!= null && colorcheck.contains("yellow")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor" value="yellow"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("yellow") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("yellow")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo orange <%=(p!= null && color.indexOf("orange") != -1) ? "active" : ""%>">
+                                        <div class="foo orange <%=(p!= null && colorcheck.contains("orange")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor" value="orange"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("orange") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("orange")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo red <%=(p!= null && color.indexOf("red") != -1) ? "active" : ""%>">
+                                        <div class="foo red <%=(p!= null && colorcheck.contains("red")) ? "active" : ""%>">
                                             <input
                                                     type="checkbox" class="checkcolor" value="red"
-                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("red") != -1) ? "checked" : ""%>>
+                                                    style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("red")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo brown <%=(p!= null && color.indexOf("brown") != -1) ? "active" : ""%>">
+                                        <div class="foo brown <%=(p!= null && colorcheck.contains("brown")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor" value="brown"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("brown") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("brown")) ? "checked" : ""%>>
                                         </div>
                                     </label>
                                 </li>
@@ -229,86 +232,88 @@
                         <%
                             List<ProductSize> sizes = null;
                             if (p != null)
-                                sizes = ProductService.getInstance().getProductAndDetails(p.getId()).getSizes();
-                            String size = "";
+                                sizes = p.getSizes();
+                            String sizetemp = "";
                             if (sizes != null) {
                                 for (ProductSize size1 : sizes) {
-                                    size += size1.getSize_name() + " ";
+                                    sizetemp += size1.getSize_name() + ",";
                                 }
                             }
+                            String[] size = sizetemp.split(",");
+                            List<String> sizecheck = Arrays.asList(size);
                         %>
                         <div class="col-sm-10">
                             <ul id="size" class="size-box" style="display: inline-flex; padding-left: 20px;">
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check1">
                                         <input type="checkbox" class="form-check-input checksize" id="check1"
-                                               name="option2" <%=(p!= null && size.indexOf("S") != -1) ? "checked" : ""%>><span>S</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("S")) ? "checked" : ""%>><span>S</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check2">
                                         <input type="checkbox" class="form-check-input checksize" id="check2"
-                                               name="option2" <%=(p!= null && size.indexOf("M") != -1) ? "checked" : ""%>><span>M</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("M")) ? "checked" : ""%>><span>M</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check3">
                                         <input type="checkbox" class="form-check-input checksize" id="check3"
-                                               name="option2" <%=(p!= null && size.indexOf("L") != -1) ? "checked" : ""%>><span>L</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("L")) ? "checked" : ""%>><span>L</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check4">
                                         <input type="checkbox" class="form-check-input checksize" id="check4"
-                                               name="option2" <%=(p!= null && size.indexOf("XL") != -1) ? "checked" : ""%>><span>XL</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("XL")) ? "checked" : ""%>><span>XL</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check5">
                                         <input type="checkbox" class="form-check-input checksize" id="check5"
-                                               name="option2" <%=(p!= null && size.indexOf("2XL") != -1) ? "checked" : ""%>><span>2XL</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("2XL")) ? "checked" : ""%>><span>2XL</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check6">
                                         <input type="checkbox" class="form-check-input checksize" id="check6"
-                                               name="option2" <%=(p!= null && size.indexOf("28") != -1) ? "checked" : ""%>><span>28</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("28")) ? "checked" : ""%>><span>28</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check7">
                                         <input type="checkbox" class="form-check-input checksize" id="check7"
-                                               name="option2" <%=(p!= null && size.indexOf("29") != -1) ? "checked" : ""%>><span>29</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("29")) ? "checked" : ""%>><span>29</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check8">
                                         <input type="checkbox" class="form-check-input checksize" id="check8"
-                                               name="option2" <%=(p!= null && size.indexOf("30") != -1) ? "checked" : ""%>><span>30</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("30")) ? "checked" : ""%>><span>30</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check9">
                                         <input type="checkbox" class="form-check-input checksize" id="check9"
-                                               name="option2" <%=(p!= null && size.indexOf("31") != -1) ? "checked" : ""%>><span>31</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("31")) ? "checked" : ""%>><span>31</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check10">
                                         <input type="checkbox" class="form-check-input checksize" id="check10"
-                                               name="option2" <%=(p!= null && size.indexOf("32") != -1) ? "checked" : ""%>><span>32</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("32")) ? "checked" : ""%>><span>32</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check11">
                                         <input type="checkbox" class="form-check-input checksize" id="check11"
-                                               name="option2" <%=(p!= null && size.indexOf("34") != -1) ? "checked" : ""%>><span>34</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("34")) ? "checked" : ""%>><span>34</span>
                                     </label>
                                 </li>
                                 <li class="product__filter-item">
                                     <label class="form-check-label" for="check12">
                                         <input type="checkbox" class="form-check-input checksize" id="check12"
-                                               name="option2" <%=(p!= null && size.indexOf("36") != -1) ? "checked" : ""%>><span>36</span>
+                                               name="option2" <%=(p!= null && sizecheck.contains("36")) ? "checked" : ""%>><span>36</span>
                                     </label>
                                 </li>
                             </ul>
@@ -343,13 +348,14 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Hiển thị: </label>
                         <div class="col-sm-10" style="">
                             <select class="c-select form-control" id="select-status">
-                                <% if (p != null) {%>
-                                <option value="1" <%=(p.getProd_status() == 1) ? "selected" : ""%>>Hiển thị</option>
-                                <option value="0" <%=(p.getProd_status() == 0) ? "selected" : ""%>>Ẩn</option>
-                                <%} else {%>
-                                <option value="1">Hiển thị</option>
-                                <option value="0">Ẩn</option>
-                                <%}%>
+                                <% int status = 0;
+                                    if (p != null)
+                                        status = p.getProd_status();%>
+                                <option value="1" <%=(status == 1) ? "selected" : ""%>>Hiển
+                                    thị
+                                </option>
+                                <option value="0" <%=(status == 0) ? "selected" : ""%>>Ẩn
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -364,7 +370,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Mô tả nhanh: </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control boxed" id="description" name="description" value="<%=(p != null) ? p.getProd_desc() : ""%>">
+                            <input type="text" class="form-control boxed" id="description" name="description"
+                                   value="<%=(p != null) ? p.getProd_desc() : ""%>">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -548,7 +555,6 @@
         $("#remove" + idDelete).on("click", function (e) {
             e.preventDefault();
             const id = this.id.substring(6);
-            const idProduct = $("#idEdit").val();
             const src = $("#container" + id + " .img-product-review").attr("src");
             let imageName = "";
             if (src.indexOf("\\") != -1)
