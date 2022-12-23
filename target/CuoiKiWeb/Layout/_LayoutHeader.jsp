@@ -392,7 +392,7 @@
                                 <li class="product_suggest">
                                     <a>
                                         <div class="item-info">
-                                            <strong class="error" width: max-content; font-size: 16px; text-align: center;">Không tìm thấy sản phẩm</strong>
+                                            <strong class="error" style ="width: max-content; font-size: 16px; text-align: center;">Không tìm thấy sản phẩm</strong>
                                         </div>
                                     </a>
                                 </li>`);

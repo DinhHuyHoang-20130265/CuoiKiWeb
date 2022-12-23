@@ -5,6 +5,7 @@ import vn.edu.hcmuaf.fit.beans.product.*;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -25,7 +26,7 @@ public class ProductDAO {
 
     public List<Product> loadProductWithCondition(int page, int num_per_page, String order_by, String cate_id, String color
             , String price, String size, String search) {
-        String query = "SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," +
+        String query = "SELECT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," +
                 " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
                 " p.updated_date, p.updated_by FROM product p" +
                 " LEFT JOIN color c ON c.prod_id = p.id LEFT JOIN size s ON p.id = s.prod_id" +
@@ -52,6 +53,28 @@ public class ProductDAO {
         if (search != null) {
             query += " AND p.prod_name LIKE '%" + search + "%'";
         }
+        query += " GROUP BY p.id ";
+        if (color != null) {
+            if (!"".equals(color)) {
+                color = color.substring(0, color.length() - 1);
+                List<String> listColor = new ArrayList<>(Arrays.asList(color.split(",")));
+                query += " HAVING COUNT(DISTINCT c.color_name) = " + listColor.size() + " ";
+            }
+        }
+        if (size != null) {
+            if (!"".equals(size)) {
+                size = size.substring(0, size.length() - 1);
+                List<String> listSize = new ArrayList<>(Arrays.asList(size.split(",")));
+                if (color != null) {
+                    if (!"".equals(color))
+                        query += " AND COUNT(DISTINCT s.size_name) = " + listSize.size() + " ";
+                    else {
+                        query += " HAVING COUNT(DISTINCT s.size_name) = " + listSize.size() + " ";
+                    }
+                } else
+                    query += " HAVING COUNT(DISTINCT s.size_name) = " + listSize.size() + " ";
+            }
+        }
         if (order_by != null) {
             switch (order_by) {
                 case "0" -> query += " ORDER BY p.view_count DESC";
@@ -65,6 +88,7 @@ public class ProductDAO {
             }
         }
         String finalQuery = query;
+        System.out.println(finalQuery);
         List<Product> filter = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery)
                 .mapToBean(Product.class)
                 .stream()
@@ -189,6 +213,7 @@ public class ProductDAO {
     public void setListProduct(ArrayList<Product> listProduct) {
         this.listProduct = listProduct;
     }
+
     public Product getProductHiddenAndDetails(String id) {
         Product product = JDBIConnector.get().withHandle(handle ->
                 handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," +
@@ -244,6 +269,7 @@ public class ProductDAO {
         product.setSales(sale);
         return product;
     }
+
     public Product getProductAndDetails(String id) {
         Product product = JDBIConnector.get().withHandle(handle ->
                 handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," +
