@@ -8,6 +8,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductColor" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductSize" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductImage" %>
+<%@ page import="java.util.Arrays" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -145,24 +146,26 @@
                                         List<ProductColor> colors = null;
                                         if (p != null)
                                             colors = p.getColors();
-                                        String color = "";
+                                        String colortemp = "";
                                         if (colors != null) {
                                             for (ProductColor color1 : colors) {
-                                                color += color1.getColor_name() + " ";
+                                                colortemp += color1.getColor_name() + ",";
                                             }
                                         }
+                                        String[] color = colortemp.split(",");
+                                        List<String> colorcheck = Arrays.asList(color);
                                     %>
                                     <label class="form-check-label">
-                                        <div class="foo black <%=(p!= null && color.indexOf("black") != -1) ? "active" : ""%>">
+                                        <div class="foo black <%=(p!= null && colorcheck.contains("black")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor" value="black"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("black") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("black")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo dark_grey <%=(p!= null && color.indexOf("darkgrey") != -1) ? "active" : ""%>">
+                                        <div class="foo dark_grey <%=(p!= null && colorcheck.contains("darkgrey")) ? "active" : ""%>">
                                             <input type="checkbox" class="checkcolor"
                                                    value="darkgrey"
-                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("darkgrey") != -1) ? "checked" : ""%>>
+                                                   style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && colorcheck.contains("darkgrey")) ? "checked" : ""%>>
                                         </div>
-                                        <div class="foo grey <%=( p!= null && color.indexOf("grey") != -1) ? "active" : ""%>">
+                                        <div class="foo grey <%=( p!= null && colorcheck.contains("grey")) ? "active" : ""%>">
                                             <input
                                                     type="checkbox" class="checkcolor" value="grey"
                                                     style="opacity: 0; width: 20px;height: 20px;float: left;" <%=(p!= null && color.indexOf("grey") != -1) ? "checked" : ""%>>
@@ -548,7 +551,6 @@
         $("#remove" + idDelete).on("click", function (e) {
             e.preventDefault();
             const id = this.id.substring(6);
-            const idProduct = $("#idEdit").val();
             const src = $("#container" + id + " .img-product-review").attr("src");
             let imageName = "";
             if (src.indexOf("\\") != -1)
