@@ -377,18 +377,38 @@
                 e.preventDefault();
                 const search = this.value
                 $(".search-result").css("display", "block");
-                $.ajax({
-                    url: "SearchProductController",
-                    type: "post",
-                    data: {
-                        search : search
-                    },
-                    success: function (data) {
-                        if ($.trim(data)) {
-                            $(".suggest_search").html(data);
+                if (search.length > 0) {
+                    $.ajax({
+                        url: "SearchProductController",
+                        type: "post",
+                        data: {
+                            search : search
+                        },
+                        success: function (data) {
+                            if ($.trim(data)) {
+                                $(".suggest_search").html(data);
+                            } else {
+                                $(".suggest_search").html(`
+                                <li class="product_suggest">
+                                    <a>
+                                        <div class="item-info">
+                                            <strong class="error" style ="width: max-content; font-size: 16px; text-align: center;">Không tìm thấy sản phẩm</strong>
+                                        </div>
+                                    </a>
+                                </li>`);
+                            }
                         }
-                    }
-                })
+                    })
+                } else {
+                    $(".suggest_search").html(`
+                    <li class="product_suggest">
+                        <a>
+                            <div class="item-info">
+                                <strong class="error" style="width: max-content; font-size: 16px; text-align: center;">Nhập từ khóa để tìm kiếm sản phẩm</strong>
+                            </div>
+                        </a>
+                    </li>`);
+                }
             })
         })
         $("#searchProduct").on("blur",function () {
