@@ -114,7 +114,6 @@ function tru(id) {
     if (parseInt(value) > 1) {
         document.getElementById(`text_so_luong-${id}`).value = parseInt(value) - 1;
     }
-
 }
 function validate(evt) {
     var theEvent = evt || window.event;
