@@ -11,13 +11,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%List<NewsComment> loadNewsComment = (List<NewsComment>) request.getAttribute("loadNewsComment");%>
+<%UserInformation userInfo = (UserInformation) request.getAttribute("UserInformation");%>
 <%for (NewsComment comment : loadNewsComment){%>
 <div class="box_result row">
     <div class="avatar_comment col-md-1">
-        <img src="./assets/img/product/noavatar.png" alt="avatar"/>
+        <img src="<%=userInfo.getAvatarImgLink()%>" alt="avatar"/>
     </div>
     <div class="result_comment col-md-11">
-        <h4><%=comment.getComment_by()%></h4>
+        <h4><%=userInfo.getFullName()%></h4>
         <p><%=comment.getDescription()%></p>
         <div class="tools_comment">
             <a class="like" href="#">Thích</a>

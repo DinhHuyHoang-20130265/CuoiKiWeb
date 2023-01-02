@@ -21,7 +21,8 @@ public class LoadNewsCommentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        List<NewsComment> loadNewsComment = NewsCommentService.getInstance().getNewsCommentByNews(id);
+        String order_by = request.getParameter("order_by");
+        List<NewsComment> loadNewsComment = NewsCommentService.getInstance().getNewsCommentByNews(id, order_by);
         request.setAttribute("loadNewsComment", loadNewsComment);
         request.getRequestDispatcher("ajax/ajax_loadNewsComment.jsp").forward(request, response);
     }

@@ -8,21 +8,19 @@ public class NewsComment implements Serializable {
     private String news_id;
     private String comment_by;
     private String description;
-    private String parent_comment;
-    private Date comment_date;
+    private Date commented_date;
     private Byte comment_status;
 
     public NewsComment() {
 
     }
 
-    public NewsComment(String comment_id, String news_id, String comment_by, String description, String parent_comment, Date comment_date, Byte comment_status) {
+    public NewsComment(String comment_id, String news_id, String comment_by, String description, Date commented_date, Byte comment_status) {
         this.comment_id = comment_id;
         this.news_id = news_id;
         this.comment_by = comment_by;
         this.description = description;
-        this.parent_comment = parent_comment;
-        this.comment_date = comment_date;
+        this.commented_date = commented_date;
         this.comment_status = comment_status;
     }
 
@@ -58,20 +56,12 @@ public class NewsComment implements Serializable {
         this.description = description;
     }
 
-    public String getParent_comment() {
-        return parent_comment;
+    public Date getCommented_date() {
+        return commented_date;
     }
 
-    public void setParent_comment(String parent_comment) {
-        this.parent_comment = parent_comment;
-    }
-
-    public Date getComment_date() {
-        return comment_date;
-    }
-
-    public void setComment_date(Date comment_date) {
-        this.comment_date = comment_date;
+    public void setCommented_date(Date commented_date) {
+        this.commented_date = commented_date;
     }
 
     public Byte getComment_status() {
@@ -89,8 +79,7 @@ public class NewsComment implements Serializable {
                 ", news_id='" + news_id + '\'' +
                 ", comment_by='" + comment_by + '\'' +
                 ", description='" + description + '\'' +
-                ", parent_comment='" + parent_comment + '\'' +
-                ", comment_date=" + comment_date +
+                ", commented_date=" + commented_date +
                 ", comment_status=" + comment_status +
                 '}';
     }
