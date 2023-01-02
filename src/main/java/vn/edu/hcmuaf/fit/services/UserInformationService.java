@@ -14,11 +14,11 @@ public class UserInformationService {
         }
         return userInformationService;
     }
-    public List<UserInformation> getUserInfo(String id){
+    public UserInformation getUserInfo(String id){
         UserInformationDAO DAO = new UserInformationDAO();
         return DAO.getUserInfo(id);
     }
-    public List<UserInformation> getUserInfoById(String id){
+    public UserInformation getUserInfoById(String id){
         UserInformationDAO DAO = new UserInformationDAO();
         return DAO.getUserInfoById(id);
     }

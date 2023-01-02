@@ -99,6 +99,7 @@ public class LoginAdminController extends HttpServlet {
                 request.getSession().setAttribute("rememberAccount", rememberAccount);
             }
             //  sendirect tới index
+            request.getSession().removeAttribute("loginAdmin");
             response.sendRedirect("admin-page/index.jsp");
 
         }

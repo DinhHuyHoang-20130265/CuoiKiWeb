@@ -184,8 +184,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-1 col-2 text-right">
-                                    <a onclick="xoa(1)"><i class="fas fa-trash"></i></a>
+                                <div class="col-md-1 col-2 text-right delete-product">
+                                    <a href="#" class="deleteProd" id="delete<%=wishList.getData().get(id).getId()%>"><i
+                                            class="fas fa-trash"></i></a>
                                 </div>
                             </div>
                             <%
@@ -215,6 +216,40 @@
 <script src="./assets/js/jquery-3.6.1.min.js"></script>
 <script src="./assets/js/bootstrap.min.js"></script>
 <script src="./assets/js/main.js"></script>
+<script>
+    function deleteProduct() {
+        $(".deleteProd").click(function (e) {
+            const id = this.id;
+            console.log(id);
+            e.preventDefault();
+            $.ajax({
+                url: "DeleteProductWishListController",
+                type: "get",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    $(".cart").html(data);
+                    deleteProduct();
+                }
+            })
+            $.ajax({
+                url: "UpdateQuantityWishListController",
+                type: "get",
+                data: {
+                    id:id
+                },
+                success: function (data) {
+                    $(".header_wishlist").each(function () {
+                        $(this).text(data)
+                    })
+                }
+            })
+        })
+    }
+    $(document).ready(function () {
+        deleteProduct();
+    })
+</script>
 </body>
-
 </html>

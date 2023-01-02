@@ -27,6 +27,7 @@ public class DeleteProductCartController extends HttpServlet {
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         CartKey key = new CartKey(id, color, size);
         cart.getData().remove(key);
+//        cart.getQuantity_cart();
         request.getSession().setAttribute("cart", cart);
         request.getRequestDispatcher("ajax/ajax_Cart.jsp").forward(request, response);
     }

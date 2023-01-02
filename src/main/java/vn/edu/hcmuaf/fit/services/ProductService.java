@@ -56,4 +56,8 @@ public class ProductService {
     public void UpdateProduct(String id, String name, String price, int status, String userid, int quantity, String[] stringSize, String[] stringColor, String idCate, String desc, String content, String[] imgFile) {
         new ProductDAO().UpdateProduct(id, name, price, status, userid, quantity, stringSize, stringColor, idCate, desc, content, imgFile);
     }
+
+    public Product getProductHiddenAndDetails(String id) {
+        return new ProductDAO().getProductHiddenAndDetails(id);
+    }
 }
