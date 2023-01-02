@@ -140,32 +140,32 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="page-title">
                     <h1 class="title-head" style="font-size: 30px">
-                        <strong><%=NewsService.getInstance().getNewsById((String) request.getParameter("id")).getNews_title()%>
+                        <strong><%=NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_title()%>
                         </strong>
                     </h1>
                 </div>
                 <div class="content-page">
                     <span class="time" style="font-size: 18px; color: #999;"><i class="far fa-clock"
-                                                                                style="margin-right: 10px;"><%=NewsService.getInstance().getNewsById((String) request.getParameter("id")).getPosted_date()%></i></span>
-                    <%=NewsService.getInstance().getNewsById((String) request.getParameter("id")).getContent()%>
+                                                                                style="margin-right: 10px;"><%=NewsService.getInstance().getNewsById(request.getParameter("id")).getPosted_date()%></i></span>
+                    <%=NewsService.getInstance().getNewsById(request.getParameter("id")).getContent()%>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- comment -->
-<input type="text" id="newsid" value="<%=(String) request.getParameter("id")%>" style="display: none">
-<%List<NewsComment> loadNewsComment = NewsCommentService.getInstance().getNewsCommentByNews((String) request.getParameter("id"), "0");%>
+<input type="text" id="newsid" value="<%=request.getParameter("id")%>" style="display: none">
+<%List<NewsComment> loadNewsComment = NewsCommentService.getInstance().getNewsCommentByNews("1", request.getParameter("id"), "0");%>
 <div class="container">
     <div class="col-md-12" id="fbcomment">
         <div class="header_comment">
             <div class="row">
                 <div class="col-md-6 text-left">
-                    <span class="count_comment"><%=loadNewsComment.size()%> bình luận</span>
+                    <span class="count_comment"><%=NewsCommentService.getInstance().getAllCommentFromNews(request.getParameter("id")).size()%> bình luận</span>
                 </div>
                 <div class="col-md-6 text-right">
                     <span class="sort_title">Sắp xếp theo</span>
-                    <select class="sort_by">
+                    <select class="sort_by" id="sort_by">
                         <option value="0" selected>Mới nhất</option>
                         <option value="1">Cũ nhất</option>
                     </select>
@@ -199,10 +199,14 @@
             </div>
             <div class="row">
                 <div id="list_comment" class="col-md-12">
-                    <% if (loadNewsComment != null)
-                        for (NewsComment comment : loadNewsComment) {
-                            UserInformation userInfo = UserInformationService.getInstance().getUserInfo(comment.getComment_by());%>
-                    <div class="box_result row" id="box_result<%=comment.getComment_id()%>">
+                    <% int numb = 6;%>
+                    <% if (loadNewsComment != null) {
+                        if (loadNewsComment.size() < 6) {
+                            numb = loadNewsComment.size();
+                        }
+                        for (int i = 0; i < numb; i++) {
+                            UserInformation userInfo = UserInformationService.getInstance().getUserInfo(loadNewsComment.get(i).getComment_by());%>
+                    <div class="box_result row" id="box_result<%=loadNewsComment.get(i).getComment_id()%>">
                         <div class="avatar_comment col-md-1">
                             <img src="<%=userInfo.getAvatarImgLink() == null ? "http://localhost:8080/CuoiKiWeb_war/assets/imgNews/news/avatar.jpg" : userInfo.getAvatarImgLink()%>"
                                  alt="avatar"/>
@@ -210,24 +214,29 @@
                         <div class="result_comment col-md-11">
                             <h4><%=userInfo.getFullName()%>
                             </h4>
-                            <p><%=comment.getDescription()%>
+                            <p><%=loadNewsComment.get(i).getDescription()%>
                             </p>
                             <div class="tools_comment">
-                                <span><%=comment.getCommented_date()%></span>
-                                <%SiteUser user = (SiteUser) request.getSession().getAttribute("user");
+                                <span><%=loadNewsComment.get(i).getCommented_date()%></span>
+                                <%
+                                    SiteUser user = (SiteUser) request.getSession().getAttribute("user");
                                     if (user != null) {
-                                        if (user.getId().equals(comment.getComment_by())) { %>
-                                            <a class="remove" id="remove<%=comment.getComment_id()%>" style="cursor: pointer; float: right; color: darkred">Xóa comment của bạn</a>
-                                        <% }
-                                    } %>
+                                        if (user.getId().equals(loadNewsComment.get(i).getComment_by())) {
+                                %>
+                                <a class="remove" id="remove<%=loadNewsComment.get(i).getComment_id()%>"
+                                   style="cursor: pointer; float: right; color: darkred">Xóa comment của bạn</a>
+                                <% }
+                                } %>
                             </div>
                         </div>
                     </div>
-                    <%}%>
+                    <%
+                            }
+                        }
+                    %>
                 </div>
-                <% if (loadNewsComment.size() > 6) {%>
+                <input type="text" id="page" value="2" style="display: none">
                 <button class="show_more" type="button">Tải thêm bình luận</button>
-                <%}%>
             </div>
         </div>
     </div>
@@ -239,6 +248,7 @@
 <script src="./assets/js/main.js"></script>
 <script>
     deletecomment();
+
     function deletecomment() {
         $(".remove").click(function (e) {
             e.preventDefault();
@@ -247,21 +257,67 @@
                 url: "DeleteCommentController",
                 type: "post",
                 data: {
-                    id : id,
+                    id: id,
                 },
                 success: function () {
                     $("#box_result" + id).remove();
-                    $(".count_comment").text(parseInt($(".count_comment").text())
-                        -1);
+                    $(".count_comment").text((parseInt($(".count_comment").text()) - 1) + " bình luận");
                 }
             })
         });
     }
-    $('.sort_by').change(function() {
+
+    $(".show_more").click(function (e) {
+        e.preventDefault();
+        const page = $("#page").val();
+        const newsid = $("#newsid").val();
+        const order_by = $("#sort_by option:selected").val()
+        $.ajax({
+            url: "LoadNewsCommentController",
+            type: "post",
+            data: {
+                order_by: order_by,
+                newsid: newsid,
+                page: page
+            },
+            success: function (data) {
+                $("#list_comment").append(data);
+                $("#page").val(parseInt(page) + 1);
+            }
+        })
+    })
+    $('#sort_by').change(function () {
+        const order_by = $(this).val();
+        const page = "1";
         if ($(this).val() === "0") {
-
+            const newsid = $("#newsid").val();
             $.ajax({
-
+                url: "LoadNewsCommentController",
+                type: "post",
+                data: {
+                    order_by: order_by,
+                    newsid: newsid,
+                    page: page
+                },
+                success: function (data) {
+                    $("#list_comment").html(data);
+                    $("#page").val("2");
+                }
+            });
+        } else if ($(this).val() === "1") {
+            const newsid = $("#newsid").val();
+            $.ajax({
+                url: "LoadNewsCommentController",
+                type: "post",
+                data: {
+                    order_by: order_by,
+                    newsid: newsid,
+                    page: page
+                },
+                success: function (data) {
+                    $("#list_comment").html(data);
+                    $("#page").val("2");
+                }
             });
         }
     });
@@ -280,8 +336,7 @@
             },
             success: function (data) {
                 $("#list_comment").prepend(data);
-                $(".count_comment").text(parseInt($(".count_comment").text())
-                    + 1);
+                $(".count_comment").text((parseInt($(".count_comment").text()) + 1) + " bình luận");
                 deletecomment();
             }
         })
