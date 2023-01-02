@@ -70,19 +70,6 @@
                                 <a href="item-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm sản phẩm
                                 </a>
                                 <div class="action dropdown">
-                                    <button class="btn  btn-sm rounded-s btn-secondary dropdown-toggle"
-                                            type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false"> Hành động
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <a class="dropdown-item hidden-item" href="#">
-                                            <i class="fa fa-pencil-square-o icon"></i>Ẩn sản phẩm</a>
-                                        <a class="dropdown-item delete-item" href="#" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-close icon"></i>Xoá sản phẩm</a>
-                                    </div>
-                                </div>
-                                <div class="action dropdown">
                                     <select class="form-select" id="filter" aria-label="Default select example"
                                             style="font-size: 15px; border-color: #d7dde4;">
                                         <option selected value="0">Sắp xếp theo: Sản phẩm nổi bật</option>
@@ -324,7 +311,7 @@
 <script src="./js/app.js"></script>
 <script>
     function reloadScript() {
-        var $itemActions = $(".item-actions-dropdown");
+        const $itemActions = $(".item-actions-dropdown");
         $(document).on('click',function(e) {
             if (!$(e.target).closest('.item-actions-dropdown').length) {
                 $itemActions.removeClass('active');
@@ -332,7 +319,7 @@
         });
         $('.item-actions-toggle-btn').on('click',function(e){
             e.preventDefault();
-            var $thisActionList = $(this).closest('.item-actions-dropdown');
+            const $thisActionList = $(this).closest('.item-actions-dropdown');
             $itemActions.not($thisActionList).removeClass('active');
             $thisActionList.toggleClass('active');
         });
