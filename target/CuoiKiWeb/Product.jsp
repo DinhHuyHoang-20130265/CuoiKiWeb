@@ -546,6 +546,7 @@
         $("#dropdownSelect").change(function (e) {
             filter(e);
         })
+        addwishlist();
     });
 
     function filter(e) {
@@ -611,6 +612,7 @@
             success: function (data) {
                 $("#products").append(data);
                 const page = $("#page").val();
+                addwishlist();
                 load(page);
                 $("#page").val((parseInt(page) + 1) + "");
             }
@@ -619,6 +621,7 @@
 
     $("#loadMore").on('click', function () {
         loadproduct();
+        addwishlist();
     });
 
     function load(a) {
@@ -666,6 +669,7 @@
         $(".add-wishlist").click(function (e) {
             e.preventDefault();
             const id = this.id;
+            console.log(id);
             if(id == null) {
                 alert("Không thể đưa vào danh sách yêu thích")
             }
@@ -680,7 +684,7 @@
                         $(".header_wishlist").each(function () {
                             $(this).text(data);
                         })
-                        $(".home-product-item__action").html(`<i class="home-product-item__like-icon-fill fas fa-heart" style="display: contents"></i>`)
+                        // $(".home-product-item__action span i").html(`<i class="home-product-item__like-icon-fill fas fa-heart" style="display: contents!important;"></i>`)
                     }
                 }))
             }
@@ -703,7 +707,7 @@
                         idAdd: idAdd,
                         size: size,
                         color: color,
-                        amount : amount
+                        amount: amount
                     },
                     success: function (data) {
                         $(".header__second__cart--notice").each(function () {

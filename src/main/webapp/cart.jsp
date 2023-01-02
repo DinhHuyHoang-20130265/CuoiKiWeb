@@ -267,8 +267,25 @@
                     },
                     success: function (data) {
                         $(".cart").html(data);
+                        $(".header__second__cart--notice").each(function () {
+
+                        });
                         update();
                         deleteProduct();
+                    }
+                })
+                $.ajax({
+                    url: "UpdateQuantityCartController",
+                    type: "get",
+                    data: {
+                        id:id,
+                        size: size,
+                        color: color,
+                    },
+                    success: function (data) {
+                        $(".header__second__cart--notice").each(function () {
+                            $(this).text(data)
+                        })
                     }
                 })
             })
@@ -298,8 +315,25 @@
                             },
                             success: function (data) {
                                 $(".cart").html(data);
+                                // $(".header__second__cart--notice").each(function () {
+                                //     $(this).text(data.amount)
+                                // });
                                 update();
                                 deleteProduct();
+                            }
+                        })
+                        $.ajax({
+                            url: "UpdateQuantityCartController",
+                            type: "get",
+                            data: {
+                                id:id,
+                                size: size,
+                                color: color,
+                            },
+                            success: function (data) {
+                                $(".header__second__cart--notice").each(function () {
+                                    $(this).text(data)
+                                })
                             }
                         })
                     }

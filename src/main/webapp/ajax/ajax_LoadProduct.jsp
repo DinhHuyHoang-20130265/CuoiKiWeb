@@ -25,11 +25,20 @@
                 <img class="card-img-top" src="<%=p.getMain_img_link()%>" alt="Card image cap">
                 <form class="hover-icon hidden-sm hidden-xs">
                     <input type="hidden">
-                    <a class="btn-add-to-cart add-wishlist" id="addWishList<%=p.getId()%>"
+                    <% if (user == null) {%>
+                    <a href="Login.jsp" class="btn-add-to-cart"
                        title="Đưa vào danh sách yêu thích"
-                       style="margin-top: 10px">
+                       style="margin-top: 10px; cursor: pointer">
                         <i class="fas fa-heart"></i>
                     </a>
+                    <%} else {%>
+                    <a class="btn-add-to-cart add-wishlist" id="addWishList<%=p.getId()%>"
+                       title="Đưa vào danh sách yêu thích"
+                       style="margin-top: 10px; cursor: pointer">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <%}%>
+
                     <a class="quickview quickviewProduct"
                        title="Xem nhanh" id="view<%=p.getId()%>">
                         <i class="fas fa-search"></i>
