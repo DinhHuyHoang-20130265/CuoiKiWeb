@@ -8,6 +8,7 @@ public class News implements Serializable {
     private String news_id;
     private String news_title;
     private String description;
+    private String content;
     private String news_img_link;
     private Date posted_date;
     private String posted_by;
@@ -18,11 +19,12 @@ public class News implements Serializable {
     public News() {
     }
 
-    public News(String news_id, String news_title, String description, String news_img_link, Date posted_date,
+    public News(String news_id, String news_title, String description,String content, String news_img_link, Date posted_date,
                 String posted_by, Date updated_date, String updated_by, List<NewsComment> comments) {
         this.news_id = news_id;
         this.news_title = news_title;
         this.description = description;
+        this.content = content;
         this.news_img_link = news_img_link;
         this.posted_date = posted_date;
         this.posted_by = posted_by;
@@ -53,6 +55,14 @@ public class News implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getNews_img_link() {
@@ -109,6 +119,7 @@ public class News implements Serializable {
                 "news_id='" + news_id + '\'' +
                 ", news_title='" + news_title + '\'' +
                 ", description='" + description + '\'' +
+                ", content='" + content + '\'' +
                 ", news_img_link='" + news_img_link + '\'' +
                 ", posted_date=" + posted_date +
                 ", posted_by='" + posted_by + '\'' +
