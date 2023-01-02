@@ -19,4 +19,12 @@ public class AccountService {
     public List<SiteUser> getAllUserServer() {
         return new AccountUserDAO().getAllUserServer();
     }
+
+    public void RemoveAccount(String id) {
+        new AccountUserDAO().Remove(id);
+    }
+
+    public List<SiteUser> loadAccountWithConditions(int page, int numb, String search) {
+        return new AccountUserDAO().loadAccountWithConditions(page, numb, search);
+    }
 }
