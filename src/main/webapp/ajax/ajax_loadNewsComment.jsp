@@ -2,7 +2,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.news.NewsComment" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
 <%@ page import="vn.edu.hcmuaf.fit.DAO.UserInformationDAO" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %><%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 12/16/2022
@@ -11,25 +12,31 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%List<NewsComment> loadNewsComment = (List<NewsComment>) request.getAttribute("loadNewsComment");%>
-<%UserInformation userInfo = (UserInformation) request.getAttribute("UserInformation");%>
-<%for (NewsComment comment : loadNewsComment){%>
-<div class="box_result row">
+<% if (loadNewsComment != null)
+    for (NewsComment comment : loadNewsComment) {
+        UserInformation userInfo = UserInformationService.getInstance().getUserInfo(comment.getComment_by());%>
+<div class="box_result row" id="box_result<%=comment.getComment_id()%>">
     <div class="avatar_comment col-md-1">
-        <img src="<%=userInfo.getAvatarImgLink()%>" alt="avatar"/>
+        <img src="<%=userInfo.getAvatarImgLink() == null ? "http://localhost:8080/CuoiKiWeb_war/assets/imgNews/news/avatar.jpg" : userInfo.getAvatarImgLink()%>"
+             alt="avatar"/>
     </div>
     <div class="result_comment col-md-11">
-        <h4><%=userInfo.getFullName()%></h4>
-        <p><%=comment.getDescription()%></p>
+        <h4><%=userInfo.getFullName()%>
+        </h4>
+        <p><%=comment.getDescription()%>
+        </p>
         <div class="tools_comment">
-            <a class="like" href="#">Thích</a>
-            <span aria-hidden="true"> · </span>
-            <a class="replay" href="#">Phản hồi</a>
-            <span aria-hidden="true"> · </span>
-            <i class="fa fa-thumbs-o-up"></i> <span class="count">1</span>
-            <span aria-hidden="true"> · </span>
-            <span><%=comment.getComment_date()%></span>
+            <span><%=comment.getCommented_date()%></span>
+            <%
+                SiteUser user = (SiteUser) request.getSession().getAttribute("user");
+                if (user != null) {
+                    if (user.getId().equals(comment.getComment_by())) {
+            %>
+            <a class="remove" id="remove<%=comment.getComment_id()%>"
+               style="cursor: pointer; float: right; color: darkred">Xóa comment của bạn</a>
+            <% }
+            } %>
         </div>
-        <div class="child_replay"></div>
     </div>
 </div>
 <%}%>

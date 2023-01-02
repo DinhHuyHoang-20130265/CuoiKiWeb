@@ -15,14 +15,15 @@ import java.util.List;
 public class LoadNewsCommentController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    doPost(request,response);
+        doPost(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id");
+        String id = request.getParameter("newsid");
         String order_by = request.getParameter("order_by");
-        List<NewsComment> loadNewsComment = NewsCommentService.getInstance().getNewsCommentByNews(id, order_by);
+        String page = request.getParameter("page");
+        List<NewsComment> loadNewsComment = NewsCommentService.getInstance().getNewsCommentByNews(page, id, order_by);
         request.setAttribute("loadNewsComment", loadNewsComment);
         request.getRequestDispatcher("ajax/ajax_loadNewsComment.jsp").forward(request, response);
     }

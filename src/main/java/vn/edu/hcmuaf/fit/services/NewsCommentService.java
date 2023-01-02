@@ -16,12 +16,22 @@ public class NewsCommentService {
         return newsCommentService;
     }
 
-    public List<NewsComment> getNewsCommentByNews(String id, String order_by) {
+    public List<NewsComment> getAllCommentFromNews(String id) {
         NewsCommentDAO DAO = new NewsCommentDAO();
-        return DAO.getCommentByNews(id, order_by);
+        return DAO.getAllCommentFromNews(id);
     }
 
-    public String AddNewComment(String id, String comment,String NewsId) {
+    public List<NewsComment> getNewsCommentByNews(String page, String id, String order_by) {
+        NewsCommentDAO DAO = new NewsCommentDAO();
+        return DAO.getCommentByNews(page, id, order_by);
+    }
+
+    public NewsComment getNewsCommentByIdComment(String id) {
+        NewsCommentDAO DAO = new NewsCommentDAO();
+        return DAO.getCommentByIdComment(id);
+    }
+
+    public String AddNewComment(String id, String comment, String NewsId) {
         NewsCommentDAO DAO = new NewsCommentDAO();
         return DAO.AddNewComment(id, comment, NewsId);
     }

@@ -22,13 +22,7 @@ public class CommentController extends HttpServlet {
         String comment = request.getParameter("comment");
         String NewsId = request.getParameter("newsid");
         String Comment_id = NewsCommentService.getInstance().AddNewComment(id, comment, NewsId);
-        List<NewsComment> newsComment = NewsCommentService.getInstance().getNewsCommentByNews(NewsId, "0");
-        NewsComment news = null;
-        for (NewsComment n : newsComment) {
-            if (n.getComment_id().equals(Comment_id)) {
-                news = n;
-            }
-        }
+        NewsComment news = NewsCommentService.getInstance().getNewsCommentByIdComment(Comment_id);
         request.setAttribute("new_comment", news);
         request.getRequestDispatcher("ajax/ajax_showNewComment.jsp").forward(request, response);
     }

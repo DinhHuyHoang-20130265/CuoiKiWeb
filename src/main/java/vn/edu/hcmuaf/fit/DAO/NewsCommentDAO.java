@@ -1,9 +1,14 @@
 package vn.edu.hcmuaf.fit.DAO;
+
 import vn.edu.hcmuaf.fit.beans.news.NewsComment;
+import vn.edu.hcmuaf.fit.beans.product.Product;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+
 public class NewsCommentDAO {
 
     public String generateIdComment() {
@@ -27,7 +32,8 @@ public class NewsCommentDAO {
         if (id.contains(sb.toString())) return generateIdComment();
         else return sb.toString();
     }
-    public List<NewsComment> getCommentByNews(String id, String order_by){
+
+    public List<NewsComment> getCommentByNews(String page, String id, String order_by) {
         String sql = "SELECT nc.comment_id, nc.news_id,nc.comment_by" +
                 ", nc.description,nc.commented_date, nc.comment_status FROM news_comment nc" +
                 " INNER JOIN news n ON nc.news_id = n.news_id WHERE nc.comment_status = 1 AND n.news_id = '" + id + "' ";
@@ -39,13 +45,23 @@ public class NewsCommentDAO {
             }
         }
         String finalSQL = sql;
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery(finalSQL)
+        List<NewsComment> comments = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalSQL)
                 .mapToBean(NewsComment.class)
                 .stream()
                 .collect(Collectors.toList()));
-    }
-    public static void main(String[] args) {
-        System.out.println(new NewsCommentDAO().getCommentByNews("news001", "DESC"));
+
+        int numpage;
+        int start = (Integer.parseInt(page) - 1) * 6;
+        if (comments.size() - start >= 6) {
+            numpage = start + 6;
+        } else {
+            numpage = comments.size();
+        }
+        List<NewsComment> temp = new ArrayList<>();
+        for (int i = start; i < numpage; i++) {
+            temp.add(comments.get(i));
+        }
+        return temp;
     }
 
     public String AddNewComment(String id, String comment, String NewsId) {
@@ -60,7 +76,7 @@ public class NewsCommentDAO {
                     return true;
                 }
         );
-        return  idNews;
+        return idNews;
     }
 
     public void RemoveComment(String id) {
@@ -70,6 +86,29 @@ public class NewsCommentDAO {
                             .execute();
                     return true;
                 }
+        );
+    }
+
+    public NewsComment getCommentByIdComment(String id) {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news_comment WHERE comment_id = ?")
+                .bind(0, id)
+                .mapToBean(NewsComment.class)
+                .first()
+        );
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new NewsCommentDAO().getCommentByNews(
+                "0", "news001", "0"));
+        System.out.println(new NewsCommentDAO().getCommentByNews(
+                "3", "news001", "0").size());
+    }
+
+    public List<NewsComment> getAllCommentFromNews(String id) {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news_comment WHERE news_id = ?")
+                .bind(0, id)
+                .mapToBean(NewsComment.class)
+                .stream().collect(Collectors.toList())
         );
     }
 }
