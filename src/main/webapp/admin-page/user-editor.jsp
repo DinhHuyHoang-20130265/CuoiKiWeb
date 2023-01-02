@@ -52,242 +52,99 @@
         <jsp:include page="Layout/_LayoutAdminSideBar.jsp"></jsp:include>
         <article class="content item-editor-page">
             <div class="title-block">
-                <h3 class="title"> Thêm/sửa thông tin người dùng
+                <%if (request.getParameter("id") != null) {%>
+                <h3 class="title"> Sửa thông tin tài khoản
                     <span class="sparkline bar" data-type="bar"></span>
                 </h3>
+                <%} else {%>
+                <h3 class="title"> Thêm tài khoản
+                    <span class="sparkline bar" data-type="bar"></span>
+                </h3>
+                <%}%>
             </div>
             <form name="item">
                 <div class="card card-block">
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Tên người dùng: </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control boxed" placeholder="Nhập tên">
+                            <input type="text" id="name" name="name" class="form-control boxed" placeholder="Nhập tên">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Email: </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control boxed" placeholder="Nhập email">
+                            <input type="email" id="email" name="email" class="form-control boxed" placeholder="Nhập email">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Tên đăng nhập: </label>
                         <div class="col-sm-10">
-                            <input type="text" style="width:200px" class="form-control boxed"
+                            <input type="text" name="username" id=username style="width:200px" class="form-control boxed"
                                    placeholder="Nhập username">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Password: </label>
                         <div class="col-sm-10">
-                            <input type="password" style="width:200px" class="form-control boxed"
+                            <input type="password" name="password" id="password" style="width:200px" class="form-control boxed"
                                    placeholder="Nhập password">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Địa chỉ: </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control boxed" placeholder="Nhập...">
+                            <input type="text" name="address" id="address" class="form-control boxed" placeholder="Nhập...">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 form-control-label text-xs-right"> Ảnh đại diện: </label>
+                        <label class="col-sm-2 form-control-label text-xs-right"> Loại tài khoản </label>
+                        <div class="col-sm-10" style="">
+                            <select class="c-select form-control" name="select-cate" id="select-cate"
+                                    onfocus='this.size=2;' onblur='this.size=1;'
+                                    onchange='this.size=1; this.blur();'>
+                                <option value="0" selected>Tài khoản người dùng
+                                </option>
+                                <option value="1">Tài khoản quản lý
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 form-control-label text-xs-right"> Hình ảnh: </label>
                         <div class="col-sm-10">
                             <div class="images-container">
                                 <div class="image-container">
-                                    <div class="controls">
-                                        <a href="" class="control-btn move">
-                                            <i class="fa fa-arrows"></i>
-                                        </a>
-                                        <a href="" class="control-btn star">
-                                            <i class="fa"></i>
-                                        </a>
-                                        <a href="#" class="control-btn remove" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </div>
-                                    <div class="image"
-                                         style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')"></div>
-                                </div>
-                                <a href="#" class="add-image" data-toggle="modal" data-target="#modal-media">
-                                    <div class="image-container new">
-                                        <div class="image">
-                                            <i class="fa fa-plus"></i>
+                                    <div class="image" id="container1">
+                                        <div class="controls">
+                                            <a id="remove1" class="control-btn remove"
+                                               style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
                                         </div>
+                                        <img class='img-product-review' src=''
+                                             style='height: 100%'>
                                     </div>
-                                </a>
+                                </div>
+                                <div class="image-container">
+                                    <div class="image" id="container">
+                                        <input type="file" id="image" name="files" class="input-file"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10 col-sm-offset-2">
-                            <button type="submit" class="btn btn-primary"> Lưu</button>
+                            <%if (request.getParameter("id") != null) {%>
+                                <button type="submit" class="btn btn-primary"> Lưu</button>
+                            <% } else { %>
+                                <button type="submit" class="btn btn-primary"> Thêm</button>
+                            <% } %>
                         </div>
                     </div>
                 </div>
             </form>
         </article>
-        <div class="modal fade" id="modal-media">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Thư viện ảnh</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            <span class="sr-only">Đóng</span>
-                        </button>
-                    </div>
-                    <div class="modal-body modal-tab-container">
-                        <ul class="nav nav-tabs modal-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#gallery" data-toggle="tab" role="tab">Gallery</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#upload" data-toggle="tab" role="tab">Upload</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content modal-tab-content">
-                            <div class="tab-pane fade" id="gallery" role="tabpanel">
-                                <div class="images-container">
-                                    <div class="row">
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade active in" id="upload" role="tabpanel">
-                                <div class="upload-container">
-                                    <div id="dropzone">
-                                        <form action="/" method="POST" enctype="multipart/form-data"
-                                              class="dropzone needsclick dz-clickable" id="demo-upload">
-                                            <div class="dz-message-block">
-                                                <div class="dz-message needsclick"> Drop files here or click to
-                                                    upload.
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Insert Selected</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-        <div class="modal fade" id="confirm-modal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            <i class="fa fa-warning"></i> Lưu ý
-                        </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Bạn có muốn thực hiện hành động này?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Có</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
     </div>
 </div>
 <!-- Reference block for JS -->
@@ -324,8 +181,16 @@
     })
 </script>
 <script>
+    $('select').on('change', function (e) {
+        e.preventDefault();
+        const optionSelected = $("option:selected", this);
+        const valueSelected = this.value;
+        if (valueSelected === "1") {
+
+        }
+    });
     $('.form-control').on('change', function () {
-        if ($(this).val() == 'other') {
+        if ($(this).val() === 'other') {
             $(this).after('<input placeholder="Nhập..." type="text" name="' + $(this).attr('name') + '" class="otherInput form-control boxed" style="width:50% !important; margin-top:5px;border: 1px solid #ced4da;border-radius: 0.25rem;"/>');
         } else {
             if ($(this).next().is('input.otherInput')) {
