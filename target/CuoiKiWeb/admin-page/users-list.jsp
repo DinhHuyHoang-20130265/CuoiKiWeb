@@ -1,4 +1,10 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.AccountService" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -58,6 +64,16 @@
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("user")) {
+                check = true;
+                break;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -69,21 +85,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h3 class="title"> Danh sách người dùng
-                                <a href="item-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm người
+                                <a href="user-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm người
                                     dùng</a>
-                                <div class="action dropdown">
-                                    <button class="btn  btn-sm rounded-s btn-secondary dropdown-toggle"
-                                            type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false"> Hành động
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <a class="dropdown-item hidden-item" href="#">
-                                            <i class="fa fa-pencil-square-o icon"></i>Ẩn Người dùng</a>
-                                        <a class="dropdown-item delete-item" href="#" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-close icon"></i>Xoá người dùng</a>
-                                    </div>
-                                </div>
                             </h3>
                         </div>
                     </div>
@@ -91,7 +94,7 @@
                 <div class="items-search">
                     <form class="form-inline">
                         <div class="input-group">
-                            <input type="text" class="form-control boxed rounded-s" placeholder="Tìm kiếm...">
+                            <input type="text" id="searchUser" class="form-control boxed rounded-s" placeholder="Tìm người dùng...">
                             <span class="input-group-btn">
                                     <button class="btn btn-secondary rounded-s" type="button">
                                         <i class="fa fa-search"></i>
@@ -150,19 +153,99 @@
                         </div>
                     </li>
                     <div id="appendItem">
+                        <% List<SiteUser> accounts = AccountService.getInstance().loadAccountWithConditions(1, 6, null);%>
+                        <% for (SiteUser user: accounts) {
+                            UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
+                            System.out.println(info);
+                        %>
+                        <li class="item">
+                            <div class="item-row">
+                                <div class="item-col fixed item-col-check">
+                                    <label class="item-check" id="select-all-items">
+                                        <input type="checkbox" class="checkbox">
+                                        <span></span>
+                                    </label>
+                                </div>
+                                <div class="item-col fixed item-col-img md">
+                                    <a>
+                                        <div class="item-img rounded" style="background-image: url(<%=(info.getAvatarImgLink() != null) ? info.getAvatarImgLink() : "https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg"%>)"></div>
+                                    </a>
+                                </div>
+                                <div class="item-col fixed pull-left item-col-title">
+                                    <div class="item-heading">Tên người dùng</div>
+                                    <div>
+                                        <a style="text-decoration: none">
+                                            <h4 class="item-title"> <%=info.getFullName()%> </h4>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-sales">
+                                    <div class="item-heading">Mã nguời dùng</div>
+                                    <div> <%=user.getId()%> </div>
+                                </div>
+                                <div class="item-col item-col-stats no-overflow">
+                                    <div class="item-heading">Email</div>
+                                    <div class="no-overflow">
+                                        <%=info.getEmail() != null ? info.getEmail() : ""%>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-category no-overflow">
+                                    <div class="item-heading">Địa chỉ</div>
+                                    <div class="no-overflow">
+                                        <a style="text-decoration: none"><%=info.getAddress() != null ? info.getAddress() : ""%></a>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-author">
+                                    <div class="item-heading">Trạng thái</div>
+                                    <div class="no-overflow">
+                                        <a><%=user.getAccount_status() == 1 ? "Hoạt động" : "Tạm dừng"%></a>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-date">
+                                    <div class="item-heading">Ngày thêm</div>
+                                    <div class="no-overflow"> <%=info.getCreated_date() != null ? info.getCreated_date() : ""%> </div>
+                                </div>
+                                <div class="item-col fixed item-col-actions-dropdown">
+                                    <div class="item-actions-dropdown">
+                                        <a class="item-actions-toggle-btn">
+                                        <span class="inactive">
+                                            <i class="fa fa-cog"></i>
+                                        </span>
+                                            <span class="active">
+                                            <i class="fa fa-chevron-circle-right"></i>
+                                        </span>
+                                        </a>
+                                        <div class="item-actions-block">
+                                            <ul class="item-actions-list">
+                                                <li>
+                                                    <a style="cursor:pointer;" class="remove" id="remove<%=user.getId()%>" data-toggle="modal" data-target="#confirm-modal">
+                                                        <i class="fa fa-trash-o "></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a class="edit" href="user-editor.jsp?id=<%=user.getId()%>">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <% } %>
                     </div>
                 </ul>
             </div>
             <nav class="text-right">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="javascript:prevPage()" id="btn_prev"> Trước </a>
+                        <a class="page-link" style="text-decoration: none;" id="btn_prev"> Trước </a>
                     </li>
                     <li class="page-item active">
-                        <a class="page-link" id="page" href="#"> 1 </a>
+                        <a class="page-link" id="page" href="#" style="text-decoration: none;">1</a>
                     </li>
-                    <a class="page-link" href="javascript:nextPage()" id="btn_next"> Kế tiếp </a>
-                    </li>
+                    <a class="page-link" id="btn_next" style="text-decoration: none;"> Kế tiếp </a>
                 </ul>
             </nav>
         </article>
@@ -181,8 +264,8 @@
                         <p>Bạn có chắc muốn thực hiện hành động này ?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Có</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                        <button type="button" class="btn btn-primary yes" data-dismiss="modal">Có</button>
+                        <button type="button" class="btn btn-secondary no" data-dismiss="modal">Không</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -219,222 +302,118 @@
 <script src="js/vendor.js"></script>
 <script src="js/app.js"></script>
 <script>
-    var current_page = 1;
-    var records_per_page = 6;
-
-    var objJson = $.parseJSON(`[
-            {
-                "name": "Hồ Phước Hậu",
-                "id": "user1",
-                "email": "hau3899@gmail.com",
-                "address": "Quận 2, Tp.HCM"
-            },
-            {
-                "name": "Nguyễn Văn Hà",
-                "id": "user2",
-                "email": "havan20919@gmail.com",
-                "address": "Thủ Đức, Tp.HCM"
-            },
-            {
-                "name": "Hồ Huỳnh Huyền Trang",
-                "id": "user3",
-                "email": "trangho2112@gmail.com",
-                "address": "Quận 9, Tp.HCM"
-            },
-            {
-                "name": "Nguyễn Huy Hoàng",
-                "id": "user4",
-                "email": "hoanghuy1512@gmail.com",
-                "address": "Q12, Tp.HCM"
-            },
-            {
-                "name": "Nguyễn Chí Phú",
-                "id": "user5",
-                "email": "phuracingboi@gmail.com",
-                "address": "Q1, Tp.HCM"
-            },
-            {
-                "name": "Hoàng Thị Thùy Linh",
-                "id": "user6",
-                "email": "linhthuy1909@gmail.com",
-                "address": "Dĩ An, Bình Dương"
-            },
-            {
-                "name": "Đặng Quang Liêm",
-                "id": "user7",
-                "email": "meisliem22@gmail.com",
-                "address": "Biên Hòa, Đồng Nai"
-            },
-            {
-                "name": "Nguyễn Sơn Tùng",
-                "id": "user8",
-                "email": "mtpentertainment@gmail.com",
-                "address": "Quận 4, Tp.HCM"
-            },
-            {
-                "name": "Trần Trọng Nhân",
-                "id": "user9",
-                "email": "nhantran9821@gmail.com",
-                "address": "Long Thành, Đồng Nai"
-            },
-            {
-                "name": "Lê Thị Huyền Vy",
-                "id": "user10",
-                "email": "vynguyenuel@gmail.com",
-                "address": "Quận 8, Tp.HCM"
-            }
-        ]`);
-
-    function prevPage() {
-        if (current_page > 1) {
-            current_page--;
-            changePage(current_page);
-        }
-    }
-
-    function nextPage() {
-        if (current_page < numPages()) {
-            current_page++;
-            changePage(current_page);
-        }
-    }
-
-    function init() {
-        var $itemActions = $(".item-actions-dropdown");
-
-        $(document).on('click', function (e) {
+    function reloadScript() {
+        const $itemActions = $(".item-actions-dropdown");
+        $(document).on('click',function(e) {
             if (!$(e.target).closest('.item-actions-dropdown').length) {
                 $itemActions.removeClass('active');
             }
         });
-
-        $('.item-actions-toggle-btn').on('click', function (e) {
+        $('.item-actions-toggle-btn').on('click',function(e){
             e.preventDefault();
-            var $thisActionList = $(this).closest('.item-actions-dropdown');
+            const $thisActionList = $(this).closest('.item-actions-dropdown');
             $itemActions.not($thisActionList).removeClass('active');
             $thisActionList.toggleClass('active');
         });
     }
 
-    function changePage(page) {
-        var btn_next = document.getElementById("btn_next");
-        var btn_prev = document.getElementById("btn_prev");
-        var list = document.getElementById("appendItem");
-        var page_span = document.getElementById("page");
-        if (page < 1) page = 1;
-        if (page > numPages()) page = numPages();
-
-        list.innerHTML = "";
-
-        for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) {
-            list.innerHTML += `<li class="item">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-check">
-                                <label class="item-check" id="select-all-items">
-                                    <input type="checkbox" class="checkbox">
-                                    <span></span>
-                                </label>
-                            </div>
-                            <div class="item-col fixed item-col-img md">
-                                <a href="item-editor.jsp">
-                                    <div class="item-img rounded" style="background-image: url(https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg)"></div>
-                                </a>
-                            </div>
-                            <div class="item-col fixed pull-left item-col-title">
-                                <div class="item-heading">Tên người dùng</div>
-                                <div>
-                                    <a href="item-editor.jsp" class="">
-                                        <h4 class="item-title"> ${objJson[i].name} </h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-sales">
-                                <div class="item-heading">Mã nguời dùng</div>
-                                <div> ${objJson[i].id} </div>
-                            </div>
-                            <div class="item-col item-col-stats no-overflow">
-                                <div class="item-heading">Email</div>
-                                <div class="no-overflow">
-                                    ${objJson[i].email}
-                                </div>
-                            </div>
-                            <div class="item-col item-col-category no-overflow">
-                                <div class="item-heading">Địa chỉ</div>
-                                <div class="no-overflow">
-                                    <a href="">${objJson[i].address}</a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-author">
-                                <div class="item-heading">Trạng thái</div>
-                                <div class="no-overflow">
-                                    <a href="">${Math.floor(Math.random() * 2) == 1 ? "active" : "hidden"}</a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-date">
-                                <div class="item-heading">Published</div>
-                                <div class="no-overflow"> ${getRandomDate()} </div>
-                            </div>
-                            <div class="item-col fixed item-col-actions-dropdown">
-                                <div class="item-actions-dropdown">
-                                    <a class="item-actions-toggle-btn">
-                                        <span class="inactive">
-                                            <i class="fa fa-cog"></i>
-                                        </span>
-                                        <span class="active">
-                                            <i class="fa fa-chevron-circle-right"></i>
-                                        </span>
-                                    </a>
-                                    <div class="item-actions-block">
-                                        <ul class="item-actions-list">
-                                            <li>
-                                                <a class="remove" href="#" data-toggle="modal" data-target="#confirm-modal">
-                                                    <i class="fa fa-trash-o "></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="edit" href="user-editor.jsp">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>`
-            init()
-        }
-        page_span.innerHTML = page;
-
-        if (page == 1) {
-            btn_prev.style.visibility = "hidden";
-        } else {
-            btn_prev.style.visibility = "visible";
-        }
-
-        if (page == numPages()) {
-            btn_next.style.visibility = "hidden";
-        } else {
-            btn_next.style.visibility = "visible";
-        }
+    function deleteUser() {
+        $(".remove").each(function () {
+            const id = $(this).attr("id").substring(6);
+            const search = $("#searchUser").val();
+            const page = parseInt($("#page").text());
+            $(this).on("click", function (e) {
+                e.preventDefault();
+                $("button[type='button'].yes").on("click", function () {
+                    $.ajax({
+                        url: "/CuoiKiWeb_war/DeleteAccountController",
+                        type: "post",
+                        data: {
+                            id: id,
+                            search: search,
+                            page: page,
+                        },
+                        success: function (data) {
+                            $("#appendItem").html(data);
+                            reloadScript();
+                        }
+                    })
+                })
+            })
+        })
     }
 
-    function numPages() {
-        return Math.ceil(objJson.length / records_per_page);
-    }
-
-    window.onload = function () {
-        changePage(1);
-    };
-
-    function getRandomDate() {
-        const maxDate = Date.now();
-        const timestamp = Math.floor(Math.random() * maxDate);
-        var d = new Date(timestamp);
-        return d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-    }
+    $(document).ready(function () {
+        $("#filter").change(function (e) {
+            deleteUser();
+        })
+        $("#searchUser").on("input", function (e) {
+            e.preventDefault();
+            const search = this.value
+            const page = 1;
+            $.ajax({
+                url: "/CuoiKiWeb_war/LoadUserListAdmin",
+                type: "post",
+                data: {
+                    page: page,
+                    search: search
+                },
+                success: function (data) {
+                    $("#appendItem").html(data);
+                    $("#page").text(page)
+                    deleteUser();
+                    reloadScript();
+                }
+            })
+        })
+        $("#btn_prev").on("click", function (e) {
+            e.preventDefault();
+            const search = $("#searchUser").val();
+            const page = parseInt($("#page").text()) - 1;
+            if (page > 0) {
+                $.ajax({
+                    url: "/CuoiKiWeb_war/LoadUserListAdmin",
+                    type: "post",
+                    data: {
+                        page: page,
+                        search: search
+                    },
+                    success: function (data) {
+                        $("#appendItem").html(data);
+                        $("#page").text(page)
+                        deleteUser();
+                        reloadScript();
+                    }
+                })
+            }
+        })
+        $("#btn_next").on("click", function (e) {
+            e.preventDefault();
+            const page = parseInt($("#page").text()) + 1;
+            const search = $("#searchUser").val();
+            $.ajax({
+                url: "/CuoiKiWeb_war/LoadUserListAdmin",
+                type: "post",
+                data: {
+                    page: page,
+                    search: search
+                },
+                success: function (data) {
+                    if ($.trim(data)) {
+                        $("#appendItem").html(data);
+                        $("#page").text(page)
+                        deleteUser();
+                        reloadScript();
+                    }
+                }
+            })
+        })
+    })
 </script>
 </body>
 
 </html>
-<%}%>
+<%
+        }
+    }
+%>
