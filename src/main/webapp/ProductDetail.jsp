@@ -3,10 +3,10 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
-<%@ page import="vn.edu.hcmuaf.fit.DAO.CategoryDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductColor" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductSize" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductImage" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -206,11 +206,13 @@
     .container-rate-tab .textarea textarea:focus {
         border-color: #444;
     }
+
     .btn-rate {
         display: flex;
         justify-content: center;
         margin-top: 20px;
     }
+
     .container-rate-tab form .btn {
         height: 45px;
         width: 100%;
@@ -374,6 +376,7 @@
         .sale-off-2 {
             top: 1px;
         }
+
     }
 </style>
 
@@ -381,6 +384,7 @@
 
 <%
     ProductDAO productDAO = new ProductDAO();
+    SiteUser user = (SiteUser) request.getSession().getAttribute("user");
     Product product = productDAO.getProductAndDetails(request.getParameter("id"));
     NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));
 %>
@@ -393,46 +397,50 @@
             <div class="col-lg-6 col-12 daonguoc">
                 <div class="img-product">
                     <ul class="all-img">
-                        <li class="img-item">
-                            <img src="./assets/imgProduct/images/men/1.jpg" class="small-img" alt="anh 1"
-                                 onclick="changeImg('one')"
-                                 id="one">
+                        <li class="img-item-2">
+                            <img src="<%=product.getMain_img_link()%>" alt="" onclick="changeImg('image0')"
+                                 id="image0"/>
                         </li>
-                        <li class="img-item">
-                            <img src="./assets/imgProduct/images/men/1-a.jpg" class="small-img" alt="anh 2"
-                                 onclick="changeImg('two')" id="two">
+                        <%int i = 1;%>
+                        <%for (ProductImage image : product.getImages()) {%>
+                        <li class="img-item-2">
+                            <img src="<%=image.getProd_img_link()%>" alt="" onclick="changeImg('image<%=i%>')"
+                                 id="image<%=i++%>"/>
                         </li>
-                        <li class="img-item">
-                            <img src="./assets/imgProduct/images/men/1-b.jpg" class="small-img" alt="anh 3"
-                                 onclick="changeImg('three')" id="three">
-                        </li>
-                        <li class="img-item">
-                            <img src="./assets/imgProduct/images/men/1-c.jpg" class="small-img" alt="anh 4"
-                                 onclick="changeImg('four')" id="four">
-                        </li>
+                        <%}%>
                     </ul>
                 </div>
                 <div id="main-img" style="cursor: pointer;">
                     <img src="<%=product.getMain_img_link()%>" class="big-img" alt="ảnh chính" id="img-main">
+
+                    <%if (product.getSales() != null) { %>
                     <div class="sale-off sale-off-2">
-                        <span class="sale-off-percent">20%</span>
+                        <span class="sale-off-percent"><(<%=product.getSales()%>)></span>
                         <span class="sale-off-label">GIẢM</span>
                     </div>
+                    <%} else {%>
+                    <div class="sale-off sale-off-2" style="display: none">
+                        <span class="sale-off-percent"></span>
+                        <span class="sale-off-label"></span>
+                    </div>
+                    <%}%>
+
                 </div>
             </div>
             <div class="col-lg-6 col-12">
                 <div class="product__name">
-                    <h2 style="text-transform: uppercase"><%=product.getProd_name()%></h2>
+                    <h2 style="text-transform: uppercase"><%=product.getProd_name()%>
+                    </h2>
                 </div>
                 <% if (product.getQuantity() != 0) { %>
-                         <div class="status-product">
-                                Trạng thái: <b>Còn hàng</b>
-                         </div>
-                   <% } else { %>
-                       <div class="status-product" style="color: red">
-                               Trạng thái: <b>Hết hàng</b>
-                         </div>
-                   <%}%>
+                <div class="status-product">
+                    Trạng thái: <b>Còn hàng</b>
+                </div>
+                <% } else { %>
+                <div class="status-product" style="color: red">
+                    Trạng thái: <b>Hết hàng</b>
+                </div>
+                <%}%>
                 <%
                     String cate = "";
                     for (Category category : product.getCategories()) {
@@ -442,22 +450,28 @@
                 %>
 
                 <div class="infor-oder">
-                    Loại sản phẩm: <b><%=cate%></b>
+                    Loại sản phẩm: <b><%=cate%>
+                </b>
                 </div>
-                <%if (product.getSales() != null) { %>
-                    <div class="product__price">
-                        <h2><%=format.format(product.getPrice() * (product.getPrice() * 0.01 * (100 - product.getSales().getDiscount_rate())))%>đ</h2>
-                    </div>
-                <%} else{ %>
-                    <div class="product__price">
-                    <h2><%=format.format(product.getPrice())%>đ</h2>
-                    </div>
-                <%}%>
+                <div class="product__price">
+                    <%if (product.getSales() != null) { %>
+                    <h2><%=format.format(product.getPrice() * (product.getPrice() * 0.01 * (100 - product.getSales().getDiscount_rate())))%>
+                        đ</h2>
 
+                    <%} else { %>
+                    <h2><%=format.format(product.getPrice())%>đ</h2>
+                    <%}%>
+                </div>
                 <div class="price-old">
                     Giá gốc:
+                    <%if (product.getSales() != null) { %>
+                    <del><%=format.format(product.getPrice() * (product.getPrice() * 0.01 * (100 - product.getSales().getDiscount_rate())))%>
+                        đ
+                    </del>
+                    <span class="discount">(-<%=product.getSales().getDiscount_rate()%>%)</span>
+                    <%} else {%>
                     <del><%=format.format(product.getPrice())%>đ</del>
-                    <span class="discount">(-20%)</span>
+                    <%}%>
                 </div>
                 <div class="product__color d-flex" style="align-items: center;">
                     <div class="title" style="font-size: 16px; margin-right: 10px;">
@@ -466,7 +480,8 @@
                     <div class="select-swap d-flex">
                         <%for (ProductColor color : product.getColors()) {%>
                         <div class="circlecheck">
-                            <input type="radio" id="<%=color.getColor_name()%>-option" class="circle-<%=color.getColor_name()%>" name="selector"/>
+                            <input type="radio" id="<%=color.getColor_name()%>-option"
+                                   class="circle-<%=color.getColor_name()%>" name="selector"/>
                             <label for="<%=color.getColor_name()%>-option"></label>
                             <div class="outer-circle"></div>
                         </div>
@@ -476,16 +491,16 @@
                             <label for="-option">0</label>
                             <div class="outer-circle">0</div>
                         </div>
-<%--                        <div class="circlecheck">--%>
-<%--                            <input type="radio" id="g-option" class="circle-2" name="selector">--%>
-<%--                            <label for="g-option"></label>--%>
-<%--                            <div class="outer-circle"></div>--%>
-<%--                        </div>--%>
-<%--                        <div class="circlecheck">--%>
-<%--                            <input type="radio" id="h-option" class="circle-3" name="selector">--%>
-<%--                            <label for="h-option"></label>--%>
-<%--                            <div class="outer-circle"></div>--%>
-<%--                        </div>--%>
+                        <%--                        <div class="circlecheck">--%>
+                        <%--                            <input type="radio" id="g-option" class="circle-2" name="selector">--%>
+                        <%--                            <label for="g-option"></label>--%>
+                        <%--                            <div class="outer-circle"></div>--%>
+                        <%--                        </div>--%>
+                        <%--                        <div class="circlecheck">--%>
+                        <%--                            <input type="radio" id="h-option" class="circle-3" name="selector">--%>
+                        <%--                            <label for="h-option"></label>--%>
+                        <%--                            <div class="outer-circle"></div>--%>
+                        <%--                        </div>--%>
                     </div>
                 </div>
                 <div class="product__size d-flex" style="align-items: center;">
@@ -495,48 +510,59 @@
                     <div class="select-swap">
                         <%for (ProductSize size : product.getSizes()) {%>
                         <div class="swatch-element" data-value="<%=size.getSize_name()%>">
-                            <input type="radio" class="variant-1" id="swatch-1-<%=size.getSize_name()%>" name="mau" value="<%=size.getSize_name()%>"
+                            <input type="radio" class="variant-1" id="swatch-1-<%=size.getSize_name()%>" name="mau"
+                                   value="<%=size.getSize_name()%>"
                                    onclick="check()"/>
-                            <label for="swatch-1-<%=size.getSize_name()%>" class="sd"><span><%=size.getSize_name()%></span></label>
+                            <label for="swatch-1-<%=size.getSize_name()%>"
+                                   class="sd"><span><%=size.getSize_name()%></span></label>
                         </div>
                         <%}%>
                         <div class="swatch-element" data-value="" style="opacity: 0">
                             <input type="radio" class="variant-1" id="swatch-1" name="mau"/>
                             <label for="swatch-1" class="sd"><span>0</span></label>
                         </div>
-<%--                        <div class="swatch-element" data-value="38">--%>
-<%--                            <input type="radio" class="variant-1" id="swatch-1-38" name="mau" value="trung"--%>
-<%--                                   onclick="check()">--%>
-<%--                            <label for="swatch-1-38" class="sd"><span>38</span></label>--%>
-<%--                        </div>--%>
-<%--                        <div class="swatch-element" data-value="39">--%>
-<%--                            <input type="radio" class="variant-1" id="swatch-1-39" name="mau" value="thanh"--%>
-<%--                                   onclick="check()">--%>
-<%--                            <label for="swatch-1-39" class="sd"><span>39</span></label>--%>
-<%--                        </div>--%>
-<%--                        <div class="swatch-element" data-value="40">--%>
-<%--                            <input type="radio" class="variant-1" id="swatch-1-40" name="mau" value="hieu"--%>
-<%--                                   onclick="check()">--%>
-<%--                            <label for="swatch-1-40" class="sd"><span>40</span></label>--%>
-<%--                        </div>--%>
+                        <%--                        <div class="swatch-element" data-value="38">--%>
+                        <%--                            <input type="radio" class="variant-1" id="swatch-1-38" name="mau" value="trung"--%>
+                        <%--                                   onclick="check()">--%>
+                        <%--                            <label for="swatch-1-38" class="sd"><span>38</span></label>--%>
+                        <%--                        </div>--%>
+                        <%--                        <div class="swatch-element" data-value="39">--%>
+                        <%--                            <input type="radio" class="variant-1" id="swatch-1-39" name="mau" value="thanh"--%>
+                        <%--                                   onclick="check()">--%>
+                        <%--                            <label for="swatch-1-39" class="sd"><span>39</span></label>--%>
+                        <%--                        </div>--%>
+                        <%--                        <div class="swatch-element" data-value="40">--%>
+                        <%--                            <input type="radio" class="variant-1" id="swatch-1-40" name="mau" value="hieu"--%>
+                        <%--                                   onclick="check()">--%>
+                        <%--                            <label for="swatch-1-40" class="sd"><span>40</span></label>--%>
+                        <%--                        </div>--%>
                     </div>
                 </div>
                 <div class="product__wrap">
                     <div class="product__amount">
                         <label>Số lượng: </label>
-                        <input type="button" value="-" class="control" onclick="tru(0)" id="cong">
-                        <input type="text" value="1" class="text-input" id="text_so_luong-0"
-                               onkeypress='validate(event)'>
-                        <input type="button" value="+" class="control" onclick="cong(0)">
+                        <input type="button" value="-" class="control" onclick="tru(10)" id="cong">
+                        <input type="text" value="1" class="text-input" id="text_so_luong-10">
+                        <input type="button" value="+" class="control" onclick="cong(10)">
                     </div>
-                    <button class="add-cart" onclick="fadeInModal()">Thêm vào giỏ</button>
+                    <%--                    <button class="add-cart" onclick="fadeInModal()">Thêm vào giỏ</button>--%>
                 </div>
                 <div class="product__shopnow">
-                    <button class="shopnow">Mua ngay</button>
+                    <%if (user != null) {%>
+                    <%if (product.getQuantity() > 0) {%>
+                    <button class="shopnow2" id="addCart<%=product.getId()%>">Thêm vào giỏ hàng</button>
+                    <%} else {%>
+                    <a class="notify" style="color: red; font-size: 16px; font-weight: 600;">Hết hàng !</a>
+                    <%}%>
+                    <%} else {%>
+                    <a href="Login.jsp" class="notify" style="color: black; font-size: 16px; font-weight: 600;">Đăng
+                        nhập để thêm sản phẩm vào giỏ hàng</a>
+                    <%}%>
                     <span class="home-product-item__like home-product-item__like--liked likedProductDetails"
                           onclick="yeuThich('likedProductDetails')">
-              <i class="home-product-item__like-icon-fill far fa-heart" style="font-size: 24px;margin-top: 7px;"></i>
-            </span>
+                         <i class="home-product-item__like-icon-fill far fa-heart"
+                            style="font-size: 24px;margin-top: 7px;"></i>
+                    </span>
                 </div>
             </div>
         </div>
@@ -555,20 +581,8 @@
         <div class="tab1">
             <div id="mota" class="tabcontent">
                 <div class="row">
-                    <div class="col-11">  <%--<%=product.getContent()%>--%>
-<%--                        <h3 class="name__product">NIKE MERCURIAL SUPERFLY 8 ACADEMY TF</h3>--%>
-<%--                        <h3>Thông số kĩ thuật: </h3>--%>
-<%--                        <p>Phân khúc: Academy (tầm trung).</p>--%>
-<%--                        <p>Upper: Synthetic - Da tổng hợp cao cấp.</p>--%>
-<%--                        <p>Thiết kế đinh giày: Các đinh cao su hình chữ nhật, xếp chồng chéo với nhau. Theo đánh giá của--%>
-<%--                            nhiều--%>
-<%--                            người chơi thì những đinh TF hình chữ nhật lần này giúp đôi giày có thể trụ vững hơn trên--%>
-<%--                            sân.</p>--%>
-<%--                        <p>Độ ôm chân: Cao</p>--%>
-<%--                        <p>Bộ sưu tập: SAFARI PACK - Ra mắt tháng 4/2021</p>--%>
-<%--                        <p>PTrên chân các cầu thủ nổi tiếng như: Cristiano Ronaldo, Kylian Mbappé, Erling Haaland, Jadon--%>
-<%--                            Sancho,--%>
-<%--                            Leroy Sané, Romelu Lukaku...</p>--%>
+                    <div class="col-11">
+                        <%=product.getContent()%>
                     </div>
                 </div>
             </div>
@@ -642,7 +656,7 @@
                 </div>
             </div>
             <div id="danhgia" class="tabcontent">
-                <% SiteUser user = (SiteUser) request.getSession().getAttribute("user");
+                <% SiteUser user1 = (SiteUser) request.getSession().getAttribute("user");
                     if (user == null) {
                 %>
                 <div class="box">
@@ -908,125 +922,6 @@
     </div>
 </div>
 <!-- end  product relate to-->
-<div class="modal" id="myModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <!-- Modal body -->
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-6">
-                        <div class="mb-2 main-img-2">
-                            <img src="./assets/imgProduct/images/men/1.jpg" alt="" id="img-main"/>
-                        </div>
-                        <ul class="all-img-2">
-                            <li class="img-item-2">
-                                <img src="./assets/imgProduct/images/men/1.jpg" alt="" onclick="changeImg('one')"
-                                     id="one"/>
-                            </li>
-                            <li class="img-item-2">
-                                <img src="./assets/imgProduct/images/men/1-a.jpg" alt="" onclick="changeImg('two')"
-                                     id="two"/>
-                            </li>
-                            <li class="img-item-2">
-                                <img src="./assets/imgProduct/images/men/1-b.jpg" alt="" onclick="changeImg('three')"
-                                     id="three"/>
-                            </li>
-                            <li class="img-item-2">
-                                <img src="./assets/imgProduct/images/men/1-c.jpg" alt="" onclick="changeImg('four')"
-                                     id="four"/>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-6">
-                        <div class="info-product">
-                            <h3 class="product-name">
-                                <a href="" title="">Áo len sọc lớn màu</a>
-                            </h3>
-                            <div class="status-product">Trạng thái: <b>Còn hàng</b></div>
-                            <div class="infor-oder">Loại sản phẩm: <b>Đồ Nam</b></div>
-                            <div class="price-product">
-                                <div class="special-price">
-                                    <span>540.000đ</span>
-                                </div>
-                                <div class="price-old">
-                                    Giá gốc:
-                                    <del>650.000đ</del>
-                                    <span class="discount">(-20%)</span>
-                                </div>
-                            </div>
-                            <div class="product-description">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur ducimus vero
-                                quibusdam adipisci
-                                dolore id veritatis tempore ipsa obcaecati alias libero, minus sequi nam corrupti esse
-                                nulla eum,
-                                similique deleniti?
-                            </div>
-                            <div class="product__color d-flex" style="align-items: center">
-                                <div class="title" style="font-size: 16px; margin-right: 10px">
-                                    Màu:
-                                </div>
-                                <div class="select-swap d-flex">
-                                    <div class="circlecheck">
-                                        <input type="radio" id="f-option" class="circle-1" name="selector" checked/>
-                                        <label for="f-option"></label>
-                                        <div class="outer-circle"></div>
-                                    </div>
-                                    <div class="circlecheck">
-                                        <input type="radio" id="g-option" class="circle-2" name="selector"/>
-                                        <label for="g-option"></label>
-                                        <div class="outer-circle"></div>
-                                    </div>
-                                    <div class="circlecheck">
-                                        <input type="radio" id="h-option" class="circle-3" name="selector"/>
-                                        <label for="h-option"></label>
-                                        <div class="outer-circle"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product__size d-flex" style="align-items: center">
-                                <div class="title" style="font-size: 16px; margin-right: 10px">
-                                    Kích thước:
-                                </div>
-                                <div class="select-swap">
-                                    <div class="swatch-element" data-value="38">
-                                        <input type="radio" class="variant-1" id="swatch-1-38" name="mau" value="trung"
-                                               onclick="check()"/>
-                                        <label for="swatch-1-38" class="sd"><span>38</span></label>
-                                    </div>
-                                    <div class="swatch-element" data-value="39">
-                                        <input type="radio" class="variant-1" id="swatch-1-39" name="mau" value="thanh"
-                                               onclick="check()"/>
-                                        <label for="swatch-1-39" class="sd"><span>39</span></label>
-                                    </div>
-                                    <div class="swatch-element" data-value="40">
-                                        <input type="radio" class="variant-1" id="swatch-1-40" name="mau" value="hieu"
-                                               onclick="check()"/>
-                                        <label for="swatch-1-40" class="sd"><span>40</span></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product__wrap">
-                                <div class="product__amount">
-                                    <label>Số lượng: </label>
-                                    <input type="button" value="-" class="control" onclick="tru()"/>
-                                    <input type="text" value="1" class="text-input" id="text_so_luong"
-                                           onkeypress="validate(event)"/>
-                                    <input type="button" value="+" class="control" onclick="cong()"/>
-                                </div>
-                            </div>
-                            <div class="product__shopnow">
-                                <button class="shopnow2">Mua ngay</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="btn-default btn-close" data-dismiss="modal">
-                <i class="fas fa-times-circle"></i>
-            </button>
-        </div>
-    </div>
-</div>
 <jsp:include page="Layout/_LayoutFooter.jsp"></jsp:include>
 <div id="alert-cart" class="alert" style="display:none">
     <div class="alert__heading">
@@ -1095,19 +990,73 @@
     document.getElementById("defaultOpen").click();
 </script>
 <script>
-    const btn = document.querySelector(".container-rate-tab-btn");
     const post = document.querySelector(".container-rate-tab .post");
     const widget = document.querySelector(".star-widget");
-    const editBtn = document.querySelector(".container-rate-tab .edit");
-    btn.onclick = ()=>{
-        widget.style.display = "none";
-        post.style.display = "block";
-        editBtn.onclick = ()=>{
-            widget.style.display = "block";
-            post.style.display = "none";
-        }
+    $(".container-rate-tab-btn").on('click', function () {
+        $(".star-widget").css("display", "none");
+        $(".container-rate-tab .post").css("display", "block");
+        $(".container-rate-tab .edit").on('click', function () {
+            $(".star-widget").css("display", "block");
+            $(".container-rate-tab .post").css("display", "none");
+        });
         return false;
+    })
+    $(document).ready(function () {
+        $(".circlecheck").each(function () {
+            const $this = $(this);
+            const id = $this.find("input").attr("id");
+            const color = id.substring(0, id.indexOf("-"));
+            const style = document.createElement('style');
+            style.type = 'text/css';
+            style.innerHTML = `
+                            .circlecheck input[type=radio].circle-` + color + `:checked ~ .outer-circle {
+                                border: 3px solid ` + color + `;
+                            }
+
+                            .circlecheck input[type=radio].circle-` + color + ` ~ .outer-circle {
+                                border-color: ` + color + `;
+                            }
+                            .circlecheck input[type=radio].circle-` + color + `:checked ~ .outer-circle::before {
+                                background: ` + color + `;
+                            }
+                            `;
+            document.getElementsByTagName('head')[0].appendChild(style);
+        })
+    })
+
+    function addcart() {
+        $(".shopnow2").click(function (e) {
+            e.preventDefault();
+            const idAdd = this.id;
+            const amount = $("#text_so_luong-10").val();
+            const size = $(".swatch-element input[type='radio']:checked").val();
+            const color = $(".circlecheck input[type='radio']:checked").attr("id");
+            if (size == null || color == null) {
+                alert("Yêu cầu nhập đầy đủ thông tin")
+            } else {
+                $.ajax({
+                    url: "AddCartController",
+                    type: "get",
+                    data: {
+                        idAdd: idAdd,
+                        size: size,
+                        color: color,
+                        amount: amount
+                    },
+                    success: function (data) {
+                        $(".header__second__cart--notice").each(function () {
+                            $(this).text(data)
+                        })
+                        $(".product__shopnow").html(`<a class="notify" style="color:green; font-size: 16px; font-weight: 600;"><i class="fas fa-check" style="color: green"></i> Thêm sản phẩm vào giỏ hàng thành công !</a>`)
+                    }
+                })
+            }
+        })
     }
+
+    $(document).ready(function () {
+        addcart();
+    })
 </script>
 </body>
 
