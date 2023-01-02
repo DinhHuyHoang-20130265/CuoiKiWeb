@@ -56,20 +56,24 @@
                     <span><%=format.format(wishList.getData().get(id).getPrice())%>₫</span>
                   </div>
                   <%}%>
-                  <div class="col-md-3 col-12">
-                    <div class="cart-fiding">
-                      <a href="#">Tìm sản phẩm tương tự</a>
-                    </div>
-                  </div>
+<%--                  <div class="col-md-3 col-12">--%>
+<%--                    <div class="cart-fiding">--%>
+<%--                      <a href="#">Tìm sản phẩm tương tự</a>--%>
+<%--                    </div>--%>
+<%--                  </div>--%>
                   <div class="col-md-2 col-12" style="font-size: 16px;">
                     <a href="cart.jsp" class="likecartbutton"> Giỏ hàng </a>
                   </div>
+                  <div class="col-md-1 col-2 text-right delete-product">
+                    <a href="#" class="deleteProd" id="delete<%=wishList.getData().get(id).getId()%>"><i
+                            class="fas fa-trash"></i></a>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-1 col-2 text-right delete-product">
-                <a href="#" class="deleteProd" id="delete<%=wishList.getData().get(id).getId()%>"><i
-                        class="fas fa-trash"></i></a>
-              </div>
+<%--              <div class="col-md-1 col-2 text-right delete-product">--%>
+<%--                <a href="#" class="deleteProd" id="delete<%=wishList.getData().get(id).getId()%>"><i--%>
+<%--                        class="fas fa-trash"></i></a>--%>
+<%--              </div>--%>
             </div>
             <%
                 }
