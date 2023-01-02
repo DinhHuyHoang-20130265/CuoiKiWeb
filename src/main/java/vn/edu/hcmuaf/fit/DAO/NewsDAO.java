@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class NewsDAO {
     private List<News> listNews;
     public List<News> loadAllNews() {
-        return listNews = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news")
+        return listNews = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news ORDER BY")
                 .mapToBean(News.class)
                 .stream()
                 .collect(Collectors.toList()));
@@ -35,5 +35,13 @@ public class NewsDAO {
     }
     public static void main(String[] args) {
         System.out.println(new NewsDAO().loadAllNews());
+    }
+
+    public News getNewsById(String id) {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news WHERE news_id = ?")
+                .bind(0, id)
+                .mapToBean(News.class)
+                .first()
+        );
     }
 }

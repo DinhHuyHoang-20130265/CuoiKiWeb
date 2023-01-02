@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.services;
 
 import vn.edu.hcmuaf.fit.DAO.NewsCommentDAO;
 import vn.edu.hcmuaf.fit.DAO.NewsDAO;
+import vn.edu.hcmuaf.fit.beans.AdminLogin;
 import vn.edu.hcmuaf.fit.beans.news.News;
 import vn.edu.hcmuaf.fit.beans.news.NewsComment;
 
@@ -23,5 +24,9 @@ public class NewsService {
 
     public List<News> getListNewsByPage(int page) {
         return new NewsDAO().loadAllNewsWithPage(page);
+    }
+
+    public News getNewsById(String id) {
+        return new NewsDAO().getNewsById(id);
     }
 }
