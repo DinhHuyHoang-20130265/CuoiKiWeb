@@ -34,6 +34,7 @@ public class IncreaseDecreaseQuantityController extends HttpServlet {
             Product product = cart.getData().get(key);
             product.setQuantity_cart(amount);
         }
+//        cart.getQuantity_cart();
         request.getSession().setAttribute("cart", cart);
         request.getRequestDispatcher("ajax/ajax_Cart.jsp").forward(request, response);
     }
