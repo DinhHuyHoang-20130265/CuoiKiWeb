@@ -72,7 +72,7 @@ public class SignUpDAO {
                             .bind(1, username)
                             .bind(2, passwordEncrypted)
                             .execute();
-                    handle.createUpdate("INSERT INTO account_information(id, full_name, email) VALUES (?, ?, ?)")
+                    handle.createUpdate("INSERT INTO account_information(id, full_name, email, created_date) VALUES (?, ?, ?, CURDATE())")
                             .bind(0, id)
                             .bind(1, fullname)
                             .bind(2, email)
