@@ -44,6 +44,10 @@ public class ProductService {
         ProductDAO DAO = new ProductDAO();
         return DAO.getProductAndDetails(id);
     }
+    public List<Product> getFourProductsSameCate(String cate_id) {
+        ProductDAO DAO = new ProductDAO();
+        return DAO.getFourProductsSameCate(cate_id);
+    }
 
     public void RemoveProduct(String id) {
         new ProductDAO().RemoveProduct(id);
