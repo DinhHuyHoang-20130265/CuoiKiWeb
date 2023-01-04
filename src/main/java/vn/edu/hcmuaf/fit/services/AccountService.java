@@ -16,6 +16,12 @@ public class AccountService {
         return accountService;
     }
 
+    public int getAccountRole(String id) {
+        return new AccountUserDAO().getAccountRole(id);
+    }
+    public SiteUser getAccountById(String id) {
+        return new AccountUserDAO().getAccountById(id);
+    }
     public List<SiteUser> getAllUserServer() {
         return new AccountUserDAO().getAllUserServer();
     }
