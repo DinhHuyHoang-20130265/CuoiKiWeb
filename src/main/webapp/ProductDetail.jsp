@@ -604,10 +604,10 @@
                                     UserInformation userInformation = userInformationDAO.getUserInfo(productReview.getReview_by());
                                 %>
                                 <div class="comment">
-                                    <img class="comment-img" src="<%=userInformation.getAvatarImgLink()%>" alt="">
+                                    <img class="comment-img" src="<%=userInformation.getAvatar_link()%>" alt="">
                                     <div class="comment__content">
                                         <div class="comment__content-heding">
-                                            <h4 class="comment__content-name"><%=userInformation.getFullName()%></h4>
+                                            <h4 class="comment__content-name"><%=userInformation.getFull_name()%></h4>
                                             <span class="comment__content-time"><%=productReview.getReview_date()%></span>
                                         </div>
                                         <div class="home-product-item__rating"
