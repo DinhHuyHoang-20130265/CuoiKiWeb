@@ -17,11 +17,11 @@
         UserInformation userInfo = UserInformationService.getInstance().getUserInfo(comment.getComment_by());%>
 <div class="box_result row" id="box_result<%=comment.getComment_id()%>">
     <div class="avatar_comment col-md-1">
-        <img src="<%=userInfo.getAvatarImgLink() == null ? "http://localhost:8080/CuoiKiWeb_war/assets/imgNews/news/avatar.jpg" : userInfo.getAvatarImgLink()%>"
+        <img src="<%=userInfo.getAvatar_link() == null ? "http://localhost:8080/CuoiKiWeb_war/assets/imgNews/news/avatar.jpg" : userInfo.getAvatar_link()%>"
              alt="avatar"/>
     </div>
     <div class="result_comment col-md-11">
-        <h4><%=userInfo.getFullName()%>
+        <h4><%=userInfo.getFull_name()%>
         </h4>
         <p><%=comment.getDescription()%>
         </p>

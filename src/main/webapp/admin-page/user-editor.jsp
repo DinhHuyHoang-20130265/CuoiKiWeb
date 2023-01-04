@@ -145,72 +145,56 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row" id="role" style="display: <%=AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1 ? "flex" : "none"%>">
+                    <div class="form-group row" id="role"
+                         style="display: <%=AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1 ? "flex" : "none"%>">
                         <label class="col-sm-2 form-control-label text-xs-right"> Vai trò: </label>
                         <div class="col-sm-10" style="display: block">
-                            <div class="role-select" id="role-select1" style="display: flex">
-                                <select class="c-select form-control" name="select-role1" id="select-role1">
+                            <% if (admin.getRole() != null) {
+                                int i = 0;
+                                for (AdminRole role : admin.getRole()) {
+                                    String table = role.getTable();
+                                    String permission = role.getPermission();
+                            %>
+                            <div class="role-select" id="role-select<%=i%>" style="display: flex">
+                                <select class="c-select form-control" name="select-role<%=i%>" id="select-role<%=i%>">
                                     <option value="null">Không có
                                     </option>
-                                    <option value="user">Tài khoản
+                                    <option value="user" <%=table.equals("user") ? "selected" : ""%>>Tài khoản
                                     </option>
-                                    <option value="product"> Sản phẩm
+                                    <option value="product" <%=table.equals("product") ? "selected" : ""%>> Sản phẩm
                                     </option>
-                                    <option value="comment" >Bình luận/Đánh giá
+                                    <option value="comment" <%=table.equals("comment") ? "selected" : ""%>>Bình
+                                        luận/Đánh giá
                                     </option>
-                                    <option value="blog" >Tin tức
+                                    <option value="blog" <%=table.equals("blog") ? "selected" : ""%>>Tin tức
                                     </option>
-                                    <option value="order" >Đơn hàng
+                                    <option value="order" <%=table.equals("order") ? "selected" : ""%>>Đơn hàng
                                     </option>
-                                    <option value="category">Danh mục
+                                    <option value="category" <%=table.equals("category") ? "selected" : ""%>>Danh mục
                                     </option>
-                                    <option value="slider">Banner
+                                    <option value="slider" <%=table.equals("slider") ? "selected" : ""%>>Banner
                                     </option>
                                 </select>
-                                <select class="c-select form-control" name="select-permission1" id="select-permission1">
+                                <select class="c-select form-control" name="select-permission<%=i%>"
+                                        id="select-permission<%=i%>">
                                     <option value="null">Không
                                     </option>
-                                    <option value="insert">Thêm
+                                    <option value="insert" <%=permission.equals("insert") ? "selected" : ""%>>Thêm
                                     </option>
-                                    <option value="update">Sửa
+                                    <option value="update" <%=permission.equals("update") ? "selected" : ""%>>Sửa
                                     </option>
-                                    <option value="delete" >Xóa
+                                    <option value="delete" <%=permission.equals("delete") ? "selected" : ""%>>Xóa
                                     </option>
                                 </select>
-                                <button type="button" name="remove" id="remove"><i class="fa fa-times"></i></button>
+                                <button type="button" name="remove" id="remove<%=i%>"><i class="fa fa-times"></i>
+                                </button>
                             </div>
-                            <div class="role-select" id="role-select1" style="display: flex">
-                                <select class="c-select form-control" name="select-role1" id="select-role1">
-                                    <option value="null">Không có
-                                    </option>
-                                    <option value="user">Tài khoản
-                                    </option>
-                                    <option value="product"> Sản phẩm
-                                    </option>
-                                    <option value="comment" >Bình luận/Đánh giá
-                                    </option>
-                                    <option value="blog" >Tin tức
-                                    </option>
-                                    <option value="order" >Đơn hàng
-                                    </option>
-                                    <option value="category">Danh mục
-                                    </option>
-                                    <option value="slider">Banner
-                                    </option>
-                                </select>
-                                <select class="c-select form-control" name="select-permission1" id="select-permission1">
-                                    <option value="null">Không
-                                    </option>
-                                    <option value="insert">Thêm
-                                    </option>
-                                    <option value="update">Sửa
-                                    </option>
-                                    <option value="delete" >Xóa
-                                    </option>
-                                </select>
-                                <button type="button" name="remove" id="remove"><i class="fa fa-times"></i></button>
-                            </div>
-                            <button type="button" name="remove" id="remove"><i class="fa fa-plus"></i></button>
+                            <% i++;
+                            } %>
+                            <button type="button" name="plus<%=i%>" id="plus"><i class="fa fa-plus"></i></button>
+                            <% } else { %>
+                            <button type="button" name="plus" id="plus0"><i class="fa fa-plus"></i></button>
+                            <% } %>
                         </div>
                     </div>
                     <div class="form-group row">

@@ -111,7 +111,7 @@
                             <label for="fullname" class="form-label">Tên đầy đủ</label>
                             <input id="fullname" name="fullname" type="text" placeholder="VD: User1"
                                    class="form-control"
-                                   value="<%=information.getFullName()%>">
+                                   value="<%=information.getFull_name()%>">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
