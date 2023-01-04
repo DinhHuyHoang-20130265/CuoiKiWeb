@@ -28,5 +28,6 @@ public class UserInformationDAO {
     }
     public static void main(String[] args) {
         System.out.println(new UserInformationDAO().getUserInfo("qwvKl").getAvatarImgLink() == null);
+
     }
 }

@@ -205,6 +205,20 @@ public class ProductDAO {
                         .collect(Collectors.toList())
         );
     }
+    public List<Product> getFourProductsSameCate(String cate_id) {
+        return (List<Product>) JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," +
+                             " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
+                                " p.updated_date, p.updated_by FROM product p INNER JOIN product_from_cate frcate ON p.id =  frcate.prod_id" +
+                                " INNER JOIN product_categories cate ON cate.id = frcate.cate_id " +
+                                " WHERE cate.id = ?" + "ORDER BY p.id LIMIT 4")
+                        .bind(0, cate_id)
+                        .mapToBean(Product.class)
+                        .stream()
+                        .collect(Collectors.toList())
+
+                );
+    }
 
     public ArrayList<Product> getListProduct() {
         return (ArrayList<Product>) listProduct;
@@ -469,5 +483,6 @@ public class ProductDAO {
 
     public static void main(String[] args) {
         System.out.println(new ProductDAO().getProductAndDetails("es7eiZnBwf"));
+        System.out.println(new ProductDAO().getFourProductsSameCate("cate01"));
     }
 }
