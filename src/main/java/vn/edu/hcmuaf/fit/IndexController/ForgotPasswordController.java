@@ -28,6 +28,7 @@ public class ForgotPasswordController extends HttpServlet {
         //  Trước tiên cứ lấy từ session ra, nếu không có thì tạo mới
         ForgotPasswordStatus forgotPassword = (ForgotPasswordStatus) request.getSession().getAttribute("forgotPassword");
         String role = request.getParameter("role");
+        System.out.println(role);
         if (forgotPassword == null)
             forgotPassword = new ForgotPasswordStatus();
         switch (role) {
