@@ -24,7 +24,10 @@
                     <img src="./assets/img/product/noavatar.png" alt=""/>
                 </div>
                 <div class="_body">Đăng nhập <br/>Nhận nhiều ưu đãi hơn</div>
-                <%} else if (user != null) {%>
+                <%
+                } else if (user != null) {
+                    UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
+                %>
                 <div class="_object">
                     <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() == null ? "./assets/img/product/noavatar.png" : UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link()%>" alt=""/>
                 </div>
@@ -123,7 +126,10 @@
                                 kí</a>
                         </li>
                     </ul>
-                    <%} else if (user != null) {%>
+                    <%
+                    } else if (user != null) {
+                        UserInformation info2 = UserInformationService.getInstance().getUserInfo(user.getId());
+                    %>
                     <ul class="nav nav__first right">
                         <li class="nav-item nav-item__first nav-item__first-user">
                             <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() == null ? "./assets/img/product/noavatar.png" : UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link()%>" alt="" class="nav-item__first-img">
@@ -138,7 +144,9 @@
                             </ul>
                         </li>
                     </ul>
-                    <%}%>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
         </div>
@@ -154,7 +162,12 @@
                         </a>
                     </div>
                     <div class="mobile_cart visible-sm visible-xs">
-                        <% if (user == null) {%>
+                        <% if
+                        (
+                                user
+                                        ==
+                                        null
+                        ) {%>
                         <a href="Login.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
@@ -183,7 +196,12 @@
                 </div>
                 <div class="col-3 m-auto hidden-sm hidden-xs">
                     <div class="item-car clearfix">
-                        <% if (user == null) {%>
+                        <% if
+                        (
+                                user
+                                        ==
+                                        null
+                        ) {%>
                         <a href="Login.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
@@ -196,7 +214,12 @@
                         <%}%>
                     </div>
                     <div class="item-like clearfix">
-                        <% if (user == null) {%>
+                        <% if
+                        (
+                                user
+                                        ==
+                                        null
+                        ) {%>
                         <a href="Login.jsp" class="header__second__like--icon">
                             <i class="far fa-heart"></i>
                         </a>
