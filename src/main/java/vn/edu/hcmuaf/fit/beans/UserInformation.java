@@ -7,11 +7,11 @@ import java.util.Date;
 
 public class UserInformation implements Serializable {
     private String id;
-    private String fullName;
+    private String full_name;
     private String email;
-    private String phoneNumb;
+    private String phone_number;
     private String address;
-    private String avatarImgLink;
+    private String avatar_link;
 
     private Date created_date;
     private String created_by;
@@ -22,13 +22,13 @@ public class UserInformation implements Serializable {
     public UserInformation() {
     }
 
-    public UserInformation(String id, String fullName, String email, String phoneNumb, String address, String avatarImgLink, Date created_date, String created_by, Date updated_date, String updated_by) {
+    public UserInformation(String id, String full_name, String email, String phone_number, String address, String avatar_link, Date created_date, String created_by, Date updated_date, String updated_by) {
         this.id = id;
-        this.fullName = fullName;
+        this.full_name = full_name;
         this.email = email;
-        this.phoneNumb = phoneNumb;
+        this.phone_number = phone_number;
         this.address = address;
-        this.avatarImgLink = avatarImgLink;
+        this.avatar_link = avatar_link;
         this.created_date = created_date;
         this.created_by = created_by;
         this.updated_date = updated_date;
@@ -43,12 +43,12 @@ public class UserInformation implements Serializable {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFull_name() {
+        return full_name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 
     public String getEmail() {
@@ -59,12 +59,12 @@ public class UserInformation implements Serializable {
         this.email = email;
     }
 
-    public String getPhoneNumb() {
-        return phoneNumb;
+    public String getPhone_number() {
+        return phone_number;
     }
 
-    public void setPhoneNumb(String phoneNumb) {
-        this.phoneNumb = phoneNumb;
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 
     public String getAddress() {
@@ -75,12 +75,12 @@ public class UserInformation implements Serializable {
         this.address = address;
     }
 
-    public String getAvatarImgLink() {
-        return avatarImgLink;
+    public String getAvatar_link() {
+        return avatar_link;
     }
 
-    public void setAvatarImgLink(String avatarImgLink) {
-        this.avatarImgLink = avatarImgLink;
+    public void setAvatar_link(String avatar_link) {
+        this.avatar_link = avatar_link;
     }
 
     public Date getCreated_date() {
@@ -119,11 +119,11 @@ public class UserInformation implements Serializable {
     public String toString() {
         return "UserInformation{" +
                 "id='" + id + '\'' +
-                ", fullName='" + fullName + '\'' +
+                ", full_name='" + full_name + '\'' +
                 ", email='" + email + '\'' +
-                ", phoneNumb='" + phoneNumb + '\'' +
+                ", phone_number='" + phone_number + '\'' +
                 ", address='" + address + '\'' +
-                ", avatarImgLink='" + avatarImgLink + '\'' +
+                ", avatar_link='" + avatar_link + '\'' +
                 ", created_date=" + created_date +
                 ", created_by='" + created_by + '\'' +
                 ", updated_date=" + updated_date +

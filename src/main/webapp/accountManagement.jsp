@@ -79,12 +79,8 @@
         <div class="row">
             <div class="col-4">
                 <div class="heading">
-                    <% if (information.getAvatarImgLink() == null) { %>
-                    <img src="./assets/img/product/noavatar.png" alt="" class="heading-img">
-                    <% } else { %>
-                    <img src="<%=information.getAvatarImgLink()%>" alt="" class="heading-img">
-                    <% } %>
-                    <span class="heading-name_acc"><%=information.getFullName()%></span>
+                    <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() != null ? UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() : "./assets/img/product/noavatar.png"%>" alt="" class="heading-img">
+                    <span class="heading-name_acc"><%=UserInformationService.getInstance().getUserInfo(user.getId()).getFull_name()%></span>
                 </div>
                 <div class="menu-manager">
                     <div class="my-profile" onclick="hienThiDoiThongTin()">

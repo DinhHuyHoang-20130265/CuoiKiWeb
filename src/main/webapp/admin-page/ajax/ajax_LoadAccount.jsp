@@ -24,14 +24,14 @@
         <div class="item-col fixed item-col-img md">
             <a>
                 <div class="item-img rounded"
-                     style="background-image: url(<%=(info.getAvatarImgLink() != null) ? info.getAvatarImgLink() : "https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg"%>)"></div>
+                     style="background-image: url(<%=(info.getAvatar_link() != null) ? info.getAvatar_link() : "https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg"%>)"></div>
             </a>
         </div>
         <div class="item-col fixed pull-left item-col-title">
             <div class="item-heading">Tên người dùng</div>
             <div>
                 <a style="text-decoration: none">
-                    <h4 class="item-title"><%=info.getFullName()%>
+                    <h4 class="item-title"><%=info.getFull_name()%>
                     </h4>
                 </a>
             </div>

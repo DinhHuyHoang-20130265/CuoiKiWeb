@@ -181,7 +181,7 @@
         const pass2 = $('#pass2').val();
         const code = $('#code').val();
         $.ajax({
-            type: 'POST',
+            type: 'post',
             url: "ForgotPasswordController",
             data: {
                 email: email,

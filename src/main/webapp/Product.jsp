@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="./assets/css/productdetail.css">
     <link rel="stylesheet" href="./assets/css/reponsive1.css">
     <link rel="stylesheet" href="./assets/css/menu-contact.css">
+    <link rel="stylesheet" href="./assets/css/productDetail1.css">
     <link rel="icon" href="./assets/img/logo/main.png" type="image/x-icon"/>
     <style>
         form.example input[type=text] {
@@ -721,5 +722,4 @@
     }
 </script>
 </body>
-
 </html>
