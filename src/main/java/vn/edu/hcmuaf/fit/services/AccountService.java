@@ -19,9 +19,11 @@ public class AccountService {
     public int getAccountRole(String id) {
         return new AccountUserDAO().getAccountRole(id);
     }
+
     public SiteUser getAccountById(String id) {
         return new AccountUserDAO().getAccountById(id);
     }
+
     public List<SiteUser> getAllUserServer() {
         return new AccountUserDAO().getAllUserServer();
     }
@@ -32,5 +34,13 @@ public class AccountService {
 
     public List<SiteUser> loadAccountWithConditions(int page, int numb, String search) {
         return new AccountUserDAO().loadAccountWithConditions(page, numb, search);
+    }
+
+    public void AddNewAccount(String id, String fullname, String email, String username, String password, String address, String status, String role, String permission, String nameFile, String adminId) {
+        new AccountUserDAO().AddNewAccount(id, fullname, email, username, password, address, status, role, permission, nameFile, adminId);
+    }
+
+    public void UpdateAccount(String id, String fullname, String email, String username, String password, String address, String status, String role, String permission, String nameFile, String adminId) {
+        new AccountUserDAO().UpdateAccount(id, fullname, email, username, password, address, status, role, permission, nameFile, adminId);
     }
 }
