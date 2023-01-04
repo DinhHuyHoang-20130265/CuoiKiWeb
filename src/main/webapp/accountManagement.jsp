@@ -1,4 +1,5 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +68,7 @@
         response.sendRedirect("Login.jsp");
 
     } else {
-        SiteUser admin = (SiteUser) request.getSession().getAttribute("user");
+        SiteUser user = (SiteUser) request.getSession().getAttribute("user");
 %>
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
 <!-- content -->
@@ -76,8 +77,8 @@
         <div class="row">
             <div class="col-4">
                 <div class="heading">
-                    <img src="./assets/img/product/noavatar.png" alt="" class="heading-img">
-                    <span class="heading-name_acc">User1</span>
+                    <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() != null ? UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() : "./assets/img/product/noavatar.png"%>" alt="" class="heading-img">
+                    <span class="heading-name_acc"><%=UserInformationService.getInstance().getUserInfo(user.getId()).getFull_name()%></span>
                 </div>
                 <div class="menu-manager">
                     <div class="my-profile" onclick="hienThiDoiThongTin()">

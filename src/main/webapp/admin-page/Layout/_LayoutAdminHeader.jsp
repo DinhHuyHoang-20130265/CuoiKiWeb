@@ -1,4 +1,5 @@
-<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022
@@ -82,20 +83,19 @@
                     </footer>
                 </div>
             </li>
+            <%
+            AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+            %>
             <li class="profile dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                    aria-haspopup="true" aria-expanded="false">
                     <div class="img"
-                         style="background-image: url('https://avatars3.githubusercontent.com/u/3959008?v=3&s=40')">
+                         style="background-image: url("<%=UserInformationService.getInstance().getUserInfo(admin.getId()).getAvatar_link() == null ? "https://avatars3.githubusercontent.com/u/3959008?v=3&s=40" : UserInformationService.getInstance().getUserInfo(admin.getId()).getAvatar_link()%>")">
                     </div>
-                    <%
-                            AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
-                    %>
+
                     <span class="name"> <%=admin.getUsername()%> </span>
                 </a>
                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <a class="dropdown-item" href="#">
-                        <i class="fa fa-user icon"></i> Tài khoản </a>
                     <a class="dropdown-item" href="#">
                         <i class="fa fa-bell icon"></i> Thông báo </a>
                     <div class="dropdown-divider"></div>

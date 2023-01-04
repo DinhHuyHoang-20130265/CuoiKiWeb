@@ -1,5 +1,9 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.AccountService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.MD5" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -63,37 +67,53 @@
                 <%}%>
             </div>
             <form name="item">
+                <input type="text" id="userId"
+                       value="<%=request.getParameter("id") == null ? "" : request.getParameter("id")%>"
+                       style="display: none">
                 <div class="card card-block">
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Tên người dùng: </label>
                         <div class="col-sm-10">
-                            <input type="text" id="name" name="name" class="form-control boxed" placeholder="Nhập tên">
+                            <input type="text"
+                                   value="<%=request.getParameter("id") != null ? UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getFull_name() : ""%>"
+                                   id="name" name="name" class="form-control boxed" placeholder="Nhập tên">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Email: </label>
                         <div class="col-sm-10">
-                            <input type="email" id="email" name="email" class="form-control boxed" placeholder="Nhập email">
+                            <input type="email"
+                                   value="<%=request.getParameter("id") != null ? UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getEmail() : ""%>"
+                                   id="email" name="email" class="form-control boxed"
+                                   placeholder="Nhập email">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Tên đăng nhập: </label>
                         <div class="col-sm-10">
-                            <input type="text" name="username" id=username style="width:200px" class="form-control boxed"
+                            <input value="<%=request.getParameter("id") != null ? AccountService.getInstance().getAccountById(request.getParameter("id")).getUsername() : ""%>"
+                                   type="text" name="username" id=username style="width:200px"
+                                   class="form-control boxed"
                                    placeholder="Nhập username">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Password: </label>
                         <div class="col-sm-10">
-                            <input type="password" name="password" id="password" style="width:200px" class="form-control boxed"
-                                   placeholder="Nhập password">
+                            <input
+                                    value="<%=request.getParameter("id") != null ? AccountService.getInstance().getAccountById(request.getParameter("id")).getPass() : ""%>"
+                                    type="password" name="password" id="password" style="width:200px"
+                                    class="form-control boxed"
+                                    placeholder="Nhập password">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Địa chỉ: </label>
                         <div class="col-sm-10">
-                            <input type="text" name="address" id="address" class="form-control boxed" placeholder="Nhập...">
+                            <input
+                                    value="<%=request.getParameter("id") != null ? UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAddress() : ""%>"
+                                    type="text" name="address" id="address" class="form-control boxed"
+                                    placeholder="Nhập...">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -102,15 +122,99 @@
                             <select class="c-select form-control" name="select-cate" id="select-cate"
                                     onfocus='this.size=2;' onblur='this.size=1;'
                                     onchange='this.size=1; this.blur();'>
+                                <% if (request.getParameter("id") != null) {
+                                    if (AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1) { %>
+                                <option value="0">Tài khoản người dùng
+                                </option>
+                                <option value="1" selected>Tài khoản quản lý
+                                </option>
+                                <% } else if (AccountService.getInstance().getAccountRole(request.getParameter("id")) == 0) { %>
                                 <option value="0" selected>Tài khoản người dùng
                                 </option>
                                 <option value="1">Tài khoản quản lý
                                 </option>
+                                <%
+                                    }
+                                } else {
+                                %>
+                                <option value="0">Tài khoản người dùng
+                                </option>
+                                <option value="1">Tài khoản quản lý
+                                </option>
+                                <%}%>
                             </select>
                         </div>
                     </div>
+                    <div class="form-group row" id="role" style="display: <%=AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1 ? "flex" : "none"%>">
+                        <label class="col-sm-2 form-control-label text-xs-right"> Vai trò: </label>
+                        <div class="col-sm-10" style="display: block">
+                            <div class="role-select" id="role-select1" style="display: flex">
+                                <select class="c-select form-control" name="select-role1" id="select-role1">
+                                    <option value="null">Không có
+                                    </option>
+                                    <option value="user">Tài khoản
+                                    </option>
+                                    <option value="product"> Sản phẩm
+                                    </option>
+                                    <option value="comment" >Bình luận/Đánh giá
+                                    </option>
+                                    <option value="blog" >Tin tức
+                                    </option>
+                                    <option value="order" >Đơn hàng
+                                    </option>
+                                    <option value="category">Danh mục
+                                    </option>
+                                    <option value="slider">Banner
+                                    </option>
+                                </select>
+                                <select class="c-select form-control" name="select-permission1" id="select-permission1">
+                                    <option value="null">Không
+                                    </option>
+                                    <option value="insert">Thêm
+                                    </option>
+                                    <option value="update">Sửa
+                                    </option>
+                                    <option value="delete" >Xóa
+                                    </option>
+                                </select>
+                                <button type="button" name="remove" id="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                            <div class="role-select" id="role-select1" style="display: flex">
+                                <select class="c-select form-control" name="select-role1" id="select-role1">
+                                    <option value="null">Không có
+                                    </option>
+                                    <option value="user">Tài khoản
+                                    </option>
+                                    <option value="product"> Sản phẩm
+                                    </option>
+                                    <option value="comment" >Bình luận/Đánh giá
+                                    </option>
+                                    <option value="blog" >Tin tức
+                                    </option>
+                                    <option value="order" >Đơn hàng
+                                    </option>
+                                    <option value="category">Danh mục
+                                    </option>
+                                    <option value="slider">Banner
+                                    </option>
+                                </select>
+                                <select class="c-select form-control" name="select-permission1" id="select-permission1">
+                                    <option value="null">Không
+                                    </option>
+                                    <option value="insert">Thêm
+                                    </option>
+                                    <option value="update">Sửa
+                                    </option>
+                                    <option value="delete" >Xóa
+                                    </option>
+                                </select>
+                                <button type="button" name="remove" id="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                            <button type="button" name="remove" id="remove"><i class="fa fa-plus"></i></button>
+                        </div>
+                    </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 form-control-label text-xs-right"> Hình ảnh: </label>
+                        <label class="col-sm-2 form-control-label text-xs-right"> Ảnh đại diện: </label>
                         <div class="col-sm-10">
                             <div class="images-container">
                                 <div class="image-container">
@@ -136,9 +240,9 @@
                     <div class="form-group row">
                         <div class="col-sm-10 col-sm-offset-2">
                             <%if (request.getParameter("id") != null) {%>
-                                <button type="submit" class="btn btn-primary"> Lưu</button>
+                            <button type="submit" class="btn btn-primary"> Lưu</button>
                             <% } else { %>
-                                <button type="submit" class="btn btn-primary"> Thêm</button>
+                            <button type="submit" class="btn btn-primary"> Thêm</button>
                             <% } %>
                         </div>
                     </div>
