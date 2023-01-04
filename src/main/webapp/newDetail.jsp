@@ -1,3 +1,10 @@
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.news.NewsComment" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.NewsCommentService" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.NewsService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,169 +140,103 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="page-title">
                     <h1 class="title-head" style="font-size: 30px">
-                        <strong> Nike Mercurial Vapor 14 theo phong cách của Nike Jordan 1 sẽ trông như nào?</strong>
+                        <strong><%=NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_title()%>
+                        </strong>
                     </h1>
                 </div>
                 <div class="content-page">
                     <span class="time" style="font-size: 18px; color: #999;"><i class="far fa-clock"
-                                                                                style="margin-right: 10px;"></i>13/11/2021</span>
-                    <p>
-                        Mới đây Footpack và Soub đã hợp tác với nhau để tạo ra một phiên bản Nike Mercurial Vapor 14
-                        được tùy chỉnh đặc biệt, lấy cảm hứng từ một
-                        trong những đôi giày yêu thích của tiền đạo người Pháp Marcus Thuram,
-                        đôi Jordan 1 Travis Scott x Fragment.
-                    </p>
-                    <p>
-                        <img src="./assets/img/product/new4.jpg" alt="">
-                    </p>
-                    <P>
-                        Tiền đạo của Borussia Mönchengladbach là một fan cứng của những đôi giày thể thao đặc biệt là
-                        dòng sản phẩm Nike Jordan, cũng vì lý do đó mà khi thương hiệu footpack của Pháp đề nghị sẽ
-                        "custom" cho Marcus một đôi Nike Mercurial Vapors 14, thì đôi Jordan 1 Travis Scott x Fragment,
-                        đã được chọn để trở thành nguồn cảm hứng cho phiên bản "custom" này, được tạo ra bởi nghệ sĩ
-                        thiết kế Soub.
-                    </P>
-                    <p>
-                        <img src="./assets/img/product/new5.jpg" alt="">
-                    </p>
-                    <P>
-                        Nike Mercurial Travis Scott có tone màu chủ đạo toàn màu trắng và phủ lên nó
-                        các tấm hình khối màu xanh tương đồng với Jordan 1 Travis Scott x Fragment.
-                        Dấu Swoosh lớn màu đen ở mặt ngoài với một chữ ký của Travis Scott - phía má trong là dấu Swoosh
-                        nhỏ hơn
-                        kiểu setup giống với bản phối "Recharge" được Nike cho ra mắt gần đây.
-                    </P>
-                    <p>
-                        <img src="./assets/img/product/new6.jpg" alt="">
-                    </p>
-                    <p>
-                        <img src="./assets/img/product/new7.jpg" alt="">
-                    </p>
-                    <p>
-                        Ở trung tâm phần gót giày, dòng "Marcus Jack" được thiết kế khá "nguệch ngoạc",
-                        có lẽ để tạo dấu hiệu đặc trưng cho đôi giày.
-                        Đặt bên cạnh là logo của footpack ở mặt ngoài và logo Joaquim Soub ở mặt bên trong.
-                    </p>
-                    <p>
-                        <img src="./assets/img/product/new8.jpg" alt="">
-                    </p>
-                    <p>
-                        Theo dõi blog của P&T SHOP để biết được những thông tin mới nhất về
-                        những đôi giày bóng đá chính hãng đã và sắp có mặt trên thị trường toàn thế giới nhé.
-                        Ngoài ra các bạn có thể tham khảo thêm những đôi giày bóng đá chính hãng phiên bản
-                        dành cho mặt sân cỏ nhân tạo và Futsal tại <a href="">đây</a>.
-                    </p>
+                                                                                style="margin-right: 10px;"><%=NewsService.getInstance().getNewsById(request.getParameter("id")).getPosted_date()%></i></span>
+                    <%=NewsService.getInstance().getNewsById(request.getParameter("id")).getContent()%>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!-- comment -->
+<input type="text" id="newsid" value="<%=request.getParameter("id")%>" style="display: none">
+<%List<NewsComment> loadNewsComment = NewsCommentService.getInstance().getNewsCommentByNews("1", request.getParameter("id"), "0");%>
 <div class="container">
     <div class="col-md-12" id="fbcomment">
         <div class="header_comment">
             <div class="row">
                 <div class="col-md-6 text-left">
-                    <span class="count_comment">30 bình luận</span>
+                    <span class="count_comment"><%=NewsCommentService.getInstance().getAllCommentFromNews(request.getParameter("id")).size()%> bình luận</span>
                 </div>
                 <div class="col-md-6 text-right">
                     <span class="sort_title">Sắp xếp theo</span>
-                    <select class="sort_by">
-                        <option>Mới nhất</option>
-                        <option>Cũ nhất</option>
+                    <select class="sort_by" id="sort_by">
+                        <option value="0" selected>Mới nhất</option>
+                        <option value="1">Cũ nhất</option>
                     </select>
                 </div>
             </div>
         </div>
 
         <div class="body_comment">
-            <div class="row">
+            <div class="row" style="justify-content: center;">
+                <% if (request.getSession().getAttribute("user") == null) { %>
+                <h5 style="text-align: center; margin: 10px; color: red; font-size: 16px">Bạn cần đăng nhập để bình
+                    luận</h5>
+                <% } else {
+                    SiteUser user = (SiteUser) request.getSession().getAttribute("user");
+                    UserInformation information = UserInformationService.getInstance().getUserInfoById((user.getId()));
+                %>
+                <input type="text" id="usercomment" value="<%=user.getId()%>" style="display: none">
                 <div class="avatar_comment col-md-1">
-                    <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>
+                    <img src="<%=information.getAvatarImgLink() == null ? "http://localhost:8080/CuoiKiWeb_war/assets/imgNews/news/avatar.jpg" : information.getAvatarImgLink()%>"
+                         alt="avatar">
                 </div>
                 <div class="box_comment col-md-11">
-                    <textarea class="commentar" placeholder="Viết bình luận..."></textarea>
+                    <textarea class="commentar" placeholder="Viết bình luận..." required></textarea>
                     <div class="box_post">
-                        <div class="pull-left">
-                            <input type="checkbox" id="post_fb"/>
-                            <label for="post_fb">Đăng lên facebook</label>
-                        </div>
                         <div class="pull-right">
-                <span>
-                <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>
-                <i class="fa fa-caret-down"></i>
-                </span>
-                            <button onclick="submit_comment()" type="button" value="1">Đăng</button>
+                            <button type="button" id="post">Đăng</button>
                         </div>
                     </div>
                 </div>
+                <% } %>
             </div>
             <div class="row">
-                <ul id="list_comment" class="col-md-12">
-                    <!-- Start List Comment 1 -->
-                    <li class="box_result row">
+                <div id="list_comment" class="col-md-12">
+                    <% int numb = 6;%>
+                    <% if (loadNewsComment != null) {
+                        if (loadNewsComment.size() < 6) {
+                            numb = loadNewsComment.size();
+                        }
+                        for (int i = 0; i < numb; i++) {
+                            UserInformation userInfo = UserInformationService.getInstance().getUserInfo(loadNewsComment.get(i).getComment_by());%>
+                    <div class="box_result row" id="box_result<%=loadNewsComment.get(i).getComment_id()%>">
                         <div class="avatar_comment col-md-1">
-                            <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>
+                            <img src="<%=userInfo.getAvatarImgLink() == null ? "http://localhost:8080/CuoiKiWeb_war/assets/imgNews/news/avatar.jpg" : userInfo.getAvatarImgLink()%>"
+                                 alt="avatar"/>
                         </div>
                         <div class="result_comment col-md-11">
-                            <h4>Nguyễn Huy Hiệp</h4>
-                            <p>Đôi giày này thật tuyệt vời, tôi sẽ mua 2 đôi để tặng bạn thân nhất nhân dịp sinh nhật
-                                sắp tới của bạn tôi</p>
+                            <h4><%=userInfo.getFullName()%>
+                            </h4>
+                            <p><%=loadNewsComment.get(i).getDescription()%>
+                            </p>
                             <div class="tools_comment">
-                                <a class="like" href="#">Thích</a>
-                                <span aria-hidden="true"> · </span>
-                                <a class="replay" href="#">Phản hồi</a>
-                                <span aria-hidden="true"> · </span>
-                                <i class="fa fa-thumbs-o-up"></i> <span class="count">1</span>
-                                <span aria-hidden="true"> · </span>
-                                <span>26m</span>
+                                <span><%=loadNewsComment.get(i).getCommented_date()%></span>
+                                <%
+                                    SiteUser user = (SiteUser) request.getSession().getAttribute("user");
+                                    if (user != null) {
+                                        if (user.getId().equals(loadNewsComment.get(i).getComment_by())) {
+                                %>
+                                <a class="remove" id="remove<%=loadNewsComment.get(i).getComment_id()%>"
+                                   style="cursor: pointer; float: right; color: darkred">Xóa comment của bạn</a>
+                                <% }
+                                } %>
                             </div>
-                            <ul class="child_replay">
-                                <li class="box_reply row">
-                                    <div class="avatar_comment col-md-1">
-                                        <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>
-                                    </div>
-                                    <div class="result_comment col-md-11">
-                                        <h4>Nguyễn Minh Hiếu</h4>
-                                        <p>Rất ủng hộ bạn, tôi cũng vừa tặng cho đứa bạn tôi 1 đôi, nó cực kỳ thích
-                                            luôn</p>
-                                        <div class="tools_comment">
-                                            <a class="like" href="#">Thích</a>
-                                            <span aria-hidden="true"> · </span>
-                                            <a class="replay" href="#">Phản hồi</a>
-                                            <span aria-hidden="true"> · </span>
-                                            <i class="fa fa-thumbs-o-up"></i> <span class="count">1</span>
-                                            <span aria-hidden="true"> · </span>
-                                            <span>5m</span>
-                                        </div>
-                                        <ul class="child_replay"></ul>
-                                    </div>
-                                </li>
-                            </ul>
                         </div>
-                    </li>
-                    <!-- Start List Comment 2 -->
-                    <li class="box_result row">
-                        <div class="avatar_comment col-md-1">
-                            <img src="./assets/imgNews/news/avatar.jpg" alt="avatar"/>
-                        </div>
-                        <div class="result_comment col-md-11">
-                            <h4>Đinh Huy Hoàng</h4>
-                            <p>Tuyệt vời</p>
-                            <div class="tools_comment">
-                                <a class="like" href="#">Thích</a>
-                                <span aria-hidden="true"> · </span>
-                                <a class="replay" href="#">Phản hồi</a>
-                                <span aria-hidden="true"> · </span>
-                                <i class="fa fa-thumbs-o-up"></i> <span class="count">1</span>
-                                <span aria-hidden="true"> · </span>
-                                <span>26m</span>
-                            </div>
-                            <ul class="child_replay"></ul>
-                        </div>
-                    </li>
-                </ul>
-                <button class="show_more" type="button">Tải thêm 10 bình luận</button>
+                    </div>
+                    <%
+                            }
+                        }
+                    %>
+                </div>
+                <input type="text" id="page" value="2" style="display: none">
+                <button class="show_more" type="button">Tải thêm bình luận</button>
             </div>
         </div>
     </div>
@@ -305,5 +246,101 @@
 <script src="./assets/js/jquery-3.6.1.min.js"></script>
 <script src="./assets/js/bootstrap.min.js"></script>
 <script src="./assets/js/main.js"></script>
+<script>
+    deletecomment();
+
+    function deletecomment() {
+        $(".remove").click(function (e) {
+            e.preventDefault();
+            const id = this.id.substring(6);
+            $.ajax({
+                url: "DeleteCommentController",
+                type: "post",
+                data: {
+                    id: id,
+                },
+                success: function () {
+                    $("#box_result" + id).remove();
+                    $(".count_comment").text((parseInt($(".count_comment").text()) - 1) + " bình luận");
+                }
+            })
+        });
+    }
+
+    $(".show_more").click(function (e) {
+        e.preventDefault();
+        const page = $("#page").val();
+        const newsid = $("#newsid").val();
+        const order_by = $("#sort_by option:selected").val()
+        $.ajax({
+            url: "LoadNewsCommentController",
+            type: "post",
+            data: {
+                order_by: order_by,
+                newsid: newsid,
+                page: page
+            },
+            success: function (data) {
+                $("#list_comment").append(data);
+                $("#page").val(parseInt(page) + 1);
+            }
+        })
+    })
+    $('#sort_by').change(function () {
+        const order_by = $(this).val();
+        const page = "1";
+        if ($(this).val() === "0") {
+            const newsid = $("#newsid").val();
+            $.ajax({
+                url: "LoadNewsCommentController",
+                type: "post",
+                data: {
+                    order_by: order_by,
+                    newsid: newsid,
+                    page: page
+                },
+                success: function (data) {
+                    $("#list_comment").html(data);
+                    $("#page").val("2");
+                }
+            });
+        } else if ($(this).val() === "1") {
+            const newsid = $("#newsid").val();
+            $.ajax({
+                url: "LoadNewsCommentController",
+                type: "post",
+                data: {
+                    order_by: order_by,
+                    newsid: newsid,
+                    page: page
+                },
+                success: function (data) {
+                    $("#list_comment").html(data);
+                    $("#page").val("2");
+                }
+            });
+        }
+    });
+    $("#post").click(function (e) {
+        e.preventDefault();
+        const id = $("#usercomment").val();
+        const comment = $(".commentar").val();
+        const newsid = $("#newsid").val();
+        $.ajax({
+            url: "CommentController",
+            type: "post",
+            data: {
+                id: id,
+                comment: comment,
+                newsid: newsid
+            },
+            success: function (data) {
+                $("#list_comment").prepend(data);
+                $(".count_comment").text((parseInt($(".count_comment").text()) + 1) + " bình luận");
+                deletecomment();
+            }
+        })
+    })
+</script>
 </body>
 </html>

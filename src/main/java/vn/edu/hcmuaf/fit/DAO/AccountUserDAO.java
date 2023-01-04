@@ -1,8 +1,6 @@
 package vn.edu.hcmuaf.fit.DAO;
 
 import vn.edu.hcmuaf.fit.beans.SiteUser;
-import vn.edu.hcmuaf.fit.beans.product.Product;
-import vn.edu.hcmuaf.fit.beans.product.ProductSale;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
@@ -31,11 +29,12 @@ public class AccountUserDAO {
     }
 
     public List<SiteUser> loadAccountWithConditions(int page, int numb, String search) {
-        String query = "select a.id, a.username, a.pass, a.account_status from user_account a" +
+        String query = "select a.id, a.username, a.pass, a.account_status from user_account a " +
+                "INNER JOIN account_information ai ON a.id = ai.id" +
                 " WHERE a.account_status IN (1, 0)";
         if (search != null) {
             if (!search.equals(""))
-                query += " AND a.username LIKE '%" + search + "%'";
+                query += " AND ai.full_name LIKE '%" + search + "%'";
         }
         String finalQuery = query;
         List<SiteUser> filter = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery)
@@ -56,8 +55,23 @@ public class AccountUserDAO {
         return temp;
     }
 
+    public SiteUser getAccountById(String id) {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("select a.id, a.username, a.pass,a.role, a.account_status from user_account a WHERE a.id = ?")
+                .bind(0, id)
+                .mapToBean(SiteUser.class)
+                .first()
+        );
+    }
+
+    public Byte getAccountRole(String id) {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("select a.role from user_account a WHERE a.id = ?")
+                .bind(0, id)
+                .mapTo(Byte.class)
+                .first()
+        );
+    }
+
     public static void main(String[] args) {
-        System.out.println(new AccountUserDAO().loadAccountWithConditions(1, 6, null));
-        System.out.println(new AccountUserDAO().loadAccountWithConditions(3, 6, null).size());
+        System.out.println(new AccountUserDAO().getAccountRole("user2"));
     }
 }

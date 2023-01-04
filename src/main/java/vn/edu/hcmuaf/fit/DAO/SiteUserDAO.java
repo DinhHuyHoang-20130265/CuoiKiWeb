@@ -45,7 +45,7 @@ public class SiteUserDAO {
     }
 
     public String checkEmailExits(String email) {
-        List<String> id_account = JDBIConnector.get().withHandle(handle -> handle.createQuery("select ua.id from user_account ua INNER JOIN account_information ai ON ua.id = ai.id where ua.role = 0 ai.email = ?")
+        List<String> id_account = JDBIConnector.get().withHandle(handle -> handle.createQuery("select ua.id from user_account ua INNER JOIN account_information ai ON ua.id = ai.id where ua.role = 0 AND ai.email = ?")
                 .bind(0, email)
                 .mapTo(String.class)
                 .stream()

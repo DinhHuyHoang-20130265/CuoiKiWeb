@@ -1,7 +1,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.cart.Cart" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.wishlist.WishList" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.wishlist.WishList" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022
@@ -9,7 +10,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% SiteUser user = (SiteUser) session.getAttribute("user");%>
+<% SiteUser user = (SiteUser) request.getSession().getAttribute("user");%>
 <% Cart cart = (Cart) request.getSession().getAttribute("cart"); %>
 <% WishList wishList = (WishList) request.getSession().getAttribute("wishList"); %>
 <div class="overlay hidden"></div>
@@ -23,11 +24,14 @@
                     <img src="./assets/img/product/noavatar.png" alt=""/>
                 </div>
                 <div class="_body">Đăng nhập <br/>Nhận nhiều ưu đãi hơn</div>
-                <%} else if (user != null) {%>
+                <%
+                } else if (user != null) {
+                    UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
+                %>
                 <div class="_object">
-                    <img src="./assets/img/product/noavatar.png" alt=""/>
+                    <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() == null ? "./assets/img/product/noavatar.png" : UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link()%>" alt=""/>
                 </div>
-                <div class="_body">Xin chào<br/><%=user.getUsername()%>
+                <div class="_body">Xin chào<br/><%=UserInformationService.getInstance().getUserInfo(user.getId()).getFull_name()%>
                 </div>
                 <%}%>
             </div>
@@ -36,10 +40,10 @@
     <%if (user == null) {%>
     <ul class="ul-first-menu">
         <li>
-            <a href="">Đăng nhập</a>
+            <a href="Login.jsp">Đăng nhập</a>
         </li>
         <li>
-            <a href="" class="abc">Đăng kí</a>
+            <a href="registration.jsp" class="abc">Đăng kí</a>
         </li>
         <%} else if (user != null) {%>
         <ul class="ul-first-menu">
@@ -122,10 +126,13 @@
                                 kí</a>
                         </li>
                     </ul>
-                    <%} else if (user != null) {%>
+                    <%
+                    } else if (user != null) {
+                        UserInformation info2 = UserInformationService.getInstance().getUserInfo(user.getId());
+                    %>
                     <ul class="nav nav__first right">
                         <li class="nav-item nav-item__first nav-item__first-user">
-                            <img src="./assets/img/product/noavatar.png" alt="" class="nav-item__first-img">
+                            <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() == null ? "./assets/img/product/noavatar.png" : UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link()%>" alt="" class="nav-item__first-img">
                             <span class="nav-item__first-name"><%=user.getUsername()%></span>
                             <ul class="nav-item__first-menu">
                                 <li class="nav-item__first-item">
@@ -137,7 +144,9 @@
                             </ul>
                         </li>
                     </ul>
-                    <%}%>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
         </div>
@@ -153,55 +162,72 @@
                         </a>
                     </div>
                     <div class="mobile_cart visible-sm visible-xs">
-                        <% if (user == null) {%>
+                        <% if
+                        (
+                                user
+                                        ==
+                                        null
+                        ) {%>
                         <a href="Login.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
-                        <%}
-                        else {%>
+                        <%} else {%>
                         <a href="cart.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span id="header__second__cart--notice" class="header__second__cart--notice"><%=cart.getQuantity_cart()%></span>
+                            <span id="header__second__cart--notice"
+                                  class="header__second__cart--notice"><%=cart.getQuantity_cart()%></span>
                         </a>
                         <%}%>
                     </div>
                 </div>
                 <div class="col-lg-6 m-auto pdt15">
                     <form class="example" action="RedirectSearchInProductPageController">
-                        <input type="text" class="input-search" name="search" id="searchProduct" placeholder="Tìm kiếm.." name="search"/>
+                        <input type="text" class="input-search" name="search" id="searchProduct"
+                               placeholder="Tìm kiếm.." name="search"/>
                         <button type="submit" class="search-btn">
                             <i class="fa fa-search"></i>
                         </button>
                     </form>
                     <div id="search-result" style="display: none">
-                        <ul style="padding: 0; list-style-type: none;overflow: scroll;overflow-x: hidden; max-height: 450px;" class="suggest_search">
+                        <ul style="padding: 0; list-style-type: none;overflow: scroll;overflow-x: hidden; max-height: 450px;"
+                            class="suggest_search">
                         </ul>
                     </div>
                 </div>
                 <div class="col-3 m-auto hidden-sm hidden-xs">
                     <div class="item-car clearfix">
-                        <% if (user == null) {%>
+                        <% if
+                        (
+                                user
+                                        ==
+                                        null
+                        ) {%>
                         <a href="Login.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
-                        <%}
-                        else {%>
+                        <%} else {%>
                         <a href="cart.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span id="header__second__cart--notice" class="header__second__cart--notice"><%=cart.getQuantity_cart()%></span>
+                            <span id="header__second__cart--notice"
+                                  class="header__second__cart--notice"><%=cart.getQuantity_cart()%></span>
                         </a>
                         <%}%>
                     </div>
                     <div class="item-like clearfix">
-                        <% if (user == null) {%>
+                        <% if
+                        (
+                                user
+                                        ==
+                                        null
+                        ) {%>
                         <a href="Login.jsp" class="header__second__like--icon">
                             <i class="far fa-heart"></i>
                         </a>
-                        <%}
-                        else {%>
+                        <%} else {%>
                         <a href="listlike.jsp" class="header__second__like--icon">
                             <i class="far fa-heart"></i>
-                            <span id="header__second__like--notice" class="header__second__like--notice header_wishlist"><%=wishList.getQuantity()%></span>
+                            <span id="header__second__like--notice"
+                                  class="header__second__like--notice header_wishlist"><%=wishList.getQuantity()%></span>
                         </a>
                         <%}%>
                     </div>
@@ -227,125 +253,6 @@
                                 <li class="level1">
                                     <a class="hmega" href="Product.jsp?category=all">Tất cả sản phẩm</a>
                                 </li>
-                                <!--     <li class="level1">
-                                         <a class="hmega" href="Product.jsp?category=">Đồ Nam</a>
-                                         <ul class="level1">
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Áo Thun Nam</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Thun Tay Dài Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Thun Polo Nam</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Áo Sơ Mi Nam</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Sơ Mi Tay Dài Nam</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Quần Short Nam</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Short Kaki Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Short Jean Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Short Thun Nam</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Quần Dài Nam</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Jean Cá Tính Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Jogger Nam</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Kaki Nam</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                         </ul>
-                                     </li>
-                                     <li class="level1">
-                                         <a class="hmega">Đồ Nữ</a>
-                                         <ul class="level1">
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Áo Thun Nữ</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Thun Tay Ngắn Nữ</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Thun Tay Dài</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Áo Sơ Mi Nữ</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Sơ Mi Tay Ngắn Nữ</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Áo Sơ Mi Tay Dài Nữ</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Quần Short Nữ</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Short Kaki Nữ</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Short Jean Nữ</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Quần Dài Nữ</a>
-                                                 <ul class="level2">
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Jogger Nữ</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Jean Đơn Giản Nữ</a>
-                                                     </li>
-                                                     <li class="level3">
-                                                         <a href="Product.jsp">Quần Jean Cá Tính Nữ</a>
-                                                     </li>
-                                                 </ul>
-                                             </li>
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Chân Váy</a>
-                                             </li>
-                                             <li class="level2"><a href="Product.jsp">Yếm</a></li>
-                                         </ul>
-                                     </li>
-                                     <li class="level1">
-                                         <a class="hmega">Đồ Unisex</a>
-                                         <ul class="level1">
-                                             <li class="level2">
-                                                 <a href="Product.jsp">Áo Thun Unisex</a>
-                                             </li>
-                                         </ul>
-                                     </li> -->
                                 <%CategoryService.getInstance().CreateCategoryMenuNotMobile(out);%>
                             </ul>
                             <div class="col-4">
@@ -382,7 +289,7 @@
                         url: "SearchProductController",
                         type: "post",
                         data: {
-                            search : search
+                            search: search
                         },
                         success: function (data) {
                             if ($.trim(data)) {
@@ -411,8 +318,11 @@
                 }
             })
         })
-        $("#searchProduct").on("blur",function () {
-            $("#search-result").css("display", "none")
+        $("#searchProduct").on("blur", function () {
+            if ($(".suggest_search:hover").length !== 0) {
+                $("#search-result").css("display", "block")
+            } else
+                $("#search-result").css("display", "none")
         });
     })
 </script>
