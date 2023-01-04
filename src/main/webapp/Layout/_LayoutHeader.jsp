@@ -1,7 +1,9 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.cart.Cart" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.wishlist.WishList" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.wishlist.WishList" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022
@@ -23,9 +25,16 @@
                     <img src="./assets/img/product/noavatar.png" alt=""/>
                 </div>
                 <div class="_body">Đăng nhập <br/>Nhận nhiều ưu đãi hơn</div>
-                <%} else if (user != null) {%>
+                <%
+                } else if (user != null) {
+                    UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
+                %>
                 <div class="_object">
+                    <%if (info.getAvatarImgLink() == null) { %>
                     <img src="./assets/img/product/noavatar.png" alt=""/>
+                    <% } else {%>
+                    <img src="<%=info.getAvatarImgLink()%>" alt=""/>
+                    <%}%>
                 </div>
                 <div class="_body">Xin chào<br/><%=user.getUsername()%>
                 </div>
@@ -36,10 +45,10 @@
     <%if (user == null) {%>
     <ul class="ul-first-menu">
         <li>
-            <a href="">Đăng nhập</a>
+            <a href="Login.jsp">Đăng nhập</a>
         </li>
         <li>
-            <a href="" class="abc">Đăng kí</a>
+            <a href="registration.jsp" class="abc">Đăng kí</a>
         </li>
         <%} else if (user != null) {%>
         <ul class="ul-first-menu">
@@ -122,10 +131,17 @@
                                 kí</a>
                         </li>
                     </ul>
-                    <%} else if (user != null) {%>
+                    <%
+                    } else if (user != null) {
+                        UserInformation info2 = UserInformationService.getInstance().getUserInfo(user.getId());
+                    %>
                     <ul class="nav nav__first right">
                         <li class="nav-item nav-item__first nav-item__first-user">
+                            <%if (info2.getAvatarImgLink() == null) {%>
                             <img src="./assets/img/product/noavatar.png" alt="" class="nav-item__first-img">
+                            <%} else {%>
+                            <img src="<%=info2.getAvatarImgLink()%>" alt="" class="nav-item__first-img">
+                            <%}%>
                             <span class="nav-item__first-name"><%=user.getUsername()%></span>
                             <ul class="nav-item__first-menu">
                                 <li class="nav-item__first-item">
@@ -137,7 +153,9 @@
                             </ul>
                         </li>
                     </ul>
-                    <%}%>
+                    <%
+                        }
+                    %>
                 </div>
             </div>
         </div>
@@ -153,55 +171,90 @@
                         </a>
                     </div>
                     <div class="mobile_cart visible-sm visible-xs">
-                        <% if (user == null) {%>
+                        <% if
+                        (
+                                user
+                                        ==
+                                        null
+                        ) {%>
                         <a href="Login.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
-                        <%}
-                        else {%>
+                        <%
+                        } else {
+                        %>
                         <a href="cart.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span id="header__second__cart--notice" class="header__second__cart--notice"><%=cart.getQuantity_cart()%></span>
+                            <span id="header__second__cart--notice"
+                                  class="header__second__cart--notice"><%=cart
+                                    .
+                                    getQuantity_cart
+                                            (
+                                            )%></span>
                         </a>
                         <%}%>
                     </div>
                 </div>
                 <div class="col-lg-6 m-auto pdt15">
                     <form class="example" action="RedirectSearchInProductPageController">
-                        <input type="text" class="input-search" name="search" id="searchProduct" placeholder="Tìm kiếm.." name="search"/>
+                        <input type="text" class="input-search" name="search" id="searchProduct"
+                               placeholder="Tìm kiếm.." name="search"/>
                         <button type="submit" class="search-btn">
                             <i class="fa fa-search"></i>
                         </button>
                     </form>
                     <div id="search-result" style="display: none">
-                        <ul style="padding: 0; list-style-type: none;overflow: scroll;overflow-x: hidden; max-height: 450px;" class="suggest_search">
+                        <ul style="padding: 0; list-style-type: none;overflow: scroll;overflow-x: hidden; max-height: 450px;"
+                            class="suggest_search">
                         </ul>
                     </div>
                 </div>
                 <div class="col-3 m-auto hidden-sm hidden-xs">
                     <div class="item-car clearfix">
-                        <% if (user == null) {%>
+                        <% if
+                        (
+                                user
+                                        ==
+                                        null
+                        ) {%>
                         <a href="Login.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
-                        <%}
-                        else {%>
+                        <%
+                        } else {
+                        %>
                         <a href="cart.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
-                            <span id="header__second__cart--notice" class="header__second__cart--notice"><%=cart.getQuantity_cart()%></span>
+                            <span id="header__second__cart--notice"
+                                  class="header__second__cart--notice"><%=cart
+                                    .
+                                    getQuantity_cart
+                                            (
+                                            )%></span>
                         </a>
                         <%}%>
                     </div>
                     <div class="item-like clearfix">
-                        <% if (user == null) {%>
+                        <% if
+                        (
+                                user
+                                        ==
+                                        null
+                        ) {%>
                         <a href="Login.jsp" class="header__second__like--icon">
                             <i class="far fa-heart"></i>
                         </a>
-                        <%}
-                        else {%>
+                        <%
+                        } else {
+                        %>
                         <a href="listlike.jsp" class="header__second__like--icon">
                             <i class="far fa-heart"></i>
-                            <span id="header__second__like--notice" class="header__second__like--notice header_wishlist"><%=wishList.getQuantity()%></span>
+                            <span id="header__second__like--notice"
+                                  class="header__second__like--notice header_wishlist"><%=wishList
+                                    .
+                                    getQuantity
+                                            (
+                                            )%></span>
                         </a>
                         <%}%>
                     </div>
@@ -346,7 +399,19 @@
                                              </li>
                                          </ul>
                                      </li> -->
-                                <%CategoryService.getInstance().CreateCategoryMenuNotMobile(out);%>
+                                <%
+                                    CategoryService
+                                            .
+                                            getInstance
+                                                    (
+                                                    )
+                                                    .
+                                            CreateCategoryMenuNotMobile
+                                                    (
+                                                            out
+                                                    )
+                                    ;
+                                %>
                             </ul>
                             <div class="col-4">
                                 <a href="#">
@@ -382,7 +447,7 @@
                         url: "SearchProductController",
                         type: "post",
                         data: {
-                            search : search
+                            search: search
                         },
                         success: function (data) {
                             if ($.trim(data)) {
@@ -411,7 +476,7 @@
                 }
             })
         })
-        $("#searchProduct").on("blur",function () {
+        $("#searchProduct").on("blur", function () {
             $("#search-result").css("display", "none")
         });
     })

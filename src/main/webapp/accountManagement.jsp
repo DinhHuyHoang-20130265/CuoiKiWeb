@@ -1,4 +1,6 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,17 +69,22 @@
         response.sendRedirect("Login.jsp");
 
     } else {
-        SiteUser admin = (SiteUser) request.getSession().getAttribute("user");
+        SiteUser user = (SiteUser) request.getSession().getAttribute("user");
 %>
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
 <!-- content -->
+<% UserInformation information = UserInformationService.getInstance().getUserInfoById((user.getId()));%>
 <div class="container">
     <div class="wrapper">
         <div class="row">
             <div class="col-4">
                 <div class="heading">
+                    <% if (information.getAvatarImgLink() == null) { %>
                     <img src="./assets/img/product/noavatar.png" alt="" class="heading-img">
-                    <span class="heading-name_acc">User1</span>
+                    <% } else { %>
+                    <img src="<%=information.getAvatarImgLink()%>" alt="" class="heading-img">
+                    <% } %>
+                    <span class="heading-name_acc"><%=information.getFullName()%></span>
                 </div>
                 <div class="menu-manager">
                     <div class="my-profile" onclick="hienThiDoiThongTin()">
@@ -100,7 +107,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-8">
+            <div class="col-8" id="user_info">
                 <div class="detial__my-profile undisplay">
                     <div class="heading-edit-account">
                         <h2>Hồ sơ của tôi</h2>
@@ -108,27 +115,27 @@
                             <label for="fullname" class="form-label">Tên đầy đủ</label>
                             <input id="fullname" name="fullname" type="text" placeholder="VD: User1"
                                    class="form-control"
-                                   value="User1">
+                                   value="<%=information.getFullName()%>">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
                             <input id="email" name="email" type="text" placeholder="VD: email@domain.com"
                                    class="form-control"
-                                   value="abc@gmail.com">
+                                   value="<%=information.getEmail()%>">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Địa chỉ</label>
-                            <input id="email" name="email" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"
+                            <input id="diachi" name="email" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"
                                    class="form-control"
-                                   value="86 Đinh Bộ Lĩnh Phường 26 Quận Bình Thạnh TP.HCM">
+                                   value="<%=information.getAddress()%>">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="sdt" class="form-label">Số điện thoại</label>
-                            <input id="sdt" name="sdt" type="number" placeholder="VD: 089" class="form-control"
-                                   value="0912420530">
+                            <input id="sdt" name="sdt" type="text" placeholder="VD: 089" class="form-control"
+                                   value="<%=information.getPhone_number()%>">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
@@ -326,6 +333,26 @@
         $(".detail__confirm-password").removeClass("display");
         $(".my-order-title").addClass("active");
     }
+    $(".form-submit").click(function (e) {
+        e.preventDefault();
+        const fullName = $("#fullname").val();
+        const email = $("#email").val();
+        const diachi = $("#diachi").val();
+        const sdt = $("#sdt").val();
+        $.ajax({
+            url: "UpdateUserInfoController",
+            type: "post",
+            data: {
+               fullname: fullName,
+                email : email,
+                diachi : diachi,
+                sdt : sdt
+            },
+            success: function (data) {
+                $("#user_info").append(data);
+            }
+        })
+    })
 </script>
 </body>
 
