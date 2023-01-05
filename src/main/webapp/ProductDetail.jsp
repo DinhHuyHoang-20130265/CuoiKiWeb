@@ -1,12 +1,14 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.DAO.ProductDAO" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductColor" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductSize" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductImage" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.*" %>
+<%@ page import="vn.edu.hcmuaf.fit.DAO.ProductReviewDAO" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
+<%@ page import="vn.edu.hcmuaf.fit.DAO.UserInformationDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.DAO.CategoryDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -384,9 +386,15 @@
 
 <%
     ProductDAO productDAO = new ProductDAO();
+    ProductReviewDAO productReviewDAO = new ProductReviewDAO();
+    UserInformationDAO userInformationDAO = new UserInformationDAO();
+    CategoryDAO categoryDAO = new CategoryDAO();
     SiteUser user = (SiteUser) request.getSession().getAttribute("user");
     Product product = productDAO.getProductAndDetails(request.getParameter("id"));
     NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));
+    List<ProductReview> productReviews = productReviewDAO.getCommentsByProductID(product.getId());
+    Category cate1= categoryDAO.getCategoryByProductId(product.getId());
+    List<Product> fourProductSameCate = productDAO.getFourProductsSameCate(cate1.getId());
 %>
 
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
@@ -463,14 +471,14 @@
                     <%}%>
                 </div>
                 <div class="price-old">
-                    Giá gốc:
                     <%if (product.getSales() != null) { %>
+                    Giá gốc:
                     <del><%=format.format(product.getPrice() * (product.getPrice() * 0.01 * (100 - product.getSales().getDiscount_rate())))%>
                         đ
                     </del>
                     <span class="discount">(-<%=product.getSales().getDiscount_rate()%>%)</span>
                     <%} else {%>
-                    <del><%=format.format(product.getPrice())%>đ</del>
+                    <del style="opacity: 0;"><%=format.format(product.getPrice())%>đ</del>
                     <%}%>
                 </div>
                 <div class="product__color d-flex" style="align-items: center;">
@@ -591,12 +599,16 @@
                     <div class="row">
                         <div class="col-lg-8 col-12">
                             <div class="body__comment">
+                                <%if (productReviews != null) {
+                                for(ProductReview productReview : productReviews) {
+                                    UserInformation userInformation = userInformationDAO.getUserInfo(productReview.getReview_by());
+                                %>
                                 <div class="comment">
-                                    <img class="comment-img" src="./assets/img/product/noavatar.png" alt="">
+                                    <img class="comment-img" src="<%=userInformation.getAvatar_link()%>" alt="">
                                     <div class="comment__content">
                                         <div class="comment__content-heding">
-                                            <h4 class="comment__content-name">User1</h4>
-                                            <span class="comment__content-time">2021-11-12</span>
+                                            <h4 class="comment__content-name"><%=userInformation.getFull_name()%></h4>
+                                            <span class="comment__content-time"><%=productReview.getReview_date()%></span>
                                         </div>
                                         <div class="home-product-item__rating"
                                              style="font-size: 14px;transform-origin: left;margin-bottom: 5px">
@@ -606,50 +618,54 @@
                                             <i class="fas fa-star"></i>
                                         </div>
                                         <div class="comment__content-content">
-                                            <span>Quá đẹp</span>
+                                            <span><%=productReview.getreview_desc()%></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="comment">
-                                    <img class="comment-img" src="./assets/img/product/noavatar.png" alt="">
-                                    <div class="comment__content">
-                                        <div class="comment__content-heding">
-                                            <h4 class="comment__content-name">User1</h4>
-                                            <span class="comment__content-time">2021-11-12</span>
-                                        </div>
-                                        <div class="home-product-item__rating"
-                                             style="font-size: 14px;transform-origin: left;margin-bottom: 5px">
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <div class="comment__content-content">
-                                            <span>Đẹp quá</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="comment">
-                                    <img class="comment-img" src="./assets/img/product/noavatar.png" alt="">
-                                    <div class="comment__content">
-                                        <div class="comment__content-heding">
-                                            <h4 class="comment__content-name">User1</h4>
-                                            <span class="comment__content-time">2021-11-12</span>
-                                        </div>
-                                        <div class="home-product-item__rating"
-                                             style="font-size: 14px;transform-origin: left;margin-bottom: 5px">
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                        </div>
-                                        <div class="comment__content-content">
-                                            <span>Sản phẩm tốt</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <%}
+                                } else { %>
+                                    <div>Hiện chưa có bình luận nào</div>
+                                <% } %>
+<%--                                <div class="comment">--%>
+<%--                                    <img class="comment-img" src="./assets/img/product/noavatar.png" alt="">--%>
+<%--                                    <div class="comment__content">--%>
+<%--                                        <div class="comment__content-heding">--%>
+<%--                                            <h4 class="comment__content-name">User1</h4>--%>
+<%--                                            <span class="comment__content-time">2021-11-12</span>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="home-product-item__rating"--%>
+<%--                                             style="font-size: 14px;transform-origin: left;margin-bottom: 5px">--%>
+<%--                                            <i class="home-product-item__star--gold fas fa-star"></i>--%>
+<%--                                            <i class="home-product-item__star--gold fas fa-star"></i>--%>
+<%--                                            <i class="home-product-item__star--gold fas fa-star"></i>--%>
+<%--                                            <i class="home-product-item__star--gold fas fa-star"></i>--%>
+<%--                                            <i class="fas fa-star"></i>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="comment__content-content">--%>
+<%--                                            <span>Đẹp quá</span>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                                <div class="comment">--%>
+<%--                                    <img class="comment-img" src="./assets/img/product/noavatar.png" alt="">--%>
+<%--                                    <div class="comment__content">--%>
+<%--                                        <div class="comment__content-heding">--%>
+<%--                                            <h4 class="comment__content-name">User1</h4>--%>
+<%--                                            <span class="comment__content-time">2021-11-12</span>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="home-product-item__rating"--%>
+<%--                                             style="font-size: 14px;transform-origin: left;margin-bottom: 5px">--%>
+<%--                                            <i class="home-product-item__star--gold fas fa-star"></i>--%>
+<%--                                            <i class="home-product-item__star--gold fas fa-star"></i>--%>
+<%--                                            <i class="home-product-item__star--gold fas fa-star"></i>--%>
+<%--                                            <i class="home-product-item__star--gold fas fa-star"></i>--%>
+<%--                                            <i class="fas fa-star"></i>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="comment__content-content">--%>
+<%--                                            <span>Sản phẩm tốt</span>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
                             </div>
                         </div>
                     </div>
@@ -704,42 +720,39 @@
     <div class="container">
         <h3 class="product__relateto-heading">Sản phẩm liên quan</h3>
         <div class="row">
+            <%for (Product p: fourProductSameCate) { %>
             <div class="col-lg-3 col-md-6 col-sm-12 mb-20">
-                <a href="#" class="product__new-item">
+                <a href="ProductDetail.jsp?id=<%=p.getId()%>" class="product__new-item">
                     <div class="card" style="width: 100%">
                         <div>
-                            <img class="card-img-top" src="./assets/imgProduct/images/men/1.jpg" alt="Card image cap"/>
-                            <form action="" class="hover-icon hidden-sm hidden-xs">
-                                <input type="hidden"/>
-                                <a href="pay.jsp" class="btn-add-to-cart" title="Mua ngay">
-                                    <i class="fas fa-cart-plus"></i>
-                                </a>
-                                <a href="cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích"
-                                   style="margin-top: 10px">
-                                    <i class="fas fa-heart"></i>
-                                </a>
-                                <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">
-                                    <i class="fas fa-search"></i>
-                                </a>
-                            </form>
+                            <img class="card-img-top" src="<%=p.getMain_img_link()%>" alt=""/>
                         </div>
                         <div class="card-body">
                             <h5 class="card-title custom__name-product">
-                                Áo len sọc lớn màu
+                                <%=p.getProd_name()%>
                             </h5>
                             <div class="product__price">
-                                <p class="card-text price-color product__price-old">
-                                    1,000,000 đ
-                                </p>
+                                <%if (p.getSales() != null) { %>
+                                    <p class="card-text price-color product__price-old">
+                                        <%if (p.getSales() != null) { %>
+                                        <%=format.format(p.getPrice() * (p.getPrice() * 0.01 * (100 - p.getSales().getDiscount_rate())))%>đ
+                                        <%} else { %>
+                                        <%=format.format(p.getPrice())%>đ
+                                        <%}%>
+                                    </p>
+                                <%} else {%>
+                                    <p class="card-text price-color product__price-old" style="opacity: 0">
+                                <%}%>
                                 <p class="card-text price-color product__price-new">
-                                    420000 đ
+                                    <%if (p.getSales() != null) { %>
+                                    <%=format.format(p.getPrice() * (p.getPrice() * 0.01 * (100 - p.getSales().getDiscount_rate())))%>đ
+
+                                    <%} else { %>
+                                    <%=format.format(p.getPrice())%>đ
+                                    <%}%>
                                 </p>
                             </div>
                             <div class="home-product-item__action">
-                  <span class="home-product-item__like home-product-item__like--liked">
-                    <i class="home-product-item__like-icon-empty far fa-heart"></i>
-                    <i class="home-product-item__like-icon-fill fas fa-heart"></i>
-                  </span>
                                 <div class="home-product-item__rating">
                                     <i class="home-product-item__star--gold fas fa-star"></i>
                                     <i class="home-product-item__star--gold fas fa-star"></i>
@@ -747,177 +760,186 @@
                                     <i class="home-product-item__star--gold fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <span class="home-product-item__sold">79 đã bán</span>
+                                <span class="home-product-item__sold"><%=p.getView_count()%> Lượt xem</span>
                             </div>
+                            <%if (product.getSales() != null) { %>
                             <div class="sale-off">
-                                <span class="sale-off-percent">20%</span>
-                                <span class="sale-off-label">GIẢM</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-20">
-                <a href="#" class="product__new-item">
-                    <div class="card" style="width: 100%">
-                        <div>
-                            <img class="card-img-top" src="./assets/imgProduct/images/men/2.jpg" alt="Card image cap"/>
-                            <form action="" class="hover-icon hidden-sm hidden-xs">
-                                <input type="hidden"/>
-                                <a href="pay.jsp" class="btn-add-to-cart" title="Mua ngay">
-                                    <i class="fas fa-cart-plus"></i>
-                                </a>
-                                <a href="cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích"
-                                   style="margin-top: 10px">
-                                    <i class="fas fa-heart"></i>
-                                </a>
-                                <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">
-                                    <i class="fas fa-search"></i>
-                                </a>
-                            </form>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title custom__name-product">
-                                Áo len sọc phối màu
-                            </h5>
-                            <div class="product__price">
-                                <p class="card-text price-color product__price-old">
-                                    1,000,000 đ
-                                </p>
-                                <p class="card-text price-color product__price-new">
-                                    420000 đ
-                                </p>
-                            </div>
-                            <div class="home-product-item__action">
-                  <span class="home-product-item__like home-product-item__like--liked">
-                    <i class="home-product-item__like-icon-empty far fa-heart"></i>
-                    <i class="home-product-item__like-icon-fill fas fa-heart"></i>
-                  </span>
-                                <div class="home-product-item__rating">
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
+                                <div class="sale-off sale-off-2">
+                                    <span class="sale-off-percent"><(<%=product.getSales()%>)></span>
+                                    <span class="sale-off-label">GIẢM</span>
                                 </div>
-                                <span class="home-product-item__sold">79 đã bán</span>
                             </div>
-                            <div class="sale-off">
-                                <span class="sale-off-percent">20%</span>
-                                <span class="sale-off-label">GIẢM</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-20">
-                <a href="#" class="product__new-item">
-                    <div class="card" style="width: 100%">
-                        <div>
-                            <img class="card-img-top" src="./assets/imgProduct/images/men/3.jpg" alt="Card image cap"/>
-                            <form action="" class="hover-icon hidden-sm hidden-xs">
-                                <input type="hidden"/>
-                                <a href="pay.jsp" class="btn-add-to-cart" title="Mua ngay">
-                                    <i class="fas fa-cart-plus"></i>
-                                </a>
-                                <a href="cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích"
-                                   style="margin-top: 10px">
-                                    <i class="fas fa-heart"></i>
-                                </a>
-                                <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">
-                                    <i class="fas fa-search"></i>
-                                </a>
-                            </form>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title custom__name-product">
-                                Áo len traffic
-                            </h5>
-                            <div class="product__price">
-                                <p class="card-text price-color product__price-old">
-                                    1,000,000 đ
-                                </p>
-                                <p class="card-text price-color product__price-new">
-                                    420000 đ
-                                </p>
-                            </div>
-                            <div class="home-product-item__action">
-                  <span class="home-product-item__like home-product-item__like--liked">
-                    <i class="home-product-item__like-icon-empty far fa-heart"></i>
-                    <i class="home-product-item__like-icon-fill fas fa-heart"></i>
-                  </span>
-                                <div class="home-product-item__rating">
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
+                            <%} else {%>
+                                <div class="sale-off" style="opacity: 0">
+                                    <div class="sale-off sale-off-2" style="opacity: 0">
+                                        <span class="sale-off-percent"></span>
+                                        <span class="sale-off-label"></span>
+                                    </div>
                                 </div>
-                                <span class="home-product-item__sold">79 đã bán</span>
-                            </div>
-                            <div class="sale-off">
-                                <span class="sale-off-percent">20%</span>
-                                <span class="sale-off-label">GIẢM</span>
-                            </div>
+                            <%}%>
                         </div>
                     </div>
                 </a>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-20">
-                <a href="#" class="product__new-item">
-                    <div class="card" style="width: 100%">
-                        <div>
-                            <img class="card-img-top" src="./assets/imgProduct/images/men/4.jpg" alt="Card image cap"/>
-                            <form action="" class="hover-icon hidden-sm hidden-xs">
-                                <input type="hidden"/>
-                                <a href="pay.jsp" class="btn-add-to-cart" title="Mua ngay">
-                                    <i class="fas fa-cart-plus"></i>
-                                </a>
-                                <a href="cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích"
-                                   style="margin-top: 10px">
-                                    <i class="fas fa-heart"></i>
-                                </a>
-                                <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">
-                                    <i class="fas fa-search"></i>
-                                </a>
-                            </form>
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title custom__name-product">Áo len nhiều màu
-                            </h5>
-                            <div class="product__price">
-                                <p class="card-text price-color product__price-old">
-                                    1,000,000 đ
-                                </p>
-                                <p class="card-text price-color product__price-new">
-                                    420000 đ
-                                </p>
-                            </div>
-                            <div class="home-product-item__action">
-                  <span class="home-product-item__like home-product-item__like--liked">
-                    <i class="home-product-item__like-icon-empty far fa-heart"></i>
-                    <i class="home-product-item__like-icon-fill fas fa-heart"></i>
-                  </span>
-                                <div class="home-product-item__rating">
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="home-product-item__star--gold fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <span class="home-product-item__sold">79 đã bán</span>
-                            </div>
-                            <div class="sale-off">
-                                <span class="sale-off-percent">20%</span>
-                                <span class="sale-off-label">GIẢM</span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="seemore">
-            <a href="Product.jsp">Xem thêm</a>
+            <%--            <div class="col-lg-3 col-md-6 col-sm-12 mb-20">--%>
+            <%--                <a href="#" class="product__new-item">--%>
+            <%--                    <div class="card" style="width: 100%">--%>
+            <%--                        <div>--%>
+            <%--                            <img class="card-img-top" src="./assets/imgProduct/images/men/2.jpg" alt="Card image cap"/>--%>
+            <%--                            <form action="" class="hover-icon hidden-sm hidden-xs">--%>
+            <%--                                <input type="hidden"/>--%>
+            <%--                                <a href="pay.jsp" class="btn-add-to-cart" title="Mua ngay">--%>
+            <%--                                    <i class="fas fa-cart-plus"></i>--%>
+            <%--                                </a>--%>
+            <%--                                <a href="cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích"--%>
+            <%--                                   style="margin-top: 10px">--%>
+            <%--                                    <i class="fas fa-heart"></i>--%>
+            <%--                                </a>--%>
+            <%--                                <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">--%>
+            <%--                                    <i class="fas fa-search"></i>--%>
+            <%--                                </a>--%>
+            <%--                            </form>--%>
+            <%--                        </div>--%>
+            <%--                        <div class="card-body">--%>
+            <%--                            <h5 class="card-title custom__name-product">--%>
+            <%--                                Áo len sọc phối màu--%>
+            <%--                            </h5>--%>
+            <%--                            <div class="product__price">--%>
+            <%--                                <p class="card-text price-color product__price-old">--%>
+            <%--                                    1,000,000 đ--%>
+            <%--                                </p>--%>
+            <%--                                <p class="card-text price-color product__price-new">--%>
+            <%--                                    420000 đ--%>
+            <%--                                </p>--%>
+            <%--                            </div>--%>
+            <%--                            <div class="home-product-item__action">--%>
+            <%--                  <span class="home-product-item__like home-product-item__like--liked">--%>
+            <%--                    <i class="home-product-item__like-icon-empty far fa-heart"></i>--%>
+            <%--                    <i class="home-product-item__like-icon-fill fas fa-heart"></i>--%>
+            <%--                  </span>--%>
+            <%--                                <div class="home-product-item__rating">--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="fas fa-star"></i>--%>
+            <%--                                </div>--%>
+            <%--                                <span class="home-product-item__sold">79 đã bán</span>--%>
+            <%--                            </div>--%>
+            <%--                            <div class="sale-off">--%>
+            <%--                                <span class="sale-off-percent">20%</span>--%>
+            <%--                                <span class="sale-off-label">GIẢM</span>--%>
+            <%--                            </div>--%>
+            <%--                        </div>--%>
+            <%--                    </div>--%>
+            <%--                </a>--%>
+            <%--            </div>--%>
+            <%--            <div class="col-lg-3 col-md-6 col-sm-12 mb-20">--%>
+            <%--                <a href="#" class="product__new-item">--%>
+            <%--                    <div class="card" style="width: 100%">--%>
+            <%--                        <div>--%>
+            <%--                            <img class="card-img-top" src="./assets/imgProduct/images/men/3.jpg" alt="Card image cap"/>--%>
+            <%--                            <form action="" class="hover-icon hidden-sm hidden-xs">--%>
+            <%--                                <input type="hidden"/>--%>
+            <%--                                <a href="pay.jsp" class="btn-add-to-cart" title="Mua ngay">--%>
+            <%--                                    <i class="fas fa-cart-plus"></i>--%>
+            <%--                                </a>--%>
+            <%--                                <a href="cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích"--%>
+            <%--                                   style="margin-top: 10px">--%>
+            <%--                                    <i class="fas fa-heart"></i>--%>
+            <%--                                </a>--%>
+            <%--                                <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">--%>
+            <%--                                    <i class="fas fa-search"></i>--%>
+            <%--                                </a>--%>
+            <%--                            </form>--%>
+            <%--                        </div>--%>
+            <%--                        <div class="card-body">--%>
+            <%--                            <h5 class="card-title custom__name-product">--%>
+            <%--                                Áo len traffic--%>
+            <%--                            </h5>--%>
+            <%--                            <div class="product__price">--%>
+            <%--                                <p class="card-text price-color product__price-old">--%>
+            <%--                                    1,000,000 đ--%>
+            <%--                                </p>--%>
+            <%--                                <p class="card-text price-color product__price-new">--%>
+            <%--                                    420000 đ--%>
+            <%--                                </p>--%>
+            <%--                            </div>--%>
+            <%--                            <div class="home-product-item__action">--%>
+            <%--                  <span class="home-product-item__like home-product-item__like--liked">--%>
+            <%--                    <i class="home-product-item__like-icon-empty far fa-heart"></i>--%>
+            <%--                    <i class="home-product-item__like-icon-fill fas fa-heart"></i>--%>
+            <%--                  </span>--%>
+            <%--                                <div class="home-product-item__rating">--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="fas fa-star"></i>--%>
+            <%--                                </div>--%>
+            <%--                                <span class="home-product-item__sold">79 đã bán</span>--%>
+            <%--                            </div>--%>
+            <%--                            <div class="sale-off">--%>
+            <%--                                <span class="sale-off-percent">20%</span>--%>
+            <%--                                <span class="sale-off-label">GIẢM</span>--%>
+            <%--                            </div>--%>
+            <%--                        </div>--%>
+            <%--                    </div>--%>
+            <%--                </a>--%>
+            <%--            </div>--%>
+            <%--            <div class="col-lg-3 col-md-6 col-sm-12 mb-20">--%>
+            <%--                <a href="#" class="product__new-item">--%>
+            <%--                    <div class="card" style="width: 100%">--%>
+            <%--                        <div>--%>
+            <%--                            <img class="card-img-top" src="./assets/imgProduct/images/men/4.jpg" alt="Card image cap"/>--%>
+            <%--                            <form action="" class="hover-icon hidden-sm hidden-xs">--%>
+            <%--                                <input type="hidden"/>--%>
+            <%--                                <a href="pay.jsp" class="btn-add-to-cart" title="Mua ngay">--%>
+            <%--                                    <i class="fas fa-cart-plus"></i>--%>
+            <%--                                </a>--%>
+            <%--                                <a href="cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích"--%>
+            <%--                                   style="margin-top: 10px">--%>
+            <%--                                    <i class="fas fa-heart"></i>--%>
+            <%--                                </a>--%>
+            <%--                                <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">--%>
+            <%--                                    <i class="fas fa-search"></i>--%>
+            <%--                                </a>--%>
+            <%--                            </form>--%>
+            <%--                        </div>--%>
+            <%--                        <div class="card-body">--%>
+            <%--                            <h5 class="card-title custom__name-product">Áo len nhiều màu--%>
+            <%--                            </h5>--%>
+            <%--                            <div class="product__price">--%>
+            <%--                                <p class="card-text price-color product__price-old">--%>
+            <%--                                    1,000,000 đ--%>
+            <%--                                </p>--%>
+            <%--                                <p class="card-text price-color product__price-new">--%>
+            <%--                                    420000 đ--%>
+            <%--                                </p>--%>
+            <%--                            </div>--%>
+            <%--                            <div class="home-product-item__action">--%>
+            <%--                  <span class="home-product-item__like home-product-item__like--liked">--%>
+            <%--                    <i class="home-product-item__like-icon-empty far fa-heart"></i>--%>
+            <%--                    <i class="home-product-item__like-icon-fill fas fa-heart"></i>--%>
+            <%--                  </span>--%>
+            <%--                                <div class="home-product-item__rating">--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
+            <%--                                    <i class="fas fa-star"></i>--%>
+            <%--                                </div>--%>
+            <%--                                <span class="home-product-item__sold">79 đã bán</span>--%>
+            <%--                            </div>--%>
+            <%--                            <div class="sale-off">--%>
+            <%--                                <span class="sale-off-percent">20%</span>--%>
+            <%--                                <span class="sale-off-label">GIẢM</span>--%>
+            <%--                            </div>--%>
+            <%--                        </div>--%>
+            <%--                    </div>--%>
+            <%--                </a>--%>
+            <%--            </div>--%>
+            <% } %>
         </div>
     </div>
 </div>

@@ -1,6 +1,5 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.cart.Cart" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.cart.CartKey" %>

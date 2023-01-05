@@ -2,7 +2,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.cart.Cart" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.wishlist.WishList" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022

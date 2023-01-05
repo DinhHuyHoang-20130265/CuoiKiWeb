@@ -32,6 +32,19 @@ public class CategoryDAO {
                         .stream()
                         .collect(Collectors.toList()));
     }
+    public Category getCategoryByProductId(String id) {
+        return JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT c.id, c.cate_name, c.cate_desc, c.parent_id, c.cate_status " +
+                                "FROM product_categories c " +
+                                "INNER JOIN product_from_cate pfc ON c.id = pfc.cate_id " +
+                                "INNER JOIN product p ON pfc.prod_id = p.id " +
+                                "WHERE c.cate_status = 1 AND p.id = ? ORDER BY c.id DESC LIMIT 1")
+                        .bind(0, id)
+                        .mapToBean(Category.class)
+                        .first()
+        );
+    }
+
 
     public List<Category> getChildCategory(String id) {
         return JDBIConnector.get().withHandle(handle ->
@@ -57,6 +70,7 @@ public class CategoryDAO {
 
     public static void main(String[] args) {
         System.out.println(new CategoryDAO().loadAll());
+        System.out.println(new CategoryDAO().getCategoryByProductId("prod001"));
     }
 
 }

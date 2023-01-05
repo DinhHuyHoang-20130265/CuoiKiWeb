@@ -5,17 +5,17 @@ import java.util.Date;
 
 public class Order implements Serializable {
     private String ord_id;
-    private Date ord_date;
-    private byte status;
-    private byte payment_method;
-    private byte delivered;
-    private Date delivery_date;
+    private String ord_date;
+    private int status;
+    private int payment_method;
+    private int delivered;
+    private String delivery_date;
     private String custumer_id;
 
     public Order() {
 
     }
-    public Order(String ord_id, Date ord_date, byte status, byte payment_method, byte delivered, Date delivery_date, String custumer_id) {
+    public Order(String ord_id, String ord_date, int status, int payment_method, int delivered, String delivery_date, String custumer_id) {
         this.ord_id = ord_id;
         this.ord_date = ord_date;
         this.status = status;
@@ -33,43 +33,43 @@ public class Order implements Serializable {
         this.ord_id = ord_id;
     }
 
-    public Date getOrd_date() {
+    public String getOrd_date() {
         return ord_date;
     }
 
-    public void setOrd_date(Date ord_date) {
+    public void setOrd_date(String ord_date) {
         this.ord_date = ord_date;
     }
 
-    public byte getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(byte status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
-    public byte getPayment_method() {
+    public int getPayment_method() {
         return payment_method;
     }
 
-    public void setPayment_method(byte payment_method) {
+    public void setPayment_method(int payment_method) {
         this.payment_method = payment_method;
     }
 
-    public byte getDelivered() {
+    public int getDelivered() {
         return delivered;
     }
 
-    public void setDelivered(byte delivered) {
+    public void setDelivered(int delivered) {
         this.delivered = delivered;
     }
 
-    public Date getDelivery_date() {
+    public String getDelivery_date() {
         return delivery_date;
     }
 
-    public void setDelivery_date(Date delivery_date) {
+    public void setDelivery_date(String delivery_date) {
         this.delivery_date = delivery_date;
     }
 
