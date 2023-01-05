@@ -19,9 +19,6 @@ public class UpdateQuantityCartController extends HttpServlet {
         /*
             Cập nhật lại số lượng trong giỏ hàng trên header - Nguyễn Huy Hiệp - 20130258
          */
-        String id = request.getParameter("id");
-        String size = request.getParameter("size");
-        String color = request.getParameter("color");
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         request.getSession().setAttribute("cart", cart);
         request.getRequestDispatcher("ajax/ajax_addCartSuccessful.jsp").forward(request, response);

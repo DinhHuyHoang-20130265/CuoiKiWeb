@@ -261,9 +261,9 @@
                                         <h2>Chọn hình thức thanh toán</h2>
                                     </div>
                                     <div class="selection-btn">
-                                        <input type="radio" id="cash" name="select-btn" value="1">
+                                        <input type="radio" id="cash" name="select-btn" value="0">
                                         <label for="cash"> Thanh toán bằng tiền mặt khi nhận hàng(COD)</label><br>
-                                        <input type="radio" id="bank" name="select-btn" value="2">
+                                        <input type="radio" id="bank" name="select-btn" value="1">
                                         <label for="bank"> Thanh toán bằng thẻ ngân hàng</label><br>
                                     </div>
                                 </div>
@@ -306,23 +306,22 @@
         const payment_method = $(".selection-btn input[type='radio']:checked").val();
         const total = $(".total_input").val();
         const customer_id = $(".user_id").val();
-        // $.ajax({
-        //     url: "CheckoutController",
-        //     type: "post",
-        //     data: {
-        //         address: address,
-        //         receive_name: receive_name,
-        //         email: email,
-        //         phone_number: phone_number,
-        //         note: note,
-        //         payment_method: payment_method,
-        //         total: total,
-        //         customer_id: customer_id
-        //
-        //     },
-        //     success: function (data) {
-        //     }
-        // })
+        $.ajax({
+            url: "CheckoutController",
+            type: "post",
+            data: {
+                address: address,
+                receive_name: receive_name,
+                email: email,
+                phone_number: phone_number,
+                note: note,
+                payment_method: payment_method,
+                total: total,
+                customer_id: customer_id
+            },
+            success: function (data) {
+            }
+        })
     })
 </script>
 </body>

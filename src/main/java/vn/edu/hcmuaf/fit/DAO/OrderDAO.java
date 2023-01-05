@@ -31,13 +31,12 @@ public class OrderDAO {
 
     public void insertOrder(String ord_id, int payment_method, double total, String address,
                                    String receive_name, String email, String phone_number, String note, String customer_id){
-        String id = generateIdOrder();
         String date = java.time.LocalDate.now().toString();
         String date_3days = (java.time.LocalDate.now().plusDays(3)).toString();
         JDBIConnector.get().withHandle(handle -> {
             handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, delivered, total, delivery_date, address," +
                             "receive_name, email, phone_number, note, customer_id) VALUES(?,?,1,?,0,?,?,?,?,?,?,?,? )")
-                    .bind(0,id)
+                    .bind(0,ord_id)
                     .bind(1,date)
                     .bind(2,payment_method)
                     .bind(3,total)
