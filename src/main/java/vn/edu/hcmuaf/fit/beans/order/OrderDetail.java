@@ -80,4 +80,17 @@ public class OrderDetail implements Serializable {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return "OrderDetail{" +
+                "ord_id='" + ord_id + '\'' +
+                ", prod_id='" + prod_id + '\'' +
+                ", prod_name='" + prod_name + '\'' +
+                ", prod_color='" + prod_color + '\'' +
+                ", prod_size='" + prod_size + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
+    }
 }
