@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.DAO;
 
 import vn.edu.hcmuaf.fit.beans.SiteUser;
+import vn.edu.hcmuaf.fit.beans.UserInformation;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
@@ -70,7 +71,16 @@ public class AccountUserDAO {
                 .first()
         );
     }
-
+    public String getIdUserByName(String username) {
+        SiteUser Statement = JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT ua.id" +
+                                " FROM account_information a INNER JOIN user_account ua ON a.id = ua.id WHERE ua.account_status = 1 AND ua.username=? ")
+                        .bind(0, username)
+                        .mapToBean(SiteUser.class)
+                        .first()
+        );
+        return Statement.getId().toString();
+    }
     public static void main(String[] args) {
         System.out.println(new AccountUserDAO().getAccountRole("user2"));
     }

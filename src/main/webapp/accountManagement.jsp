@@ -105,13 +105,13 @@
             </div>
             <div class="col-8" id="user_info">
                 <div class="detial__my-profile undisplay">
-                    <div class="heading-edit-account">
+                    <form class="heading-edit-account" method="POST">
                         <h2>Hồ sơ của tôi</h2>
                         <div class="form-group">
-                            <label for="fullname" class="form-label">Tên đầy đủ</label>
-                            <input id="fullname" name="fullname" type="text" placeholder="VD: User1"
+                            <label for="full_name" class="form-label">Tên đầy đủ</label>
+                            <input id="full_name" name="full_name" type="text" placeholder="VD: User1"
                                    class="form-control"
-                                   value="<%=information.getFullName()%>">
+                                   value="<%=information.getFull_name()%>">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
@@ -122,15 +122,15 @@
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="form-label">Địa chỉ</label>
-                            <input id="diachi" name="email" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <input id="address" name="address" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"
                                    class="form-control"
                                    value="<%=information.getAddress()%>">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label for="sdt" class="form-label">Số điện thoại</label>
-                            <input id="sdt" name="sdt" type="text" placeholder="VD: 089" class="form-control"
+                            <label for="phone_number" class="form-label">Số điện thoại</label>
+                            <input id="phone_number" name="phone_number" type="text" placeholder="VD: 089..." class="form-control"
                                    value="<%=information.getPhone_number()%>">
                             <span class="form-message"></span>
                         </div>
@@ -139,8 +139,8 @@
                             <input id="avatar" name="avatar" type="file" class="form-control">
                             <span class="form-message"></span>
                         </div>
-                        <button class="form-submit">Lưu</button>
-                    </div>
+                        <button class="form-submit" id="submit1" type="submit">Lưu</button>
+                    </form>
                 </div>
                 <div class="detail__confirm-password undisplay">
                     <div class="heading-edit-password">
@@ -329,23 +329,24 @@
         $(".detail__confirm-password").removeClass("display");
         $(".my-order-title").addClass("active");
     }
-    $(".form-submit").click(function (e) {
+    $("#submit1").click(function (e) {
         e.preventDefault();
-        const fullName = $("#fullname").val();
+        const full_name = $("#full_name").val();
         const email = $("#email").val();
-        const diachi = $("#diachi").val();
-        const sdt = $("#sdt").val();
+        const address = $("#address").val();
+        const phone_number = $("#phone_number").val();
         $.ajax({
-            url: "UpdateUserInfoController",
+            url: "UpdateUserController",
             type: "post",
             data: {
-               fullname: fullName,
+               full_name: full_name,
                 email : email,
-                diachi : diachi,
-                sdt : sdt
+                address : address,
+                phone_number : phone_number
             },
             success: function (data) {
-                $("#user_info").append(data);
+                // $(".heading-edit-account").html(data);
+                $(".heading-edit-account").append(data);
             }
         })
     })
