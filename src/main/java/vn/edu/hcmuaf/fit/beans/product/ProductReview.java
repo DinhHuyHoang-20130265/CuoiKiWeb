@@ -55,11 +55,11 @@ public class ProductReview implements Serializable {
         this.vote_star = vote_star;
     }
 
-    public String getreview_desc() {
+    public String getReview_desc() {
         return review_desc;
     }
 
-    public void setreview_desc(String review_desc) {
+    public void setReview_desc(String review_desc) {
         this.review_desc = review_desc;
     }
 
