@@ -43,4 +43,9 @@ public class AccountService {
     public void UpdateAccount(String id, String fullname, String email, String username, String password, String address, String status, String role, String permission, String nameFile, String adminId) {
         new AccountUserDAO().UpdateAccount(id, fullname, email, username, password, address, status, role, permission, nameFile, adminId);
     }
+
+    public String getIdUserByName(String username){
+        AccountUserDAO DAO = new AccountUserDAO();
+        return DAO.getIdUserByName(username);
+}
 }

@@ -152,4 +152,15 @@ public class AccountUserDAO {
         new AccountUserDAO().UpdateAccount("CdhOE", "DinhHoang", "dinh123@gmail.com", "prolaanh",
                 "123123", "abc123123", "1", "0", "user-update", "vcl.jpg", "user2");
     }
+
+    public String getIdUserByName(String username) {
+        SiteUser Statement = JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT ua.id" +
+                                " FROM account_information a INNER JOIN user_account ua ON a.id = ua.id WHERE ua.account_status = 1 AND ua.username=? ")
+                        .bind(0, username)
+                        .mapToBean(SiteUser.class)
+                        .first()
+        );
+        return Statement.getId().toString();
+    }
 }
