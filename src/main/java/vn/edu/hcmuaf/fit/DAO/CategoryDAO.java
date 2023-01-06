@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.DAO;
 
 import vn.edu.hcmuaf.fit.beans.category.Category;
+import vn.edu.hcmuaf.fit.beans.product.Product;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
@@ -68,9 +69,35 @@ public class CategoryDAO {
         );
     }
 
+    public List<Category> loadCategoryWithConditionContainsStatus(int page, int num_per_page, String search) {
+        String query = "SELECT id, cate_name, cate_desc, parent_id, cate_status FROM product_categories";
+        if (search != null) {
+            if (!search.equals(""))
+                query += " AND cate_name LIKE '%" + search + "%'";
+        }
+        String finalQuery = query;
+        List<Category> filter = (List<Category>) JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery)
+                .mapToBean(Category.class)
+                .stream()
+                .collect(Collectors.toList()));
+        int numpage;
+        int start = (page - 1) * num_per_page;
+        if (filter.size() - start >= num_per_page) {
+            numpage = start + num_per_page;
+        } else {
+            numpage = filter.size();
+        }
+        List<Category> temp = new ArrayList<>();
+        for (int i = start; i < numpage; i++) {
+            temp.add(filter.get(i));
+        }
+        return temp;
+    }
+
     public static void main(String[] args) {
         System.out.println(new CategoryDAO().loadAll());
         System.out.println(new CategoryDAO().getCategoryByProductId("prod001"));
+        System.out.println(new CategoryDAO().loadCategoryWithConditionContainsStatus(1,6,null));
     }
 
 }

@@ -139,6 +139,9 @@ public class CategoryService {
     public Category getCateWithID(String category) {
         return new CategoryDAO().getCateWithID(category);
     }
+    public List<Category> loadloadCategoryWithConditionContainsStatus(int page, int num_per_page, String search) {
+        return new CategoryDAO().loadCategoryWithConditionContainsStatus(page, num_per_page, search);
+    }
 
     public static void main(String[] args) {
     }

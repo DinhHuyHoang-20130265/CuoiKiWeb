@@ -44,6 +44,17 @@
                             </ul>
                         </li>
                         <li>
+                            <a href="#"> Danh mục <i class="fa arrow"></i></a>
+                            <ul class="sidebar-nav">
+                                <li>
+                                    <a href="catetory-list.jsp"> Danh sách danh mục </a>
+                                </li>
+                                <li>
+                                    <a href="category-editor.jsp"> Chỉnh sửa danh mục </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
                             <a href="#"> Bài báo <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
