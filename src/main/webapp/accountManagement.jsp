@@ -4,6 +4,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.order.Order" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.OrderService" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -201,6 +203,7 @@
                             </div>
                             <%
                                 List<Order> orders = OrderService.getInstance().getOrderListByUserId(user.getId());
+                                NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));
                             %>
                             <div class="my-order-body">
                                 <%
@@ -211,7 +214,7 @@
                                     </div>
                                     <div class="col-3"><%=oder.getOrd_date()%>
                                     </div>
-                                    <div class="col-3"><%=oder.getTotal()%>
+                                    <div class="col-3"><%=format.format(oder.getTotal())%>
                                     </div>
                                     <div class="col-2">
                                         <div class="fa-3x" style="font-size: 1.5em !important;">

@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.services;
 
+import vn.edu.hcmuaf.fit.DAO.OrderDAO;
 import vn.edu.hcmuaf.fit.DAO.OrderDetailDAO;
 
 public class OrderDetailService {
@@ -13,6 +14,10 @@ public class OrderDetailService {
     public void insertOrderDetail(String ord_id, String prod_id, String prod_name, String prod_color,
                                   String prod_size, int quantity, double price) {
         new OrderDetailDAO().insertOrderDetail(ord_id, prod_id, prod_name, prod_color, prod_size, quantity, price);
+    }
+
+    public void removeOrder(String ord_id) {
+        new OrderDAO().removeOrder(ord_id);
     }
 }
 

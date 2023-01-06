@@ -20,7 +20,8 @@ public class ProductReviewController extends HttpServlet {
         String id = request.getParameter("id");
         String comment = request.getParameter("comment");
         String productid = request.getParameter("productid");
-        String productReviewId = ProductReviewService.getInstance().AddNewReview(id, productid, comment);
+        int stars = Integer.parseInt(request.getParameter("stars"));
+        String productReviewId = ProductReviewService.getInstance().AddNewReview(id, productid, comment, stars);
         System.out.println(comment);
         ProductReview productReview = ProductReviewService.getInstance().getReviewByIdReview(productReviewId);
         request.setAttribute("product_review", productReview);
