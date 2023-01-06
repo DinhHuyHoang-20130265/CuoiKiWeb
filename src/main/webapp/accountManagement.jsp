@@ -142,35 +142,40 @@
                         <button class="form-submit" id="submit1" type="submit">Lưu</button>
                     </form>
                 </div>
+                        <%--Pass--%>
                 <div class="detail__confirm-password undisplay">
+                    <form class="change-pass" method="post">
+                        <div id="content-form">
                     <div class="heading-edit-password">
                         <h2>Đổi lại mật khẩu</h2>
                     </div>
                     <div class="form-group form-group-old-password">
                         <div style="display:flex;justify-content: space-between;">
-                            <label for="password" class="form-label">Mật khẩu cũ</label>
+                            <label for="password_old" class="form-label" >Mật khẩu cũ</label>
                         </div>
-                        <input id="password" name="password" type="password" placeholder="Nhập mật khẩu"
-                               class="form-control">
+                        <input id="password_old" name="password" type="password" placeholder="Nhập mật khẩu"
+                               class="form-control" required>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group form-group-new-password">
                         <div style="display:flex;justify-content: space-between;">
-                            <label for="password-new" class="form-label">Mật khẩu mới</label>
+                            <label for="password_new" class="form-label">Mật khẩu mới</label>
                         </div>
-                        <input id="password-new" name="password-new" type="password" placeholder="Nhập mật khẩu"
-                               class="form-control">
+                        <input id="password_new" name="password-new" type="password" placeholder="Nhập mật khẩu"
+                               class="form-control" required>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group form-group-confirm-password">
                         <div style="display:flex;justify-content: space-between;">
-                            <label for="password-confirm" class="form-label">Mật khẩu mới</label>
+                            <label for="password_confirm" class="form-label">Mật khẩu mới</label>
                         </div>
-                        <input id="password-confirm" name="password-confirm" type="password" placeholder="Nhập mật khẩu"
-                               class="form-control">
+                        <input id="password_confirm" name="password-confirm" type="password" placeholder="Nhập mật khẩu"
+                               class="form-control" required>
                         <span class="form-message"></span>
                     </div>
-                    <button class="form-submit">Lưu</button>
+                    <button class="form-submit" id="submit2" type="submit" >Lưu</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="detail__my-order">
                     <div class="heading-edit-password">
@@ -299,6 +304,7 @@
 <script src="./assets/js/jquery-3.6.1.min.js"></script>
 <script src="./assets/js/bootstrap.min.js"></script>
 <script src="./assets/js/main.js"></script>
+<script src="./assets/js/validator.js"></script>
 <script>
     function hienThiDoiMatKhau() {
         $(".detail__confirm-password").removeClass("undisplay");
@@ -349,6 +355,41 @@
                 $(".heading-edit-account").append(data);
             }
         })
+    })
+    Validator({
+        form: '.change-pass',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rule:  [
+            Validator.isRequired('#password_old'),
+            Validator.isRequired('#password_new'),
+            Validator.minLength('#password_new', 6),
+            Validator.isRequired('#password_confirm')
+        ],
+        onSubmit: function (data) {
+            console.log(data);
+        }
+    });
+    $("#submit2").click(function (e){
+        e.preventDefault();
+        const password_old = $("#password_old").val();
+        const password_new = $("#password_new").val();
+        const password_confirm = $("#password_confirm").val();
+        $.ajax({
+            url: "ChangePasswordController",
+            type: "POST",
+            data:{
+                password_old : password_old,
+                password_new : password_new,
+                password_confirm : password_confirm
+            },  success: function (response) {
+                if (response.includes("complete"))
+                    window.location.href = "http://localhost:8080/CuoiKiWeb_war/Login.jsp"
+                else {
+                    $("#content-form").html(response);
+                }
+            }
+        });
     })
 </script>
 </body>
