@@ -1,7 +1,6 @@
 package vn.edu.hcmuaf.fit.beans.order;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class Order implements Serializable {
     private String ord_id;
@@ -9,19 +8,31 @@ public class Order implements Serializable {
     private int status;
     private int payment_method;
     private int delivered;
+    private double total;
     private String delivery_date;
+    private String address;
+    private String receive_name;
+    private String email;
+    private String phone_number;
+    private String note;
     private String custumer_id;
 
     public Order() {
-
     }
-    public Order(String ord_id, String ord_date, int status, int payment_method, int delivered, String delivery_date, String custumer_id) {
+
+    public Order(String ord_id, String ord_date, int status, int payment_method, int delivered, double total, String delivery_date, String address, String receive_name, String email, String phone_number, String note, String custumer_id) {
         this.ord_id = ord_id;
         this.ord_date = ord_date;
         this.status = status;
         this.payment_method = payment_method;
         this.delivered = delivered;
+        this.total = total;
         this.delivery_date = delivery_date;
+        this.address = address;
+        this.receive_name = receive_name;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.note = note;
         this.custumer_id = custumer_id;
     }
 
@@ -65,12 +76,60 @@ public class Order implements Serializable {
         this.delivered = delivered;
     }
 
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
     public String getDelivery_date() {
         return delivery_date;
     }
 
     public void setDelivery_date(String delivery_date) {
         this.delivery_date = delivery_date;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getReceive_name() {
+        return receive_name;
+    }
+
+    public void setReceive_name(String receive_name) {
+        this.receive_name = receive_name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public String getCustumer_id() {
@@ -85,11 +144,17 @@ public class Order implements Serializable {
     public String toString() {
         return "Order{" +
                 "ord_id='" + ord_id + '\'' +
-                ", ord_date=" + ord_date +
+                ", ord_date='" + ord_date + '\'' +
                 ", status=" + status +
                 ", payment_method=" + payment_method +
                 ", delivered=" + delivered +
-                ", delivery_date=" + delivery_date +
+                ", total=" + total +
+                ", delivery_date='" + delivery_date + '\'' +
+                ", address='" + address + '\'' +
+                ", receive_name='" + receive_name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                ", note='" + note + '\'' +
                 ", custumer_id='" + custumer_id + '\'' +
                 '}';
     }

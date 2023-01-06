@@ -5,6 +5,7 @@ import vn.edu.hcmuaf.fit.beans.product.ProductReview;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ProductReviewDAO {
@@ -16,5 +17,57 @@ public class ProductReviewDAO {
                 .mapToBean(ProductReview.class)
                 .stream()
                 .collect(Collectors.toList()));
+    }
+    public ProductReview getReviewByIdReview(String id) {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review WHERE review_id = ?")
+                .bind(0, id)
+                .mapToBean(ProductReview.class)
+                .first()
+        );
+    }
+    public String generateIdReviewProduct() {
+        List<String> id = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT review_id FROM product_review").mapTo(String.class).stream().collect(Collectors.toList()));
+        String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String alphaNumeric = upperAlphabet + lowerAlphabet + numbers;
+
+        StringBuilder sb = new StringBuilder();
+
+        // create an object of Random class
+        Random random = new Random();
+        // specify length of random string
+        int length = 10;
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(alphaNumeric.length());
+            char randomChar = alphaNumeric.charAt(index);
+            sb.append(randomChar);
+        }
+        if (id.contains(sb.toString())) return generateIdReviewProduct();
+        else return sb.toString();
+    }
+
+    public String AddNewReview(String id, String productid, String comment) {
+        String idProductReview = generateIdReviewProduct();
+        JDBIConnector.get().withHandle(handle -> {
+                    handle.createUpdate("INSERT INTO product_review values (?, ?, ?, 4, ?, 1, CURDATE())")
+                            .bind(0, idProductReview)
+                            .bind(1, productid)
+                            .bind(2, id)
+                            .bind(3, comment)
+                            .execute();
+                    return true;
+                }
+        );
+        return idProductReview;
+    }
+    public void RemoveComment(String id) {
+        JDBIConnector.get().withHandle(handle -> {
+                    handle.createUpdate("DELETE FROM product_review WHERE review_id = ?")
+                            .bind(0, id)
+                            .execute();
+                    return true;
+                }
+        );
     }
 }
