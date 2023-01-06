@@ -1,4 +1,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductReview" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductReviewService" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -181,33 +184,13 @@
                 <div class="title-block">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="title"> Danh sách đánh giá sản phẩm
-                                <div class="action dropdown">
-                                    <button class="btn  btn-sm rounded-s btn-secondary dropdown-toggle"
-                                            type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false"> Hành động
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <a class="dropdown-item hidden-item" href="#">
-                                            <i class="fa fa-pencil-square-o icon"></i>Ẩn đánh giá</a>
-                                        <a class="dropdown-item delete-item" href="#" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-close icon"></i>Xoá đánh giá</a>
-                                    </div>
-                                </div>
-                            </h3>
+                            <h3 class="title"> Danh sách đánh giá sản phẩm</h3>
                         </div>
                     </div>
                 </div>
                 <div class="items-search">
                     <form class="form-inline">
                         <div class="input-group">
-                            <input type="text" class="form-control boxed rounded-s" placeholder="Tìm kiếm...">
-                            <span class="input-group-btn">
-                                    <button class="btn btn-secondary rounded-s" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
                         </div>
                     </form>
                 </div>
@@ -260,20 +243,114 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
+                    <% int numb = -1;
+                        List<ProductReview> list = ProductReviewService.getInstance().loadAllReviewByPage(1);
+                        if (list.size() > 6)
+                            numb = 6;
+                        else numb = list.size();
+                    %>
                     <div id="appendItem">
+<%--                        star--%>
+                        <% if (list != null)
+                            for (int i = 0; i < numb; i++) {%>
+                            <li class="item">
+                                <div class="item-row">
+                                    <div class="item-col fixed item-col-check">
+                                        <label class="item-check" id="select-all-items">
+                                            <input type="checkbox" class="checkbox">
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                    <div class="item-col fixed item-col-img md" style="justify-content: center;">
+                                        <span>#<%=list.get(i).getReview_prod()%></span>
+                                    </div>
+                                    <div class="item-col fixed pull-left item-col-title">
+                                        <div class="item-heading">Người bình luận</div>
+                                        <div>
+                                            <a>
+                                                <h4 class="item-title"><%=list.get(i).getReview_by()%></h4>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="item-col item-col-sales">
+                                        <div class="item-heading">Mã bình luận</div>
+                                        <div class="sales" style="text-align: center">#<%=list.get(i).getReview_id()%></div>
+                                    </div>
+                                    <div class="item-col item-col-category no-overflow">
+                                        <div class="item-heading">Lượt thích</div>
+                                        <div class="no-overflow">
+                                            <a>1</a>
+                                        </div>
+                                    </div>
+                                    <div class="item-col item-col-author">
+                                        <div class="item-heading">Trạng Thái</div>
+                                        <div class="no-overflow" style="text-align: center">
+                                            <%if (list.get(i).getReview_status() == 1) {%>
+                                            <a> Hiển thị </a>
+                                            <%} else {%>
+                                            <a> Đã Ẩn </a>
+                                            <%}%>
+                                        </div>
+                                    </div>
+                                    <div class="item-col item-col-date">
+                                        <div class="item-heading">Ngày thêm</div>
+                                        <div class="no-overflow"> <%=list.get(i).getReview_date()%>> </div>
+                                    </div>
+                                    <div class="item-col fixed item-col-actions-dropdown">
+                                        <div class="item-actions-dropdown">
+                                            <a class="item-actions-toggle-btn">
+                                                            <span class="inactive">
+                                                                <i class="fa fa-cog"></i>
+                                                            </span>
+                                                <span class="active">
+                                                                <i class="fa fa-chevron-circle-right"></i>
+                                                            </span>
+                                            </a>
+                                            <div class="item-actions-block">
+                                                <ul class="item-actions-list">
+                                                    < <li>
+                                                    <a class="remove" id="remove<%=list.get(i).getReview_id()%>"
+                                                       data-toggle="modal"
+                                                       data-target="#confirm-modal" style="cursor: pointer">
+                                                        <i class="fa fa-trash-o "></i>
+                                                    </a>
+                                                </li>
+                                                    <li>
+                                                        <a class="info" id="info<%=list.get(i).getReview_id()%>"
+                                                           style="cursor: pointer">
+                                                            <i class="fa fa-info-circle"></i>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="toggle" id="toggle<%=list.get(i).getReview_id()%>"
+                                                           style="cursor: pointer">
+                                                            <%
+                                                                if (list.get(i).getReview_status() == 1) { %>
+                                                            <i class="fa fa-toggle-off" style="color: #0b3d88"></i>
+                                                            <% } else { %>
+                                                            <i class="fa fa-toggle-on" style="color: green"></i>
+                                                            <%} %>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        <%}%>
                     </div>
                 </ul>
             </div>
             <nav class="text-right">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="javascript:prevPage()" id="btn_prev"> Trước </a>
+                        <a class="page-link" style="text-decoration: none;" id="btn_prev"> Trước </a>
                     </li>
                     <li class="page-item active">
-                        <a class="page-link" id="page" href="#"> 1 </a>
+                        <a class="page-link" id="page" href="#" style="text-decoration: none;">1</a>
                     </li>
-                    <a class="page-link" href="javascript:nextPage()" id="btn_next"> Kế tiếp </a>
-                    </li>
+                    <a class="page-link" id="btn_next" style="text-decoration: none;"> Kế tiếp </a>
                 </ul>
             </nav>
         </article>
@@ -368,212 +445,127 @@
 <script src="js/vendor.js"></script>
 <script src="js/app.js"></script>
 <script>
-    var current_page = 1;
-    var records_per_page = 6;
-
-    function getRandomDate() {
-        const maxDate = Date.now();
-        const timestamp = Math.floor(Math.random() * maxDate);
-        var d = new Date(timestamp);
-        return d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-    }
-
-    var object = $.parseJSON(`[
-            {
-                "id": "SP1",
-                "name": "abc",
-                "idDG": "DG2",
-                "prodname": "Áo len sọc lớn màu",
-                "star": "4"
-            },
-            {
-                "id": "SP2",
-                "name": "abc22",
-                "idDG": "DG1",
-                "prodname": "Áo len sọc phối màu",
-                "star": "4"
-            },
-            {
-                "id": "SP3",
-                "name": "test",
-                "idDG": "DG7",
-                "prodname": "Áo len traffic",
-                "star": "4"
-            },
-            {
-                "id": "SP4",
-                "name": "usertest",
-                "idDG": "DG5",
-                "prodname": "Áo len phối màu",
-                "star": "4"
-            },
-            {
-                "id": "SP3",
-                "name": "ádasd",
-                "idDG": "DG79",
-                "prodname": "Áo polo nam - Simple day",
-                "star": "4"
-            },
-            {
-                "id": "SP3",
-                "name": "pro123",
-                "idDG": "DG11",
-                "prodname": "Áo polo M1ATP01204BSFSO",
-                "star": "4"
-            },
-            {
-                "id": "SP2",
-                "name": "upopppp",
-                "idDG": "DG23",
-                "prodname": "Áo sơmi nam - Open",
-                "star": "4"
-            },
-            {
-                "id": "SP8",
-                "name": "clever",
-                "idDG": "DG66",
-                "prodname": "Áo sơmi unisex - Nasa shirt",
-                "star": "4"
-            }]`);
-
-    function prevPage() {
-        if (current_page > 1) {
-            current_page--;
-            changePage(current_page);
-        }
-    }
-
-    function nextPage() {
-        if (current_page < numPages()) {
-            current_page++;
-            changePage(current_page);
-        }
-    }
-
-    function init() {
-        var $itemActions = $(".item-actions-dropdown");
-
+    function reloadScript() {
+        const $itemActions = $(".item-actions-dropdown");
         $(document).on('click', function (e) {
             if (!$(e.target).closest('.item-actions-dropdown').length) {
                 $itemActions.removeClass('active');
             }
         });
-
         $('.item-actions-toggle-btn').on('click', function (e) {
             e.preventDefault();
-            var $thisActionList = $(this).closest('.item-actions-dropdown');
+            const $thisActionList = $(this).closest('.item-actions-dropdown');
             $itemActions.not($thisActionList).removeClass('active');
             $thisActionList.toggleClass('active');
         });
     }
 
-    function changePage(page) {
-        var btn_next = document.getElementById("btn_next");
-        var btn_prev = document.getElementById("btn_prev");
-        var list = document.getElementById("appendItem");
-        var page_span = document.getElementById("page");
-        if (page < 1) page = 1;
-        if (page > numPages()) page = numPages();
-
-        list.innerHTML = "";
-
-        for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < object.length; i++) {
-            list.innerHTML += `<li class="item">
-                    <div class="item-row">
-                        <div class="item-col fixed item-col-check">
-                            <label class="item-check" id="select-all-items">
-                                <input type="checkbox" class="checkbox">
-                                <span></span>
-                            </label>
-                        </div>
-                        <div class="item-col fixed item-col-img md" style="justify-content: center;">
-                            <span>#${object[i].id}</span>
-                        </div>
-                        <div class="item-col fixed pull-left item-col-title">
-                            <div class="item-heading">Người bình luận</div>
-                            <div>
-                                <a>
-                                    <h4 class="item-title">${object[i].name}</h4>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="item-col item-col-sales">
-                            <div class="item-heading">Mã bình luận</div>
-                            <div class="sales" style="text-align: center">#${object[i].idDG}</div>
-                        </div>
-                        <div class="item-col item-col-stats no-overflow">
-                            <div class="item-heading">Trả lời bình luận của</div>
-                            <div class="no-overflow" style="font-size: 16px"> ${object[i].prodname}
-                            </div>
-                        </div>
-                        <div class="item-col item-col-category no-overflow">
-                            <div class="item-heading">Lượt thích</div>
-                            <div class="no-overflow">
-                                <a>${object[i].star}</a>
-                            </div>
-                        </div>
-                        <div class="item-col item-col-author">
-                            <div class="item-heading">Trạng Thái</div>
-                            <div class="no-overflow" style="text-align: center">
-                                <a>active</a>
-                            </div>
-                        </div>
-                        <div class="item-col item-col-date">
-                            <div class="item-heading">Ngày thêm</div>
-                            <div class="no-overflow"> ${getRandomDate()} </div>
-                        </div>
-                        <div class="item-col fixed item-col-actions-dropdown">
-                            <div class="item-actions-dropdown">
-                                <a class="item-actions-toggle-btn">
-                                    <span class="inactive">
-                                        <i class="fa fa-cog"></i>
-                                    </span>
-                                    <span class="active">
-                                        <i class="fa fa-chevron-circle-right"></i>
-                                    </span>
-                                </a>
-                                <div class="item-actions-block">
-                                    <ul class="item-actions-list">
-                                        <li>
-                                            <a class="remove" href="#" data-toggle="modal" data-target="#confirm-modal">
-                                                <i class="fa fa-trash-o "></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a class="edit" href="#" data-toggle="modal" data-target="#confirm-detailsModal">
-                                                <i class="fa fa-info-circle"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>`
-            init()
-        }
-        page_span.innerHTML = page;
-
-        if (page == 1) {
-            btn_prev.style.visibility = "hidden";
-        } else {
-            btn_prev.style.visibility = "visible";
-        }
-
-        if (page == numPages()) {
-            btn_next.style.visibility = "hidden";
-        } else {
-            btn_next.style.visibility = "visible";
-        }
+    function deleteReview() {
+        $(".remove").each(function () {
+            const id = $(this).attr("id").substring(6);
+            const page = parseInt($("#page").text());
+            $(this).on("click", function (e) {
+                e.preventDefault();
+                $("#yes").click(function () {
+                    console.log("deleted")
+                    $.ajax({
+                        url: "/CuoiKiWeb_war/DeleteCommentControllerAdmin",
+                        type: "post",
+                        data: {
+                            id: id,
+                            page: page,
+                        },
+                        success: function (data) {
+                            $("#appendItem").html(data);
+                            reloadScript();
+                        }
+                    })
+                })
+            })
+        })
     }
 
-    function numPages() {
-        return Math.ceil(object.length / records_per_page);
+    deleteReview();
+
+    function info() {
+        $(".info").each(function () {
+            $(this).click(function (e) {
+                e.preventDefault();
+                const id = $(this).attr("id").substring(4);
+                $.ajax({
+                    url: "/CuoiKiWeb_war/InfoProductReviewController",
+                    type: "post",
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        $("#confirm-detailsModal .modal-content").html(data);
+                        $("#confirm-detailsModal").modal('toggle');
+                    }
+                })
+            })
+        })
     }
 
-    window.onload = function () {
-        changePage(1);
-    };
+    $(".info").each(function () {
+        $(this).click(function (e) {
+            e.preventDefault();
+            const id = $(this).attr("id").substring(4);
+            $.ajax({
+                url: "/CuoiKiWeb_war/InfoProductReviewController",
+                type: "post",
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    $("#confirm-detailsModal .modal-content").html(data);
+                    $("#confirm-detailsModal").modal('toggle');
+                }
+            })
+        })
+    })
+    $(document).ready(function () {
+        $("#btn_prev").on("click", function (e) {
+            e.preventDefault();
+            const page = parseInt($("#page").text()) - 1;
+            if (page > 0) {
+                $.ajax({
+                    url: "/CuoiKiWeb_war/LoadReviewListAdminController",
+                    type: "post",
+                    data: {
+                        page: page,
+                    },
+                    success: function (data) {
+                        $("#appendItem").html(data);
+                        $("#page").text(page)
+                        deleteReview();
+                        reloadScript();
+                        info();
+                    }
+                })
+            }
+        })
+        $("#btn_next").on("click", function (e) {
+            e.preventDefault();
+            const page = parseInt($("#page").text()) + 1;
+            $.ajax({
+                url: "/CuoiKiWeb_war/LoadReviewListAdminController",
+                type: "post",
+                data: {
+                    page: page,
+                },
+                success: function (data) {
+                    if ($.trim(data)) {
+                        $("#appendItem").html(data);
+                        $("#page").text(page)
+                        deleteReview();
+                        reloadScript();
+                        info();
+                    }
+                }
+            })
+        })
+    })
 </script>
 </body>
 
