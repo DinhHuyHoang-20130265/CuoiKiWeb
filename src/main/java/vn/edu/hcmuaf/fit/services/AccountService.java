@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.services;
 
 import vn.edu.hcmuaf.fit.DAO.AccountUserDAO;
+import vn.edu.hcmuaf.fit.DAO.SiteUserDAO;
+import vn.edu.hcmuaf.fit.DAO.UserInformationDAO;
 import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
@@ -42,5 +44,13 @@ public class AccountService {
 
     public void UpdateAccount(String id, String fullname, String email, String username, String password, String address, String status, String role, String permission, String nameFile, String adminId) {
         new AccountUserDAO().UpdateAccount(id, fullname, email, username, password, address, status, role, permission, nameFile, adminId);
+    }
+
+    public String getIdUserByName(String username){
+        AccountUserDAO DAO = new AccountUserDAO();
+        return DAO.getIdUserByName(username);
+}
+    public void ChangeUserPassword(String id,String password_new, String password_old, String password_confirm) {
+        new AccountUserDAO().ChangeUserPassword(id,password_new, password_old, password_confirm);
     }
 }

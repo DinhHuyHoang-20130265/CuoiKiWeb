@@ -105,11 +105,11 @@
             </div>
             <div class="col-8" id="user_info">
                 <div class="detial__my-profile undisplay">
-                    <div class="heading-edit-account">
+                    <form class="heading-edit-account" method="POST">
                         <h2>Hồ sơ của tôi</h2>
                         <div class="form-group">
-                            <label for="fullname" class="form-label">Tên đầy đủ</label>
-                            <input id="fullname" name="fullname" type="text" placeholder="VD: User1"
+                            <label for="full_name" class="form-label">Tên đầy đủ</label>
+                            <input id="full_name" name="full_name" type="text" placeholder="VD: User1"
                                    class="form-control"
                                    value="<%=information.getFull_name()%>">
                             <span class="form-message"></span>
@@ -122,15 +122,15 @@
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="form-label">Địa chỉ</label>
-                            <input id="diachi" name="email" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <input id="address" name="address" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"
                                    class="form-control"
                                    value="<%=information.getAddress()%>">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label for="sdt" class="form-label">Số điện thoại</label>
-                            <input id="sdt" name="sdt" type="text" placeholder="VD: 089" class="form-control"
+                            <label for="phone_number" class="form-label">Số điện thoại</label>
+                            <input id="phone_number" name="phone_number" type="text" placeholder="VD: 089..." class="form-control"
                                    value="<%=information.getPhone_number()%>">
                             <span class="form-message"></span>
                         </div>
@@ -139,38 +139,43 @@
                             <input id="avatar" name="avatar" type="file" class="form-control">
                             <span class="form-message"></span>
                         </div>
-                        <button class="form-submit">Lưu</button>
-                    </div>
+                        <button class="form-submit" id="submit1" type="submit">Lưu</button>
+                    </form>
                 </div>
+                        <%--Pass--%>
                 <div class="detail__confirm-password undisplay">
+                    <form class="change-pass" method="post">
+                        <div id="content-form">
                     <div class="heading-edit-password">
                         <h2>Đổi lại mật khẩu</h2>
                     </div>
                     <div class="form-group form-group-old-password">
                         <div style="display:flex;justify-content: space-between;">
-                            <label for="password" class="form-label">Mật khẩu cũ</label>
+                            <label for="password_old" class="form-label" >Mật khẩu cũ</label>
                         </div>
-                        <input id="password" name="password" type="password" placeholder="Nhập mật khẩu"
-                               class="form-control">
+                        <input id="password_old" name="password" type="password" placeholder="Nhập mật khẩu"
+                               class="form-control" required>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group form-group-new-password">
                         <div style="display:flex;justify-content: space-between;">
-                            <label for="password-new" class="form-label">Mật khẩu mới</label>
+                            <label for="password_new" class="form-label">Mật khẩu mới</label>
                         </div>
-                        <input id="password-new" name="password-new" type="password" placeholder="Nhập mật khẩu"
-                               class="form-control">
+                        <input id="password_new" name="password-new" type="password" placeholder="Nhập mật khẩu"
+                               class="form-control" required>
                         <span class="form-message"></span>
                     </div>
                     <div class="form-group form-group-confirm-password">
                         <div style="display:flex;justify-content: space-between;">
-                            <label for="password-confirm" class="form-label">Mật khẩu mới</label>
+                            <label for="password_confirm" class="form-label">Mật khẩu mới</label>
                         </div>
-                        <input id="password-confirm" name="password-confirm" type="password" placeholder="Nhập mật khẩu"
-                               class="form-control">
+                        <input id="password_confirm" name="password-confirm" type="password" placeholder="Nhập mật khẩu"
+                               class="form-control" required>
                         <span class="form-message"></span>
                     </div>
-                    <button class="form-submit">Lưu</button>
+                    <button class="form-submit" id="submit2" type="submit" >Lưu</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="detail__my-order">
                     <div class="heading-edit-password">
@@ -299,6 +304,7 @@
 <script src="./assets/js/jquery-3.6.1.min.js"></script>
 <script src="./assets/js/bootstrap.min.js"></script>
 <script src="./assets/js/main.js"></script>
+<script src="./assets/js/validator.js"></script>
 <script>
     function hienThiDoiMatKhau() {
         $(".detail__confirm-password").removeClass("undisplay");
@@ -329,25 +335,61 @@
         $(".detail__confirm-password").removeClass("display");
         $(".my-order-title").addClass("active");
     }
-    $(".form-submit").click(function (e) {
+    $("#submit1").click(function (e) {
         e.preventDefault();
-        const fullName = $("#fullname").val();
+        const full_name = $("#full_name").val();
         const email = $("#email").val();
-        const diachi = $("#diachi").val();
-        const sdt = $("#sdt").val();
+        const address = $("#address").val();
+        const phone_number = $("#phone_number").val();
         $.ajax({
-            url: "UpdateUserInfoController",
+            url: "UpdateUserController",
             type: "post",
             data: {
-               fullname: fullName,
+               full_name: full_name,
                 email : email,
-                diachi : diachi,
-                sdt : sdt
+                address : address,
+                phone_number : phone_number
             },
             success: function (data) {
-                $("#user_info").append(data);
+                // $(".heading-edit-account").html(data);
+                $(".heading-edit-account").append(data);
             }
         })
+    })
+    Validator({
+        form: '.change-pass',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rule:  [
+            Validator.isRequired('#password_old'),
+            Validator.isRequired('#password_new'),
+            Validator.minLength('#password_new', 6),
+            Validator.isRequired('#password_confirm')
+        ],
+        onSubmit: function (data) {
+            console.log(data);
+        }
+    });
+    $("#submit2").click(function (e){
+        e.preventDefault();
+        const password_old = $("#password_old").val();
+        const password_new = $("#password_new").val();
+        const password_confirm = $("#password_confirm").val();
+        $.ajax({
+            url: "ChangePasswordController",
+            type: "POST",
+            data:{
+                password_old : password_old,
+                password_new : password_new,
+                password_confirm : password_confirm
+            },  success: function (response) {
+                if (response.includes("complete"))
+                    window.location.href = "http://localhost:8080/CuoiKiWeb_war/Login.jsp"
+                else {
+                    $("#content-form").html(response);
+                }
+            }
+        });
     })
 </script>
 </body>
