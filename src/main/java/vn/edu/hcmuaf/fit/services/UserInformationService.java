@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.services;
 
+import vn.edu.hcmuaf.fit.DAO.AccountUserDAO;
 import vn.edu.hcmuaf.fit.DAO.UserInformationDAO;
 import vn.edu.hcmuaf.fit.beans.UserInformation;
 
@@ -22,4 +23,11 @@ public class UserInformationService {
         UserInformationDAO DAO = new UserInformationDAO();
         return DAO.getUserInfoById(id);
     }
+    public String getIdUserByName(String username){
+        UserInformationDAO DAO = new UserInformationDAO();
+        return DAO.getIdUserByName(username);
+    }
+    public void UpdateUserInfo(String id, String username, String email, String address, String phone_number) {
+            new UserInformationDAO().updateUserInfo(id,username,email,address,phone_number);
+        }
 }
