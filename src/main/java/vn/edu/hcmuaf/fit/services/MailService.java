@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.services;
 
 import vn.edu.hcmuaf.fit.beans.MailConfiguration;
+import vn.edu.hcmuaf.fit.beans.cart.Cart;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -27,6 +28,7 @@ public class MailService {
     private String username;
     //-------------------------------------------------SINGLETON----------------------------------------------------
     private static MailService mailService;
+
     //  Constructor khởi tạo properties và sesstion
     private MailService() {
 

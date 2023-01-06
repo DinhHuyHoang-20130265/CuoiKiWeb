@@ -9,6 +9,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
 <%@ page import="vn.edu.hcmuaf.fit.DAO.UserInformationDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.DAO.CategoryDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductReviewService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -393,7 +394,7 @@
     Product product = productDAO.getProductAndDetails(request.getParameter("id"));
     NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));
     List<ProductReview> productReviews = productReviewDAO.getCommentsByProductID(product.getId());
-    Category cate1= categoryDAO.getCategoryByProductId(product.getId());
+    Category cate1 = categoryDAO.getCategoryByProductId(product.getId());
     List<Product> fourProductSameCate = productDAO.getFourProductsSameCate(cate1.getId());
 %>
 
@@ -599,42 +600,53 @@
                     <div class="row">
                         <div class="col-lg-8 col-12">
                             <div class="body__comment" id="list_comment">
-                                <%if (productReviews != null) {
-                                for(ProductReview productReview : productReviews) {
-                                    UserInformation userInformation = userInformationDAO.getUserInfo(productReview.getReview_by());
+                                <%
+                                    if (productReviews != null) {
+                                        for (ProductReview productReview : productReviews) {
+                                            UserInformation userInformation = userInformationDAO.getUserInfo(productReview.getReview_by());
                                 %>
                                 <div class="comment" id="result_<%=productReview.getReview_id()%>">
-                                    <img class="comment-img" src="<%=userInformation.getAvatar_link()%>" alt="">
+                                    <img class="comment-img"
+                                         src="<%=userInformation.getAvatar_link() %>"
+                                         alt="">
                                     <div class="comment__content">
                                         <div class="comment__content-heding">
-                                            <h4 class="comment__content-name"><%=userInformation.getFull_name()%></h4>
+                                            <h4 class="comment__content-name"><%=userInformation.getFull_name()%>
+                                            </h4>
                                             <span class="comment__content-time"><%=productReview.getReview_date()%></span>
                                             <%
                                                 if (user != null) {
                                                     if (user.getId().equals(productReview.getReview_by())) {
                                             %>
                                             <a class="remove" id="remove<%=productReview.getReview_id()%>"
-                                               style="cursor: pointer; color: darkred; margin-left: 440px; margin-top: 3px; font-size: 12px">Xóa comment của bạn</a>
+                                               style="cursor: pointer; color: darkred; margin-left: 440px; margin-top: 3px; font-size: 12px">Xóa
+                                                comment của bạn</a>
                                             <% }
                                             } %>
                                         </div>
                                         <div class="home-product-item__rating"
                                              style="font-size: 14px;transform-origin: left;margin-bottom: 5px">
+                                            <% int count = productReview.getVote_star();
+                                                for (int j = 0; j < count; j++) { %>
                                             <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
-                                            <i class="home-product-item__star--gold fas fa-star"></i>
+                                            <%}%>
+                                            <% int count1 = 5 - productReview.getVote_star();
+                                                for (int j = 0; j < count1; j++) { %>
                                             <i class="fas fa-star"></i>
+                                            <%}%>
                                         </div>
                                         <div class="comment__content-content">
                                             <span><%=productReview.getReview_desc()%></span>
                                         </div>
                                     </div>
                                 </div>
-                                <%}
-                                }%>
-<%--                                } else { %>--%>
-<%--                                    <div>Hiện chưa có bình luận nào</div>--%>
-<%--                                <% } %>--%>
+                                <%
+                                        }
+                                    }
+                                %>
+                                <%--                                } else { %>--%>
+                                <%--                                    <div>Hiện chưa có bình luận nào</div>--%>
+                                <%--                                <% } %>--%>
                             </div>
                         </div>
                     </div>
@@ -653,11 +665,11 @@
                 </div>
                 <% } else {%>
                 <div class="container container-rate-tab">
-                    <div class="post">
+                    <%if (ProductReviewService.getInstance().getReviewByUserId(user.getId()) != null) { %>
+                    <div class="post" style="display: block">
                         <div class="text">Cảm ơn bạn đã đánh giá!</div>
-                        <div class="edit">Chỉnh sửa</div>
                     </div>
-                    <div class="star-widget">
+                    <div class="star-widget" style="display:none;">
                         <input type="radio" name="rate" id="rate-5">
                         <label for="rate-5" class="fas fa-star"></label>
                         <input type="radio" name="rate" id="rate-4">
@@ -668,17 +680,46 @@
                         <label for="rate-2" class="fas fa-star"></label>
                         <input type="radio" name="rate" id="rate-1">
                         <label for="rate-1" class="fas fa-star"></label>
-                        <form action="#">
+                        <form>
                             <input type="text" id="usercomment" value="<%=user.getId()%>" style="display: none">
                             <header></header>
                             <div class="textarea">
-                                <textarea class="commentar" cols="30" placeholder="Nhập trải nghiệm cụ thể..." required></textarea>
+                                <textarea class="commentar" cols="30" placeholder="Nhập trải nghiệm cụ thể..."
+                                          required></textarea>
                             </div>
                             <div class="btn-rate">
                                 <button class="container-rate-tab-btn" type="submit">Đánh giá</button>
                             </div>
                         </form>
                     </div>
+                    <% } else { %>
+                    <div class="post" style="display:none !important;">
+                        <div class="text">Cảm ơn bạn đã đánh giá!</div>
+                    </div>
+                    <div class="star-widget" style="display:block;">
+                        <input type="radio" name="rate" id="rate-5">
+                        <label for="rate-5" class="fas fa-star"></label>
+                        <input type="radio" name="rate" id="rate-4">
+                        <label for="rate-4" class="fas fa-star"></label>
+                        <input type="radio" name="rate" id="rate-3">
+                        <label for="rate-3" class="fas fa-star"></label>
+                        <input type="radio" name="rate" id="rate-2">
+                        <label for="rate-2" class="fas fa-star"></label>
+                        <input type="radio" name="rate" id="rate-1">
+                        <label for="rate-1" class="fas fa-star"></label>
+                        <form>
+                            <input type="text" id="usercomment" value="<%=user.getId()%>" style="display: none">
+                            <header></header>
+                            <div class="textarea">
+                                <textarea class="commentar" cols="30" placeholder="Nhập trải nghiệm cụ thể..."
+                                          required></textarea>
+                            </div>
+                            <div class="btn-rate">
+                                <button class="container-rate-tab-btn" type="submit">Đánh giá</button>
+                            </div>
+                        </form>
+                    </div>
+                    <% } %>
                 </div>
                 <%}%>
             </div>
@@ -691,7 +732,7 @@
     <div class="container">
         <h3 class="product__relateto-heading">Sản phẩm liên quan</h3>
         <div class="row">
-            <%for (Product p: fourProductSameCate) { %>
+            <%for (Product p : fourProductSameCate) { %>
             <div class="col-lg-3 col-md-6 col-sm-12 mb-20">
                 <a href="ProductDetail.jsp?id=<%=p.getId()%>" class="product__new-item">
                     <div class="card" style="width: 100%">
@@ -704,19 +745,21 @@
                             </h5>
                             <div class="product__price">
                                 <%if (p.getSales() != null) { %>
-                                    <p class="card-text price-color product__price-old">
-                                        <%if (p.getSales() != null) { %>
-                                        <%=format.format(p.getPrice() * (p.getPrice() * 0.01 * (100 - p.getSales().getDiscount_rate())))%>đ
-                                        <%} else { %>
-                                        <%=format.format(p.getPrice())%>đ
-                                        <%}%>
-                                    </p>
+                                <p class="card-text price-color product__price-old">
+                                    <%if (p.getSales() != null) { %>
+                                    <%=format.format(p.getPrice() * (p.getPrice() * 0.01 * (100 - p.getSales().getDiscount_rate())))%>
+                                    đ
+                                    <%} else { %>
+                                    <%=format.format(p.getPrice())%>đ
+                                    <%}%>
+                                </p>
                                 <%} else {%>
-                                    <p class="card-text price-color product__price-old" style="opacity: 0">
-                                <%}%>
+                                <p class="card-text price-color product__price-old" style="opacity: 0">
+                                        <%}%>
                                 <p class="card-text price-color product__price-new">
                                     <%if (p.getSales() != null) { %>
-                                    <%=format.format(p.getPrice() * (p.getPrice() * 0.01 * (100 - p.getSales().getDiscount_rate())))%>đ
+                                    <%=format.format(p.getPrice() * (p.getPrice() * 0.01 * (100 - p.getSales().getDiscount_rate())))%>
+                                    đ
 
                                     <%} else { %>
                                     <%=format.format(p.getPrice())%>đ
@@ -741,12 +784,12 @@
                                 </div>
                             </div>
                             <%} else {%>
-                                <div class="sale-off" style="opacity: 0">
-                                    <div class="sale-off sale-off-2" style="opacity: 0">
-                                        <span class="sale-off-percent"></span>
-                                        <span class="sale-off-label"></span>
-                                    </div>
+                            <div class="sale-off" style="opacity: 0">
+                                <div class="sale-off sale-off-2" style="opacity: 0">
+                                    <span class="sale-off-percent"></span>
+                                    <span class="sale-off-label"></span>
                                 </div>
+                            </div>
                             <%}%>
                         </div>
                     </div>
@@ -996,30 +1039,28 @@
         });
         return false;
     })
-    $(document).ready(function () {
-        $(".container-rate-tab-btn").click(function (e) {
-            e.preventDefault();
-            const id = $("#usercomment").val();
-            const comment = $(".commentar").val();
-            const productid = $("#productid").val();
-            console.log(id)
-            console.log(comment)
-            console.log(productid)
-            $.ajax({
-                url: "ProductReviewController",
-                type: "post",
-                data: {
-                    id: id,
-                    comment: comment,
-                    productid: productid
-                },
-                success: function (data) {
-                    $("#list_comment").prepend(data);
-                    deleteReview();
-                }
-            })
+    $(".container-rate-tab-btn").click(function (e) {
+        e.preventDefault();
+        const id = $("#usercomment").val();
+        const comment = $(".commentar").val();
+        const productid = $("#productid").val();
+        const stars = $("input[name='rate']:checked").attr("id").substring(5);
+        $.ajax({
+            url: "ProductReviewController",
+            type: "post",
+            data: {
+                id: id,
+                comment: comment,
+                productid: productid,
+                stars: stars
+            },
+            success: function (data) {
+                $("#list_comment").prepend(data);
+                deleteReview();
+            }
         })
     })
+
     function deleteReview() {
         $(".remove").click(function (e) {
             e.preventDefault();
@@ -1032,7 +1073,7 @@
                     id: id,
                 },
                 success: function () {
-                    $("#list_comment" + id).remove();
+                    $("#result_" + id).remove();
                 }
             })
         });

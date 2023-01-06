@@ -129,10 +129,12 @@
 <body>
 <%
     SiteUser user = (SiteUser) request.getSession().getAttribute("user");
-    UserInformation userInformation = UserInformationService.getInstance().getUserInfo(user.getId());
-    if (user == null) {
-        response.sendRedirect("index.jsp");
-    }
+    Cart cart = (Cart) request.getSession().getAttribute("cart");
+    UserInformation userInformation = null;
+    if (user == null)  {
+        response.sendRedirect("Login.jsp");
+    } else {
+        userInformation = UserInformationService.getInstance().getUserInfo(user.getId());
 %>
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>
 <div class="content">
@@ -154,28 +156,36 @@
                                 <input class="user_id" value="<%=user.getId()%>" style="display: none">
                                 <div class="main-customer-info">
                                     <div class="main-customer-info-img">
-                                        <img src="./assets/img/product/noavatar.png" alt="" width="60px" height="60px">
+                                        <img src="<%=userInformation.getAvatar_link()%>" alt="" width="60px" height="60px">
                                     </div>
                                 </div>
                                 <div class="fieldset">
                                     <div class="fieldset-address form-group">
+                                        <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="diachi" class="form-label">Địa chỉ</label>
-                                        <input id="diachi" type="text" class="form-control" value="<%=userInformation.getAddress()%>">
+                                        <input id="diachi" type="text" class="form-control"
+                                               value="<%=userInformation.getAddress()%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <div class="fieldset-name form-group">
+                                        <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="hoten" class="form-label">Họ tên</label>
-                                        <input id="hoten" type="text" class="form-control" value="<%=userInformation.getFull_name()%>">
+                                        <input id="hoten" type="text" class="form-control"
+                                               value="<%=userInformation.getFull_name()%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <div class="fieldset-address form-group">
+                                        <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="email" class="form-label">Email</label>
-                                        <input id="email" type="text" class="form-control" value="<%=userInformation.getEmail()%>">
+                                        <input id="email" type="text" class="form-control"
+                                               value="<%=userInformation.getEmail()%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <div class="fieldset-phone form-group">
+                                        <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="sdt" class="form-label">Số điện thoại</label>
-                                        <input id="sdt" type="text" class="form-control" value="<%=userInformation.getPhone_number()%>">
+                                        <input id="sdt" type="text" class="form-control"
+                                               value="<%=userInformation.getPhone_number()%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <textarea id="textbox" type="text" class="form-control"
@@ -196,7 +206,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 col-12 hidden-sm hidden-xs" style="background-color:#f3f3f3;">
-                        <% Cart cart = (Cart) request.getSession().getAttribute("cart");
+                        <%
                             NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));
                             for (CartKey p : cart.getData().keySet()) {%>
                         <div class="sliderbar">
@@ -233,7 +243,8 @@
                                 <div class="subtotal">
                                     <div class="row row-sliderbar-footer">
                                         <div class="col-6"><span>Tạm tính:</span></div>
-                                        <div class="col-6 text-right"><span><%=cart != null ? format.format(cart.total()) : 0%>₫</span></div>
+                                        <div class="col-6 text-right">
+                                            <span><%=cart != null ? format.format(cart.total()) : 0%>₫</span></div>
                                     </div>
                                     <div class="row row-sliderbar-footer">
                                         <div class="col-6"><span>Phí vận chuyển</span></div>
@@ -243,8 +254,10 @@
                                 <div class="total">
                                     <div class="row row-sliderbar-footer">
                                         <div class="col-6"><span>Tổng cộng:</span></div>
-                                        <div class="col-6 text-right"><span><%=format.format(cart.total() + 30000)%>₫</span></div>
-                                        <input class="total_input" value="<%=cart.total() + 30000%>" style="display: none">;
+                                        <div class="col-6 text-right">
+                                            <span><%=format.format(cart.total() + 30000)%>₫</span></div>
+                                        <input class="total_input" value="<%=cart.total() + 30000%>"
+                                               style="display: none">;
                                     </div>
                                 </div>
                                 <div class="salecode">
@@ -261,7 +274,7 @@
                                         <h2>Chọn hình thức thanh toán</h2>
                                     </div>
                                     <div class="selection-btn">
-                                        <input type="radio" id="cash" name="select-btn" value="0">
+                                        <input type="radio" id="cash" name="select-btn" value="0" checked>
                                         <label for="cash"> Thanh toán bằng tiền mặt khi nhận hàng(COD)</label><br>
                                         <input type="radio" id="bank" name="select-btn" value="1">
                                         <label for="bank"> Thanh toán bằng thẻ ngân hàng</label><br>
@@ -306,6 +319,18 @@
         const payment_method = $(".selection-btn input[type='radio']:checked").val();
         const total = $(".total_input").val();
         const customer_id = $(".user_id").val();
+        if (address === '' || address == null) {
+            alert("Bạn cần điền địa chỉ giao hàng")
+        }
+        if (receive_name === '' || receive_name == null) {
+            alert("Bạn cần điền tên người nhận hàng")
+        }
+        if (email === '' || email == null) {
+            alert("Bạn cần điền email")
+        }
+        if (phone_number === '' || phone_number == null) {
+            alert("Bạn cần điền số điện thoại nhận hàng")
+        }
         $.ajax({
             url: "CheckoutController",
             type: "post",
@@ -320,10 +345,12 @@
                 customer_id: customer_id
             },
             success: function (data) {
+                alert(data);
+                window.location.href = "http://localhost:8080/CuoiKiWeb_war/index.jsp"
             }
         })
     })
 </script>
 </body>
-
 </html>
+<%}%>
