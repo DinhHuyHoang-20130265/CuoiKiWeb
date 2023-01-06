@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.DAO;
 
+import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.beans.news.NewsComment;
 import vn.edu.hcmuaf.fit.beans.product.Product;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
@@ -97,18 +98,35 @@ public class NewsCommentDAO {
         );
     }
 
-    public static void main(String[] args) {
-        System.out.println(new NewsCommentDAO().getCommentByNews(
-                "0", "news001", "0"));
-        System.out.println(new NewsCommentDAO().getCommentByNews(
-                "3", "news001", "0").size());
-    }
-
     public List<NewsComment> getAllCommentFromNews(String id) {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news_comment WHERE news_id = ?")
                 .bind(0, id)
                 .mapToBean(NewsComment.class)
                 .stream().collect(Collectors.toList())
         );
+    }
+
+    public List<NewsComment> getAllCommentByPage(int page) {
+        List<NewsComment> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news_comment")
+                .mapToBean(NewsComment.class)
+                .stream().collect(Collectors.toList())
+
+        );
+        int numpage;
+        int start = (page - 1) * 6;
+        if (list.size() - start >= 6) {
+            numpage = start + 6;
+        } else {
+            numpage = list.size();
+        }
+        List<NewsComment> temp = new ArrayList<>();
+        for (int i = start; i < numpage; i++) {
+            temp.add(list.get(i));
+        }
+        return temp;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new NewsCommentDAO().getAllCommentByPage(3));
     }
 }
