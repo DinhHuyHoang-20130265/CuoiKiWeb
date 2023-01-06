@@ -70,4 +70,18 @@ public class ProductReviewDAO {
                 }
         );
     }
+    public void EditComment(String id, String new_reviewdesc) {
+        JDBIConnector.get().withHandle(handle -> {
+                    handle.createUpdate("UPDATE product_review SET review_desc = ? WHERE review_id = ?")
+                            .bind(0, new_reviewdesc)
+                            .bind(1, id)
+                            .execute();
+                    return true;
+                }
+        );
+    }
+
+    public static void main(String[] args) {
+
+    }
 }

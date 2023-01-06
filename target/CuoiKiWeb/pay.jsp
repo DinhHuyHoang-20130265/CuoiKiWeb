@@ -159,21 +159,25 @@
                                 </div>
                                 <div class="fieldset">
                                     <div class="fieldset-address form-group">
+                                        <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="diachi" class="form-label">Địa chỉ</label>
                                         <input id="diachi" type="text" class="form-control" value="<%=userInformation.getAddress()%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <div class="fieldset-name form-group">
+                                        <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="hoten" class="form-label">Họ tên</label>
                                         <input id="hoten" type="text" class="form-control" value="<%=userInformation.getFull_name()%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <div class="fieldset-address form-group">
+                                        <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="email" class="form-label">Email</label>
                                         <input id="email" type="text" class="form-control" value="<%=userInformation.getEmail()%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <div class="fieldset-phone form-group">
+                                        <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="sdt" class="form-label">Số điện thoại</label>
                                         <input id="sdt" type="text" class="form-control" value="<%=userInformation.getPhone_number()%>">
                                         <span class="form-message"></span>
@@ -261,7 +265,7 @@
                                         <h2>Chọn hình thức thanh toán</h2>
                                     </div>
                                     <div class="selection-btn">
-                                        <input type="radio" id="cash" name="select-btn" value="0">
+                                        <input type="radio" id="cash" name="select-btn" value="0" checked>
                                         <label for="cash"> Thanh toán bằng tiền mặt khi nhận hàng(COD)</label><br>
                                         <input type="radio" id="bank" name="select-btn" value="1">
                                         <label for="bank"> Thanh toán bằng thẻ ngân hàng</label><br>
@@ -320,8 +324,30 @@
                 customer_id: customer_id
             },
             success: function (data) {
+                alert("Đơn hàng của bạn đang được xử lí");
             }
         })
+    })
+
+    const address = $("#diachi").val();
+    const receive_name = $("#hoten").val();
+    const email = $("#email").val();
+    const phone_number = $("#sdt").val();
+    const error = $("#error").val()
+
+    form.addEventListener('submit', (e) => {
+        if(address === '' || address == null) {
+            alert("Bạn cần điền địa chỉ giao hàng")
+        }
+        if(receive_name === '' || receive_name == null) {
+            alert("Bạn cần điền tên người nhận hàng")
+        }
+        if(email === '' || email == null) {
+            alert("Bạn cần điền email")
+        }
+        if(phone_number === '' || phone_number == null) {
+            alert("Bạn cần điền số điện thoại nhận hàng")
+        }
     })
 </script>
 </body>
