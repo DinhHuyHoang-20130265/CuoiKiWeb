@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.services;
 
 
+import vn.edu.hcmuaf.fit.DAO.NewsCommentDAO;
 import vn.edu.hcmuaf.fit.DAO.ProductReviewDAO;
 import vn.edu.hcmuaf.fit.beans.product.ProductReview;
 
@@ -54,5 +55,9 @@ public class ProductReviewService {
         System.out.println("product 1 comment: " + new ProductReviewDAO().getCommentsByProductID("prod003"));
         System.out.println(new ProductReviewDAO().getReviewByIdReview("review01"));
         ProductReviewService.getInstance().EditReview("0QhO4faMmp", "lamao lmao");
+    }
+
+    public void ChangeStatusReview(String id, String status) {
+        new ProductReviewDAO().ChangeStatusComment(id, status);
     }
 }

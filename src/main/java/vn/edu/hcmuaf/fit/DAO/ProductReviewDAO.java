@@ -125,6 +125,14 @@ public class ProductReviewDAO {
         return temp;
     }
 
+    public void ChangeStatusComment(String id, String status) {
+        JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE product_review SET review_status=? WHERE review_id = ?")
+                .bind(0, status.equals("0") ? 1 : 0)
+                .bind(1, id)
+                .execute()
+        );
+    }
+
     public static void main(String[] args) {
         System.out.println(new ProductReviewDAO().loadAllReviewByPage(3));
     }
