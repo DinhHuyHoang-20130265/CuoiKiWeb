@@ -231,9 +231,9 @@
                                         </div>
                                     </div>
                                     <div class="col-2">
-                                        <a style="cursor: pointer" data-toggle="modal" class="toggleModal"
+                                        <a style="cursor: pointer" class="toggleModal"
                                            id="modal<%=oder.getOrd_id()%>"
-                                           data-target="#myModal">Xem</a>
+                                        >Xem</a>
                                     </div>
                                 </div>
                                 <% }
@@ -256,51 +256,6 @@
             <div class="modal-header">
                 <h3 class="modal-title">Chi tiết đơn hàng</h3>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body" style="margin-top:10px">
-                <div class="body-one">
-                    <div>Tổng tiền: <p>840.000 VNĐ</p></div>
-                    <div>Giá đã giảm: <p>1.000.000 VNĐ</p></div>
-                    <div>Phí ship:<p>30.000 VNĐ</p></div>
-                    <div>Thành Tiền: <p>870.000 VNĐ</p></div>
-                </div>
-                <form action="">
-                    <div class="my-order-heading">
-                        <div class="row" style="text-align:center">
-                            <div class="col-4">Sản phẩm</div>
-                            <div class="col-1">SL</div>
-                            <div class="col-3">Giá</div>
-                            <div class="col-1">Giảm</div>
-                            <div class="col-3">Tổng</div>
-                        </div>
-                    </div>
-                    <div class="body-two">
-                        <div class="row" style="text-align:center; margin-top:10px">
-                            <div class="col-4" style="display: flex;">
-                                <a href=""><img src="./assets/imgProduct/images/men/1.jpg" alt=""
-                                                style="width: 50px;height: 70px;margin-right: 5px;"></a>
-                                <h5>Áo len sọc lớn màu</h5>
-                            </div>
-                            <div class="col-1">1</div>
-                            <div class="col-3">420.000 VNĐ</div>
-                            <div class="col-1">20%</div>
-                            <div class="col-3">420.000 VNĐ</div>
-                        </div>
-                    </div>
-                    <div class="body-two">
-                        <div class="row" style="text-align:center; margin-top:10px">
-                            <div class="col-4" style="display: flex;">
-                                <a href=""><img src="./assets/imgProduct/images/men/2.jpg" alt=""
-                                                style="width: 50px;height: 70px;margin-right: 5px;"></a>
-                                <h5>Áo len sọc phối màu</h5>
-                            </div>
-                            <div class="col-1">1</div>
-                            <div class="col-3">420.000 VNĐ</div>
-                            <div class="col-1">20%</div>
-                            <div class="col-3">420.000 VNĐ</div>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
@@ -442,6 +397,24 @@
                 });
             }
         }
+    })
+    $(".toggleModal").each(function () {
+        $(this).click(function (e) {
+            e.preventDefault();
+            const idToggle = $(this).attr("id").substring(5);
+            $.ajax({
+                type: "post",
+                url: "QuickViewOrderController",
+                data: {
+                    idToggle: idToggle
+                },
+                success: function (data) {
+                    console.log(data)
+                    $(".modal-content").html(data);
+                    $("#myModal").modal('toggle');
+                }
+            });
+        })
     })
 </script>
 </body>

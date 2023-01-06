@@ -74,9 +74,17 @@ public class OrderDAO {
         });
     }
 
+    public Order getOrderById(String id) {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.delivered, o.delivery_date, o.customer_id" +
+                        " FROM orders o WHERE o.ord_id =?")
+                .bind(0, id)
+                .mapToBean(Order.class)
+                .first()
+        );
+    }
+
     public static void main(String[] args) {
         System.out.println(new OrderDAO().getListDetailsFromOrdId("ord001"));
 
     }
-
 }

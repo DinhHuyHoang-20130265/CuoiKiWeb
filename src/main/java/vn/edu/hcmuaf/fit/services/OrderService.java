@@ -26,6 +26,10 @@ public class OrderService {
         return new OrderDAO().getOrderListByUserId(id);
     }
 
+    public Order getOrderById(String id) {
+        return new OrderDAO().getOrderById(id);
+    }
+
     public List<OrderDetail> getListDetailsFromOrdId(String id) {
         return new OrderDAO().getListDetailsFromOrdId(id);
     }
