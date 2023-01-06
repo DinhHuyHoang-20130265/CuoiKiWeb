@@ -299,17 +299,21 @@
                                         <div class="item-actions-block">
                                             <ul class="item-actions-list">
                                                 <li>
-                                                    <a class="remove" id="remove<%=list.get(i).getComment_id()%>">
+                                                    <a class="remove" id="remove<%=list.get(i).getComment_id()%>"
+                                                       data-toggle="modal"
+                                                       data-target="#confirm-modal" style="cursor: pointer">
                                                         <i class="fa fa-trash-o "></i>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="info" id="info<%=list.get(i).getComment_id()%>">
+                                                    <a class="info" id="info<%=list.get(i).getComment_id()%>"
+                                                       style="cursor: pointer">
                                                         <i class="fa fa-info-circle"></i>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a class="toggle" id="toggle<%=list.get(i).getComment_id()%>">
+                                                    <a class="toggle" id="toggle<%=list.get(i).getComment_id()%>"
+                                                       style="cursor: pointer">
                                                         <%
                                                             if (list.get(i).getComment_status() == 1) { %>
                                                         <i class="fa fa-toggle-off" style="color: #0b3d88"></i>
@@ -355,8 +359,8 @@
                         <p>Bạn có chắc muốn thực hiện hành động này ?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Có</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                        <button type="button" id="yes" class="btn btn-primary yes" data-dismiss="modal">Có</button>
+                        <button type="button" id="no" class="btn btn-secondary no" data-dismiss="modal">Không</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -373,30 +377,6 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="zoom-anim-dialog modal--view" id="modal-view">
-                            <div class="comments__autor">
-                                <img class="comments__avatar" src="./assets/faces/3.jpg" alt="">
-                                <span class="comments__name">User3</span>
-                                <span class="comments__time">30.08.2018, 17:53</span>
-                            </div>
-                            <p class="comments__text">There are many variations of passages of Lorem Ipsum
-                                available,
-                                but the majority have suffered alteration in some form, by injected humour, or
-                                randomised words which don't look even slightly believable. If you are going to use
-                                a
-                                passage of Lorem
-                                Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of
-                                text.</p>
-                            <div class="comments__actions">
-                                <div class="comments__rate" style="text-align: center">
-                                    <span style="font-size: 18px"><i class="fa fa-thumbs-up"
-                                                                     aria-hidden="true"></i>12</span>
-                                    <span style="font-size: 18px"><i class="fa fa-reply" aria-hidden="true"></i>2</span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <!-- /.modal-content -->
                 </div>
@@ -454,7 +434,8 @@
             const page = parseInt($("#page").text());
             $(this).on("click", function (e) {
                 e.preventDefault();
-                $("button[type='button'].yes").on("click", function () {
+                $("#yes").click(function () {
+                    console.log("deleted")
                     $.ajax({
                         url: "/CuoiKiWeb_war/DeleteCommentControllerAdmin",
                         type: "post",
@@ -472,6 +453,28 @@
         })
     }
 
+    deleteComment();
+
+    function info() {
+        $(".info").each(function () {
+            $(this).click(function (e) {
+                e.preventDefault();
+                const id = $(this).attr("id").substring(4);
+                $.ajax({
+                    url: "/CuoiKiWeb_war/InfoCommentController",
+                    type: "post",
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        $("#confirm-detailsModal .modal-content").html(data);
+                        $("#confirm-detailsModal").modal('toggle');
+                    }
+                })
+            })
+        })
+    }
+
     $(".info").each(function () {
         $(this).click(function (e) {
             e.preventDefault();
@@ -483,7 +486,7 @@
                     id: id
                 },
                 success: function (data) {
-                    $(".modal-content").html(data);
+                    $("#confirm-detailsModal .modal-content").html(data);
                     $("#confirm-detailsModal").modal('toggle');
                 }
             })
@@ -505,6 +508,7 @@
                         $("#page").text(page)
                         deleteComment();
                         reloadScript();
+                        info();
                     }
                 })
             }
@@ -524,6 +528,7 @@
                         $("#page").text(page)
                         deleteComment();
                         reloadScript();
+                        info();
                     }
                 }
             })

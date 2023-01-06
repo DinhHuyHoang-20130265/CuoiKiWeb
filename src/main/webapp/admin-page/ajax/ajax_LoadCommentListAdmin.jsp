@@ -72,17 +72,19 @@
                 <div class="item-actions-block">
                     <ul class="item-actions-list">
                         <li>
-                            <a class="remove" id="remove<%=comment.getComment_id()%>">
+                            <a class="remove" id="remove<%=comment.getComment_id()%>" style="cursor: pointer"
+                               data-toggle="modal"
+                               data-target="#confirm-modal">
                                 <i class="fa fa-trash-o "></i>
                             </a>
                         </li>
                         <li>
-                            <a class="info" id="info<%=comment.getComment_id()%>">
+                            <a class="info" id="info<%=comment.getComment_id()%>" style="cursor: pointer">
                                 <i class="fa fa-info-circle"></i>
                             </a>
                         </li>
                         <li>
-                            <a class="toggle" id="toggle<%=comment.getComment_id()%>">
+                            <a class="toggle" id="toggle<%=comment.getComment_id()%>" style="cursor: pointer">
                                 <%
                                     if (comment.getComment_status() == 1) { %>
                                 <i class="fa fa-toggle-off" style="color: #0b3d88"></i>
