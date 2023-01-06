@@ -76,12 +76,11 @@
         <div class="item-col fixed item-col-actions-dropdown">
             <div class="item-actions-dropdown">
                 <a class="item-actions-toggle-btn">
-                                                            <span class="inactive">
-                                                                <i class="fa fa-cog"></i>
-                                                            </span>
+                    <span class="inactive"><i class="fa fa-cog"></i>
+                    </span>
                     <span class="active">
-                                                                <i class="fa fa-chevron-circle-right"></i>
-                                                            </span>
+                        <i class="fa fa-chevron-circle-right"></i>
+                    </span>
                 </a>
                 <div class="item-actions-block">
                     <ul class="item-actions-list">
