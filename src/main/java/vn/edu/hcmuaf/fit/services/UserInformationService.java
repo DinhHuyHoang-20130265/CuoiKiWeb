@@ -27,7 +27,7 @@ public class UserInformationService {
         UserInformationDAO DAO = new UserInformationDAO();
         return DAO.getIdUserByName(username);
     }
-    public void UpdateUserInfo(String id, String username, String email, String address, String phone_number) {
-            new UserInformationDAO().updateUserInfo(id,username,email,address,phone_number);
+    public void UpdateUserInfo(String id, String username, String email, String address, String phone_number, String file_name) {
+            new UserInformationDAO().updateUserInfo(id,username,email,address,phone_number, file_name);
         }
 }
