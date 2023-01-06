@@ -21,6 +21,11 @@ public class NewsCommentService {
         return DAO.getAllCommentFromNews(id);
     }
 
+    public List<NewsComment> getAllCommentByPage(int page) {
+        NewsCommentDAO DAO = new NewsCommentDAO();
+        return DAO.getAllCommentByPage(page);
+    }
+
     public List<NewsComment> getNewsCommentByNews(String page, String id, String order_by) {
         NewsCommentDAO DAO = new NewsCommentDAO();
         return DAO.getCommentByNews(page, id, order_by);
@@ -39,5 +44,9 @@ public class NewsCommentService {
     public void RemoveComment(String id) {
         NewsCommentDAO DAO = new NewsCommentDAO();
         DAO.RemoveComment(id);
+    }
+
+    public void ChangeStatusComment(String id, String status) {
+        new NewsCommentDAO().ChangeStatusComment(id, status);
     }
 }

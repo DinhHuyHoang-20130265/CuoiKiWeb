@@ -45,6 +45,11 @@ public class ProductReviewService {
         return new ProductReviewDAO().getReviewByUserId(id);
     }
 
+    public List<ProductReview> loadAllReviewByPage(int page){
+            ProductReviewDAO DAO = new ProductReviewDAO();
+        return DAO.loadAllReviewByPage(page);
+    }
+
     public static void main(String[] args) {
         System.out.println("product 1 comment: " + new ProductReviewDAO().getCommentsByProductID("prod003"));
         System.out.println(new ProductReviewDAO().getReviewByIdReview("review01"));
