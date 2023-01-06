@@ -1,6 +1,9 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.order.Order" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.OrderService" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -79,7 +82,8 @@
         <div class="row">
             <div class="col-4">
                 <div class="heading">
-                    <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() != null ? UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() : "./assets/img/product/noavatar.png"%>" alt="" class="heading-img">
+                    <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() != null ? UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() : "./assets/img/product/noavatar.png"%>"
+                         alt="" class="heading-img">
                     <span class="heading-name_acc"><%=UserInformationService.getInstance().getUserInfo(user.getId()).getFull_name()%></span>
                 </div>
                 <div class="menu-manager">
@@ -105,11 +109,11 @@
             </div>
             <div class="col-8" id="user_info">
                 <div class="detial__my-profile undisplay">
-                    <div class="heading-edit-account">
+                    <form class="heading-edit-account" method="POST" enctype="multipart/form-data">
                         <h2>Hồ sơ của tôi</h2>
                         <div class="form-group">
-                            <label for="fullname" class="form-label">Tên đầy đủ</label>
-                            <input id="fullname" name="fullname" type="text" placeholder="VD: User1"
+                            <label for="full_name" class="form-label">Tên đầy đủ</label>
+                            <input id="full_name" name="full_name" type="text" placeholder="VD: User1"
                                    class="form-control"
                                    value="<%=information.getFull_name()%>">
                             <span class="form-message"></span>
@@ -122,15 +126,16 @@
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label for="email" class="form-label">Địa chỉ</label>
-                            <input id="diachi" name="email" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"
+                            <label for="address" class="form-label">Địa chỉ</label>
+                            <input id="address" name="address" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"
                                    class="form-control"
                                    value="<%=information.getAddress()%>">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
-                            <label for="sdt" class="form-label">Số điện thoại</label>
-                            <input id="sdt" name="sdt" type="text" placeholder="VD: 089" class="form-control"
+                            <label for="phone_number" class="form-label">Số điện thoại</label>
+                            <input id="phone_number" name="phone_number" type="text" placeholder="VD: 089..."
+                                   class="form-control"
                                    value="<%=information.getPhone_number()%>">
                             <span class="form-message"></span>
                         </div>
@@ -139,38 +144,45 @@
                             <input id="avatar" name="avatar" type="file" class="form-control">
                             <span class="form-message"></span>
                         </div>
-                        <button class="form-submit">Lưu</button>
-                    </div>
+                        <input type="text" name="filename" id="fileName" value="" style="display:none;">
+                        <button class="form-submit" id="submit1">Lưu</button>
+                    </form>
                 </div>
+                <%--Pass--%>
                 <div class="detail__confirm-password undisplay">
-                    <div class="heading-edit-password">
-                        <h2>Đổi lại mật khẩu</h2>
-                    </div>
-                    <div class="form-group form-group-old-password">
-                        <div style="display:flex;justify-content: space-between;">
-                            <label for="password" class="form-label">Mật khẩu cũ</label>
+                    <form class="change-pass" method="post">
+                        <div id="content-form">
+                            <div class="heading-edit-password">
+                                <h2>Đổi lại mật khẩu</h2>
+                            </div>
+                            <div class="form-group form-group-old-password">
+                                <div style="display:flex;justify-content: space-between;">
+                                    <label for="password_old" class="form-label">Mật khẩu cũ</label>
+                                </div>
+                                <input id="password_old" name="password" type="password" placeholder="Nhập mật khẩu"
+                                       class="form-control" required>
+                                <span class="form-message"></span>
+                            </div>
+                            <div class="form-group form-group-new-password">
+                                <div style="display:flex;justify-content: space-between;">
+                                    <label for="password_new" class="form-label">Mật khẩu mới</label>
+                                </div>
+                                <input id="password_new" name="password-new" type="password" placeholder="Nhập mật khẩu"
+                                       class="form-control" required>
+                                <span class="form-message"></span>
+                            </div>
+                            <div class="form-group form-group-confirm-password">
+                                <div style="display:flex;justify-content: space-between;">
+                                    <label for="password_confirm" class="form-label">Mật khẩu mới</label>
+                                </div>
+                                <input id="password_confirm" name="password-confirm" type="password"
+                                       placeholder="Nhập mật khẩu"
+                                       class="form-control" required>
+                                <span class="form-message"></span>
+                            </div>
+                            <button class="form-submit" id="submit2">Lưu</button>
                         </div>
-                        <input id="password" name="password" type="password" placeholder="Nhập mật khẩu"
-                               class="form-control">
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="form-group form-group-new-password">
-                        <div style="display:flex;justify-content: space-between;">
-                            <label for="password-new" class="form-label">Mật khẩu mới</label>
-                        </div>
-                        <input id="password-new" name="password-new" type="password" placeholder="Nhập mật khẩu"
-                               class="form-control">
-                        <span class="form-message"></span>
-                    </div>
-                    <div class="form-group form-group-confirm-password">
-                        <div style="display:flex;justify-content: space-between;">
-                            <label for="password-confirm" class="form-label">Mật khẩu mới</label>
-                        </div>
-                        <input id="password-confirm" name="password-confirm" type="password" placeholder="Nhập mật khẩu"
-                               class="form-control">
-                        <span class="form-message"></span>
-                    </div>
-                    <button class="form-submit">Lưu</button>
+                    </form>
                 </div>
                 <div class="detail__my-order">
                     <div class="heading-edit-password">
@@ -187,47 +199,44 @@
                                     <div class="col-2">Chi tiết</div>
                                 </div>
                             </div>
+                            <%
+                                List<Order> orders = OrderService.getInstance().getOrderListByUserId(user.getId());
+                            %>
                             <div class="my-order-body">
+                                <%
+                                    if (orders != null) {
+                                        for (Order oder : orders) { %>
                                 <div class="row bd-bottom">
-                                    <div class="col-2">#1</div>
-                                    <div class="col-3">05-06-2021</div>
-                                    <div class="col-3">3.000.000 VNĐ</div>
+                                    <div class="col-2">#<%=oder.getOrd_id()%>
+                                    </div>
+                                    <div class="col-3"><%=oder.getOrd_date()%>
+                                    </div>
+                                    <div class="col-3"><%=oder.getTotal()%>
+                                    </div>
                                     <div class="col-2">
                                         <div class="fa-3x" style="font-size: 1.5em !important;">
+                                            <%
+                                                if (oder.getStatus() == 0) { %>
+                                            <i class="fa fa-times" aria-hidden="true" style="color: red"></i>
+                                            <%
+                                            } else if (oder.getStatus() == 1) {
+                                                if (oder.getDelivered() == 0) { %>
                                             <i class="fas fa-spinner fa-spin" style="color: blue;"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <a href="" data-toggle="modal" data-target="#myModal">Xem</a>
-                                    </div>
-                                </div>
-                                <div class="row bd-bottom">
-                                    <div class="col-2">#2</div>
-                                    <div class="col-3">05-06-2021</div>
-                                    <div class="col-3">3.000.000 VNĐ</div>
-                                    <div class="col-2">
-                                        <div class="fa-3x" style="font-size: 1.5em !important;">
+                                            <% } else { %>
                                             <i class="fas fa-check"
                                                style="margin-right: 0px !important;color: #006500;"></i>
+                                            <% }
+                                            }
+                                            %>
                                         </div>
                                     </div>
                                     <div class="col-2">
-                                        <a href="">Xem</a>
+                                        <a data-toggle="modal" class="toggleModal" id="modal<%=oder.getOrd_id()%>"
+                                           data-target="#myModal">Xem</a>
                                     </div>
                                 </div>
-                                <div class="row bd-bottom">
-                                    <div class="col-2">#3</div>
-                                    <div class="col-3">05-06-2021</div>
-                                    <div class="col-3">3.000.000 VNĐ</div>
-                                    <div class="col-2">
-                                        <div class="fa-3x" style="font-size: 1.5em !important;">
-                                            <i class="fa fa-times" aria-hidden="true" style="color: red"></i>
-                                        </div>
-                                    </div>
-                                    <div class="col-2">
-                                        <a href="">Xem</a>
-                                    </div>
-                                </div>
+                                <% }
+                                } %>
                             </div>
                         </form>
                     </div>
@@ -299,6 +308,7 @@
 <script src="./assets/js/jquery-3.6.1.min.js"></script>
 <script src="./assets/js/bootstrap.min.js"></script>
 <script src="./assets/js/main.js"></script>
+<script src="./assets/js/validator.js"></script>
 <script>
     function hienThiDoiMatKhau() {
         $(".detail__confirm-password").removeClass("undisplay");
@@ -329,25 +339,108 @@
         $(".detail__confirm-password").removeClass("display");
         $(".my-order-title").addClass("active");
     }
-    $(".form-submit").click(function (e) {
-        e.preventDefault();
-        const fullName = $("#fullname").val();
-        const email = $("#email").val();
-        const diachi = $("#diachi").val();
-        const sdt = $("#sdt").val();
+
+    $("#avatar").on('change', function (e) {
+        const value = $(this).val();
+        let name = "";
+        if (value.indexOf("\\") != -1)
+            name = value.substring(value.lastIndexOf("\\") + 1);
+        else
+            name = value.substring(value.lastIndexOf("/") + 1);
+        uploadFile(name, e)
+    })
+
+    function uploadFile(name, event) {
+        event.stopPropagation();
+        event.preventDefault();
+        const files = event.target.files;
+        const data = new FormData();
+        $.each(files, function (key, value) {
+            data.append(key, value);
+        });
+        postFilesData(name, data);
+    }
+
+    function postFilesData(name, data) {
         $.ajax({
-            url: "UpdateUserInfoController",
-            type: "post",
-            data: {
-               fullname: fullName,
-                email : email,
-                diachi : diachi,
-                sdt : sdt
+            url: '/CuoiKiWeb_war/UpDownImageAvatarController',
+            type: 'POST',
+            data: data,
+            cache: false,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function (data, textStatus, jqXHR) {
+                $("#fileName").val(name);
+                console.log($("#fileName").val())
             },
-            success: function (data) {
-                $("#user_info").append(data);
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#fileName").val(name);
+                console.log($("#fileName").val())
             }
-        })
+        });
+    }
+
+    $("#submit1").click(function (e) {
+        e.preventDefault();
+        const full_name = $("#full_name").val();
+        const email = $("#email").val();
+        const address = $("#address").val();
+        const phone_number = $("#phone_number").val();
+        const filename = $("#fileName").val();
+        if (full_name == null || email == null || address == null || phone_number == null) {
+            alert("Không được để trống các trường");
+        } else {
+            $.ajax({
+                url: "UpdateUserController",
+                type: "GET",
+                data: {
+                    full_name: full_name,
+                    email: email,
+                    address: address,
+                    phone_number: phone_number,
+                    filename: filename
+                },
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            })
+        }
+    })
+    $("#submit2").click(function (e) {
+        e.preventDefault();
+        const password_old = $("#password_old").val();
+        const password_new = $("#password_new").val();
+        const password_confirm = $("#password_confirm").val();
+        if (password_old == null || password_old.length < 1) {
+            alert("Mật khẩu cũ không được để trống")
+        } else {
+            if (password_new == null || password_confirm == null || password_new.length < 6 || password_confirm < 6) {
+                alert("Không được để trống các trường");
+            } else if (password_new !== password_confirm) {
+                alert("Mật khẩu mơí và nhập lại không giống nhau");
+            } else {
+                $.ajax({
+                    url: "ChangePasswordController",
+                    type: "POST",
+                    data: {
+                        password_old: password_old,
+                        password_new: password_new,
+                        password_confirm: password_confirm
+                    }, success: function (response) {
+                        if (response.includes("complete")) {
+                            alert("Đổi mật khẩu thành công");
+                            window.location.href = "http://localhost:8080/CuoiKiWeb_war/Login.jsp";
+                        } else {
+                            alert(response);
+                        }
+                    }
+                });
+            }
+        }
     })
 </script>
 </body>

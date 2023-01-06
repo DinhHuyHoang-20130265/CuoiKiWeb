@@ -147,6 +147,7 @@ public class AccountUserDAO {
             return null;
         });
     }
+
     public String getIdUserByName(String username) {
         SiteUser Statement = JDBIConnector.get().withHandle(handle ->
                 handle.createQuery("SELECT ua.id" +
@@ -157,35 +158,27 @@ public class AccountUserDAO {
         );
         return Statement.getId().toString();
     }
-    public String getPasswordById(String id){
+
+    public String getPasswordById(String id) {
         SiteUser Statement = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT pass FROM user_account Where account_status = 1 AND id = ?")
-                .bind(0,id)
+                .bind(0, id)
                 .mapToBean(SiteUser.class)
                 .first()
         );
-                return MD5.md5(Statement.getPass());
+        return Statement.getPass();
     }
-    public void ChangeUserPassword(String id,String password_new, String password_old, String password_confirm) {
-    password_old = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT pass from user_account where id= ?")
-                .bind(0, id)
-                .mapTo(String.class)
-                .first());
-        String finalPassword_old = password_old;
+
+    public void ChangeUserPassword(String id, String password_new, String password_old, String password_confirm) {
         JDBIConnector.get().withHandle(handle -> {
             handle.createUpdate("UPDATE user_account SET pass = ? WHERE  id = ?")
-                    .bind(1, MD5.md5(password_new))
+                    .bind(0, MD5.md5(password_new))
+                    .bind(1, id)
                     .execute();
-            if(MD5.md5(finalPassword_old).equals(password_new)){
-                return false;
-            }
-            return password_new;
+            return true;
         });
     }
-    public static void main(String[] args) {
-//        new AccountUserDAO().UpdateAccount("CdhOE", "DinhHoang", "dinh123@gmail.com", "prolaanh",
-//                "123123", "abc123123", "1", "0", "user-update", "vcl.jpg", "user2");
-        System.out.println(new AccountUserDAO().getIdUserByName("teo"));
-        System.out.println(new AccountUserDAO().getPasswordById(new AccountUserDAO().getIdUserByName("teo" )));
 
+    public static void main(String[] args) {
+        new AccountUserDAO().ChangeUserPassword("user1", "123123", "123123", "123123");
     }
 }
