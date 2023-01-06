@@ -53,6 +53,8 @@
                 <a> Đã Ẩn </a>
                 <%}%>
             </div>
+            <input type="text" id="status" value="<%=comment.getComment_status()%>"
+                   style="display: none">
         </div>
         <div class="item-col item-col-date">
             <div class="item-heading">Ngày thêm</div>

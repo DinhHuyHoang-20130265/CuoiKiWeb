@@ -107,23 +107,24 @@ public class ProductReviewDAO {
     }
 
     public List<ProductReview> loadAllReviewByPage(int page) {
-            List<ProductReview> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review")
-                    .mapToBean(ProductReview.class)
-                    .stream().collect(Collectors.toList())
-            );
-            int numpage;
-            int start = (page - 1) * 6;
-            if (list.size() - start >= 6) {
-                numpage = start + 6;
-            } else {
-                numpage = list.size();
-            }
-            List<ProductReview> temp = new ArrayList<>();
-            for (int i = start; i < numpage; i++) {
-                temp.add(list.get(i));
-            }
-            return temp;
+        List<ProductReview> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review")
+                .mapToBean(ProductReview.class)
+                .stream().collect(Collectors.toList())
+        );
+        int numpage;
+        int start = (page - 1) * 6;
+        if (list.size() - start >= 6) {
+            numpage = start + 6;
+        } else {
+            numpage = list.size();
         }
+        List<ProductReview> temp = new ArrayList<>();
+        for (int i = start; i < numpage; i++) {
+            temp.add(list.get(i));
+        }
+        return temp;
+    }
+
     public static void main(String[] args) {
         System.out.println(new ProductReviewDAO().loadAllReviewByPage(3));
     }
