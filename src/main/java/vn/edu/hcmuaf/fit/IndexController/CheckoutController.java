@@ -6,10 +6,7 @@ import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.beans.cart.Cart;
 import vn.edu.hcmuaf.fit.beans.cart.CartKey;
 import vn.edu.hcmuaf.fit.beans.order.Order;
-import vn.edu.hcmuaf.fit.services.MailService;
-import vn.edu.hcmuaf.fit.services.OrderDetailService;
-import vn.edu.hcmuaf.fit.services.OrderService;
-import vn.edu.hcmuaf.fit.services.ProductService;
+import vn.edu.hcmuaf.fit.services.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -92,6 +89,7 @@ public class CheckoutController extends HttpServlet {
             MailService.getInstance().initializedSesstion(MailConfiguration.USERNAME_PNTSHOP, MailConfiguration.PASSWORD_PNTSHOP);
             MailService.getInstance().sendMail("PNTSHOP", email, subject, text, MailConfiguration.MAIL_HTML);
             response.getWriter().println("Đơn hàng của bạn đã được tạo thành công và đang chờ cửa hàng xử lý");
+            NotifyService.getInstance().AddNewNotify("Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id, ord_id);
             request.getSession().setAttribute("cart", new Cart());
         }
     }
