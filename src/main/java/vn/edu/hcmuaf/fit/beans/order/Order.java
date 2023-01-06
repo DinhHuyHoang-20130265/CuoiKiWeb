@@ -15,12 +15,12 @@ public class Order implements Serializable {
     private String email;
     private String phone_number;
     private String note;
-    private String custumer_id;
+    private String customer_id;
 
     public Order() {
     }
 
-    public Order(String ord_id, String ord_date, int status, int payment_method, int delivered, double total, String delivery_date, String address, String receive_name, String email, String phone_number, String note, String custumer_id) {
+    public Order(String ord_id, String ord_date, int status, int payment_method, int delivered, double total, String delivery_date, String address, String receive_name, String email, String phone_number, String note, String customer_id) {
         this.ord_id = ord_id;
         this.ord_date = ord_date;
         this.status = status;
@@ -33,7 +33,7 @@ public class Order implements Serializable {
         this.email = email;
         this.phone_number = phone_number;
         this.note = note;
-        this.custumer_id = custumer_id;
+        this.customer_id = customer_id;
     }
 
     public String getOrd_id() {
@@ -132,12 +132,12 @@ public class Order implements Serializable {
         this.note = note;
     }
 
-    public String getCustumer_id() {
-        return custumer_id;
+    public String getCustomer_id() {
+        return customer_id;
     }
 
-    public void setCustumer_id(String custumer_id) {
-        this.custumer_id = custumer_id;
+    public void setCustomer_id(String customer_id) {
+        this.customer_id = customer_id;
     }
 
     @Override
@@ -155,7 +155,7 @@ public class Order implements Serializable {
                 ", email='" + email + '\'' +
                 ", phone_number='" + phone_number + '\'' +
                 ", note='" + note + '\'' +
-                ", custumer_id='" + custumer_id + '\'' +
+                ", customer_id='" + customer_id + '\'' +
                 '}';
     }
 }

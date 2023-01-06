@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 public class OrderDAO {
 
     public List<Order> getOrderListByUserId(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.delivered, o.delivery_date, o.customer_id" +
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, " +
+                        "o.payment_method, o.delivered, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" +
                         " FROM orders o WHERE o.customer_id =?")
                 .bind(0, id)
                 .mapToBean(Order.class)
@@ -75,7 +76,8 @@ public class OrderDAO {
     }
 
     public Order getOrderById(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.delivered, o.delivery_date, o.customer_id" +
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.delivered, " +
+                        "o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" +
                         " FROM orders o WHERE o.ord_id =?")
                 .bind(0, id)
                 .mapToBean(Order.class)
@@ -83,8 +85,15 @@ public class OrderDAO {
         );
     }
 
+    public void removeOrder(String ord_id) {
+        JDBIConnector.get().withHandle(handle -> handle.createUpdate("DELETE FROM orders WHERE ord_id = ?")
+                .bind(0, ord_id)
+                .execute()
+        );
+    }
+
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getListDetailsFromOrdId("ord001"));
+        System.out.println(new OrderDAO().getOrderById("8XTwU0QgJ9"));
 
     }
 }
