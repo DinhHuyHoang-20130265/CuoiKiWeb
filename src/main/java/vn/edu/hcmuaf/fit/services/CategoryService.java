@@ -139,8 +139,8 @@ public class CategoryService {
     public Category getCateWithID(String category) {
         return new CategoryDAO().getCateWithID(category);
     }
-    public List<Category> loadloadCategoryWithConditionContainsStatus(int page, int num_per_page, String search) {
-        return new CategoryDAO().loadCategoryWithConditionContainsStatus(page, num_per_page, search);
+    public List<Category> loadloadCategoryWithConditionContainsStatus(int page, int num_per_page) {
+        return new CategoryDAO().loadCategoryWithConditionContainsStatus(page, num_per_page);
     }
 
     public static void main(String[] args) {
@@ -148,5 +148,9 @@ public class CategoryService {
 
     public List<Category> getCateWithProductID(String id) {
         return new CategoryDAO().getCategoryByIdProduct(id);
+    }
+
+    public void RemoveCate(String id) {
+        new CategoryDAO().RemoveCate(id);
     }
 }

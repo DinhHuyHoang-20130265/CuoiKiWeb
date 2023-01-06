@@ -33,6 +33,7 @@ public class CategoryDAO {
                         .stream()
                         .collect(Collectors.toList()));
     }
+
     public Category getCategoryByProductId(String id) {
         return JDBIConnector.get().withHandle(handle ->
                 handle.createQuery("SELECT c.id, c.cate_name, c.cate_desc, c.parent_id, c.cate_status " +
@@ -69,14 +70,9 @@ public class CategoryDAO {
         );
     }
 
-    public List<Category> loadCategoryWithConditionContainsStatus(int page, int num_per_page, String search) {
+    public List<Category> loadCategoryWithConditionContainsStatus(int page, int num_per_page) {
         String query = "SELECT id, cate_name, cate_desc, parent_id, cate_status FROM product_categories";
-        if (search != null) {
-            if (!search.equals(""))
-                query += " AND cate_name LIKE '%" + search + "%'";
-        }
-        String finalQuery = query;
-        List<Category> filter = (List<Category>) JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery)
+        List<Category> filter = (List<Category>) JDBIConnector.get().withHandle(handle -> handle.createQuery(query)
                 .mapToBean(Category.class)
                 .stream()
                 .collect(Collectors.toList()));
@@ -94,10 +90,16 @@ public class CategoryDAO {
         return temp;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new CategoryDAO().loadAll());
-        System.out.println(new CategoryDAO().getCategoryByProductId("prod001"));
-        System.out.println(new CategoryDAO().loadCategoryWithConditionContainsStatus(1,6,null));
+    public void RemoveCate(String id) {
+        JDBIConnector.get().withHandle(handle -> {
+            handle.createUpdate("SET FOREIGN_KEY_CHECKS = 0").execute();
+            handle.createUpdate("DELETE FROM product_categories WHERE id=?").bind(0, id).execute();
+            handle.createUpdate("SET FOREIGN_KEY_CHECKS = 1").execute();
+            return null;
+        });
     }
 
+    public static void main(String[] args) {
+        System.out.println(new CategoryDAO().loadCategoryWithConditionContainsStatus(7, 6));
+    }
 }

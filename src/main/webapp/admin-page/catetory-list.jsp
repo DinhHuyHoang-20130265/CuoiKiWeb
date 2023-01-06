@@ -73,14 +73,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="items-search">
-                    <form class="form-inline">
-                        <div class="input-group">
-                            <input type="text" id="searchProduct" class="form-control boxed rounded-s"
-                                   placeholder="Tìm kiếm...">
-                        </div>
-                    </form>
-                </div>
             </div>
             <div class="card item">
                 <ul class="item-list striped" id="items">
@@ -120,9 +112,10 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
-                    <%List<Category> cates = CategoryService.getInstance().loadloadCategoryWithConditionContainsStatus(1, 6, null);%>
+                    <%List<Category> cates = CategoryService.getInstance().loadloadCategoryWithConditionContainsStatus(1, 6);%>
                     <div id="appendItem">
-                        <%for (Category category : cates) {
+                        <%
+                            for (Category category : cates) {
                         %>
                         <li class="item">
                             <div class="item-row">
@@ -167,6 +160,8 @@
                                             <%=category.getCate_status() == 1 ? "Hiển thị" : "Đã ẩn"%>
                                         </a>
                                     </div>
+                                    <input type="text" id="status" value="<%=category.getCate_status()%>"
+                                           style="display: none">
                                 </div>
                                 <div class="item-col fixed item-col-actions-dropdown">
                                     <div class="item-actions-dropdown">
@@ -180,29 +175,19 @@
                                         </a>
                                         <div class="item-actions-block">
                                             <ul class="item-actions-list">
-                                                <%--                                                <%--%>
-                                                <%--                                                    for (AdminRole role : admin.getRole()) {--%>
-                                                <%--                                                        if (role.getTable().equals("category") && role.getPermission().equals("delete")) {--%>
-                                                <%--                                                %>--%>
                                                 <li>
-                                                    <a class="remove" href="#" data-toggle="modal"
-                                                       data-target="#confirm-modal" id="delete<%=category.getId()%>">
-                                                        <i class="fa fa-trash-o"></i>
+                                                    <a class="remove" id="remove<%=category.getId()%>"
+                                                       data-toggle="modal"
+                                                       data-target="#confirm-modal" style="cursor: pointer">
+                                                        <i class="fa fa-trash-o "></i>
                                                     </a>
                                                 </li>
-                                                <%--                                                <%--%>
-                                                <%--                                                }--%>
-                                                <%--                                                    if (role.getTable().equals("product") && role.getPermission().equals("update")) {--%>
-                                                <%--                                                %>--%>
                                                 <li>
-                                                    <a class="edit" href="item-editor.jsp?id=<%=category.getId()%>">
+                                                    <a class="edit"
+                                                       href="category-editor.jsp?id=<%=category.getId()%>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 </li>
-                                                <%--                                                <%--%>
-                                                <%--                                                <%}%>--%>
-                                                <%--                                                    }--%>
-                                                <%--                                                %>--%>
                                             </ul>
                                         </div>
                                     </div>
@@ -293,27 +278,23 @@
         });
     }
 
-    function deleteProduct() {
+    function deleteCate() {
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
-            const search = $("#searchProduct").val();
             const page = parseInt($("#page").text());
-            const orderby = $("#filter").find(':selected').val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteProductAdminController",
+                        url: "/CuoiKiWeb_war/DeleteCateAdminController",
                         type: "post",
                         data: {
                             id: id,
-                            search: search,
                             page: page,
-                            orderby: orderby
                         },
                         success: function (data) {
                             $("#appendItem").html(data);
-                            reloadScript()
+                            reloadScript();
                         }
                     })
                 })
@@ -321,71 +302,22 @@
         })
     }
 
-    function filterAdmin(e) {
-        e.preventDefault();
-        const page = 1;
-        const orderby = $("#filter").find(':selected').val();
-        const search = $("#searchProduct").val();
-        $.ajax({
-            url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
-            type: "post",
-            data: {
-                page: page,
-                orderby: orderby,
-                search: search
-            },
-            success: function (data) {
-                $("#appendItem").html(data);
-                deleteProduct();
-                reloadScript();
-            }
-        })
-    }
-
+    deleteCate();
     $(document).ready(function () {
-        $("#filter").change(function (e) {
-            filterAdmin(e);
-            deleteProduct();
-        })
-        $("#searchProduct").on("input", function (e) {
-            e.preventDefault();
-            const search = this.value
-            const page = 1;
-            const orderby = $("#filter").find(':selected').val();
-            $.ajax({
-                url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
-                type: "post",
-                data: {
-                    page: page,
-                    orderby: orderby,
-                    search: search
-                },
-                success: function (data) {
-                    $("#appendItem").html(data);
-                    $("#page").text(page)
-                    deleteProduct();
-                    reloadScript();
-                }
-            })
-        })
         $("#btn_prev").on("click", function (e) {
             e.preventDefault();
-            const search = $("#searchProduct").val();
             const page = parseInt($("#page").text()) - 1;
-            const orderby = $("#filter").find(':selected').val();
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                    url: "/CuoiKiWeb_war/LoadCateListAdminProduct",
                     type: "post",
                     data: {
                         page: page,
-                        orderby: orderby,
-                        search: search
                     },
                     success: function (data) {
                         $("#appendItem").html(data);
                         $("#page").text(page)
-                        deleteProduct();
+                        deleteCate();
                         reloadScript();
                     }
                 })
@@ -394,23 +326,23 @@
         $("#btn_next").on("click", function (e) {
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
-            const orderby = $("#filter").find(':selected').val();
-            const search = $("#searchProduct").val();
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                url: "/CuoiKiWeb_war/LoadCateListAdminProduct",
                 type: "post",
                 data: {
                     page: page,
-                    orderby: orderby,
-                    search: search
                 },
                 success: function (data) {
+                    console.log(data)
                     if ($.trim(data)) {
                         $("#appendItem").html(data);
                         $("#page").text(page)
-                        deleteProduct();
+                        deleteCate();
                         reloadScript();
                     }
+                },
+                error: function (data) {
+                    console.log(data)
                 }
             })
         })
@@ -419,8 +351,6 @@
 </body>
 
 </html>
-<%--<%--%>
-<%--        }--%>
 <%
         }
     }
