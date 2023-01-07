@@ -189,7 +189,7 @@
                                     <form class="hover-icon hidden-sm hidden-xs">
                                         <input type="hidden">
                                         <% if (user != null) {%>
-                                        <a class="btn-add-to-cart" id="addListLike<%=newProducts.get(i).getId()%>"
+                                        <a class="btn-add-to-cart add-wishlist" id="addWishList<%=newProducts.get(i).getId()%>"
                                            title="Đưa vào danh sách yêu thích">
                                             <i class="fas fa-heart"></i>
                                         </a>
@@ -206,12 +206,14 @@
                                     </h5>
                                     <div class="product__price">
                                         <%if (newProducts.get(i).getSales() != null) {%>
-                                        <p class="card-text price-color product__price-old"><%=formatter.format(newProducts.get(i).getPrice())%>đ</p>
+                                        <p class="card-text price-color product__price-old"><%=formatter.format(newProducts.get(i).getPrice())%>
+                                            đ</p>
                                         <p class="card-text price-color product__price-new"><%=formatter.format(newProducts.get(i).getPrice() * (1 - (newProducts.get(i).getSales().getDiscount_rate()) * 0.01))%>
                                             đ</p>
                                         <%} else {%>
                                         <p class="card-text price-color product__price-old" style="opacity: 0">0</p>
-                                        <p class="card-text price-color product__price-new"><%=formatter.format(newProducts.get(i).getPrice())%>đ</p>
+                                        <p class="card-text price-color product__price-new"><%=formatter.format(newProducts.get(i).getPrice())%>
+                                            đ</p>
                                         <%}%>
                                     </div>
                                     <div class="home-product-item__action">
@@ -254,7 +256,7 @@
                                     <form class="hover-icon hidden-sm hidden-xs">
                                         <input type="hidden">
                                         <% if (user != null) {%>
-                                        <a class="btn-add-to-cart" id="addListLike<%=hotProducts.get(i).getId()%>"
+                                        <a class="btn-add-to-cart add-wishlist" id="addWishList<%=hotProducts.get(i).getId()%>"
                                            title="Đưa vào danh sách yêu thích">
                                             <i class="fas fa-heart"></i>
                                         </a>
@@ -271,12 +273,14 @@
                                     </h5>
                                     <div class="product__price">
                                         <%if (hotProducts.get(i).getSales() != null) {%>
-                                        <p class="card-text price-color product__price-old"><%=formatter.format(hotProducts.get(i).getPrice())%>đ</p>
+                                        <p class="card-text price-color product__price-old"><%=formatter.format(hotProducts.get(i).getPrice())%>
+                                            đ</p>
                                         <p class="card-text price-color product__price-new"><%=formatter.format(hotProducts.get(i).getPrice() * (1 - (hotProducts.get(i).getSales().getDiscount_rate()) * 0.01))%>
                                             đ</p>
                                         <%} else {%>
                                         <p class="card-text price-color product__price-old" style="opacity: 0">0</p>
-                                        <p class="card-text price-color product__price-new"><%=formatter.format(hotProducts.get(i).getPrice())%>đ</p>
+                                        <p class="card-text price-color product__price-new"><%=formatter.format(hotProducts.get(i).getPrice())%>
+                                            đ</p>
                                         <%}%>
                                     </div>
                                     <div class="home-product-item__action">
@@ -391,7 +395,7 @@
                                     <form class="hover-icon hidden-sm hidden-xs">
                                         <input type="hidden">
                                         <% if (user != null) {%>
-                                        <a class="btn-add-to-cart" id="addListLike<%=likeProducts.get(i).getId()%>"
+                                        <a class="btn-add-to-cart add-wishlist" id="addWishList<%=likeProducts.get(i).getId()%>"
                                            title="Đưa vào danh sách yêu thích">
                                             <i class="fas fa-heart"></i>
                                         </a>
@@ -408,12 +412,14 @@
                                     </h5>
                                     <div class="product__price">
                                         <%if (likeProducts.get(i).getSales() != null) {%>
-                                        <p class="card-text price-color product__price-old"><%=formatter.format(likeProducts.get(i).getPrice())%>đ</p>
+                                        <p class="card-text price-color product__price-old"><%=formatter.format(likeProducts.get(i).getPrice())%>
+                                            đ</p>
                                         <p class="card-text price-color product__price-new"><%=formatter.format(likeProducts.get(i).getPrice() * (1 - (likeProducts.get(i).getSales().getDiscount_rate()) * 0.01))%>
                                             đ</p>
                                         <%} else {%>
                                         <p class="card-text price-color product__price-old" style="opacity: 0">0</p>
-                                        <p class="card-text price-color product__price-new"><%=formatter.format(likeProducts.get(i).getPrice())%>đ</p>
+                                        <p class="card-text price-color product__price-new"><%=formatter.format(likeProducts.get(i).getPrice())%>
+                                            đ</p>
                                         <%}%>
                                     </div>
                                     <div class="home-product-item__action">
@@ -450,7 +456,7 @@
             <h3 class="shoesnews__title">Tin tức</h3>
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-12 mb-20">
-                    <a href="newDetail.jsp" class="product__new-item">
+                    <a href="newDetail.jsp?id=news001" class="product__new-item">
                         <div class="card" style="width: 100%">
                             <img class="card-img-top" src="./assets/imgNews/news/1-min.jpg" alt="Card image cap"
                                  height="230px"/>
@@ -466,7 +472,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 mb-20">
-                    <a href="newDetail.jsp" class="product__new-item">
+                    <a href="newDetail.jsp?id=news002" class="product__new-item">
                         <div class="card" style="width: 100%">
                             <img class="card-img-top" src="./assets/imgNews/news/2-min.jpg" alt="Card image cap"
                                  height="230px"/>
@@ -482,7 +488,7 @@
                     </a>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 mb-20">
-                    <a href="newDetail.jsp" class="product__new-item">
+                    <a href="newDetail.jsp?id=news003" class="product__new-item">
                         <div class="card" style="width: 100%">
                             <img class="card-img-top" src="./assets/imgNews/news/3-min.jpg" alt="Card image cap"
                                  height="230px"/>
@@ -522,6 +528,7 @@
 <script>
     $(document).ready(async function () {
         load();
+        addwishlist();
     });
 
     function load() {
@@ -539,6 +546,7 @@
                     success: function (data) {
                         $("#modal-content").html(data);
                         $("#myModal").modal('toggle');
+                        addcart()
                         $(".circlecheck").each(function () {
                             const $this = $(this);
                             const id = $this.find("input").attr("id");
@@ -563,6 +571,61 @@
                 });
             })
         }
+    }
+
+    function addwishlist() {
+        $(".btn-add-to-cart").click(function (e) {
+            e.preventDefault();
+            const id = this.id;
+            console.log(id);
+            if (id == null) {
+                alert("Không thể đưa vào danh sách yêu thích")
+            } else {
+                $.ajax(({
+                    url: "AddWishListController",
+                    type: "get",
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        $(".header_wishlist").each(function () {
+                            $(this).text(data);
+                        })
+                        // $(".home-product-item__action span i").html(`<i class="home-product-item__like-icon-fill fas fa-heart" style="display: contents!important;"></i>`)
+                    }
+                }))
+            }
+        })
+    }
+
+    function addcart() {
+        $(".shopnow2").click(function (e) {
+            e.preventDefault();
+            const idAdd = this.id;
+            const amount = $("#text_so_luong-10").val();
+            const size = $(".swatch-element input[type='radio']:checked").val();
+            const color = $(".circlecheck input[type='radio']:checked").attr("id");
+            if (size == null || color == null) {
+                alert("Yêu cầu nhập đầy đủ thông tin")
+            } else {
+                $.ajax({
+                    url: "AddCartController",
+                    type: "get",
+                    data: {
+                        idAdd: idAdd,
+                        size: size,
+                        color: color,
+                        amount: amount
+                    },
+                    success: function (data) {
+                        $(".header__second__cart--notice").each(function () {
+                            $(this).text(data)
+                        })
+                        $(".product__shopnow").html(`<a class="notify" style="color:green; font-size: 16px; font-weight: 600;"><i class="fas fa-check" style="color: green"></i> Thêm sản phẩm vào giỏ hàng thành công !</a>`)
+                    }
+                })
+            }
+        })
     }
 </script>
 </body>
