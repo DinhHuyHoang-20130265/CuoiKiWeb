@@ -18,9 +18,15 @@
         <span></span>
       </label>
     </div>
-    <div class="item-col item-col-sales" style="text-align: center;margin: 0 50px;">
+    <div class="item-col item-col-title" style="text-align: center;margin: 0;">
       <div class="item-heading">Mã slide</div>
       <div class="sales" style="text-align: center">#<%=list.getSlide_id()%>
+      </div>
+    </div>
+    <div class="item-col item-col-sales" style="text-align: center; max-width: 150px">
+      <div class="item-heading">Mô tả</div>
+      <div class="sales" style="text-align: center">
+        <%=list.getSlide_desc()%>
       </div>
     </div>
     <div class="item-col fixed item-col-img md"
@@ -28,7 +34,7 @@
       <div class="item-heading">Ảnh</div>
       <div>
         <a href="">
-          <img src="<%=list.getSlide_link()%>" width=40px
+          <img src="<%=list.getSlide_link()%>" width=60px
                height=40px alt="">
         </a>
       </div>
@@ -66,20 +72,9 @@
               </a>
             </li>
             <li>
-              <a class="info" id="info<%=list.getSlide_id()%>"
-                 style="cursor: pointer">
-                <i class="fa fa-info-circle"></i>
-              </a>
-            </li>
-            <li>
-              <a class="toggle" id="toggle<%=list.getSlide_id()%>"
-                 style="cursor: pointer">
-                <%
-                  if (list.getSlide_status() == 1) { %>
-                <i class="fa fa-toggle-off" style="color: #0b3d88"></i>
-                <% } else { %>
-                <i class="fa fa-toggle-on" style="color: green"></i>
-                <%} %>
+              <a class="edit"
+                 href="slide-editor.jsp?id=<%=list.getSlide_id()%>">
+                <i class="fa fa-pencil"></i>
               </a>
             </li>
           </ul>

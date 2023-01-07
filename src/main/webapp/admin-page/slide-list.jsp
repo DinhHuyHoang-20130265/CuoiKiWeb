@@ -177,6 +177,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h3 class="title"> Danh sách Slide
+                                <a href="slide-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm slide
+                                </a>
                             </h3>
                         </div>
                     </div>
