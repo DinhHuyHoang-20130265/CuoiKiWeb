@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.fit.beans.order.Order;
 import vn.edu.hcmuaf.fit.beans.order.OrderDetail;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -78,10 +79,52 @@ public class OrderDAO {
     }
 
     public void removeOrder(String ord_id) {
-        JDBIConnector.get().withHandle(handle -> handle.createUpdate("DELETE FROM orders WHERE ord_id = ?")
-                .bind(0, ord_id)
-                .execute()
-        );
+        JDBIConnector.get().withHandle(handle -> {
+            handle.createUpdate("SET FOREIGN_KEY_CHECKS = 0").execute();
+            handle.createUpdate("DELETE FROM orders WHERE ord_id = ?")
+                    .bind(0, ord_id)
+                    .execute();
+            handle.createUpdate("SET FOREIGN_KEY_CHECKS = 1").execute();
+            return null;
+        });
+    }
+
+    public List<Order> getOrderListCondition(String page, String orderBy, String search) {
+        String sql = "SELECT o.ord_id, o.ord_date, o.status, " + "o.payment_method, o.delivered, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" + " FROM orders o ";
+        if (search != null) {
+            if (search.length() > 0) {
+                sql += " WHERE o.ord_id LIKE '%" + search + "%'";
+            }
+        }
+        switch (orderBy) {
+            case "0":
+                sql += " ORDER BY o.ord_date DESC";
+                break;
+            case "1":
+                sql += " ORDER BY o.ord_date ASC";
+                break;
+            case "2":
+                sql += " ORDER BY o.total DESC";
+                break;
+            case "3":
+                sql += " ORDER BY o.total ASC";
+                break;
+        }
+        String finalString = sql;
+        List<Order> orders = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalString).mapToBean(Order.class).stream().collect(Collectors.toList()));
+        int numpage;
+        int numb = 6;
+        int start = (Integer.parseInt(page) - 1) * numb;
+        if (orders.size() - start >= numb) {
+            numpage = start + numb;
+        } else {
+            numpage = orders.size();
+        }
+        List<Order> temp = new ArrayList<>();
+        for (int i = start; i < numpage; i++) {
+            temp.add(orders.get(i));
+        }
+        return temp;
     }
 
     public static void main(String[] args) {

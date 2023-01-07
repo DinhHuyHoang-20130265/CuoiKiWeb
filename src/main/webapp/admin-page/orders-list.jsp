@@ -1,4 +1,11 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.order.Order" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.OrderService" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.AccountService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -95,7 +102,8 @@
                                     <div class="row no-gutters">
                                         <div class="col-auto pr-3">
                                             <div class="filter-options__childrent__dropdown__menu">
-                                                <select class="form-select" aria-label="Default select example">
+                                                <select class="form-select" aria-label="Default select example"
+                                                        style="border: none;">
                                                     <option value="0" selected>Sắp xếp theo: Ngày tạo gần nhất</option>
                                                     <option value="1">Ngày tạo cũ nhất</option>
                                                     <option value="2">Giá trị nhỏ dần</option>
@@ -153,81 +161,116 @@
                                                 <span id="cspot-orders-trangthaigiaohang">Giao hàng</span>
                                             </th>
                                             <th class="table-header--status">
-                                                <span>Phương thức</span>
+                                                <span id="cspot-orders-trangthaidonhang">Trạng thái</span>
                                             </th>
                                             <th class="table-header--money">
                                                 <span>Tổng tiền</span>
                                             </th>
-                                            <th class="table-header--money">
-                                                <span></span>
-                                            </th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr class="ITEM1">
+                                        <%
+                                            List<Order> orders = OrderService.getInstance().getOrderListCondition("1", "0", null);
+                                            NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));
+                                            if (orders != null) {
+                                                for (Order order : orders) {
+                                                    SiteUser siteUser = AccountService.getInstance().getAccountById(order.getCustomer_id()); %>
+                                        <tr class="order" id="order<%=order.getOrd_id()%>">
                                             <td class="cursor-pointer">
                                                 <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
                                                      width="20" height="20">
                                                 </svg>
                                             </td>
-                                            <td class="checkbox-select">
-                                            </td>
                                             <td class="no-wrap pl-0">
-                                                <a class="" href="order-details.jsp">#110417</a>
+                                                <a href="order-details.jsp?id=<%=order.getOrd_id()%>">#<%=order.getOrd_id()%>
+                                                </a>
                                                 <div class="d-inline-block">
-                                                            <span class="ml-1"><svg
-                                                                    class="svg-next-icon ui-icon--notes position-top-minus-one svg-next-icon-size-14"
-                                                                    width="14" height="14">
+                                                    <span class="ml-1">
+                                                        <svg class="svg-next-icon ui-icon--notes position-top-minus-one svg-next-icon-size-14"
+                                                             width="14" height="14">
                                                                     <svg
                                                                             viewBox="0 0 20 20">
                                                                         <path
                                                                                 d="M6 11V9h8v2H6zm0 4v-2h8v2H6zm0-8V5h4v2H6zm9.707-1.707l-3-3C12.52 2.105 12.267 2 12 2H5c-.553 0-1 .448-1 1v14c0 .552.447 1 1 1h10c.553 0 1-.448 1-1V6c0-.265-.105-.52-.293-.707z">
                                                                         </path>
-                                                                    </svg></svg></span>
+                                                                    </svg></svg>
+                                                    </span>
                                                 </div>
                                             </td>
-                                            <td class="">Hôm nay 07:51</td>
+                                            <td class="order-date"><%=order.getOrd_date()%>
+                                            </td>
                                             <td class="max-width-200px">
                                                 <div class="trigger">
-                                                            <span>
-                                                                <div class="order_list_customer">
-                                                                    <p class="mb-0 px-2 align-items-center word-break">
-                                                                        <span class="omni-shorten-text"
-                                                                              title="nguyenhien">nguyenhien</span>
-                                                                    </p>
-                                                                </div>
-                                                            </span>
+                                                    <span>
+                                                        <div class="order_list_customer">
+                                                            <p class="mb-0 px-2 align-items-center word-break">
+                                                                <span class="omni-shorten-text"
+                                                                      title="<%=siteUser.getUsername() == null ? "null" : siteUser.getUsername()%>"><%=siteUser.getUsername() == null ? "null" : siteUser.getUsername()%></span>
+                                                            </p>
+                                                        </div>
+                                                    </span>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="status-component">
-                                                            <span
-                                                                    class="circle-status mr-2 circle-status-2"></span><span
-                                                        class="badges--order-payment-status-2">
-                                                                Đã thanh toán</span>
+                                                    <%if (order.getPayment_method() == 0) { %>
+                                                    <span class="badges--order-payment-status-3">Chưa thanh toán</span>
+                                                    <% } else { %>
+                                                    <span class="badges--order-payment-status-3">Đã thanh toán</span>
+                                                    <% }%>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex">
                                                     <div class="status-component">
-                                                                <span
-                                                                        class="circle-status mr-2 circle-status-shipment_done"></span><span
+                                                        <%if (order.getDelivered() == 0) { %>
+                                                        <span class="circle-status mr-2 circle-status-shipment_ontheway"></span><span
+                                                            class="badges--carrier-status-2">
+                                                                    Chưa giao hàng</span>
+                                                        <% } else { %>
+                                                        <span class="circle-status mr-2 circle-status-shipment_done"></span><span
                                                             class="badges--carrier-status-4">
                                                                     Đã giao hàng</span>
+                                                        <% }%>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td></td>
-                                            <td class="text-right">1,014,500 ₫</td>
-                                            <td class=""><a><i class="fa fa-trash"></i></a></td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <div class="status-component">
+                                                        <%if (order.getDelivered() == 0) { %>
+                                                        <span
+                                                                class="circle-status mr-2 circle-status-cancel"></span><span
+                                                            class="badges--order-status-cancel">
+                                                                    Đã xác nhận</span>
+                                                        <% } else { %>
+                                                        <span
+                                                                class="circle-status mr-2 circle-status-complete"></span><span
+                                                            class="badges--carrier-status-4">
+                                                                    Chưa xác nhận</span>
+                                                        <% }%>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-right"><%=formatter.format(order.getTotal())%>
+                                            </td>
+                                            <td>
+                                                <a style="cursor: pointer" class="remove"
+                                                   id="remove<%=order.getOrd_id()%>">
+                                                    <i class="fa fa-trash" style="color: red"></i>
+                                                </a>
+                                            </td>
                                         </tr>
+                                        <% }
+                                        }%>
                                         </tbody>
                                     </table>
                                 </div>
                                 <nav class="text-right">
                                     <ul class="pagination">
                                         <li class="page-item">
-                                            <a class="page-link" style="text-decoration: none;" id="btn_prev"> Trước </a>
+                                            <a class="page-link" style="text-decoration: none;" id="btn_prev">
+                                                Trước </a>
                                         </li>
                                         <li class="page-item active">
                                             <a class="page-link" id="page" href="#" style="text-decoration: none;">1</a>
