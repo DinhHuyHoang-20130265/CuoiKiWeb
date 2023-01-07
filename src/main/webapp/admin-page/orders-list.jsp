@@ -246,9 +246,10 @@
                                             <td class="text-right"><%=formatter.format(order.getTotal())%>
                                             </td>
                                             <td>
-                                                <a style="cursor: pointer" class="remove"
+                                                <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
+                                                   data-target="#confirm-modal"
                                                    id="remove<%=order.getOrd_id()%>">
-                                                    <i class="fa fa-trash" style="color: red"></i>
+                                                    <i class="fa fa-trash-o"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -288,7 +289,7 @@
                         <p>Bạn có chắc muốn xoá đơn hàng này ?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary yes" data-dismiss="modal">
+                        <button type="button" id="yesButton" class="btn btn-primary" data-dismiss="modal">
                             Có
                         </button>
                         <button type="button" class="btn btn-secondary no" data-dismiss="modal">
@@ -346,7 +347,9 @@
             const order = $("#filter").find(':selected').val();
             $(this).on("click", function (e) {
                 e.preventDefault();
-                $("button[type='button'].yes").on("click", function () {
+                console.log("gonna delete")
+                $("#yesButton").click(function () {
+                    console.log("deleted")
                     $.ajax({
                         url: "/CuoiKiWeb_war/DeleteOrderController",
                         type: "post",
@@ -358,6 +361,7 @@
                         },
                         success: function (data) {
                             $("#appendItem").html(data);
+                            deleteOrder();
                         }
                     })
                 })
@@ -386,6 +390,7 @@
     }
 
     $(document).ready(function () {
+        deleteOrder();
         $("#filter").change(function (e) {
             filterAdmin(e);
             deleteOrder();

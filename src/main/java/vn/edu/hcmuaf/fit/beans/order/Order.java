@@ -7,7 +7,7 @@ public class Order implements Serializable {
     private String ord_date;
     private int status;
     private int payment_method;
-    private  int payment_status;
+    private int payment_status;
     private int delivered;
     private double total;
     private String delivery_date;

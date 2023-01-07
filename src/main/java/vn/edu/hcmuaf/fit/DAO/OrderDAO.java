@@ -50,7 +50,7 @@ public class OrderDAO {
         String date_3days = (java.time.LocalDate.now().plusDays(3)).toString();
         JDBIConnector.get().withHandle(handle -> {
             handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, payment_status, delivered, total, delivery_date, address," +
-                            "receive_name, email, phone_number, note, customer_id) VALUES(?,?,1,?,0,-1,?,?,?,?,?,?,?,? )")
+                            "receive_name, email, phone_number, note, customer_id) VALUES(?,?,0,?,0,-1,?,?,?,?,?,?,?,? )")
                     .bind(0, ord_id)
                     .bind(1, date)
                     .bind(2, payment_method)
@@ -90,7 +90,7 @@ public class OrderDAO {
     }
 
     public List<Order> getOrderListCondition(String page, String orderBy, String search) {
-        String sql = "SELECT o.ord_id, o.ord_date, o.status, " + "o.payment_method, o.delivered, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" + " FROM orders o ";
+        String sql = "SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note FROM orders o ";
         if (search != null) {
             if (search.length() > 0) {
                 sql += " WHERE o.ord_id LIKE '%" + search + "%'";
@@ -128,7 +128,7 @@ public class OrderDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getOrderListCondition("1", "0", null));
+        System.out.println(new OrderDAO().getOrderListCondition("1", "0", null).get(0));
 
     }
 }
