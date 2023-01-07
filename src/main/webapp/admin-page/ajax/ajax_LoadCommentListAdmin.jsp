@@ -38,12 +38,6 @@
             <div class="sales" style="text-align: center">#<%=comment.getComment_id()%>
             </div>
         </div>
-        <div class="item-col item-col-category no-overflow" style="text-align: center">
-            <div class="item-heading">Lượt thích</div>
-            <div class="no-overflow">
-                <a>1</a>
-            </div>
-        </div>
         <div class="item-col item-col-author" style="text-align: center;margin: 0 20px;">
             <div class="item-heading">Trạng Thái</div>
             <div class="no-overflow" style="text-align: center">
@@ -53,7 +47,7 @@
                 <a> Đã Ẩn </a>
                 <%}%>
             </div>
-            <input type="text" id="status" value="<%=comment.getComment_status()%>"
+            <input type="text" id="status<%=comment.getComment_id()%>" value="<%=comment.getComment_status()%>"
                    style="display: none">
         </div>
         <div class="item-col item-col-date" style="text-align: center;margin: 0 50px;">
@@ -89,7 +83,7 @@
                             <a class="toggle" id="toggle<%=comment.getComment_id()%>" style="cursor: pointer">
                                 <%
                                     if (comment.getComment_status() == 1) { %>
-                                <i class="fa fa-toggle-off" style="color: #0b3d88"></i>
+                                <i class="fa fa-toggle-off" style="color: red"></i>
                                 <% } else { %>
                                 <i class="fa fa-toggle-on" style="color: green"></i>
                                 <%} %>

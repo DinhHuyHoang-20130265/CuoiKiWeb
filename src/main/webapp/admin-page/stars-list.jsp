@@ -303,12 +303,13 @@
                                 <div class="item-col item-col-author">
                                     <div class="item-heading">Trạng Thái</div>
                                     <div class="no-overflow" style="text-align: center">
-                                        <%if (list.get(i).getReview_status() == 1) {%>
+                                        <% if (list.get(i).getReview_status() == 1) {%>
                                         <a> Hiển thị </a>
                                         <%} else {%>
                                         <a> Đã Ẩn </a>
                                         <%}%>
-                                        <input type="text" id="status" value="<%=list.get(i).getReview_status()%>"
+                                        <input type="text" id="status<%=list.get(i).getReview_id()%>"
+                                               value="<%=list.get(i).getReview_status()%>"
                                                style="display: none">
                                     </div>
                                 </div>
@@ -458,12 +459,13 @@
             $thisActionList.toggleClass('active');
         });
     }
+
     function toggle() {
         $(".toggle").each(function () {
             $(this).click(function (e) {
                 e.preventDefault();
                 const id = $(this).attr("id").substring(6);
-                const status = $("#status").val();
+                const status = $("#status" + id).val();
                 console.log(status);
                 $.ajax({
                     url: "/CuoiKiWeb_war/StatusReviewControllerAdmin",
@@ -475,16 +477,15 @@
                     success: function () {
                         if (status === "0") {
                             $("#toggle" + id + " i").remove()
-                            $("#toggle" + id).append(`<i class="fa fa-toggle-off" style="color: #0b3d88"></i>`)
+                            $("#toggle" + id).append(`<i class="fa fa-toggle-off" style="color: red"></i>`)
                             $("#item" + id + " .item-col-author .no-overflow a").text("Hiển thị");
-                            $("#status").val("1");
+                            $("#status" + id).val("1");
                         } else {
                             $("#toggle" + id + " i").remove()
                             $("#toggle" + id).append(`<i class="fa fa-toggle-on" style="color: green"></i>`)
                             $("#item" + id + " .item-col-author .no-overflow a").text("Đã Ẩn");
-                            $("#status").val("0");
+                            $("#status" + id).val("0");
                         }
-                        reloadScript();
                     }
                 })
             });

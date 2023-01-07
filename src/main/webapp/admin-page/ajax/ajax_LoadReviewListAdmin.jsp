@@ -66,7 +66,9 @@
                 <a> Đã Ẩn </a>
                 <%}%>
             </div>
-
+            <input type="text" id="status<%=review.getReview_id()%>"
+                   value="<%=review.getReview_status()%>"
+                   style="display: none">
         </div>
         <div class="item-col item-col-date">
             <div class="item-heading">Ngày thêm</div>
@@ -102,7 +104,7 @@
                                style="cursor: pointer">
                                 <%
                                     if (review.getReview_status() == 1) { %>
-                                <i class="fa fa-toggle-off" style="color: #0b3d88"></i>
+                                <i class="fa fa-toggle-off" style="color: red"></i>
                                 <% } else { %>
                                 <i class="fa fa-toggle-on" style="color: green"></i>
                                 <%} %>
