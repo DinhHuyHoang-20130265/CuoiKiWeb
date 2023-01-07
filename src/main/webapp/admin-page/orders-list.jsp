@@ -9,6 +9,7 @@
     <title>Trang Quản Lý</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
     <!-- Place favicon.ico in the root directory -->
     <link rel="stylesheet" href="css/vendor.css"/>
     <link rel="stylesheet" href="css/orders-list.css"/>
@@ -86,15 +87,6 @@
                             <a class="omni-tab omni-tab-selected"><span class="text-black">Tất cả đơn
                                         hàng</span></a>
                         </li>
-                        <li class="omni-tab-container">
-                            <a class="omni-tab false"><span class="text-black">Đơn hàng mới</span></a>
-                        </li>
-                        <li class="omni-tab-container">
-                            <a class="omni-tab false"><span class="text-black">Chưa giao hàng</span></a>
-                        </li>
-                        <li class="omni-tab-container">
-                            <a class="omni-tab false"><span class="text-black">Chưa thanh toán</span></a>
-                        </li>
                     </ul>
                     <div class="p-4">
                         <div class="row no-gutters">
@@ -103,18 +95,12 @@
                                     <div class="row no-gutters">
                                         <div class="col-auto pr-3">
                                             <div class="filter-options__childrent__dropdown__menu">
-                                                <svg class="svg-next-icon svg-next-icon-size-14" width="14"
-                                                     height="14">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 459 459">
-                                                        <g>
-                                                            <path
-                                                                    d="M178.5,382.5h102v-51h-102V382.5z M0,76.5v51h459v-51H0z M76.5,255h306v-51h-306V255z">
-                                                            </path>
-                                                        </g>
-                                                    </svg>
-                                                </svg>
-                                                <span class="ml-3 d-none d-sm-inline-block">Thêm
-                                                        điều kiện lọc</span>
+                                                <select class="form-select" aria-label="Default select example">
+                                                    <option value="0" selected>Sắp xếp theo: Ngày tạo gần nhất</option>
+                                                    <option value="1">Ngày tạo cũ nhất</option>
+                                                    <option value="2">Giá trị nhỏ dần</option>
+                                                    <option value="3">Giá trị lớn dần</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -153,28 +139,12 @@
                                                             class="hrv-next-label--switch hrv-next-label--empty"></label>
                                                 </div>
                                             </th>
-                                            <th class="has-bulk-actions table-header--check">
-                                                <div class="hrv-next-input-checkbox z-index-20">
-                                                    <label class="hrv-next-label--switch hrv-next-label--empty"
-                                                           for="check-all"></label><input id="check-all"
-                                                                                          type="checkbox"
-                                                                                          class="hrv-next-checkbox"/><span
-                                                        class="hrv-next-checkbox--styled"><span
-                                                        class="hrv-svg-next-icon hrv-checkmark"><svg
-                                                        class="hrv-svg-inline-block" width="10px"
-                                                        height="10px" viewBox="0 0 26 26">
-                                                                        <path
-                                                                                d="m.3,14c-0.2-0.2-0.3-0.5-0.3-0.7s0.1-0.5 0.3-0.7l1.4-1.4c0.4-0.4 1-0.4 1.4,0l.1,.1 5.5,5.9c0.2,0.2 0.5,0.2 0.7,0l13.4-13.9h0.1v-8.88178e-16c0.4-0.4 1-0.4 1.4,0l1.4,1.4c0.4,0.4 0.4,1 0,1.4l0,0-16,16.6c-0.2,0.2-0.4,0.3-0.7,0.3-0.3,0-0.5-0.1-0.7-0.3l-7.8-8.4-.2-.3z">
-                                                                        </path>
-                                                                    </svg></span></span>
-                                                </div>
-                                            </th>
                                             <th class="table-header--id"><span>Mã</span></th>
                                             <th class="table-header--datetime">
                                                 <span>Ngày tạo</span>
                                             </th>
                                             <th class="table-header--name">
-                                                <span>Khách hàng</span>
+                                                <span>Tài khoản</span>
                                             </th>
                                             <th class="table-header--status">
                                                 <span id="cspot-orders-trangthaithanhtoan">Thanh toán</span>
@@ -183,32 +153,24 @@
                                                 <span id="cspot-orders-trangthaigiaohang">Giao hàng</span>
                                             </th>
                                             <th class="table-header--status">
-                                                <span>Thanh toán</span>
+                                                <span>Phương thức</span>
                                             </th>
                                             <th class="table-header--money">
                                                 <span>Tổng tiền</span>
                                             </th>
-                                            <th class="table-header--status">
-                                                <span>Kênh</span>
+                                            <th class="table-header--money">
+                                                <span></span>
                                             </th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr class="">
+                                        <tr class="ITEM1">
                                             <td class="cursor-pointer">
                                                 <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
                                                      width="20" height="20">
                                                 </svg>
                                             </td>
                                             <td class="checkbox-select">
-                                                <div class="hrv-next-input-checkbox">
-                                                    <label class="hrv-next-label--switch hrv-next-label--empty"
-                                                           for="1357340153"></label><input id="1357340153"
-                                                                                           type="checkbox"
-                                                                                           class="hrv-next-checkbox"/><span
-                                                        class="hrv-next-checkbox--styled"><span
-                                                        class="hrv-svg-next-icon hrv-checkmark"></span></span>
-                                                </div>
                                             </td>
                                             <td class="no-wrap pl-0">
                                                 <a class="" href="order-details.jsp">#110417</a>
@@ -224,7 +186,7 @@
                                                                     </svg></svg></span>
                                                 </div>
                                             </td>
-                                            <td class=" ">Hôm nay 07:51 SA</td>
+                                            <td class="">Hôm nay 07:51</td>
                                             <td class="max-width-200px">
                                                 <div class="trigger">
                                                             <span>
@@ -257,432 +219,20 @@
                                             </td>
                                             <td></td>
                                             <td class="text-right">1,014,500 ₫</td>
-                                            <td class=" ">Web</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="10" class="py-0"></td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="cursor-pointer">
-                                                <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
-                                                     width="20" height="20">
-                                                </svg>
-                                            </td>
-                                            <td class="checkbox-select">
-                                                <div class="hrv-next-input-checkbox">
-                                                    <label class="hrv-next-label--switch hrv-next-label--empty"
-                                                           for="1357340153"></label><input id="1357340153"
-                                                                                           type="checkbox"
-                                                                                           class="hrv-next-checkbox"/><span
-                                                        class="hrv-next-checkbox--styled"><span
-                                                        class="hrv-svg-next-icon hrv-checkmark"></span></span>
-                                                </div>
-                                            </td>
-                                            <td class="no-wrap pl-0">
-                                                <a class="" href="order-details.jsp">#110417</a>
-                                                <div class="d-inline-block">
-                                                            <span class="ml-1"><svg
-                                                                    class="svg-next-icon ui-icon--notes position-top-minus-one svg-next-icon-size-14"
-                                                                    width="14" height="14">
-                                                                    <svg
-                                                                            viewBox="0 0 20 20">
-                                                                        <path
-                                                                                d="M6 11V9h8v2H6zm0 4v-2h8v2H6zm0-8V5h4v2H6zm9.707-1.707l-3-3C12.52 2.105 12.267 2 12 2H5c-.553 0-1 .448-1 1v14c0 .552.447 1 1 1h10c.553 0 1-.448 1-1V6c0-.265-.105-.52-.293-.707z">
-                                                                        </path>
-                                                                    </svg></svg></span>
-                                                </div>
-                                            </td>
-                                            <td class=" ">Hôm nay 07:51 SA</td>
-                                            <td class="max-width-200px">
-                                                <div class="trigger">
-                                                            <span>
-                                                                <div class="order_list_customer">
-                                                                    <p class="mb-0 px-2 align-items-center word-break">
-                                                                        <span class="omni-shorten-text"
-                                                                              title="nguyenhien">nguyenhien</span>
-                                                                    </p>
-                                                                </div>
-                                                            </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="status-component">
-                                                            <span
-                                                                    class="circle-status mr-2 circle-status-1"></span><span
-                                                        class="badges--order-payment-status-5">
-                                                                Chờ xử lý</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <div class="status-component">
-                                                                <span
-                                                                        class="circle-status mr-2 circle-status-shipment_notyet"></span><span
-                                                            class="badges--carrier-status-7">
-                                                                    Chưa giao hàng</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td class="text-right">1,014,500 ₫</td>
-                                            <td class=" ">Web</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="10" class="py-0"></td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="cursor-pointer">
-                                                <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
-                                                     width="20" height="20">
-                                                </svg>
-                                            </td>
-                                            <td class="checkbox-select">
-                                                <div class="hrv-next-input-checkbox">
-                                                    <label class="hrv-next-label--switch hrv-next-label--empty"
-                                                           for="1357340153"></label><input id="1357340153"
-                                                                                           type="checkbox"
-                                                                                           class="hrv-next-checkbox"/><span
-                                                        class="hrv-next-checkbox--styled"><span
-                                                        class="hrv-svg-next-icon hrv-checkmark"></span></span>
-                                                </div>
-                                            </td>
-                                            <td class="no-wrap pl-0">
-                                                <a class="" href="order-details.jsp">#110417</a>
-                                                <div class="d-inline-block">
-                                                            <span class="ml-1"><svg
-                                                                    class="svg-next-icon ui-icon--notes position-top-minus-one svg-next-icon-size-14"
-                                                                    width="14" height="14">
-                                                                    <svg
-                                                                            viewBox="0 0 20 20">
-                                                                        <path
-                                                                                d="M6 11V9h8v2H6zm0 4v-2h8v2H6zm0-8V5h4v2H6zm9.707-1.707l-3-3C12.52 2.105 12.267 2 12 2H5c-.553 0-1 .448-1 1v14c0 .552.447 1 1 1h10c.553 0 1-.448 1-1V6c0-.265-.105-.52-.293-.707z">
-                                                                        </path>
-                                                                    </svg></svg></span>
-                                                </div>
-                                            </td>
-                                            <td class=" ">Hôm nay 07:51 SA</td>
-                                            <td class="max-width-200px">
-                                                <div class="trigger">
-                                                            <span>
-                                                                <div class="order_list_customer">
-                                                                    <p class="mb-0 px-2 align-items-center word-break">
-                                                                        <span class="omni-shorten-text"
-                                                                              title="nguyenhien">nguyenhien</span>
-                                                                    </p>
-                                                                </div>
-                                                            </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="status-component">
-                                                            <span
-                                                                    class="circle-status mr-2 circle-status-1"></span><span
-                                                        class="badges--order-payment-status-5">
-                                                                Chờ xử lý</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <div class="status-component">
-                                                                <span
-                                                                        class="circle-status mr-2 circle-status-shipment_notyet"></span><span
-                                                            class="badges--carrier-status-7">
-                                                                    Chưa giao hàng</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td class="text-right">1,014,500 ₫</td>
-                                            <td class=" ">Web</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="10" class="py-0"></td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="cursor-pointer">
-                                                <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
-                                                     width="20" height="20">
-                                                </svg>
-                                            </td>
-                                            <td class="checkbox-select">
-                                                <div class="hrv-next-input-checkbox">
-                                                    <label class="hrv-next-label--switch hrv-next-label--empty"
-                                                           for="1357340153"></label><input id="1357340153"
-                                                                                           type="checkbox"
-                                                                                           class="hrv-next-checkbox"/><span
-                                                        class="hrv-next-checkbox--styled"><span
-                                                        class="hrv-svg-next-icon hrv-checkmark"></span></span>
-                                                </div>
-                                            </td>
-                                            <td class="no-wrap pl-0">
-                                                <a class="" href="order-details.jsp">#110417</a>
-                                                <div class="d-inline-block">
-                                                            <span class="ml-1"><svg
-                                                                    class="svg-next-icon ui-icon--notes position-top-minus-one svg-next-icon-size-14"
-                                                                    width="14" height="14">
-                                                                    <svg
-                                                                            viewBox="0 0 20 20">
-                                                                        <path
-                                                                                d="M6 11V9h8v2H6zm0 4v-2h8v2H6zm0-8V5h4v2H6zm9.707-1.707l-3-3C12.52 2.105 12.267 2 12 2H5c-.553 0-1 .448-1 1v14c0 .552.447 1 1 1h10c.553 0 1-.448 1-1V6c0-.265-.105-.52-.293-.707z">
-                                                                        </path>
-                                                                    </svg></svg></span>
-                                                </div>
-                                            </td>
-                                            <td class=" ">Hôm nay 07:51 SA</td>
-                                            <td class="max-width-200px">
-                                                <div class="trigger">
-                                                            <span>
-                                                                <div class="order_list_customer">
-                                                                    <p class="mb-0 px-2 align-items-center word-break">
-                                                                        <span class="omni-shorten-text"
-                                                                              title="nguyenhien">nguyenhien</span>
-                                                                    </p>
-                                                                </div>
-                                                            </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="status-component">
-                                                            <span
-                                                                    class="circle-status mr-2 circle-status-1"></span><span
-                                                        class="badges--order-payment-status-5">
-                                                                Chờ xử lý</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <div class="status-component">
-                                                                <span
-                                                                        class="circle-status mr-2 circle-status-shipment_notyet"></span><span
-                                                            class="badges--carrier-status-7">
-                                                                    Chưa giao hàng</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td class="text-right">1,014,500 ₫</td>
-                                            <td class=" ">Web</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="10" class="py-0"></td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="cursor-pointer">
-                                                <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
-                                                     width="20" height="20">
-                                                </svg>
-                                            </td>
-                                            <td class="checkbox-select">
-                                                <div class="hrv-next-input-checkbox">
-                                                    <label class="hrv-next-label--switch hrv-next-label--empty"
-                                                           for="1357340153"></label><input id="1357340153"
-                                                                                           type="checkbox"
-                                                                                           class="hrv-next-checkbox"/><span
-                                                        class="hrv-next-checkbox--styled"><span
-                                                        class="hrv-svg-next-icon hrv-checkmark"></span></span>
-                                                </div>
-                                            </td>
-                                            <td class="no-wrap pl-0">
-                                                <a class="" href="order-details.jsp">#110417</a>
-                                                <div class="d-inline-block">
-                                                            <span class="ml-1"><svg
-                                                                    class="svg-next-icon ui-icon--notes position-top-minus-one svg-next-icon-size-14"
-                                                                    width="14" height="14">
-                                                                    <svg
-                                                                            viewBox="0 0 20 20">
-                                                                        <path
-                                                                                d="M6 11V9h8v2H6zm0 4v-2h8v2H6zm0-8V5h4v2H6zm9.707-1.707l-3-3C12.52 2.105 12.267 2 12 2H5c-.553 0-1 .448-1 1v14c0 .552.447 1 1 1h10c.553 0 1-.448 1-1V6c0-.265-.105-.52-.293-.707z">
-                                                                        </path>
-                                                                    </svg></svg></span>
-                                                </div>
-                                            </td>
-                                            <td class=" ">Hôm nay 07:51 SA</td>
-                                            <td class="max-width-200px">
-                                                <div class="trigger">
-                                                            <span>
-                                                                <div class="order_list_customer">
-                                                                    <p class="mb-0 px-2 align-items-center word-break">
-                                                                        <span class="omni-shorten-text"
-                                                                              title="nguyenhien">nguyenhien</span>
-                                                                    </p>
-                                                                </div>
-                                                            </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="status-component">
-                                                            <span
-                                                                    class="circle-status mr-2 circle-status-1"></span><span
-                                                        class="badges--order-payment-status-5">
-                                                                Chờ xử lý</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <div class="status-component">
-                                                                <span
-                                                                        class="circle-status mr-2 circle-status-shipment_notyet"></span><span
-                                                            class="badges--carrier-status-7">
-                                                                    Chưa giao hàng</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td class="text-right">1,014,500 ₫</td>
-                                            <td class=" ">Web</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="10" class="py-0"></td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="cursor-pointer">
-                                                <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
-                                                     width="20" height="20">
-                                                </svg>
-                                            </td>
-                                            <td class="checkbox-select">
-                                                <div class="hrv-next-input-checkbox">
-                                                    <label class="hrv-next-label--switch hrv-next-label--empty"
-                                                           for="1357340153"></label><input id="1357340153"
-                                                                                           type="checkbox"
-                                                                                           class="hrv-next-checkbox"/><span
-                                                        class="hrv-next-checkbox--styled"><span
-                                                        class="hrv-svg-next-icon hrv-checkmark"></span></span>
-                                                </div>
-                                            </td>
-                                            <td class="no-wrap pl-0">
-                                                <a class="" href="order-details.jsp">#110417</a>
-                                                <div class="d-inline-block">
-                                                            <span class="ml-1"><svg
-                                                                    class="svg-next-icon ui-icon--notes position-top-minus-one svg-next-icon-size-14"
-                                                                    width="14" height="14">
-                                                                    <svg
-                                                                            viewBox="0 0 20 20">
-                                                                        <path
-                                                                                d="M6 11V9h8v2H6zm0 4v-2h8v2H6zm0-8V5h4v2H6zm9.707-1.707l-3-3C12.52 2.105 12.267 2 12 2H5c-.553 0-1 .448-1 1v14c0 .552.447 1 1 1h10c.553 0 1-.448 1-1V6c0-.265-.105-.52-.293-.707z">
-                                                                        </path>
-                                                                    </svg></svg></span>
-                                                </div>
-                                            </td>
-                                            <td class=" ">Hôm nay 07:51 SA</td>
-                                            <td class="max-width-200px">
-                                                <div class="trigger">
-                                                            <span>
-                                                                <div class="order_list_customer">
-                                                                    <p class="mb-0 px-2 align-items-center word-break">
-                                                                        <span class="omni-shorten-text"
-                                                                              title="nguyenhien">nguyenhien</span>
-                                                                    </p>
-                                                                </div>
-                                                            </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="status-component">
-                                                            <span
-                                                                    class="circle-status mr-2 circle-status-1"></span><span
-                                                        class="badges--order-payment-status-5">
-                                                                Chờ xử lý</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <div class="status-component">
-                                                                <span
-                                                                        class="circle-status mr-2 circle-status-shipment_notyet"></span><span
-                                                            class="badges--carrier-status-7">
-                                                                    Chưa giao hàng</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td class="text-right">1,014,500 ₫</td>
-                                            <td class=" ">Web</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="10" class="py-0"></td>
-                                        </tr>
-                                        <tr class="">
-                                            <td class="cursor-pointer">
-                                                <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
-                                                     width="20" height="20">
-                                                </svg>
-                                            </td>
-                                            <td class="checkbox-select">
-                                                <div class="hrv-next-input-checkbox">
-                                                    <label class="hrv-next-label--switch hrv-next-label--empty"
-                                                           for="1357340153"></label><input id="1357340153"
-                                                                                           type="checkbox"
-                                                                                           class="hrv-next-checkbox"/><span
-                                                        class="hrv-next-checkbox--styled"><span
-                                                        class="hrv-svg-next-icon hrv-checkmark"></span></span>
-                                                </div>
-                                            </td>
-                                            <td class="no-wrap pl-0">
-                                                <a class="" href="order-details.jsp">#110417</a>
-                                                <div class="d-inline-block">
-                                                            <span class="ml-1"><svg
-                                                                    class="svg-next-icon ui-icon--notes position-top-minus-one svg-next-icon-size-14"
-                                                                    width="14" height="14">
-                                                                    <svg
-                                                                            viewBox="0 0 20 20">
-                                                                        <path
-                                                                                d="M6 11V9h8v2H6zm0 4v-2h8v2H6zm0-8V5h4v2H6zm9.707-1.707l-3-3C12.52 2.105 12.267 2 12 2H5c-.553 0-1 .448-1 1v14c0 .552.447 1 1 1h10c.553 0 1-.448 1-1V6c0-.265-.105-.52-.293-.707z">
-                                                                        </path>
-                                                                    </svg></svg></span>
-                                                </div>
-                                            </td>
-                                            <td class=" ">Hôm nay 07:51 SA</td>
-                                            <td class="max-width-200px">
-                                                <div class="trigger">
-                                                            <span>
-                                                                <div class="order_list_customer">
-                                                                    <p class="mb-0 px-2 align-items-center word-break">
-                                                                        <span class="omni-shorten-text"
-                                                                              title="nguyenhien">nguyenhien</span>
-                                                                    </p>
-                                                                </div>
-                                                            </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="status-component">
-                                                            <span
-                                                                    class="circle-status mr-2 circle-status-1"></span><span
-                                                        class="badges--order-payment-status-5">
-                                                                Chờ xử lý</span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex">
-                                                    <div class="status-component">
-                                                                <span
-                                                                        class="circle-status mr-2 circle-status-shipment_notyet"></span><span
-                                                            class="badges--carrier-status-7">
-                                                                    Chưa giao hàng</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td></td>
-                                            <td class="text-right">1,014,500 ₫</td>
-                                            <td class=" ">Web</td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="10" class="py-0"></td>
+                                            <td class=""><a><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                <nav class="text-right" style="margin-top:10px;margin-right: 10px;">
+                                <nav class="text-right">
                                     <ul class="pagination">
                                         <li class="page-item">
-                                            <a class="page-link" href="javascript:prevPage()" id="btn_prev"> Trước </a>
+                                            <a class="page-link" style="text-decoration: none;" id="btn_prev"> Trước </a>
                                         </li>
                                         <li class="page-item active">
-                                            <a class="page-link" id="page" href="#"> 1 </a>
+                                            <a class="page-link" id="page" href="#" style="text-decoration: none;">1</a>
                                         </li>
-                                        <a class="page-link" href="javascript:nextPage()" id="btn_next"> Kế tiếp </a>
-                                        </li>
+                                        <a class="page-link" id="btn_next" style="text-decoration: none;"> Kế tiếp </a>
                                     </ul>
                                 </nav>
                             </div>

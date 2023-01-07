@@ -193,32 +193,32 @@
                                     <span></span>
                                 </label>
                             </div>
-                            <div class="item-col item-col-header fixed item-col-img md" style="min-width: 120px; text-align: center;margin: 0 50px;">
+                            <div class="item-col item-col-header fixed item-col-img md"
+                                 style="min-width: 120px; text-align: center;margin: 0 50px;">
                                 <div>
                                     <span>Mã tin tức</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-title" style="padding: 0 !important;max-width: 200px !important; text-align: center" >
+                            <div class="item-col item-col-header item-col-title"
+                                 style="padding: 0 !important;max-width: 200px !important; text-align: center">
                                 <div>
                                     <span>Người bình luận</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-sales" style="text-align: center;margin: 0 50px;">
+                            <div class="item-col item-col-header item-col-sales"
+                                 style="text-align: center;margin: 0 50px;">
                                 <div>
                                     <span>Mã bình luận</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-category" style="text-align: center">
-                                <div class="no-overflow">
-                                    <span>Lượt thích</span>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-header item-col-author" style="text-align: center;margin: 0 20px;">
+                            <div class="item-col item-col-header item-col-author"
+                                 style="text-align: center;margin: 0 20px;">
                                 <div class="no-overflow">
                                     <span>Trạng thái</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-date" style="text-align: center;margin: 0 50px;">
+                            <div class="item-col item-col-header item-col-date"
+                                 style="text-align: center;margin: 0 50px;">
                                 <div>
                                     <span>Ngày thêm</span>
                                 </div>
@@ -243,10 +243,12 @@
                                         <span></span>
                                     </label>
                                 </div>
-                                <div class="item-col fixed item-col-img md" style="justify-content: center;min-width: 120px;margin: 0 50px;">
+                                <div class="item-col fixed item-col-img md"
+                                     style="justify-content: center;min-width: 120px;margin: 0 50px;">
                                     <span>#<%=list.get(i).getNews_id()%></span>
                                 </div>
-                                <div class="item-col fixed pull-left item-col-title" style="padding: 0 !important; max-width: 200px; text-align: center;">
+                                <div class="item-col fixed pull-left item-col-title"
+                                     style="padding: 0 !important; max-width: 200px; text-align: center;">
                                     <div class="item-heading">Người bình luận</div>
                                     <div>
                                         <a>
@@ -260,12 +262,6 @@
                                     <div class="sales" style="text-align: center">#<%=list.get(i).getComment_id()%>
                                     </div>
                                 </div>
-                                <div class="item-col item-col-category no-overflow" style="text-align: center">
-                                    <div class="item-heading">Lượt thích</div>
-                                    <div class="no-overflow">
-                                        <a>1</a>
-                                    </div>
-                                </div>
                                 <div class="item-col item-col-author" style="text-align: center;margin: 0 20px;">
                                     <div class="item-heading">Trạng Thái</div>
                                     <div class="no-overflow" style="text-align: center">
@@ -275,7 +271,8 @@
                                         <a> Đã Ẩn </a>
                                         <%}%>
                                     </div>
-                                    <input type="text" id="status" value="<%=list.get(i).getComment_status()%>"
+                                    <input type="text" id="status<%=list.get(i).getComment_id()%>"
+                                           value="<%=list.get(i).getComment_status()%>"
                                            style="display: none">
                                 </div>
                                 <div class="item-col item-col-date" style="text-align: center;margin: 0 50px;">
@@ -430,7 +427,7 @@
             $(this).click(function (e) {
                 e.preventDefault();
                 const id = $(this).attr("id").substring(6);
-                const status = $("#status").val();
+                const status = $("#status" + id).val();
                 console.log(status);
                 $.ajax({
                     url: "/CuoiKiWeb_war/StatusCommentControllerAdmin",
@@ -442,16 +439,15 @@
                     success: function () {
                         if (status === "0") {
                             $("#toggle" + id + " i").remove()
-                            $("#toggle" + id).append(`<i class="fa fa-toggle-off" style="color: #0b3d88"></i>`)
+                            $("#toggle" + id).append(`<i class="fa fa-toggle-off" style="color: red"></i>`)
                             $("#item" + id + " .item-col-author .no-overflow a").text("Hiển thị");
-                            $("#status").val("1");
+                            $("#status" + id).val("1");
                         } else {
                             $("#toggle" + id + " i").remove()
                             $("#toggle" + id).append(`<i class="fa fa-toggle-on" style="color: green"></i>`)
                             $("#item" + id + " .item-col-author .no-overflow a").text("Đã Ẩn");
-                            $("#status").val("0");
+                            $("#status" + id).val("0");
                         }
-                        reloadScript();
                     }
                 })
             });

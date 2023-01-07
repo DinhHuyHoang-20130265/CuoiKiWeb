@@ -107,7 +107,7 @@ public class ProductReviewDAO {
     }
 
     public List<ProductReview> loadAllReviewByPage(int page) {
-        List<ProductReview> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review")
+        List<ProductReview> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review ")
                 .mapToBean(ProductReview.class)
                 .stream().collect(Collectors.toList())
         );
