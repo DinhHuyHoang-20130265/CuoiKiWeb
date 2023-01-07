@@ -1,6 +1,10 @@
 package vn.edu.hcmuaf.fit.DAO;
 
+import vn.edu.hcmuaf.fit.beans.order.OrderDetail;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderDetailDAO {
     public void insertOrderDetail(String ord_id, String prod_id, String prod_name, String prod_color,
@@ -22,5 +26,13 @@ public class OrderDetailDAO {
                     .execute();
             return null;
         });
+    }
+    public List<OrderDetail> getListDetailsFromOrdId(String id) {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.prod_id, o.prod_name, o.prod_color, o.prod_size, o.quantity, o.price" +
+                        " FROM order_details o WHERE o.ord_id =?")
+                .bind(0, id)
+                .mapToBean(OrderDetail.class)
+                .stream().collect(Collectors.toList())
+        );
     }
 }

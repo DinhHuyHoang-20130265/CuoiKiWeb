@@ -95,6 +95,17 @@
                                 </li>
                             </ul>
                         </li>
+                        <li>
+                            <a href="#"> Slide trang chủ <i class="fa arrow"></i></a>
+                            <ul class="sidebar-nav">
+                                <li>
+                                    <a href="slide-list.jsp"> Danh sách slide </a>
+                                </li>
+                                <li>
+                                    <a href="slide-editor.jsp"> Chỉnh sửa slide </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li>

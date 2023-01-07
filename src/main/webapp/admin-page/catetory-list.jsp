@@ -44,17 +44,6 @@
         response.sendRedirect("login.jsp");
 
     } else {
-        AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
-        boolean check = false;
-        for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("category")) {
-                check = true;
-                break;
-            }
-        }
-        if (!check) {
-            response.sendRedirect("index.jsp");
-        } else {
 
 %>
 <div class="main-wrapper">
@@ -352,6 +341,5 @@
 
 </html>
 <%
-        }
     }
 %>
