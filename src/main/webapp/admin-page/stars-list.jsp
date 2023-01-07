@@ -254,7 +254,7 @@
                     <div id="appendItem">
                         <% if (list != null)
                             for (int i = 0; i < numb; i++) {%>
-                        <li class="item">
+                        <li class="item" id="item<%=list.get(i).getReview_id()%>">
                             <div class="item-row">
                                 <div class="item-col fixed item-col-check">
                                     <label class="item-check" id="select-all-items">
@@ -308,6 +308,8 @@
                                         <%} else {%>
                                         <a> Đã Ẩn </a>
                                         <%}%>
+                                        <input type="text" id="status" value="<%=list.get(i).getReview_status()%>"
+                                               style="display: none">
                                     </div>
                                 </div>
                                 <div class="item-col item-col-date">
@@ -456,6 +458,40 @@
             $thisActionList.toggleClass('active');
         });
     }
+    function toggle() {
+        $(".toggle").each(function () {
+            $(this).click(function (e) {
+                e.preventDefault();
+                const id = $(this).attr("id").substring(6);
+                const status = $("#status").val();
+                console.log(status);
+                $.ajax({
+                    url: "/CuoiKiWeb_war/StatusReviewControllerAdmin",
+                    type: "post",
+                    data: {
+                        id: id,
+                        status: status
+                    },
+                    success: function () {
+                        if (status === "0") {
+                            $("#toggle" + id + " i").remove()
+                            $("#toggle" + id).append(`<i class="fa fa-toggle-off" style="color: #0b3d88"></i>`)
+                            $("#item" + id + " .item-col-author .no-overflow a").text("Hiển thị");
+                            $("#status").val("1");
+                        } else {
+                            $("#toggle" + id + " i").remove()
+                            $("#toggle" + id).append(`<i class="fa fa-toggle-on" style="color: green"></i>`)
+                            $("#item" + id + " .item-col-author .no-overflow a").text("Đã Ẩn");
+                            $("#status").val("0");
+                        }
+                        reloadScript();
+                    }
+                })
+            });
+        })
+    }
+
+    toggle();
 
     function deleteReview() {
         $(".remove").each(function () {
@@ -537,6 +573,7 @@
                         deleteReview();
                         reloadScript();
                         info();
+                        toggle();
                     }
                 })
             }
@@ -557,6 +594,7 @@
                         deleteReview();
                         reloadScript();
                         info();
+                        toggle();
                     }
                 }
             })

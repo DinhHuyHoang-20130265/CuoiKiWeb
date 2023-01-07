@@ -126,15 +126,14 @@ public class NewsCommentDAO {
         return temp;
     }
 
-    public static void main(String[] args) {
-        System.out.println(new NewsCommentDAO().getAllCommentByPage(3));
-    }
-
     public void ChangeStatusComment(String id, String status) {
         JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE news_comment SET comment_status=? WHERE comment_id = ?")
                 .bind(0, status.equals("0") ? 1 : 0)
                 .bind(1, id)
                 .execute()
         );
+    }
+    public static void main(String[] args) {
+        System.out.println(new NewsCommentDAO().getAllCommentByPage(3));
     }
 }
