@@ -40,6 +40,16 @@ public class NewsDAO {
                 .first()
         );
     }
+    public void RemoveNews(String id) {
+            JDBIConnector.get().withHandle(handle -> {
+                        handle.createUpdate("DELETE FROM news WHERE news_id = ?")
+                                .bind(0, id)
+                                .execute();
+                        return true;
+                    }
+            );
+    }
+
     public static void main(String[] args) {
         System.out.println(new NewsDAO().loadAllNews());
     }

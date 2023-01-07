@@ -29,4 +29,9 @@ public class NewsService {
     public News getNewsById(String id) {
         return new NewsDAO().getNewsById(id);
     }
+
+    public void RemoveNews(String id) {
+        NewsDAO DAO = new NewsDAO();
+        DAO.RemoveNews(id);
+    }
 }

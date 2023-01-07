@@ -130,7 +130,6 @@
                         else numb = list.size();
                     %>
                     <div id="appendItem">
-<%--                    listNews                        --%>
                     <% if (list != null)
                         for (int i = 0; i < numb; i++) {%>
                     <li class="item" id="item<%=list.get(i).getNews_id()%>">
@@ -198,13 +197,21 @@
                                     </a>
                                     <div class="item-actions-block">
                                         <ul class="item-actions-list">
+                                        <li>
+                                            <a class="remove" id="remove<%=list.get(i).getNews_id()%>"
+                                               data-toggle="modal"
+                                               data-target="#confirm-modal" style="cursor: pointer">
+                                                <i class="fa fa-trash-o "></i>
+                                            </a>
+                                        </li>
                                             <li>
-                                                <a class="remove" href="#" data-toggle="modal" data-target="#confirm-modal">
-                                                    <i class="fa fa-trash-o "></i>
+                                                <a class="info" id="info<%=list.get(i).getNews_id()%>"
+                                                   style="cursor: pointer">
+                                                    <i class="fa fa-info-circle"></i>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="edit" href="post-editor.jsp">
+                                                <a class="edit" id="edit" href="post-editor.jsp">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
                                             </li>
@@ -297,7 +304,7 @@
             $thisActionList.toggleClass('active');
         });
     }
-    function deleteComment() {
+    function deleteNews() {
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
             const page = parseInt($("#page").text());
@@ -306,7 +313,7 @@
                 $("#yes").click(function () {
                     console.log("deleted")
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteCommentControllerAdmin",
+                        url: "/CuoiKiWeb_war/DeleteNewsControllerAdmin",
                         type: "post",
                         data: {
                             id: id,
@@ -322,7 +329,7 @@
         })
     }
 
-    deleteComment();
+    deleteNews();
 
     function info() {
         $(".info").each(function () {
@@ -330,7 +337,7 @@
                 e.preventDefault();
                 const id = $(this).attr("id").substring(4);
                 $.ajax({
-                    url: "/CuoiKiWeb_war/InfoCommentController",
+                    url: "/CuoiKiWeb_war/InfoNewsController",
                     type: "post",
                     data: {
                         id: id
@@ -349,7 +356,7 @@
             e.preventDefault();
             const id = $(this).attr("id").substring(4);
             $.ajax({
-                url: "/CuoiKiWeb_war/InfoCommentController",
+                url: "/CuoiKiWeb_war/InfoNewsController",
                 type: "post",
                 data: {
                     id: id
@@ -375,10 +382,9 @@
                     success: function (data) {
                         $("#appendItem").html(data);
                         $("#page").text(page)
-                        deleteComment();
+                        deleteNews();
                         reloadScript();
                         info();
-                        toggle();
                     }
                 })
             }
@@ -387,7 +393,7 @@
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadCommentListAdmin",
+                url: "/CuoiKiWeb_war/LoadNewsListAdmin",
                 type: "post",
                 data: {
                     page: page,
@@ -396,10 +402,9 @@
                     if ($.trim(data)) {
                         $("#appendItem").html(data);
                         $("#page").text(page)
-                        deleteComment();
+                        deleteNews();
                         reloadScript();
                         info();
-                        toggle();
                     }
                 }
             })

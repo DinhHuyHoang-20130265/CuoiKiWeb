@@ -66,12 +66,19 @@
                 <div class="item-actions-block">
                     <ul class="item-actions-list">
                         <li>
-                            <a class="remove" href="#" data-toggle="modal" data-target="#confirm-modal">
+                            <a class="remove" id="remove<%=news.getNews_id()%>"
+                               data-toggle="modal"
+                               data-target="#confirm-modal" style="cursor: pointer">
                                 <i class="fa fa-trash-o "></i>
                             </a>
                         </li>
                         <li>
-                            <a class="edit" href="post-editor.jsp">
+                            <a class="info" id="info<%=news.getNews_id()%>"
+                               style="cursor: pointer">
+                                <i class="fa fa-info-circle"></i>
+                            </a>
+                        </li>                        <li>
+                            <a class="edit" id="edit" href="post-editor.jsp">
                                 <i class="fa fa-pencil"></i>
                             </a>
                         </li>

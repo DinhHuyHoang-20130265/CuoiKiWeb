@@ -21,8 +21,8 @@ public class LoadNewsListAdminController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = request.getParameter("page");
-        List<News> news = NewsService.getInstance().getListNewsByPage(Integer.parseInt(page));
-        request.setAttribute("news", news);
+        List<News> loadNews = NewsService.getInstance().getListNewsByPage(Integer.parseInt(page));
+        request.setAttribute("loadNews", loadNews);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadNewsListAdminProduct.jsp").forward(request, response);
     }
 }
