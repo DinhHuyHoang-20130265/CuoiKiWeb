@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
 import vn.edu.hcmuaf.fit.beans.order.OrderDetail;
+import vn.edu.hcmuaf.fit.services.OrderDetailService;
 import vn.edu.hcmuaf.fit.services.OrderService;
 
 import javax.servlet.*;
@@ -19,7 +20,7 @@ public class QuickViewOrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("idToggle");
-        List<OrderDetail> list = OrderService.getInstance().getListDetailsFromOrdId(id);
+        List<OrderDetail> list = OrderDetailService.getInstance().getListDetailsFromOrdId(id);
         request.setAttribute("order", OrderService.getInstance().getOrderById(id));
         request.setAttribute("list", list);
         request.getRequestDispatcher("ajax/ajax_QuickViewOrder.jsp").forward(request, response);

@@ -17,4 +17,11 @@ public class SlideService {
     public List<Slide> LoadAllSlide() {
         return new SlideDAO().LoadAllSlide();
     }
+    public List<Slide> getAllSlideByPage(int page) {
+        return new SlideDAO().getAllSlideByPage(page);
+    }
+
+    public void RemoveSlide(String id) {
+        new SlideDAO().RemoveSlide(id);
+    }
 }
