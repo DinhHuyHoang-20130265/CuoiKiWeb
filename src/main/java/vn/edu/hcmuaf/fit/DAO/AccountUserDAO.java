@@ -6,6 +6,7 @@ import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AccountUserDAO {
@@ -57,11 +58,12 @@ public class AccountUserDAO {
     }
 
     public SiteUser getAccountById(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("select a.id, a.username, a.pass,a.role, a.account_status from user_account a WHERE a.id = ?")
+        Optional<SiteUser> user = JDBIConnector.get().withHandle(handle -> handle.createQuery("select a.id, a.username, a.pass,a.role, a.account_status from user_account a WHERE a.id = ?")
                 .bind(0, id)
                 .mapToBean(SiteUser.class)
-                .first()
+                .findFirst()
         );
+        return user.orElse(null);
     }
 
     public Byte getAccountRole(String id) {
