@@ -10,7 +10,7 @@
 <%List<News> loadNews = (List<News>) request.getAttribute("loadNews"); %>
 <% if (loadNews != null)
     for (News news : loadNews) { %>
-<li class="item">
+<li class="item" id="item<%=news.getNews_id()%>">
     <div class="item-row">
         <div class="item-col fixed item-col-check">
             <label class="item-check" id="select-all-items">
@@ -41,13 +41,20 @@
             <div class="no-overflow">
                 <a><%=news.getPosted_by()%></a>
             </div>
-        <div class="item-col item-col-category no-overflow">
         </div>
         <div class="item-col item-col-author">
             <div class="item-heading">Trạng thái</div>
             <div class="no-overflow">
+            <%--    <%if (list.get(i).getComment_status() == 1) {%>--%>
+                <%--  <a> Hiển thị </a>--%>
+                <%--  <%} else {%>--%>
                 <a> Đã Ẩn </a>
+                <%-- <%}%>--%>
             </div>
+            <input type="text"
+            <%-- id="status<%=list.get(i).getComment_id()%>"--%>
+            <%-- value="<%=list.get(i).getComment_status()%>"--%>
+                   style="display: none">
         </div>
         <div class="item-col item-col-date">
             <div class="item-heading">Ngày thêm</div>
@@ -85,7 +92,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </li>

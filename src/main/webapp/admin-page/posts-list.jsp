@@ -133,15 +133,13 @@
                                     1
                                 </div>
                             </div>
-                            <div class="item-col item-col-category no-overflow">
-                            </div>
                             <div class="item-col item-col-author">
                                 <div class="item-heading">Người thêm</div>
                                 <div class="no-overflow">
                                     <a><%=list.get(i).getPosted_by()%></a>
                                 </div>
                             </div>
-                            <div class="item-col item-col-author" style="text-align: center;margin: 0 20px;">
+                            <div class="item-col item-col-author" style="text-align: center;">
                                 <div class="item-heading">Trạng Thái</div>
                                 <div class="no-overflow" style="text-align: center">
 <%--                                    <%if (list.get(i).getComment_status() == 1) {%>--%>
@@ -202,12 +200,12 @@
             <nav class="text-right">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" style="text-decoration: none;" id="btn_prev"> Trước </a>
+                        <a class="page-link" id="btn_prev" style="text-decoration: none;" > Trước </a>
                     </li>
                     <li class="page-item active">
-                        <a class="page-link" id="pageNumb" href="#" style="text-decoration: none;"> 1 </a>
+                        <a class="page-link" id="pageNumb" href="#" style="text-decoration: none;">1</a>
                     </li>
-                    <a class="page-link" style="text-decoration: none;" id="btn_next"> Kế tiếp </a>
+                    <a class="page-link" id="btn_next" style="text-decoration: none;" > Kế tiếp </a>
                     </li>
                 </ul>
             </nav>
@@ -305,45 +303,8 @@
 
     deleteNews();
 
-    // function info() {
-    //     $(".info").each(function () {
-    //         $(this).click(function (e) {
-    //             e.preventDefault();
-    //             const id = $(this).attr("id").substring(4);
-    //             $.ajax({
-    //                 url: "/CuoiKiWeb_war/InfoNewsController",
-    //                 type: "post",
-    //                 data: {
-    //                     id: id
-    //                 },
-    //                 success: function (data) {
-    //                     $("#confirm-detailsModal .modal-content").html(data);
-    //                     $("#confirm-detailsModal").modal('toggle');
-    //                 }
-    //             })
-    //         })
-    //     })
-    // }
-
-    // $(".info").each(function () {
-    //     $(this).click(function (e) {
-    //         e.preventDefault();
-    //         const id = $(this).attr("id").substring(4);
-    //         $.ajax({
-    //             url: "/CuoiKiWeb_war/InfoNewsController",
-    //             type: "post",
-    //             data: {
-    //                 id: id
-    //             },
-    //             success: function (data) {
-    //                 $("#confirm-detailsModal .modal-content").html(data);
-    //                 $("#confirm-detailsModal").modal('toggle');
-    //             }
-    //         })
-    //     })
-    // })
     $(document).ready(function () {
-        $("#btn_prev").on("click", function (e) {
+        $("#btn_prev").on("click", function (e){
             e.preventDefault();
             const pageNumb = parseInt($("#pageNumb").text()) - 1;
             if (pageNumb > 0) {
@@ -351,7 +312,7 @@
                     url: "/CuoiKiWeb_war/LoadNewsListAdminController",
                     type: "post",
                     data: {
-                        pageNumb: pageNumb,
+                        pageNumb: pageNumb
                     },
                     success: function (data) {
                         $("#appendItem").html(data);
@@ -370,7 +331,7 @@
                 url: "/CuoiKiWeb_war/LoadNewsListAdminController",
                 type: "post",
                 data: {
-                    pageNumb: pageNumb,
+                    pageNumb: pageNumb
                 },
                 success: function (data) {
                     if ($.trim(data)) {
@@ -378,8 +339,10 @@
                         $("#pageNumb").text(pageNumb)
                         deleteNews();
                         reloadScript();
-                        // info();
                     }
+                },
+                error: function (data) {
+                    console.log(data)
                 }
             })
         })

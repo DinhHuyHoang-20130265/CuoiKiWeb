@@ -53,6 +53,6 @@ public class NewsDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new NewsDAO().loadAllNews());
+        System.out.println(new NewsDAO().loadAllNewsWithPage(2));
     }
 }

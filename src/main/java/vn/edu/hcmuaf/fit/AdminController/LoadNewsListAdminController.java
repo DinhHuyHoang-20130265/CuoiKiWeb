@@ -15,7 +15,7 @@ import java.util.List;
 public class LoadNewsListAdminController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            doPost(request,response);
+        doPost(request,response);
     }
 
     @Override
@@ -23,6 +23,6 @@ public class LoadNewsListAdminController extends HttpServlet {
         String page = request.getParameter("page");
         List<News> loadNews = NewsService.getInstance().getListNewsByPage(Integer.parseInt(page));
         request.setAttribute("loadNews", loadNews);
-        request.getRequestDispatcher("/admin-page/ajax/ajax_LoadNewsListAdminProduct.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin-page/ajax/ajax_LoadNewsListAdmin.jsp").forward(request, response);
     }
 }
