@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.services;
 
 import vn.edu.hcmuaf.fit.DAO.OrderDAO;
+import vn.edu.hcmuaf.fit.DAO.OrderDetailDAO;
 import vn.edu.hcmuaf.fit.beans.order.Order;
 import vn.edu.hcmuaf.fit.beans.order.OrderDetail;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
@@ -30,12 +31,12 @@ public class OrderService {
         return new OrderDAO().getOrderById(id);
     }
 
-    public List<OrderDetail> getListDetailsFromOrdId(String id) {
-        return new OrderDAO().getListDetailsFromOrdId(id);
-    }
-
     public static void main(String[] args) {
         String id = new OrderDAO().generateIdOrder();
         OrderService.getInstance().insertOrder(id, 1, 31288.0, "HCM city", "Hiep sss Chai", "dskakd@gmail.com", "21388821812", "Dong hang can than", "user1");
+    }
+
+    public List<Order> getOrderListCondition(String page, String order_by, String search) {
+        return new OrderDAO().getOrderListCondition(page, order_by, search);
     }
 }

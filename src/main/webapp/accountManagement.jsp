@@ -191,7 +191,7 @@
                         <h2>Đơn hàng của bạn</h2>
                     </div>
                     <div class="detail__my-order-content">
-                        <form action="">
+                        <form>
                             <div class="my-order-heading">
                                 <div class="row">
                                     <div class="col-2">MĐH</div>

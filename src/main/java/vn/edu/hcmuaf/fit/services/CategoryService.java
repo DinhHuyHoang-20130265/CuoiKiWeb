@@ -153,4 +153,16 @@ public class CategoryService {
     public void RemoveCate(String id) {
         new CategoryDAO().RemoveCate(id);
     }
+
+    public Category getCategoryHiddenAndDetails(String id) {
+        return new CategoryDAO().getCategoryHiddenAndDetails(id);
+    }
+
+    public void InsertNewCategory(String id, String cate_name, String cate_desc, String parent_id, int status) {
+        new CategoryDAO().InsertNewCategory(id, cate_name, cate_desc, parent_id, status);
+    }
+
+    public void UpdateCategory(String id, String cate_name, String cate_desc, String parent_id, int status) {
+        new CategoryDAO().UpdateCategory(id, cate_name, cate_desc, parent_id, status);
+    }
 }
