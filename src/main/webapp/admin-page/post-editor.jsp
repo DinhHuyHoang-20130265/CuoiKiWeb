@@ -1,4 +1,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.NewsService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.news.News" %>
+<%@ page import="vn.edu.hcmuaf.fit.DAO.NewsDAO" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -46,9 +50,12 @@
             <form name="item">
                 <div class="card card-block">
                     <div class="form-group row">
-                        <label class="col-sm-2 form-control-label text-xs-right"> Tiêu đề: </label>
+                        <label class="col-sm-2 form-control-label text-xs-right">
+                        Tiêu đề:
+                        </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control boxed" placeholder=""></div>
+                            <input type="text" class="form-control boxed" placeholder="Điền tiêu đề vô đây"
+                                   value="<%=NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_id() != null ? NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_title() : "" %>"> </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Nội dung: </label>
@@ -154,7 +161,9 @@
                                         <i class="fa fa-image"></i> Media
                                     </button>
                                 </div>
-                                <div class="editor"> Hello World</div>
+                                <div class="editor">
+                                <%=NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_id() != null ? NewsService.getInstance().getNewsById(request.getParameter("id")).getDescription() : "Điền content ở đây" %>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -353,8 +362,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Insert Selected</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                        <button type="button" class="btn btn-primary">Lưu</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -367,17 +376,17 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            <i class="fa fa-warning"></i> Alert</h4>
+                            <i class="fa fa-warning"></i>Lưu ý</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure want to do this?</p>
+                        <p>Bạn có chắc muốn thực hiện hành động này ??</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Yes</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Có</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->

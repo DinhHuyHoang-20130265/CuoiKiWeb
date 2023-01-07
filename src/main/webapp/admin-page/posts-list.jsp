@@ -116,7 +116,7 @@
                             <div class="item-col fixed pull-left item-col-title">
                                 <div class="item-heading">Tiêu đề</div>
                                 <div>
-                                    <a href="item-editor.jsp" class="" style="margin-left: 30px !important;">
+                                    <a href="post-editor.jsp?id=<%=list.get(i).getNews_id()%>" class="" style="margin-left: 30px !important;">
                                         <h4 class="item-title"><%=list.get(i).getNews_title()%></h4>
                                     </a>
                                 </div>
