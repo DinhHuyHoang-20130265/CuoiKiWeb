@@ -54,8 +54,13 @@
                         Tiêu đề:
                         </label>
                         <div class="col-sm-10">
+                            <%if(request.getParameter("id") != null){%>
                             <input type="text" class="form-control boxed" placeholder="Điền tiêu đề vô đây"
-                                   value="<%=NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_id() != null ? NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_title() : "" %>"> </div>
+                                   value="<%=NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_title()%>">
+                        <%} else{%>
+                        <input type="text" class="form-control boxed" placeholder="Điền tiêu đề vô đây">
+                        <%}%>
+                        </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Nội dung: </label>
@@ -162,7 +167,11 @@
                                     </button>
                                 </div>
                                 <div class="editor">
-                                <%=NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_id() != null ? NewsService.getInstance().getNewsById(request.getParameter("id")).getDescription() : "Điền content ở đây" %>
+                                    <%if(request.getParameter("id") != null){%>
+                                   <%=NewsService.getInstance().getNewsById(request.getParameter("id")).getDescription()%>
+                                    <%} else{%>
+                                    Điền content ở đây
+                                    <%}%>
                                 </div>
                             </div>
                         </div>
