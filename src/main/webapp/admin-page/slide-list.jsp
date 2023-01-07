@@ -195,10 +195,15 @@
                                     <span></span>
                                 </label>
                             </div>
-                            <div class="item-col item-col-header fixed item-col-img md"
+                            <div class="item-col item-col-header fixed item-col-title"
                                  style="min-width: 120px; text-align: center;margin: 0 50px;">
                                 <div>
                                     <span>Mã slide</span>
+                                </div>
+                            </div>
+                            <div class="item-col item-col-header item-col-sales">
+                                <div>
+                                    <span>Mô tả</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header fixed item-col-img md">
@@ -232,9 +237,15 @@
                                         <span></span>
                                     </label>
                                 </div>
-                                <div class="item-col item-col-sales" style="text-align: center;margin: 0 50px;">
+                                <div class="item-col item-col-title" style="text-align: center;margin: 0;">
                                     <div class="item-heading">Mã slide</div>
                                     <div class="sales" style="text-align: center">#<%=list.get(i).getSlide_id()%>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-sales" style="text-align: center; max-width: 150px">
+                                    <div class="item-heading">Mô tả</div>
+                                    <div class="sales" style="text-align: center">
+                                        <%=list.get(i).getSlide_desc()%>
                                     </div>
                                 </div>
                                 <div class="item-col fixed item-col-img md"
