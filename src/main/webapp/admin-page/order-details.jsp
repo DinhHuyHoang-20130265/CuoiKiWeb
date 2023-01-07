@@ -1,4 +1,9 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.order.Order" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.OrderService" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.order.OrderDetail" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.OrderDetailService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -64,6 +69,10 @@
                     </div>
                 </div>
             </div>
+            <%
+                Order order = OrderService.getInstance().getOrderById(request.getParameter("id"));
+                List<OrderDetail> details = OrderDetailService.getInstance().getListDetailsFromOrdId(request.getParameter("id"));
+            %>
             <div>
                 <div class="order-detail-header ui-title-bar-container max-width-center">
                     <div class="row align-items-start">
@@ -73,16 +82,28 @@
                                     <div class="ui-product-body pl-0">Mã</div>
                                     <div class="ui-product-head">
                                         <div class="table-break-word"><strong
-                                                class="order-detail--list-status-code">#110417</strong></div>
+                                                class="order-detail--list-status-code">#<%=request.getParameter("id") != null ? request.getParameter("id") : "" %>
+                                        </strong></div>
                                     </div>
                                 </div>
                                 <div class="ui-toolbar-product-info">
                                     <div class="ui-product-body">Trạng thái giao hàng</div>
                                     <div class="ui-product-head">
                                         <div class="table-break-word"><span class="order-detail--list-status-name">
-                                                    <div class="status-component"><span
-                                                            class="circle-status mr-2 circle-status-shipment_notyet"></span><span
-                                                            class="badges--carrier-status-7"> Chưa giao hàng</span>
+                                                    <div class="status-component">
+                                                        <%if (order.getDelivered() == -1) { %>
+                                                        <span class="circle-status mr-2 circle-status-shipment_notyet"></span><span
+                                                            class="badges--shipment-cod-status-2">
+                                                                    Chưa giao hàng</span>
+                                                        <% } else if (order.getDelivered() == 0) { %>
+                                                        <span class="circle-status mr-2 circle-status-shipment_ontheway"></span><span
+                                                            class="badges--order-payment-status-5">
+                                                                    Đang giao hàng</span>
+                                                        <% } else { %>
+                                                        <span class="circle-status mr-2 circle-status-shipment_done"></span><span
+                                                            class="badges--carrier-status-4">
+                                                                    Đã giao hàng</span>
+                                                        <% }%>
                                                     </div>
                                                 </span></div>
                                     </div>
@@ -91,9 +112,14 @@
                                     <div class="ui-product-body">Trạng thái thanh toán</div>
                                     <div class="ui-product-head">
                                         <div class="table-break-word"><span class="order-detail--list-status-name">
-                                                    <div class="status-component"><span
-                                                            class="circle-status mr-2 circle-status-5"></span><span
-                                                            class="badges--order-payment-status-5"> Chờ xử lý</span>
+                                                    <div class="status-component">
+                                                        <%if (order.getPayment_status() == 0) { %>
+                                                    <span class="circle-status mr-2 circle-status-purchase-4"></span>
+                                                    <span class="badges--purchase-order-status-4">Chưa thanh toán</span>
+                                                    <% } else { %>
+                                                    <span class="circle-status mr-2 circle-status-confirmed"></span>
+                                                    <span class="badges--purchase-order-status-3">Đã thanh toán</span>
+                                                    <% }%>
                                                     </div>
                                                 </span></div>
                                     </div>

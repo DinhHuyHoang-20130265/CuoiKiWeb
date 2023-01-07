@@ -347,9 +347,7 @@
             const order = $("#filter").find(':selected').val();
             $(this).on("click", function (e) {
                 e.preventDefault();
-                console.log("gonna delete")
                 $("#yesButton").click(function () {
-                    console.log("deleted")
                     $.ajax({
                         url: "/CuoiKiWeb_war/DeleteOrderController",
                         type: "post",
@@ -360,7 +358,7 @@
                             order: order
                         },
                         success: function (data) {
-                            $("#appendItem").html(data);
+                            $("#appendItem tbody").html(data);
                             deleteOrder();
                         }
                     })
