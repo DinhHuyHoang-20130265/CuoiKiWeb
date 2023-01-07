@@ -128,7 +128,7 @@ public class OrderDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getOrderById("8XTwU0QgJ9"));
+        System.out.println(new OrderDAO().getOrderListCondition("1", "0", null));
 
     }
 }
