@@ -18,45 +18,37 @@
                 <span></span>
             </label>
         </div>
-        <div class="item-col fixed pull-left item-col-title">
+        <div class="item-col fixed pull-left item-col-title" style="text-align: center;">
             <div class="item-heading">Tiêu đề</div>
             <div>
-                <a href="item-editor.jsp" class="">
-                    <h4 class="item-title"><%=news.getNews_title()%>> </h4>
+                <a href="item-editor.jsp" class="" style="margin-left: 30px !important;">
+                    <h4 class="item-title"><%=news.getNews_title()%></h4>
                 </a>
             </div>
         </div>
-        <div class="item-col item-col-sales">
+        <div class="item-col item-col-sales" style="text-align: center;">
             <div class="item-heading">Mã bài</div>
-            <div>#<%=news.getNews_id()%>> </div>
+            <div>#<%=news.getNews_id()%> </div>
         </div>
-        <div class="item-col item-col-stats no-overflow">
+        <div class="item-col item-col-stats no-overflow" style="text-align: center;">
             <div class="item-heading">Số lượt xem</div>
             <div class="no-overflow">
                1
             </div>
         </div>
-        <div class="item-col item-col-author">
+        <div class="item-col item-col-author" style="text-align: center;">
             <div class="item-heading">Người thêm</div>
             <div class="no-overflow">
                 <a><%=news.getPosted_by()%></a>
             </div>
         </div>
-        <div class="item-col item-col-author">
+        <div class="item-col item-col-author" style="text-align: center;">
             <div class="item-heading">Trạng thái</div>
             <div class="no-overflow">
-            <%--    <%if (list.get(i).getComment_status() == 1) {%>--%>
-                <%--  <a> Hiển thị </a>--%>
-                <%--  <%} else {%>--%>
-                <a> Đã Ẩn </a>
-                <%-- <%}%>--%>
+                <a> Hiển thị </a>
             </div>
-            <input type="text"
-            <%-- id="status<%=list.get(i).getComment_id()%>"--%>
-            <%-- value="<%=list.get(i).getComment_status()%>"--%>
-                   style="display: none">
         </div>
-        <div class="item-col item-col-date">
+        <div class="item-col item-col-date" style="text-align: center;">
             <div class="item-heading">Ngày thêm</div>
             <div class="no-overflow"><%=news.getPosted_date()%></div>
         </div>

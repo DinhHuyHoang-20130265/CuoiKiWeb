@@ -62,35 +62,33 @@
                                     <span></span>
                                 </label>
                             </div>
-                            <div class="item-col item-col-header item-col-title">
+                            <div class="item-col item-col-header item-col-title" style="text-align: center">
                                 <div>
                                     <span>Tiêu đề</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-sales">
+                            <div class="item-col item-col-header item-col-sales" style="text-align: center;">
                                 <div>
                                     <span>Mã bài</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-stats">
+                            <div class="item-col item-col-header item-col-stats" style="text-align: center;">
                                 <div class="no-overflow">
                                     <span>Số lượt xem</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header">
-                            </div>
-                            <div class="item-col item-col-header item-col-author">
+                            <div class="item-col item-col-header item-col-author" style="text-align: center;">
                                 <div class="no-overflow">
                                     <span>Người thêm</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-author"
-                                 style="text-align: center;margin: 0 20px;">
+                                 style="text-align: center;">
                                 <div class="no-overflow">
                                     <span>Trạng thái</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-date">
+                            <div class="item-col item-col-header item-col-date" style="text-align: center;">
                                 <div>
                                     <span>Ngày thêm</span>
                                 </div>
@@ -100,8 +98,8 @@
                     </li>
                     <% int pageNumb = -1;
                         List<News> list = NewsService.getInstance().getListNewsByPage(1);
-                        if (list.size() > 6)
-                            pageNumb = 6;
+                        if (list.size() > 4)
+                            pageNumb = 4;
                         else pageNumb = list.size();
                     %>
                     <div id="appendItem">
@@ -118,14 +116,14 @@
                             <div class="item-col fixed pull-left item-col-title">
                                 <div class="item-heading">Tiêu đề</div>
                                 <div>
-                                    <a href="item-editor.jsp" class="">
-                                        <h4 class="item-title"><%=list.get(i).getNews_title()%> </h4>
+                                    <a href="item-editor.jsp" class="" style="margin-left: 30px !important;">
+                                        <h4 class="item-title"><%=list.get(i).getNews_title()%></h4>
                                     </a>
                                 </div>
                             </div>
-                            <div class="item-col item-col-sales">
+                            <div class="item-col item-col-sales" style="text-align: center;">
                                 <div class="item-heading">Mã bài</div>
-                                <div>#<%=list.get(i).getNews_id()%> </div>
+                                <div>#<%=list.get(i).getNews_id()%></div>
                             </div>
                             <div class="item-col item-col-stats no-overflow">
                                 <div class="item-heading">Số lượt xem</div>
@@ -133,7 +131,7 @@
                                     1
                                 </div>
                             </div>
-                            <div class="item-col item-col-author">
+                            <div class="item-col item-col-author" style="text-align: center;">
                                 <div class="item-heading">Người thêm</div>
                                 <div class="no-overflow">
                                     <a><%=list.get(i).getPosted_by()%></a>
@@ -142,18 +140,10 @@
                             <div class="item-col item-col-author" style="text-align: center;">
                                 <div class="item-heading">Trạng Thái</div>
                                 <div class="no-overflow" style="text-align: center">
-<%--                                    <%if (list.get(i).getComment_status() == 1) {%>--%>
-<%--                                    <a> Hiển thị </a>--%>
-<%--                                    <%} else {%>--%>
-                                    <a> Đã Ẩn </a>
-<%--                                    <%}%>--%>
+                                    <a> Hiển thị </a>
                                 </div>
-                                <input type="text"
-<%--                                       id="status<%=list.get(i).getComment_id()%>"--%>
-<%--                                       value="<%=list.get(i).getComment_status()%>"--%>
-                                       style="display: none">
                             </div>
-                            <div class="item-col item-col-date">
+                            <div class="item-col item-col-date" style="text-align: center;">
                                 <div class="item-heading">Ngày thêm</div>
                                 <div class="no-overflow"><%=list.get(i).getPosted_date()%></div>
                             </div>
