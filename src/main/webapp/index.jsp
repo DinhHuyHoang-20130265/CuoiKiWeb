@@ -4,6 +4,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
 <%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.SlideService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.slide.Slide" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,12 +108,16 @@
         <section class="awe-section-1">
             <div class="mt-4 top-sliders col-md-12">
                 <div class="slideshow">
+<%--                    <%--%>
+<%--                        List<Slide> listSlide = SlideService.getInstance().LoadAllSlide();--%>
+<%--                    %>--%>
                     <div id="demo" class="carousel slide" data-ride="carousel">
                         <ul class="carousel-indicators">
                             <li data-target="#demo" data-slide-to="0" class="active"></li>
                             <li data-target="#demo" data-slide-to="1"></li>
                             <li data-target="#demo" data-slide-to="2"></li>
                         </ul>
+<%--                        <%for (Slide slide: listSlide) {%>--%>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="./assets/img/slideshow/1.jpg" alt="Los Angeles" width="1100" height="500"/>
@@ -129,6 +135,7 @@
                                 </div>
                             </div>
                         </div>
+<%--                        <%}%>--%>
                         <a class="carousel-control-prev" href="#demo" data-slide="prev">
                             <span class="carousel-control-prev-icon"></span>
                         </a>

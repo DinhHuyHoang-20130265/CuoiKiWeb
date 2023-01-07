@@ -12,7 +12,7 @@ public class OrderDAO {
 
     public List<Order> getOrderListByUserId(String id) {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, " +
-                        "o.payment_method, o.delivered, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" +
+                        "o.payment_method, o.payment_status, o.delivered, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" +
                         " FROM orders o WHERE o.customer_id =?")
                 .bind(0, id)
                 .mapToBean(Order.class)
@@ -42,22 +42,14 @@ public class OrderDAO {
         else return sb.toString();
     }
 
-    public List<OrderDetail> getListDetailsFromOrdId(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.prod_id, o.prod_name, o.prod_color, o.prod_size, o.quantity, o.price" +
-                        " FROM order_details o WHERE o.ord_id =?")
-                .bind(0, id)
-                .mapToBean(OrderDetail.class)
-                .stream().collect(Collectors.toList())
-        );
-    }
 
     public void insertOrder(String ord_id, int payment_method, double total, String address,
                             String receive_name, String email, String phone_number, String note, String customer_id) {
         String date = java.time.LocalDate.now().toString();
         String date_3days = (java.time.LocalDate.now().plusDays(3)).toString();
         JDBIConnector.get().withHandle(handle -> {
-            handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, delivered, total, delivery_date, address," +
-                            "receive_name, email, phone_number, note, customer_id) VALUES(?,?,1,?,0,?,?,?,?,?,?,?,? )")
+            handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, payment_status, delivered, total, delivery_date, address," +
+                            "receive_name, email, phone_number, note, customer_id) VALUES(?,?,1,?,0,-1,?,?,?,?,?,?,?,? )")
                     .bind(0, ord_id)
                     .bind(1, date)
                     .bind(2, payment_method)
@@ -76,7 +68,7 @@ public class OrderDAO {
     }
 
     public Order getOrderById(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.delivered, " +
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status o.delivered, " +
                         "o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" +
                         " FROM orders o WHERE o.ord_id =?")
                 .bind(0, id)

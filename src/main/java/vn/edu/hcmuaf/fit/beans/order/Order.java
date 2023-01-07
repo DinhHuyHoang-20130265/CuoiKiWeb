@@ -7,6 +7,7 @@ public class Order implements Serializable {
     private String ord_date;
     private int status;
     private int payment_method;
+    private  int payment_status;
     private int delivered;
     private double total;
     private String delivery_date;
@@ -20,11 +21,13 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(String ord_id, String ord_date, int status, int payment_method, int delivered, double total, String delivery_date, String address, String receive_name, String email, String phone_number, String note, String customer_id) {
+    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, double total,
+                 String delivery_date, String address, String receive_name, String email, String phone_number, String note, String customer_id) {
         this.ord_id = ord_id;
         this.ord_date = ord_date;
         this.status = status;
         this.payment_method = payment_method;
+        this.payment_status = payment_status;
         this.delivered = delivered;
         this.total = total;
         this.delivery_date = delivery_date;
@@ -66,6 +69,14 @@ public class Order implements Serializable {
 
     public void setPayment_method(int payment_method) {
         this.payment_method = payment_method;
+    }
+
+    public int getPayment_status() {
+        return payment_status;
+    }
+
+    public void setPayment_status(int payment_status) {
+        this.payment_status = payment_status;
     }
 
     public int getDelivered() {
@@ -147,6 +158,7 @@ public class Order implements Serializable {
                 ", ord_date='" + ord_date + '\'' +
                 ", status=" + status +
                 ", payment_method=" + payment_method +
+                ", payment_status=" + payment_status +
                 ", delivered=" + delivered +
                 ", total=" + total +
                 ", delivery_date='" + delivery_date + '\'' +

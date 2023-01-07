@@ -6,6 +6,7 @@ import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class CategoryDAO {
@@ -97,6 +98,63 @@ public class CategoryDAO {
             handle.createUpdate("SET FOREIGN_KEY_CHECKS = 1").execute();
             return null;
         });
+    }
+
+    public Category getCategoryHiddenAndDetails(String id) {
+        return JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT id, cate_name, cate_desc, parent_id, cate_status FROM product_categories " +
+                                " WHERE id =?")
+                        .bind(0, id)
+                        .mapToBean(Category.class)
+                        .one()
+        );
+    }
+    private String generateIdCategory() {
+        List<String> id = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT id FROM user_account").mapTo(String.class).stream().collect(Collectors.toList()));
+        String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
+        String numbers = "0123456789";
+        String alphaNumeric = upperAlphabet + lowerAlphabet + numbers;
+
+        StringBuilder sb = new StringBuilder();
+
+        // create an object of Random class
+        Random random = new Random();
+        // specify length of random string
+        int length = 10;
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(alphaNumeric.length());
+            char randomChar = alphaNumeric.charAt(index);
+            sb.append(randomChar);
+        }
+        if (id.contains(sb.toString())) return generateIdCategory();
+        else return sb.toString();
+
+    }
+
+    public void InsertNewCategory(String id, String cate_name, String cate_desc, String parent_id, int status) {
+        id = generateIdCategory();
+        String finalId = id;
+        JDBIConnector.get().withHandle(handle ->
+                handle.createUpdate("INSERT INTO product_categories VALUES (?,?,?,?,?)")
+                        .bind(0, finalId)
+                        .bind(1, cate_name)
+                        .bind(2, cate_desc)
+                        .bind(3, parent_id)
+                        .bind(4, status)
+                        .execute()
+        );
+    }
+    public void UpdateCategory(String id, String cate_name, String cate_desc, String parent_id, int status) {
+        JDBIConnector.get().withHandle(handle ->
+                handle.createUpdate("UPDATE product_categories SET cate_name = ?, cate_desc = ?, parent_id = ?, cate_status = ? WHERE id = ?")
+                        .bind(0, cate_name)
+                        .bind(1, cate_desc)
+                        .bind(2, parent_id)
+                        .bind(3, status)
+                        .bind(4, id)
+                        .execute()
+        );
     }
 
     public static void main(String[] args) {
