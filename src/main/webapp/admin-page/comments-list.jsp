@@ -193,37 +193,32 @@
                                     <span></span>
                                 </label>
                             </div>
-                            <div class="item-col item-col-header fixed item-col-img md">
+                            <div class="item-col item-col-header fixed item-col-img md" style="min-width: 120px; text-align: center;margin: 0 50px;">
                                 <div>
                                     <span>Mã tin tức</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-title">
+                            <div class="item-col item-col-header item-col-title" style="padding: 0 !important;max-width: 200px !important; text-align: center" >
                                 <div>
                                     <span>Người bình luận</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-sales">
+                            <div class="item-col item-col-header item-col-sales" style="text-align: center;margin: 0 50px;">
                                 <div>
                                     <span>Mã bình luận</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-stats">
-                                <div class="no-overflow">
-                                    <span>Trả lời bình luận của</span>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-header item-col-category">
+                            <div class="item-col item-col-header item-col-category" style="text-align: center">
                                 <div class="no-overflow">
                                     <span>Lượt thích</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-author">
+                            <div class="item-col item-col-header item-col-author" style="text-align: center;margin: 0 20px;">
                                 <div class="no-overflow">
                                     <span>Trạng thái</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-date">
+                            <div class="item-col item-col-header item-col-date" style="text-align: center;margin: 0 50px;">
                                 <div>
                                     <span>Ngày thêm</span>
                                 </div>
@@ -248,10 +243,10 @@
                                         <span></span>
                                     </label>
                                 </div>
-                                <div class="item-col fixed item-col-img md" style="justify-content: center;">
+                                <div class="item-col fixed item-col-img md" style="justify-content: center;min-width: 120px;margin: 0 50px;">
                                     <span>#<%=list.get(i).getNews_id()%></span>
                                 </div>
-                                <div class="item-col fixed pull-left item-col-title">
+                                <div class="item-col fixed pull-left item-col-title" style="padding: 0 !important; max-width: 200px; text-align: center;">
                                     <div class="item-heading">Người bình luận</div>
                                     <div>
                                         <a>
@@ -260,18 +255,18 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="item-col item-col-sales">
+                                <div class="item-col item-col-sales" style="text-align: center;margin: 0 50px;">
                                     <div class="item-heading">Mã bình luận</div>
                                     <div class="sales" style="text-align: center">#<%=list.get(i).getComment_id()%>
                                     </div>
                                 </div>
-                                <div class="item-col item-col-category no-overflow">
+                                <div class="item-col item-col-category no-overflow" style="text-align: center">
                                     <div class="item-heading">Lượt thích</div>
                                     <div class="no-overflow">
                                         <a>1</a>
                                     </div>
                                 </div>
-                                <div class="item-col item-col-author">
+                                <div class="item-col item-col-author" style="text-align: center;margin: 0 20px;">
                                     <div class="item-heading">Trạng Thái</div>
                                     <div class="no-overflow" style="text-align: center">
                                         <%if (list.get(i).getComment_status() == 1) {%>
@@ -283,7 +278,7 @@
                                     <input type="text" id="status" value="<%=list.get(i).getComment_status()%>"
                                            style="display: none">
                                 </div>
-                                <div class="item-col item-col-date">
+                                <div class="item-col item-col-date" style="text-align: center;margin: 0 50px;">
                                     <div class="item-heading">Ngày thêm</div>
                                     <div class="no-overflow"><%=list.get(i).getCommented_date()%>
                                     </div>

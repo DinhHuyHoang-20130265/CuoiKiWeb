@@ -21,10 +21,10 @@
                 <span></span>
             </label>
         </div>
-        <div class="item-col fixed item-col-img md" style="justify-content: center;">
+        <div class="item-col fixed item-col-img md" style="justify-content: center; min-width: 120px;margin: 0 50px;">
             <span>#<%=comment.getNews_id()%></span>
         </div>
-        <div class="item-col fixed pull-left item-col-title">
+        <div class="item-col fixed pull-left item-col-title" style="padding: 0 !important; max-width: 200px; text-align: center;">
             <div class="item-heading">Người bình luận</div>
             <div>
                 <a>
@@ -33,18 +33,18 @@
                 </a>
             </div>
         </div>
-        <div class="item-col item-col-sales">
+        <div class="item-col item-col-sales" style="text-align: center;margin: 0 50px;">
             <div class="item-heading">Mã bình luận</div>
             <div class="sales" style="text-align: center">#<%=comment.getComment_id()%>
             </div>
         </div>
-        <div class="item-col item-col-category no-overflow">
+        <div class="item-col item-col-category no-overflow" style="text-align: center">
             <div class="item-heading">Lượt thích</div>
             <div class="no-overflow">
                 <a>1</a>
             </div>
         </div>
-        <div class="item-col item-col-author">
+        <div class="item-col item-col-author" style="text-align: center;margin: 0 20px;">
             <div class="item-heading">Trạng Thái</div>
             <div class="no-overflow" style="text-align: center">
                 <%if (comment.getComment_status() == 1) {%>
@@ -56,7 +56,7 @@
             <input type="text" id="status" value="<%=comment.getComment_status()%>"
                    style="display: none">
         </div>
-        <div class="item-col item-col-date">
+        <div class="item-col item-col-date" style="text-align: center;margin: 0 50px;">
             <div class="item-heading">Ngày thêm</div>
             <div class="no-overflow"><%=comment.getCommented_date()%>
             </div>
