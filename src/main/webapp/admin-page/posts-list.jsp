@@ -1,4 +1,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.NewsService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.news.News" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -43,35 +46,10 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h3 class="title"> Danh sách tin tức
-                                <a href="item-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm tin tức </a>
-                                <div class="action dropdown">
-                                    <button class="btn  btn-sm rounded-s btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false"> Hành động
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <a class="dropdown-item hidden-item" href="#">
-                                            <i class="fa fa-pencil-square-o icon"></i>Ẩn tin tức</a>
-                                        <a class="dropdown-item delete-item" href="#" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-close icon"></i>Xoá tin tức</a>
-                                    </div>
-                                </div>
+                                <a href="post-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm tin tức </a>
                             </h3>
                         </div>
                     </div>
-                </div>
-                <div class="items-search">
-                    <form class="form-inline">
-                        <div class="input-group">
-                            <input type="text" class="form-control boxed rounded-s" placeholder="Tìm kiếm...">
-                            <span class="input-group-btn">
-                                        <button class="btn btn-secondary rounded-s" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                        </div>
-                    </form>
                 </div>
             </div>
             <div class="card items">
@@ -84,29 +62,33 @@
                                     <span></span>
                                 </label>
                             </div>
-                            <div class="item-col item-col-header item-col-title">
+                            <div class="item-col item-col-header item-col-title" style="text-align: center">
                                 <div>
                                     <span>Tiêu đề</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-sales">
+                            <div class="item-col item-col-header item-col-sales" style="text-align: center;">
                                 <div>
                                     <span>Mã bài</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-stats">
+                            <div class="item-col item-col-header item-col-stats" style="text-align: center;">
                                 <div class="no-overflow">
                                     <span>Số lượt xem</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header">
+                            <div class="item-col item-col-header item-col-author" style="text-align: center;">
+                                <div class="no-overflow">
+                                    <span>Người thêm</span>
+                                </div>
                             </div>
-                            <div class="item-col item-col-header item-col-author">
+                            <div class="item-col item-col-header item-col-author"
+                                 style="text-align: center;">
                                 <div class="no-overflow">
                                     <span>Trạng thái</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-date">
+                            <div class="item-col item-col-header item-col-date" style="text-align: center;">
                                 <div>
                                     <span>Ngày thêm</span>
                                 </div>
@@ -114,7 +96,16 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
-                    <!-- <li class="item">
+                    <% int pageNumb = -1;
+                        List<News> list = NewsService.getInstance().getListNewsByPage(1);
+                        if (list.size() > 4)
+                            pageNumb = 4;
+                        else pageNumb = list.size();
+                    %>
+                    <div id="appendItem">
+                    <% if (list != null)
+                        for (int i = 0; i < pageNumb; i++) {%>
+                    <li class="item" id="item<%=list.get(i).getNews_id()%>">
                         <div class="item-row">
                             <div class="item-col fixed item-col-check">
                                 <label class="item-check" id="select-all-items">
@@ -125,32 +116,36 @@
                             <div class="item-col fixed pull-left item-col-title">
                                 <div class="item-heading">Tiêu đề</div>
                                 <div>
-                                    <a href="item-editor.jsp" class="">
-                                        <h4 class="item-title"> 12 Myths Uncovered About IT &amp; Software </h4>
+                                    <a href="post-editor.jsp?id=<%=list.get(i).getNews_id()%>" class="" style="margin-left: 30px !important;">
+                                        <h4 class="item-title"><%=list.get(i).getNews_title()%></h4>
                                     </a>
                                 </div>
                             </div>
-                            <div class="item-col item-col-sales">
+                            <div class="item-col item-col-sales" style="text-align: center;">
                                 <div class="item-heading">Mã bài</div>
-                                <div> 46323 </div>
+                                <div>#<%=list.get(i).getNews_id()%></div>
                             </div>
                             <div class="item-col item-col-stats no-overflow">
                                 <div class="item-heading">Số lượt xem</div>
-                                <div class="no-overflow">
-                                    <div class="item-stats sparkline" data-type="bar"></div>
+                                <div class="no-overflow"><%--<div class="item-stats sparkline" data-type="bar">1</div>--%>
+                                    1
                                 </div>
                             </div>
-                            <div class="item-col item-col-category no-overflow">
-                            </div>
-                            <div class="item-col item-col-author">
-                                <div class="item-heading">Trạng thái</div>
+                            <div class="item-col item-col-author" style="text-align: center;">
+                                <div class="item-heading">Người thêm</div>
                                 <div class="no-overflow">
-                                    <a href="">Meadow Katheryne</a>
+                                    <a><%=list.get(i).getPosted_by()%></a>
                                 </div>
                             </div>
-                            <div class="item-col item-col-date">
+                            <div class="item-col item-col-author" style="text-align: center;">
+                                <div class="item-heading">Trạng Thái</div>
+                                <div class="no-overflow" style="text-align: center">
+                                    <a> Hiển thị </a>
+                                </div>
+                            </div>
+                            <div class="item-col item-col-date" style="text-align: center;">
                                 <div class="item-heading">Ngày thêm</div>
-                                <div class="no-overflow"> 21 SEP 10:45 </div>
+                                <div class="no-overflow"><%=list.get(i).getPosted_date()%></div>
                             </div>
                             <div class="item-col fixed item-col-actions-dropdown">
                                 <div class="item-actions-dropdown">
@@ -164,13 +159,21 @@
                                     </a>
                                     <div class="item-actions-block">
                                         <ul class="item-actions-list">
+                                        <li>
+                                            <a class="remove" id="remove<%=list.get(i).getNews_id()%>"
+                                               data-toggle="modal"
+                                               data-target="#confirm-modal" style="cursor: pointer">
+                                                <i class="fa fa-trash-o "></i>
+                                            </a>
+                                        </li>
                                             <li>
-                                                <a class="remove" href="#" data-toggle="modal" data-target="#confirm-modal">
-                                                    <i class="fa fa-trash-o "></i>
+                                                <a class="info" id="info<%=list.get(i).getNews_id()%>"
+                                                   style="cursor: pointer">
+                                                    <i class="fa fa-info-circle"></i>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="edit" href="post-editor.jsp">
+                                                <a class="edit" id="edit" href="post-editor.jsp">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
                                             </li>
@@ -179,20 +182,20 @@
                                 </div>
                             </div>
                         </div>
-                    </li> -->
-                    <div id="appendItem">
+                    </li>
+                    <%}%>
                     </div>
                 </ul>
             </div>
             <nav class="text-right">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="javascript:prevPage()" id="btn_prev"> Trước </a>
+                        <a class="page-link" id="btn_prev" style="text-decoration: none;" > Trước </a>
                     </li>
                     <li class="page-item active">
-                        <a class="page-link" id="page" href="#"> 1 </a>
+                        <a class="page-link" id="pageNumb" href="#" style="text-decoration: none;">1</a>
                     </li>
-                    <a class="page-link" href="javascript:nextPage()" id="btn_next"> Kế tiếp </a>
+                    <a class="page-link" id="btn_next" style="text-decoration: none;" > Kế tiếp </a>
                     </li>
                 </ul>
             </nav>
@@ -211,8 +214,8 @@
                         <p>Bạn có muốn xoá?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Có</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                        <button type="button" id="yes" class="btn btn-primary yes" data-dismiss="modal">Có</button>
+                        <button type="button" id="no" class="btn btn-secondary no" data-dismiss="modal">Không</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
@@ -249,291 +252,91 @@
 <script src="js/vendor.js"></script>
 <script src="js/app.js"></script>
 <script>
-    var current_page = 1;
-    var records_per_page = 6;
-
-    var objJson = $.parseJSON(`[
-            {
-                "id": "n01",
-                "date": "10/22/22",
-                "title": "Post hình check-in, rinh quà hấp dẫn",
-                "content": "Tin vui không thể bỏ lỡ cho các FRIENDs của P&T vào tháng 11 này!",
-                "imglink": "news/1"
-            },
-            {
-                "id": "n02",
-                "date": "10/22/22",
-                "title": "Happy halloween with friends",
-                "content": "Món quà bí mật sẽ được bật mí và dành tặng các FRIENDS…",
-                "imglink": "news/2"
-            },
-            {
-                "id": "n03",
-                "date": "9/29/22",
-                "title": "Thu cũ đổi mới - Giảm ngay 20% ",
-                "content": "Cơ hội lý tưởng để “reset” tủ đồ của bạn mà vẫn đảm bảo “kinh tế” với chương trình “Thu cũ đổi mới”…",
-                "imglink": "news/3"
-            },
-            {
-                "id": "n04",
-                "date": "9/28/22",
-                "title": "Khai tiệc sinh nhật, bật tung bất ngờ",
-                "content": "Đón tuổi mới thật hoành tráng, P&T đã sẵn sàng “tiếp đãi” FRIENDs bữa tiệc sinh nhật với chuỗi hoạt động …",
-                "imglink": "news/4"
-            },
-            {
-                "id": "n05",
-                "date": "9/14/22",
-                "title": "Special Offer | Cơn lốc đồng giá",
-                "content": "Tin vui cho hội nghiện shopping, CHỈ VỚI 99K là bạn đã sở hữu được ngay những cực phẩm từ P&T…",
-                "imglink": "news/5"
-            },
-            {
-                "id": "n06",
-                "date": "8/30/22",
-                "title": "Hoài niệm tuổi thơ",
-                "content": "Trung Thu đang dần xuất hiện trong từng ngõ phố, mùa trăng năm nay, P&T chân thành bày tỏ tấm lòng...",
-                "imglink": "news/6"
-            },
-            {
-                "id": "n07",
-                "date": "8/20/22",
-                "title": "Mừng đại lễ 2/9 rộn ràng ưu đãi",
-                "content": "Cơ hội “vàng” nâng cấp ngoại hình mùa lễ hội đã đến, chuẩn bị nhanh “wish list” của bạn để không bỏ lỡ chương trình ưu đãi siêu hấp dẫn ",
-                "imglink": "news/7"
-            },
-            {
-                "id": "n08",
-                "date": "8/2/22",
-                "title": "Mua sắm thả ga - Mua đồ siêu chất",
-                "content": "Cơ hội 'vàng' dành riêng cho các FRIENDs để sở hữu các items 'thiên biến vạn hóa' đẹp quên sầu mùa tựu trường",
-                "imglink": "news/8"
-            },
-            {
-                "id": "n09",
-                "date": "7/8/22",
-                "title": "Khai trương cửa hàng tại Thủ Dầu Một",
-                "content": "Sau bao ngày chờ đợi, cửa hàng mới của P&T tại Quang Trung - Thủ Dầu Một sẽ chính thức khai trương",
-                "imglink": "news/9"
-            },
-            {
-                "id": "n10",
-                "date": "6/19/22",
-                "title": "Thưởng thức 'canh cá' sale up to 15%",
-                "content": "P&T sale lớn toàn bộ sản phẩm nhân dịp “Cá tháng Tư” với mức sale lên đến 15% cho FRIENDs khi mua sắm qua hình thức trực tuyến",
-                "imglink": "news/10"
-            },
-            {
-                "id": "n11",
-                "date": "6/10/22",
-                "title": "Happy Women's Day 2022",
-                "content": "Với thông điệp “tự tin tỏa sáng - trọn vẹn yêu thương” P&T dành tặng FRIENDs chương trình ưu đãi hấp dẫn",
-                "imglink": "news/11"
-            },
-            {
-                "id": "n12",
-                "date": "5/30/22",
-                "title": "Để mùa yêu thêm ngọt ngào",
-                "content": "Valentine là thời điểm để các couple nói lời yêu và gửi trao cho nửa kia những món quà tình cảm thay lời yêu sâu đắm",
-                "imglink": "news/12"
-            },
-            {
-                "id": "n13",
-                "date": "5/21/22",
-                "title": "Kinh ngạc với ưu đãi chưa từng có",
-                "content": "P&T vui mừng thông báo tin đặc biệt hot nhất tháng 5  đến tất cả P&T FRIEND.",
-                "imglink": "news/13"
-            },
-            {
-                "id": "n14",
-                "date": "5/7/22",
-                "title": "P&T ưu đãi mua 3 tặng 1",
-                "content": "Cơn sốt mua sắm cuối năm đang diễn ra vô cùng sôi động, đặc biệt trong dịp mùa lễ hội lớn",
-                "imglink": "news/14"
-            },
-            {
-                "id": "n15",
-                "date": "4/23/22",
-                "title": "Deal vô vàng - vì nàng xứng đáng",
-                "content": "Bởi là tháng của nàng P&T gửi vô vàn deal ngon giá hời, mời nàng ghé thăm và mua sắm. Ưu đãi toàn bộ sản phẩm từ 10%.",
-                "imglink": "news/15"
-            },
-            {
-                "id": "n16",
-                "date": "4/11/22",
-                "title": "Hè mở Deal hời - mời bạn ghé chơi",
-                "content": "Chào hè cùng hàng loạt chương trình hấp dẫn và đây là một trong số các ưu đãi “mở màn” của P&T dành cho hội yêu thời trang.",
-                "imglink": "news/16"
-            },
-            {
-                "id": "n17",
-                "date": "4/5/22",
-                "title": "Mừng đại lễ - quay là trúng",
-                "content": "Lễ này bạn chọn nơi nào để “quẩy” vậy nè? Dù đi chơi xa hay gần, thì lúc nào nhà P&T cũng sẵn sàng đồng hành cùng bạn đó nha",
-                "imglink": "news/17"
-            },
-            {
-                "id": "n18",
-                "date": "3/12/22",
-                "title": "Memberday - sale up to 20% cho VIP",
-                "content": "Nhằm tri ân quý khách hàng đã luôn đồng hành cùng P&T trong suốt thời gian qua. Nay Ad xin dành tặng ưu đãi lên đến 20% dành riêng cho VIP",
-                "imglink": "news/18"
-            },
-            {
-                "id": "n19",
-                "date": "3/2/22",
-                "title": "Hot deal 11 cực hot",
-                "content": "Hot deal 11k - hàng ngàn sản phẩm đồng giá",
-                "imglink": "news/19"
-            },
-            {
-                "id": "n20",
-                "date": "2/25/22",
-                "title": "Black Friday - sale off có tâm",
-                "content": "Sale Off tất cả sản phẩm trong bộ sưu tập mới, cũ, bán chạy. Đồng thời vẫn giảm thêm % chiết khấu cho thẻ VIP",
-                "imglink": "news/20"
-            }
-        ]`);
-
-    function prevPage() {
-        if (current_page > 1) {
-            current_page--;
-            changePage(current_page);
-        }
-    }
-
-    function nextPage() {
-        if (current_page < numPages()) {
-            current_page++;
-            changePage(current_page);
-        }
-    }
-
-    function init() {
-        var $itemActions = $(".item-actions-dropdown");
-
+    function reloadScript() {
+        const $itemActions = $(".item-actions-dropdown");
         $(document).on('click', function (e) {
             if (!$(e.target).closest('.item-actions-dropdown').length) {
                 $itemActions.removeClass('active');
             }
         });
-
         $('.item-actions-toggle-btn').on('click', function (e) {
             e.preventDefault();
-            var $thisActionList = $(this).closest('.item-actions-dropdown');
+            const $thisActionList = $(this).closest('.item-actions-dropdown');
             $itemActions.not($thisActionList).removeClass('active');
             $thisActionList.toggleClass('active');
         });
     }
-
-    function changePage(page) {
-        var btn_next = document.getElementById("btn_next");
-        var btn_prev = document.getElementById("btn_prev");
-        var list = document.getElementById("appendItem");
-        var page_span = document.getElementById("page");
-        if (page < 1) page = 1;
-        if (page > numPages()) page = numPages();
-
-        list.innerHTML = "";
-
-        for (var i = (page - 1) * records_per_page; i < (page * records_per_page) && i < objJson.length; i++) {
-            list.innerHTML += `<li class="item">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-check">
-                                <label class="item-check" id="select-all-items">
-                                    <input type="checkbox" class="checkbox">
-                                    <span></span>
-                                </label>
-                            </div>
-                            <div class="item-col fixed pull-left item-col-title">
-                                <div class="item-heading">Tiêu đề</div>
-                                <div>
-                                    <a href="item-editor.jsp" class="">
-                                        <h4 class="item-title"> ${objJson[i].title} </h4>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-sales">
-                                <div class="item-heading">Mã bài</div>
-                                <div> ${objJson[i].id} </div>
-                            </div>
-                            <div class="item-col item-col-stats no-overflow">
-                                <div class="item-heading">Số lượt xem</div>
-                                <div class="no-overflow">
-                                    ${Math.floor(Math.random() * 10000)}
-                                </div>
-                            </div>
-                            <div class="item-col item-col-category no-overflow">
-                            </div>
-                            <div class="item-col item-col-author">
-                                <div class="item-heading">Trạng thái</div>
-                                <div class="no-overflow">
-                                    <a href="">${Math.floor(Math.random() * 2) == 1 ? "active" : "hidden"}</a>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-date">
-                                <div class="item-heading">Ngày thêm</div>
-                                <div class="no-overflow"> ${objJson[i].date} </div>
-                            </div>
-                            <div class="item-col fixed item-col-actions-dropdown">
-                                <div class="item-actions-dropdown">
-                                    <a class="item-actions-toggle-btn">
-                                        <span class="inactive">
-                                            <i class="fa fa-cog"></i>
-                                        </span>
-                                        <span class="active">
-                                            <i class="fa fa-chevron-circle-right"></i>
-                                        </span>
-                                    </a>
-                                    <div class="item-actions-block">
-                                        <ul class="item-actions-list">
-                                            <li>
-                                                <a class="remove" href="#" data-toggle="modal" data-target="#confirm-modal">
-                                                    <i class="fa fa-trash-o "></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="edit" href="post-editor.jsp">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>`
-            init()
-        }
-        page_span.innerHTML = page;
-
-        if (page == 1) {
-            btn_prev.style.visibility = "hidden";
-        } else {
-            btn_prev.style.visibility = "visible";
-        }
-
-        if (page == numPages()) {
-            btn_next.style.visibility = "hidden";
-        } else {
-            btn_next.style.visibility = "visible";
-        }
+    function deleteNews() {
+        $(".remove").each(function () {
+            const id = $(this).attr("id").substring(6);
+            const pageNumb = parseInt($("#pageNumb").text());
+            $(this).on("click", function (e) {
+                e.preventDefault();
+                $("#yes").click(function () {
+                    console.log("deleted")
+                    $.ajax({
+                        url: "/CuoiKiWeb_war/DeleteNewsControllerAdmin",
+                        type: "post",
+                        data: {
+                            id: id,
+                            pageNumb: pageNumb,
+                        },
+                        success: function (data) {
+                            $("#appendItem").html(data);
+                            reloadScript();
+                        }
+                    })
+                })
+            })
+        })
     }
 
-    function numPages() {
-        return Math.ceil(objJson.length / records_per_page);
-    }
+    deleteNews();
 
-    window.onload = function () {
-        changePage(1);
-    };
-
-    function getRandomDate() {
-        const maxDate = Date.now();
-        const timestamp = Math.floor(Math.random() * maxDate);
-        var d = new Date(timestamp);
-        return d.getDate() + "-" + (d.getMonth() + 1) + "-" + d.getFullYear();
-    }
+    $(document).ready(function () {
+        $("#btn_prev").on("click", function (e){
+            e.preventDefault();
+            const pageNumb = parseInt($("#pageNumb").text()) - 1;
+            if (pageNumb > 0) {
+                $.ajax({
+                    url: "/CuoiKiWeb_war/LoadNewsListAdminController",
+                    type: "post",
+                    data: {
+                        pageNumb: pageNumb
+                    },
+                    success: function (data) {
+                        $("#appendItem").html(data);
+                        $("#pageNumb").text(pageNumb)
+                        deleteNews();
+                        reloadScript();
+                        // info();
+                    }
+                })
+            }
+        })
+        $("#btn_next").on("click", function (e) {
+            e.preventDefault();
+            const pageNumb = parseInt($("#pageNumb").text()) + 1;
+            $.ajax({
+                url: "/CuoiKiWeb_war/LoadNewsListAdminController",
+                type: "post",
+                data: {
+                    pageNumb: pageNumb
+                },
+                success: function (data) {
+                    if ($.trim(data)) {
+                        $("#appendItem").html(data);
+                        $("#pageNumb").text(pageNumb)
+                        deleteNews();
+                        reloadScript();
+                    }
+                },
+                error: function (data) {
+                    console.log(data)
+                }
+            })
+        })
+    })
 </script>
 </body>
 </html>

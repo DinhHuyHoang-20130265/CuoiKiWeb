@@ -23,7 +23,7 @@ public class EditInsertCategoryController extends HttpServlet {
         String idCateParent = request.getParameter("idCateParent");
         String content = request.getParameter("content");
         if (id.length() < 1) {
-            CategoryService.getInstance().InsertNewCategory(id, name, content, idCateParent, status);
+            CategoryService.getInstance().InsertNewCategory(name, content, idCateParent, status);
         } else {
             CategoryService.getInstance().UpdateCategory(id, name, content, idCateParent, status);
         }

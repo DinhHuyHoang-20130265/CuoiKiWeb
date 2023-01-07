@@ -158,8 +158,8 @@ public class CategoryService {
         return new CategoryDAO().getCategoryHiddenAndDetails(id);
     }
 
-    public void InsertNewCategory(String id, String cate_name, String cate_desc, String parent_id, int status) {
-        new CategoryDAO().InsertNewCategory(id, cate_name, cate_desc, parent_id, status);
+    public void InsertNewCategory(String cate_name, String cate_desc, String parent_id, int status) {
+        new CategoryDAO().InsertNewCategory(cate_name, cate_desc, parent_id, status);
     }
 
     public void UpdateCategory(String id, String cate_name, String cate_desc, String parent_id, int status) {
