@@ -7,9 +7,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%List<News> list = (List<News>) request.getAttribute("news"); %>
-<% if (list != null)
-    for (News news : list) { %>
+<%List<News> loadNews = (List<News>) request.getAttribute("loadNews"); %>
+<% if (loadNews != null)
+    for (News news : loadNews) { %>
 <li class="item">
     <div class="item-row">
         <div class="item-col fixed item-col-check">

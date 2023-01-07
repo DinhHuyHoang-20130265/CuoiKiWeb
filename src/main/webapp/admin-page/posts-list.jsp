@@ -47,35 +47,10 @@
                         <div class="col-md-6">
                             <h3 class="title"> Danh sách tin tức
                                 <a href="post-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm tin tức </a>
-<%--                                <div class="action dropdown">--%>
-<%--                                    <button class="btn  btn-sm rounded-s btn-secondary dropdown-toggle" type="button"--%>
-<%--                                            id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"--%>
-<%--                                            aria-expanded="false"> Hành động--%>
-<%--                                    </button>--%>
-<%--                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">--%>
-<%--                                        <a class="dropdown-item hidden-item" href="#">--%>
-<%--                                            <i class="fa fa-pencil-square-o icon"></i>Ẩn tin tức</a>--%>
-<%--                                        <a class="dropdown-item delete-item" href="#" data-toggle="modal"--%>
-<%--                                           data-target="#confirm-modal">--%>
-<%--                                            <i class="fa fa-close icon"></i>Xoá tin tức</a>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
                             </h3>
                         </div>
                     </div>
                 </div>
-<%--                <div class="items-search">--%>
-<%--                    <form class="form-inline">--%>
-<%--                        <div class="input-group">--%>
-<%--                            <input type="text" class="form-control boxed rounded-s" placeholder="Tìm kiếm...">--%>
-<%--                            <span class="input-group-btn">--%>
-<%--                                        <button class="btn btn-secondary rounded-s" type="button">--%>
-<%--                                            <i class="fa fa-search"></i>--%>
-<%--                                        </button>--%>
-<%--                                    </span>--%>
-<%--                        </div>--%>
-<%--                    </form>--%>
-<%--                </div>--%>
             </div>
             <div class="card items">
                 <ul class="item-list striped">
@@ -123,15 +98,15 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
-                    <% int numb = -1;
+                    <% int pageNumb = -1;
                         List<News> list = NewsService.getInstance().getListNewsByPage(1);
                         if (list.size() > 6)
-                            numb = 6;
-                        else numb = list.size();
+                            pageNumb = 6;
+                        else pageNumb = list.size();
                     %>
                     <div id="appendItem">
                     <% if (list != null)
-                        for (int i = 0; i < numb; i++) {%>
+                        for (int i = 0; i < pageNumb; i++) {%>
                     <li class="item" id="item<%=list.get(i).getNews_id()%>">
                         <div class="item-row">
                             <div class="item-col fixed item-col-check">
@@ -154,8 +129,7 @@
                             </div>
                             <div class="item-col item-col-stats no-overflow">
                                 <div class="item-heading">Số lượt xem</div>
-                                <div class="no-overflow">
-<%--                                    <div class="item-stats sparkline" data-type="bar">1</div>--%>
+                                <div class="no-overflow"><%--<div class="item-stats sparkline" data-type="bar">1</div>--%>
                                     1
                                 </div>
                             </div>
@@ -231,7 +205,7 @@
                         <a class="page-link" style="text-decoration: none;" id="btn_prev"> Trước </a>
                     </li>
                     <li class="page-item active">
-                        <a class="page-link" id="page" style="text-decoration: none;" href="#"> 1 </a>
+                        <a class="page-link" id="pageNumb" href="#" style="text-decoration: none;"> 1 </a>
                     </li>
                     <a class="page-link" style="text-decoration: none;" id="btn_next"> Kế tiếp </a>
                     </li>
@@ -307,7 +281,7 @@
     function deleteNews() {
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
-            const page = parseInt($("#page").text());
+            const pageNumb = parseInt($("#pageNumb").text());
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("#yes").click(function () {
@@ -317,7 +291,7 @@
                         type: "post",
                         data: {
                             id: id,
-                            page: page,
+                            pageNumb: pageNumb,
                         },
                         success: function (data) {
                             $("#appendItem").html(data);
@@ -331,80 +305,80 @@
 
     deleteNews();
 
-    function info() {
-        $(".info").each(function () {
-            $(this).click(function (e) {
-                e.preventDefault();
-                const id = $(this).attr("id").substring(4);
-                $.ajax({
-                    url: "/CuoiKiWeb_war/InfoNewsController",
-                    type: "post",
-                    data: {
-                        id: id
-                    },
-                    success: function (data) {
-                        $("#confirm-detailsModal .modal-content").html(data);
-                        $("#confirm-detailsModal").modal('toggle');
-                    }
-                })
-            })
-        })
-    }
+    // function info() {
+    //     $(".info").each(function () {
+    //         $(this).click(function (e) {
+    //             e.preventDefault();
+    //             const id = $(this).attr("id").substring(4);
+    //             $.ajax({
+    //                 url: "/CuoiKiWeb_war/InfoNewsController",
+    //                 type: "post",
+    //                 data: {
+    //                     id: id
+    //                 },
+    //                 success: function (data) {
+    //                     $("#confirm-detailsModal .modal-content").html(data);
+    //                     $("#confirm-detailsModal").modal('toggle');
+    //                 }
+    //             })
+    //         })
+    //     })
+    // }
 
-    $(".info").each(function () {
-        $(this).click(function (e) {
-            e.preventDefault();
-            const id = $(this).attr("id").substring(4);
-            $.ajax({
-                url: "/CuoiKiWeb_war/InfoNewsController",
-                type: "post",
-                data: {
-                    id: id
-                },
-                success: function (data) {
-                    $("#confirm-detailsModal .modal-content").html(data);
-                    $("#confirm-detailsModal").modal('toggle');
-                }
-            })
-        })
-    })
+    // $(".info").each(function () {
+    //     $(this).click(function (e) {
+    //         e.preventDefault();
+    //         const id = $(this).attr("id").substring(4);
+    //         $.ajax({
+    //             url: "/CuoiKiWeb_war/InfoNewsController",
+    //             type: "post",
+    //             data: {
+    //                 id: id
+    //             },
+    //             success: function (data) {
+    //                 $("#confirm-detailsModal .modal-content").html(data);
+    //                 $("#confirm-detailsModal").modal('toggle');
+    //             }
+    //         })
+    //     })
+    // })
     $(document).ready(function () {
         $("#btn_prev").on("click", function (e) {
             e.preventDefault();
-            const page = parseInt($("#page").text()) - 1;
-            if (page > 0) {
+            const pageNumb = parseInt($("#pageNumb").text()) - 1;
+            if (pageNumb > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadNewsListAdmin",
+                    url: "/CuoiKiWeb_war/LoadNewsListAdminController",
                     type: "post",
                     data: {
-                        page: page,
+                        pageNumb: pageNumb,
                     },
                     success: function (data) {
                         $("#appendItem").html(data);
-                        $("#page").text(page)
+                        $("#pageNumb").text(pageNumb)
                         deleteNews();
                         reloadScript();
-                        info();
+                        // info();
                     }
                 })
             }
         })
         $("#btn_next").on("click", function (e) {
             e.preventDefault();
-            const page = parseInt($("#page").text()) + 1;
+            const pageNumb = parseInt($("#pageNumb").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadNewsListAdmin",
+                url: "/CuoiKiWeb_war/LoadNewsListAdminController",
                 type: "post",
                 data: {
-                    page: page,
+                    pageNumb: pageNumb,
                 },
                 success: function (data) {
                     if ($.trim(data)) {
                         $("#appendItem").html(data);
-                        $("#page").text(page)
+                        $("#pageNumb").text(pageNumb)
                         deleteNews();
                         reloadScript();
-                        info();
+                        // info();
                     }
                 }
             })

@@ -22,8 +22,8 @@ public class NewsService {
         return (ArrayList<News>) new NewsDAO().loadAllNews();
     }
 
-    public List<News> getListNewsByPage(int page) {
-        return new NewsDAO().loadAllNewsWithPage(page);
+    public List<News> getListNewsByPage(int pageNumb) {
+        return new NewsDAO().loadAllNewsWithPage(pageNumb);
     }
 
     public News getNewsById(String id) {

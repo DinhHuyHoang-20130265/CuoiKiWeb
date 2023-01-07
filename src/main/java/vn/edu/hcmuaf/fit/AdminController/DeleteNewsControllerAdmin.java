@@ -21,10 +21,10 @@ public class DeleteNewsControllerAdmin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        int page = Integer.parseInt(request.getParameter("page"));
+        int pageNumb = Integer.parseInt(request.getParameter("pageNumb"));
         NewsService.getInstance().RemoveNews(id);
-        List<News> loadNews = NewsService.getInstance().getListNewsByPage(page);
-        request.setAttribute("loadNews", loadNews);
+        List<News> list = NewsService.getInstance().getListNewsByPage(pageNumb);
+        request.setAttribute("loadNews", list);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadNewsListAdmin.jsp").forward(request, response);
     }
 }

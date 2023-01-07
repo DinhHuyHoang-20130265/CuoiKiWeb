@@ -42,9 +42,11 @@ public class NewsDAO {
     }
     public void RemoveNews(String id) {
             JDBIConnector.get().withHandle(handle -> {
-                        handle.createUpdate("DELETE FROM news WHERE news_id = ?")
+                        handle.createUpdate("SET FOREIGN_KEY_CHECKS = 0").execute();
+                        handle.createUpdate("DELETE FROM news WHERE news_id = ? ")
                                 .bind(0, id)
                                 .execute();
+                        handle.createUpdate("SET FOREIGN_KEY_CHECKS = 1").execute();
                         return true;
                     }
             );
