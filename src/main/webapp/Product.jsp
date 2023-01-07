@@ -579,6 +579,7 @@
             success: function (data) {
                 $("#products").html(data);
                 $("#page").val("2");
+                addwishlist();
                 load("1");
             }
         });
