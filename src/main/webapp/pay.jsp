@@ -347,6 +347,9 @@
             success: function (data) {
                 alert(data);
                 window.location.href = "http://localhost:8080/CuoiKiWeb_war/index.jsp"
+            },
+            error: function (data) {
+                alert(data);
             }
         })
     })

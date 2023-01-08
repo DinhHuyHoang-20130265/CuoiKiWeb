@@ -102,5 +102,6 @@ public class SlideDAO {
 
     public static void main(String[] args) {
         System.out.println(new SlideDAO().getAllSlideByPage(1));
+        System.out.println(new SlideDAO().LoadAllSlide());
     }
 }
