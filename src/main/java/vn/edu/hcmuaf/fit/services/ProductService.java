@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.services;
 
 import vn.edu.hcmuaf.fit.DAO.ProductDAO;
+import vn.edu.hcmuaf.fit.DAO.PromotionDAO;
 import vn.edu.hcmuaf.fit.beans.product.Product;
 
 import java.util.ArrayList;
@@ -63,5 +64,12 @@ public class ProductService {
 
     public Product getProductHiddenAndDetails(String id) {
         return new ProductDAO().getProductHiddenAndDetails(id);
+    }
+    public List<Product> loadAllProductContainStatus() {
+        return new ProductDAO().loadAllProductContainStatus();
+    }
+
+    public static void main(String[] args) {
+        new ProductDAO().loadAllProductContainStatus();
     }
 }

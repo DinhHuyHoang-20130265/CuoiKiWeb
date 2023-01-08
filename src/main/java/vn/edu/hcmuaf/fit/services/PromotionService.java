@@ -4,6 +4,7 @@ import vn.edu.hcmuaf.fit.DAO.PromotionDAO;
 import vn.edu.hcmuaf.fit.beans.promotion.Promotion;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PromotionService {
@@ -24,5 +25,15 @@ public class PromotionService {
     }
     public void RemovePromotion(String id) {
         new PromotionDAO().RemovePromotion(id);
+    }
+
+    public Promotion getPromotionHiddenAndDetails(String id) {
+        return new PromotionDAO().getPromotionHiddenAndDetails(id);
+    }
+    public void InsertNewPromotion(String product_id, String name_promo, String desc_promo, int discount_rate, int status, String start_date, String end_date) {
+        new PromotionDAO().InsertNewPromotion(product_id, name_promo, desc_promo, discount_rate, status, start_date, end_date);
+    }
+    public void UpdatePromotion(String promo_id, String product_id, String name_promo, String desc_promo, int discount_rate, int status, String start_date, String end_date) {
+        new PromotionDAO().UpdatePromotion(promo_id, product_id, name_promo, desc_promo, discount_rate, status, start_date, end_date);
     }
 }

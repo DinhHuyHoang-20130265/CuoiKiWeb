@@ -10,12 +10,12 @@ public class Promotion implements Serializable {
     private String desc_prom;
     private int discount_rate;
     private int status;
-    private Date start_date;
-    Date end_date;
+    private String start_date;
+    private String end_date;
     public Promotion() {
     }
 
-    public Promotion(String promo_id, String product_id, String name_prom, String desc_prom, int discount_rate, int status, Date start_date, Date end_date) {
+    public Promotion(String promo_id, String product_id, String name_prom, String desc_prom, int discount_rate, int status, String start_date, String end_date) {
         this.promo_id = promo_id;
         this.product_id = product_id;
         this.name_prom = name_prom;
@@ -74,19 +74,19 @@ public class Promotion implements Serializable {
         this.status = status;
     }
 
-    public Date getStart_date() {
+    public String getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public void setStart_date(String start_date) {
         this.start_date = start_date;
     }
 
-    public Date getEnd_date() {
+    public String getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(String end_date) {
         this.end_date = end_date;
     }
 
@@ -99,8 +99,8 @@ public class Promotion implements Serializable {
                 ", desc_prom='" + desc_prom + '\'' +
                 ", discount_rate=" + discount_rate +
                 ", status=" + status +
-                ", start_date=" + start_date +
-                ", end_date=" + end_date +
+                ", start_date='" + start_date + '\'' +
+                ", end_date='" + end_date + '\'' +
                 '}';
     }
 }
