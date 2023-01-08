@@ -77,7 +77,7 @@
                                 <i class="fa fa-info-circle"></i>
                             </a>
                         </li>                        <li>
-                            <a class="edit" id="edit" href="post-editor.jsp">
+                            <a class="edit" id="edit" href="item-editor.jsp?id=<%=news.getNews_id()%>">
                                 <i class="fa fa-pencil"></i>
                             </a>
                         </li>
