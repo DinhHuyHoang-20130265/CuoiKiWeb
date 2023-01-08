@@ -43,9 +43,9 @@ public class CheckoutController extends HttpServlet {
             int quantity = cart.getData().get(p).getQuantity_cart();
             double price = 0;
             if (cart.getData().get(p).getSales() != null) {
-                price = (cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate())) * quantity;
+                price = cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate());
             } else {
-                price = cart.getData().get(p).getPrice() * quantity;
+                price = cart.getData().get(p).getPrice();
             }
             int old_quan = ProductService.getInstance().getProductAndDetails(prod_id).getQuantity();
             if (old_quan < quantity) {
