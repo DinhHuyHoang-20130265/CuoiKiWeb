@@ -49,7 +49,7 @@ public class EditInsertNewsController extends HttpServlet {
                 File fileInServer = new File(request.getServletContext().getAttribute("TEMPNEWS_DIR") + File.separator + split);
                 if (fileInServer.exists())
                     fileInServer.delete();
-                File fileInLocal = new File(request.getServletContext().getAttribute("FILES_DIR_TEMPNEWS") + File.separator + split);
+                File fileInLocal = new File(request.getServletContext().getAttribute("FILEPNEWS_DIR") + File.separator + split);
                 if (fileInLocal.exists())
                     fileInLocal.delete();
             }
@@ -60,7 +60,7 @@ public class EditInsertNewsController extends HttpServlet {
         if (imgFile != null) {
             File file = new File(request.getServletContext().getAttribute("TEMPNEWS_DIR") + File.separator + imgFile);
             FileInputStream fis = new FileInputStream(file);
-            File local = new File(request.getServletContext().getAttribute("FILES_DIR_TEMPNEWS") + File.separator + imgFile);
+            File local = new File(request.getServletContext().getAttribute("FILEPNEWS_DIR") + File.separator + imgFile);
             FileOutputStream fos = new FileOutputStream(local);
             byte[] bytes = new byte[1024];
             int read;

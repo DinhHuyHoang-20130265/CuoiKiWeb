@@ -70,7 +70,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Tiêu đề: </label>
                         <div class="col-sm-10">
-                            <input type="text" id="title name" class="form-control boxed" placeholder="Điền tiêu đề vô đây"
+                            <input type="text" id="title" class="form-control boxed" placeholder="Điền tiêu đề vô đây"
                                    value="<%=(news != null)? news.getNews_title(): ""%>">
                         </div>
                     </div>
@@ -268,7 +268,7 @@
         e.preventDefault();
         const userID = $("#userid").val();
         const id = $("#idEdit").val();
-        const title = $("#idEdit").val();
+        const title = $("#title").val();
         const description = $("#description").val();
         const content = CKEDITOR.instances.editor.getData();
         const removed = $("#deletedFile").val();
@@ -278,6 +278,7 @@
             nameFile = nameFile.substring(nameFile.lastIndexOf("\\") + 1);
         else
             nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);
+        console.log(title);
         $.ajax({
             url: "/CuoiKiWeb_war/EditInsertNewsController",
             type: "GET",
