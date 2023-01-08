@@ -133,11 +133,11 @@
                                 <%
                                     List<Category> categories = CategoryService.getInstance().getAllCate();
                                 %>
-                                <%for (Category c : categories) {%>
-                                <option value="<%=c.getId()%>" <%=(cate != null && c.getId().equals(cate.getId())) ? "selected" : ""%>><%=c.getCate_name()%>
+                                <%for (Category c : categories) { %>
+                                <option value="<%=c.getId()%>" <%=(cate != null && cate.getParent_id() != null && c.getId().equals(cate.getParent_id())) ? "selected" : ""%>><%=c.getCate_name()%>
                                 </option>
                                 <%}%>
-                                <option value="other">Khác</option>
+                                <option value="0" <%=cate.getParent_id() == null ? "selected": ""%>>Không có</option>
                             </select>
                         </div>
                     </div>

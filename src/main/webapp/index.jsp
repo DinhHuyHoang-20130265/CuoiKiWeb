@@ -108,34 +108,37 @@
         <section class="awe-section-1">
             <div class="mt-4 top-sliders col-md-12">
                 <div class="slideshow">
-<%--                    <%--%>
-<%--                        List<Slide> listSlide = SlideService.getInstance().LoadAllSlide();--%>
-<%--                    %>--%>
+                    <%
+                        List<Slide> listSlide = SlideService.getInstance().LoadAllSlide();
+                    %>
                     <div id="demo" class="carousel slide" data-ride="carousel">
                         <ul class="carousel-indicators">
-                            <li data-target="#demo" data-slide-to="0" class="active"></li>
-                            <li data-target="#demo" data-slide-to="1"></li>
-                            <li data-target="#demo" data-slide-to="2"></li>
+                            <% for( int k = 0; k < listSlide.size(); k++) { %>
+                            <li data-target="#demo" data-slide-to="<%=k%>" class="<%=k==0 ? "active" : ""%>"></li>
+                            <%}%>
                         </ul>
-<%--                        <%for (Slide slide: listSlide) {%>--%>
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="./assets/img/slideshow/1.jpg" alt="Los Angeles" width="1100" height="500"/>
+                            <%  int h = 0;
+                                for (Slide slide: listSlide) {%>
+                            <div class="carousel-item <%=h==0 ? "active" : ""%>">
+                                <img src="<%=slide.getSlide_link()%>" alt="Los Angeles" width="1100" height="500" style="max-width: 1100px; max-height: 500px; min-width: 1100px; min-height: 500px;"/>
                                 <div class="carousel-caption">
                                 </div>
                             </div>
-                            <div class="carousel-item">
-                                <img src="./assets/img/slideshow/2.jpg" alt="Chicago" width="1100" height="500"/>
-                                <div class="carousel-caption">
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <img src="./assets/img/slideshow/3.jpg" alt="New York" width="1100" height="500"/>
-                                <div class="carousel-caption">
-                                </div>
-                            </div>
+                            <% h++;
+                                }
+                            %>
+<%--                            <div class="carousel-item">--%>
+<%--                                <img src="./assets/img/slideshow/2.jpg" alt="Chicago" width="1100" height="500"/>--%>
+<%--                                <div class="carousel-caption">--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                            <div class="carousel-item">--%>
+<%--                                <img src="./assets/img/slideshow/3.jpg" alt="New York" width="1100" height="500"/>--%>
+<%--                                <div class="carousel-caption">--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
                         </div>
-<%--                        <%}%>--%>
                         <a class="carousel-control-prev" href="#demo" data-slide="prev">
                             <span class="carousel-control-prev-icon"></span>
                         </a>

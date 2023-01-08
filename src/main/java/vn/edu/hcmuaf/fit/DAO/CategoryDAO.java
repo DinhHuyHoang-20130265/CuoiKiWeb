@@ -109,6 +109,7 @@ public class CategoryDAO {
                         .one()
         );
     }
+
     private String generateIdCategory() {
         List<String> id = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT id FROM user_account").mapTo(String.class).stream().collect(Collectors.toList()));
         String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -132,32 +133,59 @@ public class CategoryDAO {
 
     }
 
-    public void InsertNewCategory(String id, String cate_name, String cate_desc, String parent_id, int status) {
-        id = generateIdCategory();
-        String finalId = id;
+    public void InsertNewCategory(String cate_name, String cate_desc, String parent_id, int status) {
+        String id = generateIdCategory();
         JDBIConnector.get().withHandle(handle ->
-                handle.createUpdate("INSERT INTO product_categories VALUES (?,?,?,?,?)")
-                        .bind(0, finalId)
-                        .bind(1, cate_name)
-                        .bind(2, cate_desc)
-                        .bind(3, parent_id)
-                        .bind(4, status)
-                        .execute()
+                {
+                    if (parent_id.equals("0")) {
+                        handle.createUpdate("INSERT INTO product_categories VALUES (?,?,?,NULL,?)")
+                                .bind(0, id)
+                                .bind(1, cate_name)
+                                .bind(2, cate_desc)
+                                .bind(3, status)
+                                .execute();
+                    }
+                    else {
+                        handle.createUpdate("INSERT INTO product_categories VALUES (?,?,?,?,?)")
+                                .bind(0, id)
+                                .bind(1, cate_name)
+                                .bind(2, cate_desc)
+                                .bind(3, parent_id)
+                                .bind(4, status)
+                                .execute();
+                    }
+                    return null;
+                }
         );
     }
+
     public void UpdateCategory(String id, String cate_name, String cate_desc, String parent_id, int status) {
         JDBIConnector.get().withHandle(handle ->
-                handle.createUpdate("UPDATE product_categories SET cate_name = ?, cate_desc = ?, parent_id = ?, cate_status = ? WHERE id = ?")
-                        .bind(0, cate_name)
-                        .bind(1, cate_desc)
-                        .bind(2, parent_id)
-                        .bind(3, status)
-                        .bind(4, id)
-                        .execute()
+                {
+                    if (parent_id.equals("0")) {
+                        handle.createUpdate("UPDATE product_categories SET cate_name = ?, cate_desc = ?, parent_id = NULL, cate_status = ? WHERE id = ?")
+                                .bind(0, cate_name)
+                                .bind(1, cate_desc)
+                                .bind(2, status)
+                                .bind(3, id)
+                                .execute();
+                    }
+                    else {
+                        handle.createUpdate("UPDATE product_categories SET cate_name = ?, cate_desc = ?, parent_id = ?, cate_status = ? WHERE id = ?")
+                                .bind(0, cate_name)
+                                .bind(1, cate_desc)
+                                .bind(2, parent_id)
+                                .bind(3, status)
+                                .bind(4, id)
+                                .execute();
+                    }
+                    return null;
+                }
         );
     }
 
     public static void main(String[] args) {
         System.out.println(new CategoryDAO().loadCategoryWithConditionContainsStatus(7, 6));
+       new CategoryDAO().UpdateCategory("FbELtf6uwo","Ao 3 lo", "1212", "cate01", 1);
     }
 }
