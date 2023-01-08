@@ -67,21 +67,6 @@
                         <div class="col-md-6">
                             <h3 class="title">
                                 Danh sách đơn hàng
-                                <div class="action dropdown">
-                                    <button class="btn btn-sm rounded-s btn-secondary dropdown-toggle" type="button"
-                                            id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
-                                        Hành động
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                        <a class="dropdown-item hidden-item" href="#">
-                                            <i class="fa fa-pencil-square-o icon"></i>Ẩn đơn
-                                            hàng</a>
-                                        <a class="dropdown-item delete-item" href="#" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-close icon"></i>Xoá đơn hàng</a>
-                                    </div>
-                                </div>
                             </h3>
                         </div>
                     </div>
@@ -103,7 +88,7 @@
                                         <div class="col-auto pr-3">
                                             <div class="filter-options__childrent__dropdown__menu">
                                                 <select class="form-select" aria-label="Default select example"
-                                                        style="border: none;">
+                                                        style="border: none;" id="filter">
                                                     <option value="0" selected>Sắp xếp theo: Ngày tạo gần nhất</option>
                                                     <option value="1">Ngày tạo cũ nhất</option>
                                                     <option value="2">Giá trị nhỏ dần</option>
@@ -123,7 +108,7 @@
                                                         </svg>
                                                     </svg>
                                                 </div>
-                                                <input autocomplete="on" type="text"
+                                                <input autocomplete="on" type="text" id="searchUser"
                                                        class="next-input next-input--invisible" placeholder="Tìm kiếm"
                                                        step="1" value=""/>
                                             </div>
@@ -138,7 +123,7 @@
                         <div class="position-relative">
                             <div class="order-list--table table-list--config">
                                 <div class="ui-table-listing-container">
-                                    <table class="ui-table">
+                                    <table class="ui-table" id="appendItem">
                                         <thead>
                                         <tr>
                                             <th class="table-header--check">
@@ -205,7 +190,7 @@
                                                         <div class="order_list_customer">
                                                             <p class="mb-0 px-2 align-items-center word-break">
                                                                 <span class="omni-shorten-text"
-                                                                      title="<%=siteUser.getUsername() == null ? "null" : siteUser.getUsername()%>"><%=siteUser.getUsername() == null ? "null" : siteUser.getUsername()%></span>
+                                                                      title="<%=(siteUser == null || siteUser.getUsername() == null) ? order.getCustomer_id() : siteUser.getUsername()%>"><%=(siteUser == null || siteUser.getUsername() == null) ? order.getCustomer_id() : siteUser.getUsername()%></span>
                                                             </p>
                                                         </div>
                                                     </span>
@@ -213,20 +198,26 @@
                                             </td>
                                             <td>
                                                 <div class="status-component">
-                                                    <%if (order.getPayment_method() == 0) { %>
-                                                    <span class="badges--order-payment-status-3">Chưa thanh toán</span>
+                                                    <%if (order.getPayment_status() == 0) { %>
+                                                    <span class="circle-status mr-2 circle-status-purchase-4"></span>
+                                                    <span class="badges--purchase-order-status-4">Chưa thanh toán</span>
                                                     <% } else { %>
-                                                    <span class="badges--order-payment-status-3">Đã thanh toán</span>
+                                                    <span class="circle-status mr-2 circle-status-confirmed"></span>
+                                                    <span class="badges--purchase-order-status-3">Đã thanh toán</span>
                                                     <% }%>
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex">
                                                     <div class="status-component">
-                                                        <%if (order.getDelivered() == 0) { %>
-                                                        <span class="circle-status mr-2 circle-status-shipment_ontheway"></span><span
-                                                            class="badges--carrier-status-2">
+                                                        <%if (order.getDelivered() == -1) { %>
+                                                        <span class="circle-status mr-2 circle-status-shipment_notyet"></span><span
+                                                            class="badges--shipment-cod-status-2">
                                                                     Chưa giao hàng</span>
+                                                        <% } else if (order.getDelivered() == 0) { %>
+                                                        <span class="circle-status mr-2 circle-status-shipment_ontheway"></span><span
+                                                            class="badges--order-payment-status-5">
+                                                                    Đang giao hàng</span>
                                                         <% } else { %>
                                                         <span class="circle-status mr-2 circle-status-shipment_done"></span><span
                                                             class="badges--carrier-status-4">
@@ -238,16 +229,16 @@
                                             <td>
                                                 <div class="d-flex">
                                                     <div class="status-component">
-                                                        <%if (order.getDelivered() == 0) { %>
+                                                        <%if (order.getStatus() == 0) { %>
                                                         <span
                                                                 class="circle-status mr-2 circle-status-cancel"></span><span
                                                             class="badges--order-status-cancel">
-                                                                    Đã xác nhận</span>
+                                                                    Chưa xác nhận</span>
                                                         <% } else { %>
                                                         <span
                                                                 class="circle-status mr-2 circle-status-complete"></span><span
                                                             class="badges--carrier-status-4">
-                                                                    Chưa xác nhận</span>
+                                                                    Đã xác nhận</span>
                                                         <% }%>
                                                     </div>
                                                 </div>
@@ -255,9 +246,10 @@
                                             <td class="text-right"><%=formatter.format(order.getTotal())%>
                                             </td>
                                             <td>
-                                                <a style="cursor: pointer" class="remove"
+                                                <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
+                                                   data-target="#confirm-modal"
                                                    id="remove<%=order.getOrd_id()%>">
-                                                    <i class="fa fa-trash" style="color: red"></i>
+                                                    <i class="fa fa-trash-o"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -273,7 +265,7 @@
                                                 Trước </a>
                                         </li>
                                         <li class="page-item active">
-                                            <a class="page-link" id="page" href="#" style="text-decoration: none;">1</a>
+                                            <a class="page-link" id="page" style="text-decoration: none;">1</a>
                                         </li>
                                         <a class="page-link" id="btn_next" style="text-decoration: none;"> Kế tiếp </a>
                                     </ul>
@@ -297,7 +289,7 @@
                         <p>Bạn có chắc muốn xoá đơn hàng này ?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary yes" data-dismiss="modal">
+                        <button type="button" id="yesButton" class="btn btn-primary" data-dismiss="modal">
                             Có
                         </button>
                         <button type="button" class="btn btn-secondary no" data-dismiss="modal">
@@ -346,6 +338,127 @@
 <script src="./js/jquery-3.6.1.min.js"></script>
 <script src="./js/vendor.js"></script>
 <script src="./js/app.js"></script>
+<script>
+    function deleteOrder() {
+        $(".remove").each(function () {
+            const id = $(this).attr("id").substring(6);
+            const search = $("#searchUser").val();
+            const page = parseInt($("#page").text());
+            const order = $("#filter").find(':selected').val();
+            $(this).on("click", function (e) {
+                e.preventDefault();
+                $("#yesButton").click(function () {
+                    $.ajax({
+                        url: "/CuoiKiWeb_war/DeleteOrderController",
+                        type: "post",
+                        data: {
+                            id: id,
+                            search: search,
+                            page: page,
+                            order: order
+                        },
+                        success: function (data) {
+                            $("#appendItem tbody").html(data);
+                            deleteOrder();
+                        }
+                    })
+                })
+            })
+        })
+    }
+
+    function filterAdmin(e) {
+        e.preventDefault();
+        const page = 1;
+        const order = $("#filter").find(':selected').val();
+        const search = $("#searchUser").val();
+        $.ajax({
+            url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+            type: "post",
+            data: {
+                page: page,
+                order: order,
+                search: search
+            },
+            success: function (data) {
+                $("#appendItem tbody").html(data);
+                deleteOrder();
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        deleteOrder();
+        $("#filter").change(function (e) {
+            filterAdmin(e);
+            deleteOrder();
+        })
+        $("#searchUser").on("input", function (e) {
+            e.preventDefault();
+            const search = this.value;
+            const order = $("#filter").find(':selected').val();
+            const page = 1;
+            $.ajax({
+                url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+                type: "post",
+                data: {
+                    page: page,
+                    order: order,
+                    search: search
+                },
+                success: function (data) {
+                    $("#appendItem tbody").html(data);
+                    $("#page").text(page)
+                    deleteOrder();
+                }
+            })
+        })
+        $("#btn_prev").on("click", function (e) {
+            e.preventDefault();
+            const search = $("#searchUser").val();
+            const page = parseInt($("#page").text()) - 1;
+            const order = $("#filter").find(':selected').val();
+            if (page > 0) {
+                $.ajax({
+                    url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+                    type: "post",
+                    data: {
+                        page: page,
+                        search: search,
+                        order: order
+                    },
+                    success: function (data) {
+                        $("#appendItem tbody").html(data);
+                        $("#page").text(page)
+                        deleteOrder();
+                    }
+                })
+            }
+        })
+        $("#btn_next").on("click", function (e) {
+            e.preventDefault();
+            const page = parseInt($("#page").text()) + 1;
+            const search = $("#searchUser").val();
+            const order = $("#filter").find(':selected').val();
+            $.ajax({
+                url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+                type: "post",
+                data: {
+                    page: page,
+                    search: search,
+                    order: order
+                },
+                success: function (data) {
+                    if ($.trim(data)) {
+                        $("#appendItem tbody").html(data);
+                        $("#page").text(page)
+                        deleteOrder();
+                    }
+                }
+            })
+        })
+    })
+</script>
 </body>
 
 </html>

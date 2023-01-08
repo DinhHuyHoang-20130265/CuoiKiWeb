@@ -50,7 +50,7 @@ public class OrderDAO {
         String date_3days = (java.time.LocalDate.now().plusDays(3)).toString();
         JDBIConnector.get().withHandle(handle -> {
             handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, payment_status, delivered, total, delivery_date, address," +
-                            "receive_name, email, phone_number, note, customer_id) VALUES(?,?,1,?,0,-1,?,?,?,?,?,?,?,? )")
+                            "receive_name, email, phone_number, note, customer_id) VALUES(?,?,0,?,0,-1,?,?,?,?,?,?,?,? )")
                     .bind(0, ord_id)
                     .bind(1, date)
                     .bind(2, payment_method)
@@ -69,7 +69,7 @@ public class OrderDAO {
     }
 
     public Order getOrderById(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status o.delivered, " +
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, " +
                         "o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" +
                         " FROM orders o WHERE o.ord_id =?")
                 .bind(0, id)
@@ -90,7 +90,7 @@ public class OrderDAO {
     }
 
     public List<Order> getOrderListCondition(String page, String orderBy, String search) {
-        String sql = "SELECT o.ord_id, o.ord_date, o.status, " + "o.payment_method, o.delivered, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" + " FROM orders o ";
+        String sql = "SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note FROM orders o ";
         if (search != null) {
             if (search.length() > 0) {
                 sql += " WHERE o.ord_id LIKE '%" + search + "%'";
@@ -127,8 +127,30 @@ public class OrderDAO {
         return temp;
     }
 
+    public void UpdatePaymentStatus(String id) {
+        JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE orders SET payment_status= 1 WHERE ord_id= ?")
+                .bind(0, id)
+                .execute()
+        );
+    }
+
+    public void UpdateOrderStatus(String id) {
+        JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE orders SET status= 1 WHERE ord_id= ?")
+                .bind(0, id)
+                .execute()
+        );
+    }
+
+    public void UpdateDeliveryStatus(String id, String status) {
+        JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE orders SET delivered= ? WHERE ord_id= ?")
+                .bind(0, Integer.parseInt(status))
+                .bind(1, id)
+                .execute()
+        );
+    }
+
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getOrderById("8XTwU0QgJ9"));
+        System.out.println(new OrderDAO().getOrderListByUserId("user6"));
 
     }
 }

@@ -181,6 +181,6 @@ public class AccountUserDAO {
     }
 
     public static void main(String[] args) {
-        new AccountUserDAO().ChangeUserPassword("user1", "123123", "123123", "123123");
+        System.out.println( new AccountUserDAO().getAccountById("user6"));
     }
 }
