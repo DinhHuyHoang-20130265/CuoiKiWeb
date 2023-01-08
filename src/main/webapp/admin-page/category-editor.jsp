@@ -137,7 +137,7 @@
                                 <option value="<%=c.getId()%>" <%=(cate != null && cate.getParent_id() != null && c.getId().equals(cate.getParent_id())) ? "selected" : ""%>><%=c.getCate_name()%>
                                 </option>
                                 <%}%>
-                                <option value="0" <%=cate.getParent_id() == null ? "selected": ""%>>Không có</option>
+                                <option value="0" <%=cate != null && cate.getParent_id() == null ? "selected": ""%>>Không có</option>
                             </select>
                         </div>
                     </div>
