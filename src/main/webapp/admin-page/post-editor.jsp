@@ -25,6 +25,7 @@
             document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
         }
     </script>
+    <script src="ckeditor/ckeditor.js"></script>
 </head>
 <body>
 <%
@@ -43,366 +44,96 @@
         <jsp:include page="Layout/_LayoutAdminSideBar.jsp"></jsp:include>
         <article class="content item-editor-page">
             <div class="title-block">
-                <h3 class="title"> Thêm/sửa tin tức
+                <%if (request.getParameter("id") != null) {%>
+                <h3 class="title"> Sửa danh mục
                     <span class="sparkline bar" data-type="bar"></span>
                 </h3>
+                <%} else {%>
+                <h3 class="title"> Thêm danh mục
+                    <span class="sparkline bar" data-type="bar"></span>
+                </h3>
+                <%}%>
             </div>
-            <form name="item">
+            <%
+                News news = null;
+                if (request.getParameter("id") != null)
+                    news = NewsService.getInstance().getNewsById(request.getParameter("id"));
+            %>
+            <form name="item" method="post" enctype="multipart/form-data">
+                <input type="text" id="idEdit"
+                       value="<%=request.getParameter("id") == null ? "" : request.getParameter("id")%>"
+                       style="display: none">
+                <input type="text" id="userid"
+                       value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                       style="display:none;">
                 <div class="card card-block">
                     <div class="form-group row">
-                        <label class="col-sm-2 form-control-label text-xs-right">
-                        Tiêu đề:
-                        </label>
+                        <label class="col-sm-2 form-control-label text-xs-right"> Tiêu đề: </label>
                         <div class="col-sm-10">
-                            <%if(request.getParameter("id") != null){%>
-                            <input type="text" class="form-control boxed" placeholder="Điền tiêu đề vô đây"
-                                   value="<%=NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_title()%>">
-                        <%} else{%>
-                        <input type="text" class="form-control boxed" placeholder="Điền tiêu đề vô đây">
-                        <%}%>
+                            <input type="text" id="title" class="form-control boxed" placeholder="Điền tiêu đề vô đây"
+                                   value="<%=(news != null)? news.getNews_title(): ""%>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 form-control-label text-xs-right"> Mô tả: </label>
+                        <div class="col-sm-10">
+                            <input type="text" id="description" class="form-control boxed" placeholder="Điền mô tả vô đây"
+                                   value="<%=(news != null)? news.getDescription(): ""%>">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Nội dung: </label>
                         <div class="col-sm-10">
-                            <div class="wyswyg">
-                                <div class="toolbar">
-                                    <select class="ql-size">
-                                        <option value="small"></option>
-                                        <option selected></option>
-                                        <option value="large"></option>
-                                        <option value="huge"></option>
-                                    </select>
-                                    <button class="ql-bold"></button>
-                                    <button class="ql-italic"></button>
-                                    <button class="ql-underline"></button>
-                                    <button class="ql-strike"></button>
-                                    <select title="Text Color" class="ql-color">
-                                        <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)" selected></option>
-                                        <option value="rgb(230, 0, 0)" label="rgb(230, 0, 0)"></option>
-                                        <option value="rgb(255, 153, 0)" label="rgb(255, 153, 0)"></option>
-                                        <option value="rgb(255, 255, 0)" label="rgb(255, 255, 0)"></option>
-                                        <option value="rgb(0, 138, 0)" label="rgb(0, 138, 0)"></option>
-                                        <option value="rgb(0, 102, 204)" label="rgb(0, 102, 204)"></option>
-                                        <option value="rgb(153, 51, 255)" label="rgb(153, 51, 255)"></option>
-                                        <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)"></option>
-                                        <option value="rgb(250, 204, 204)" label="rgb(250, 204, 204)"></option>
-                                        <option value="rgb(255, 235, 204)" label="rgb(255, 235, 204)"></option>
-                                        <option value="rgb(255, 255, 204)" label="rgb(255, 255, 204)"></option>
-                                        <option value="rgb(204, 232, 204)" label="rgb(204, 232, 204)"></option>
-                                        <option value="rgb(204, 224, 245)" label="rgb(204, 224, 245)"></option>
-                                        <option value="rgb(235, 214, 255)" label="rgb(235, 214, 255)"></option>
-                                        <option value="rgb(187, 187, 187)" label="rgb(187, 187, 187)"></option>
-                                        <option value="rgb(240, 102, 102)" label="rgb(240, 102, 102)"></option>
-                                        <option value="rgb(255, 194, 102)" label="rgb(255, 194, 102)"></option>
-                                        <option value="rgb(255, 255, 102)" label="rgb(255, 255, 102)"></option>
-                                        <option value="rgb(102, 185, 102)" label="rgb(102, 185, 102)"></option>
-                                        <option value="rgb(102, 163, 224)" label="rgb(102, 163, 224)"></option>
-                                        <option value="rgb(194, 133, 255)" label="rgb(194, 133, 255)"></option>
-                                        <option value="rgb(136, 136, 136)" label="rgb(136, 136, 136)"></option>
-                                        <option value="rgb(161, 0, 0)" label="rgb(161, 0, 0)"></option>
-                                        <option value="rgb(178, 107, 0)" label="rgb(178, 107, 0)"></option>
-                                        <option value="rgb(178, 178, 0)" label="rgb(178, 178, 0)"></option>
-                                        <option value="rgb(0, 97, 0)" label="rgb(0, 97, 0)"></option>
-                                        <option value="rgb(0, 71, 178)" label="rgb(0, 71, 178)"></option>
-                                        <option value="rgb(107, 36, 178)" label="rgb(107, 36, 178)"></option>
-                                        <option value="rgb(68, 68, 68)" label="rgb(68, 68, 68)"></option>
-                                        <option value="rgb(92, 0, 0)" label="rgb(92, 0, 0)"></option>
-                                        <option value="rgb(102, 61, 0)" label="rgb(102, 61, 0)"></option>
-                                        <option value="rgb(102, 102, 0)" label="rgb(102, 102, 0)"></option>
-                                        <option value="rgb(0, 55, 0)" label="rgb(0, 55, 0)"></option>
-                                        <option value="rgb(0, 41, 102)" label="rgb(0, 41, 102)"></option>
-                                        <option value="rgb(61, 20, 102)" label="rgb(61, 20, 102)"></option>
-                                    </select>
-                                    <select title="Background Color" class="ql-background">
-                                        <option value="rgb(0, 0, 0)" label="rgb(0, 0, 0)"></option>
-                                        <option value="rgb(230, 0, 0)" label="rgb(230, 0, 0)"></option>
-                                        <option value="rgb(255, 153, 0)" label="rgb(255, 153, 0)"></option>
-                                        <option value="rgb(255, 255, 0)" label="rgb(255, 255, 0)"></option>
-                                        <option value="rgb(0, 138, 0)" label="rgb(0, 138, 0)"></option>
-                                        <option value="rgb(0, 102, 204)" label="rgb(0, 102, 204)"></option>
-                                        <option value="rgb(153, 51, 255)" label="rgb(153, 51, 255)"></option>
-                                        <option value="rgb(255, 255, 255)" label="rgb(255, 255, 255)" selected></option>
-                                        <option value="rgb(250, 204, 204)" label="rgb(250, 204, 204)"></option>
-                                        <option value="rgb(255, 235, 204)" label="rgb(255, 235, 204)"></option>
-                                        <option value="rgb(255, 255, 204)" label="rgb(255, 255, 204)"></option>
-                                        <option value="rgb(204, 232, 204)" label="rgb(204, 232, 204)"></option>
-                                        <option value="rgb(204, 224, 245)" label="rgb(204, 224, 245)"></option>
-                                        <option value="rgb(235, 214, 255)" label="rgb(235, 214, 255)"></option>
-                                        <option value="rgb(187, 187, 187)" label="rgb(187, 187, 187)"></option>
-                                        <option value="rgb(240, 102, 102)" label="rgb(240, 102, 102)"></option>
-                                        <option value="rgb(255, 194, 102)" label="rgb(255, 194, 102)"></option>
-                                        <option value="rgb(255, 255, 102)" label="rgb(255, 255, 102)"></option>
-                                        <option value="rgb(102, 185, 102)" label="rgb(102, 185, 102)"></option>
-                                        <option value="rgb(102, 163, 224)" label="rgb(102, 163, 224)"></option>
-                                        <option value="rgb(194, 133, 255)" label="rgb(194, 133, 255)"></option>
-                                        <option value="rgb(136, 136, 136)" label="rgb(136, 136, 136)"></option>
-                                        <option value="rgb(161, 0, 0)" label="rgb(161, 0, 0)"></option>
-                                        <option value="rgb(178, 107, 0)" label="rgb(178, 107, 0)"></option>
-                                        <option value="rgb(178, 178, 0)" label="rgb(178, 178, 0)"></option>
-                                        <option value="rgb(0, 97, 0)" label="rgb(0, 97, 0)"></option>
-                                        <option value="rgb(0, 71, 178)" label="rgb(0, 71, 178)"></option>
-                                        <option value="rgb(107, 36, 178)" label="rgb(107, 36, 178)"></option>
-                                        <option value="rgb(68, 68, 68)" label="rgb(68, 68, 68)"></option>
-                                        <option value="rgb(92, 0, 0)" label="rgb(92, 0, 0)"></option>
-                                        <option value="rgb(102, 61, 0)" label="rgb(102, 61, 0)"></option>
-                                        <option value="rgb(102, 102, 0)" label="rgb(102, 102, 0)"></option>
-                                        <option value="rgb(0, 55, 0)" label="rgb(0, 55, 0)"></option>
-                                        <option value="rgb(0, 41, 102)" label="rgb(0, 41, 102)"></option>
-                                        <option value="rgb(61, 20, 102)" label="rgb(61, 20, 102)"></option>
-                                    </select>
-                                    <button class="ql-list" value="ordered"></button>
-                                    <button class="ql-list" value="bullet"></button>
-                                    <select title="Text Alignment" class="ql-align">
-                                        <option selected></option>
-                                        <option value="center" label="Center"></option>
-                                        <option value="right" label="Right"></option>
-                                        <option value="justify" label="Justify"></option>
-                                    </select>
-                                    <button class="ql-link"></button>
-                                    <button style="width: auto;" type="button" title="Image"
-                                            class="btn btn-secondary btn-sm" data-toggle="modal"
-                                            data-target="#modal-media">
-                                        <i class="fa fa-image"></i> Media
-                                    </button>
-                                </div>
-                                <div class="editor">
-                                    <%if(request.getParameter("id") != null){%>
-                                   <%=NewsService.getInstance().getNewsById(request.getParameter("id")).getDescription()%>
-                                    <%} else{%>
-                                    Điền content ở đây
-                                    <%}%>
-                                </div>
-                            </div>
+                            <textarea id="editor">
+                                <%=(news != null) ? news.getContent() : ""%>
+                            </textarea>
+                            <script>
+                                CKEDITOR.replace('editor');
+                            </script>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Hình ảnh: </label>
                         <div class="col-sm-10">
                             <div class="images-container">
+                                <% if (request.getParameter("id") == null) { %>
                                 <div class="image-container">
-                                    <div class="controls">
-                                        <a href="" class="control-btn move">
-                                            <i class="fa fa-arrows"></i>
-                                        </a>
-                                        <a href="" class="control-btn star">
-                                            <i class="fa"></i>
-                                        </a>
-                                        <a href="#" class="control-btn remove" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </div>
-                                    <div class="image"
-                                         style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')">
-                                        Ảnh chính
+                                    <div class="image" id="container">
+                                        <input type="file" id="image" name="files" class="input-file"/>
                                     </div>
                                 </div>
+                                <% } else { %>
                                 <div class="image-container">
-                                    <div class="controls">
-                                        <a href="" class="control-btn move">
-                                            <i class="fa fa-arrows"></i>
-                                        </a>
-                                        <!--
-                        -->
-                                        <a href="" class="control-btn star">
-                                            <i class="fa"></i>
-                                        </a>
-                                        <!--
-                        -->
-                                        <a href="#" class="control-btn remove" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </div>
-                                    <div class="image"
-                                         style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')"></div>
-                                </div>
-                                <div class="image-container">
-                                    <div class="controls">
-                                        <a href="" class="control-btn move">
-                                            <i class="fa fa-arrows"></i>
-                                        </a>
-                                        <!--
-                        -->
-                                        <a href="" class="control-btn star">
-                                            <i class="fa"></i>
-                                        </a>
-                                        <!--
-                        -->
-                                        <a href="#" class="control-btn remove" data-toggle="modal"
-                                           data-target="#confirm-modal">
-                                            <i class="fa fa-trash-o"></i>
-                                        </a>
-                                    </div>
-                                    <div class="image"
-                                         style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')"></div>
-                                </div>
-                                <a href="#" class="add-image" data-toggle="modal" data-target="#modal-media">
-                                    <div class="image-container new">
-                                        <div class="image">
-                                            <i class="fa fa-plus"></i>
+                                    <div class="image" id="container">
+                                        <div class="controls">
+                                            <a id="removeImg" class="control-btn remove"
+                                               style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
                                         </div>
+                                        <img class='news-review'
+                                             src='<%=news.getNews_img_link()%>'
+                                             style='height: 100%;width: 100%'>
                                     </div>
-                                </a>
+                                </div>
+                                <%
+                                    } %>
                             </div>
                         </div>
                     </div>
+                    <input type="text" id="deletedFile" value="" style="display: none">
                     <div class="form-group row">
                         <div class="col-sm-10 col-sm-offset-2">
-                            <button type="submit" class="btn btn-primary"> Lưu</button>
+                            <%if (request.getParameter("id") != null) {%>
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                            <% } else {%>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
+                            <%}%>
                         </div>
                     </div>
                 </div>
             </form>
         </article>
-        <div class="modal fade" id="modal-media">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Media Library</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            <span class="sr-only">Close</span>
-                        </button>
-                    </div>
-                    <div class="modal-body modal-tab-container">
-                        <ul class="nav nav-tabs modal-tabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#gallery" data-toggle="tab" role="tab">Gallery</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#upload" data-toggle="tab" role="tab">Upload</a>
-                            </li>
-                        </ul>
-                        <div class="tab-content modal-tab-content">
-                            <div class="tab-pane fade" id="gallery" role="tabpanel">
-                                <div class="images-container">
-                                    <div class="row">
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/_everaldo/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-sm-4 col-md-4 col-lg-3">
-                                            <div class="image-container">
-                                                <div class="image"
-                                                     style="background-image:url('https://s3.amazonaws.com/uifaces/faces/twitter/eduardo_olv/128.jpg')"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade active in" id="upload" role="tabpanel">
-                                <div class="upload-container">
-                                    <div id="dropzone">
-                                        <form action="/" method="POST" enctype="multipart/form-data"
-                                              class="dropzone needsclick dz-clickable" id="demo-upload">
-                                            <div class="dz-message-block">
-                                                <div class="dz-message needsclick"> Drop files here or click to
-                                                    upload.
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-                        <button type="button" class="btn btn-primary">Lưu</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-        <div class="modal fade" id="confirm-modal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">
-                            <i class="fa fa-warning"></i>Lưu ý</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Bạn có chắc muốn thực hiện hành động này ??</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Có</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
     </div>
 </div>
 <!-- Reference block for JS -->
@@ -413,6 +144,8 @@
         <div class="color-secondary"></div>
     </div>
 </div>
+<script src="js/vendor.js"></script>
+<script src="js/app.js"></script>
 <script>
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
@@ -428,8 +161,147 @@
     ga('create', 'UA-80463319-4', 'auto');
     ga('send', 'pageview');
 </script>
-<script src="js/vendor.js"></script>
-<script src="js/app.js"></script>
+<script>
+    $('.form-control').on('change', function () {
+        if ($(this).val() == 'other') {
+            $(this).after('<input placeholder="Nhập..." type="text" name="' + $(this).attr('name') + '" class="otherInput form-control boxed" style="width:50% !important; margin-top:5px;border: 1px solid #ced4da;border-radius: 0.25rem;"/>');
+        } else {
+            if ($(this).next().is('input.otherInput')) {
+                $(this).next().remove();
+            }
+            ;
+        }
+        ;
+    });
+</script>
+<script>
+    $(".input-file").on('change', function (e) {
+        const value = $(this).val();
+        let name = "";
+        if (value.indexOf("\\") != -1)
+            name = value.substring(value.lastIndexOf("\\") + 1);
+        else
+            name = value.substring(value.lastIndexOf("/") + 1);
+        uploadFile(name, e)
+    });
+
+    function uploadImage() {
+        $(".input-file").on('change', function (e) {
+            const value = $(this).val();
+            let name = "";
+            if (value.indexOf("\\") != -1)
+                name = value.substring(value.lastIndexOf("\\") + 1);
+            else
+                name = value.substring(value.lastIndexOf("/") + 1);
+            uploadFile(name, e)
+        });
+    }
+
+    function uploadFile(name, event) {
+        event.stopPropagation();
+        event.preventDefault();
+        const files = event.target.files;
+        const data = new FormData();
+        $.each(files, function (key, value) {
+            data.append(key, value);
+        });
+        postFilesData(name, data);
+    }
+
+    removeFilesData();
+
+    function postFilesData(name, data) {
+        $.ajax({
+            url: '/CuoiKiWeb_war/UpDownImageNewsController',
+            type: 'POST',
+            data: data,
+            cache: false,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function (data, textStatus, jqXHR) {
+                //success
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#container").prepend("<img class='news-review' src='http://localhost:8080/CuoiKiWeb_war/assets/imgNews/news/" + name + "' style='height: 100%'>");
+                $(".images-container #container").prepend(`<div class="controls">
+                                            <a id="removeImg" class="control-btn remove" style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        </div>`)
+                let value = $("#deletedFile").val();
+                if (value.indexOf(name) !== -1) {
+                    value = value.replace(name + ",", "");
+                    $("#deletedFile").val(value);
+                }
+                removeFilesData()
+            }
+        });
+    }
+    function removeFilesData() {
+        $("#removeImg").on("click", function (e) {
+            e.preventDefault();
+            const src = $("#container .news-review").attr("src");
+            let imageName = "";
+            if (src.indexOf("\\") != -1)
+                imageName = src.substring(src.lastIndexOf("\\") + 1);
+            else
+                imageName = src.substring(src.lastIndexOf("/") + 1);
+            $("#container").parent().remove();
+            const value = $("#deletedFile").val();
+            if (value.length > 0)
+                $("#deletedFile").val($("#deletedFile").val() + imageName + ",");
+            else
+                $("#deletedFile").val(imageName + ",");
+            console.log($("#deletedFile").val());
+            $(".images-container").append(`<div class="image-container">
+                                    <div class="image" id="container">
+                                        <input type="file" id="image" name="files" class="input-file"/>
+                                    </div>
+                                </div>`);
+            uploadImage();
+        });
+    }
+</script>
+<script>
+    $("button[type='submit']").click(function (e) {
+        e.preventDefault();
+        const userID = $("#userid").val();
+        const id = $("#idEdit").val();
+        const title = $("#title").val();
+        const description = $("#description").val();
+        const content = CKEDITOR.instances.editor.getData();
+        const removed = $("#deletedFile").val();
+        const oldImg = removed.substring(0, removed.length - 1);
+        let nameFile = $(".news-review").attr("src");
+        if (nameFile.indexOf("\\") != -1)
+            nameFile = nameFile.substring(nameFile.lastIndexOf("\\") + 1);
+        else
+            nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);
+        console.log(title);
+        $.ajax({
+            url: "/CuoiKiWeb_war/EditInsertNewsController",
+            type: "GET",
+            data: {
+                userID :userID,
+                id: id,
+                title: title,
+                description : description,
+                content: content,
+                removed: removed,
+                oldImg: oldImg,
+                nameFile: nameFile
+            },
+            success: function () {
+                if (id.length < 1)
+                    alert("Thêm tin tức thành công");
+                else
+                    alert("Cập nhật tin tức thành công");
+                window.location.href = "posts-list.jsp"
+            }
+        })
+    })
+</script>
 </body>
 </html>
 <%}%>
