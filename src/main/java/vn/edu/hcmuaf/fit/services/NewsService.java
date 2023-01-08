@@ -34,4 +34,14 @@ public class NewsService {
         NewsDAO DAO = new NewsDAO();
         DAO.RemoveNews(id);
     }
+
+    public void InsertNewNews(String title, String description,String content,String news_img_link, String posted_by) {
+        NewsDAO DAO = new NewsDAO();
+        DAO.InsertNewNews(title,description,content,news_img_link,posted_by);
+    }
+
+    public void UpdateNews(String news_id,String news_title, String description,String content,String news_img_link,String updated_by) {
+        NewsDAO DAO = new NewsDAO();
+        DAO.UpdateNews(news_id,news_title,description,content,news_img_link,updated_by);
+    }
 }
