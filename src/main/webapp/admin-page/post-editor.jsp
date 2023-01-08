@@ -55,10 +55,10 @@
                         </label>
                         <div class="col-sm-10">
                             <%if(request.getParameter("id") != null){%>
-                            <input type="text" class="form-control boxed" placeholder="Điền tiêu đề vô đây"
+                            <input type="text" id="title" class="form-control boxed" placeholder="Điền tiêu đề vô đây"
                                    value="<%=NewsService.getInstance().getNewsById(request.getParameter("id")).getNews_title()%>">
                         <%} else{%>
-                        <input type="text" class="form-control boxed" placeholder="Điền tiêu đề vô đây">
+                        <input type="text" id="title" class="form-control boxed" placeholder="Điền tiêu đề vô đây">
                         <%}%>
                         </div>
                     </div>
@@ -427,6 +427,9 @@
     })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-80463319-4', 'auto');
     ga('send', 'pageview');
+</script>
+<script>
+
 </script>
 <script src="js/vendor.js"></script>
 <script src="js/app.js"></script>

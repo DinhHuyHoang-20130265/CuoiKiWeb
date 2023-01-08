@@ -173,7 +173,7 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="edit" id="edit" href="post-editor.jsp">
+                                                <a class="edit" id="edit" href="item-editor.jsp?id=<%=list.get(i).getNews_id()%>">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
                                             </li>
