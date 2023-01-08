@@ -482,7 +482,6 @@ public class ProductDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new ProductDAO().getProductAndDetails("es7eiZnBwf"));
-        System.out.println(new ProductDAO().getFourProductsSameCate("cate01"));
+        System.out.println(new ProductDAO().getProductAndDetails("prod008"));
     }
 }

@@ -35,4 +35,8 @@ public class OrderDetailDAO {
                 .stream().collect(Collectors.toList())
         );
     }
+
+    public static void main(String[] args) {
+        System.out.println(new OrderDetailDAO().getListDetailsFromOrdId("ord007"));
+    }
 }

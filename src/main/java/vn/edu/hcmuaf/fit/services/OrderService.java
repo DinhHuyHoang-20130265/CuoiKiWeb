@@ -39,4 +39,16 @@ public class OrderService {
     public List<Order> getOrderListCondition(String page, String order_by, String search) {
         return new OrderDAO().getOrderListCondition(page, order_by, search);
     }
+
+    public void UpdatePaymentStatus(String id) {
+        new OrderDAO().UpdatePaymentStatus(id);
+    }
+
+    public void UpdateOrderStatus(String id) {
+        new OrderDAO().UpdateOrderStatus(id);
+    }
+
+    public void UpdateDeliveryStatus(String id, String status) {
+        new OrderDAO().UpdateDeliveryStatus(id, status);
+    }
 }

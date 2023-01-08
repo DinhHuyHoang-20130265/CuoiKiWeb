@@ -69,7 +69,7 @@ public class OrderDAO {
     }
 
     public Order getOrderById(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status o.delivered, " +
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, " +
                         "o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" +
                         " FROM orders o WHERE o.ord_id =?")
                 .bind(0, id)
@@ -127,8 +127,30 @@ public class OrderDAO {
         return temp;
     }
 
+    public void UpdatePaymentStatus(String id) {
+        JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE orders SET payment_status= 1 WHERE ord_id= ?")
+                .bind(0, id)
+                .execute()
+        );
+    }
+
+    public void UpdateOrderStatus(String id) {
+        JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE orders SET status= 1 WHERE ord_id= ?")
+                .bind(0, id)
+                .execute()
+        );
+    }
+
+    public void UpdateDeliveryStatus(String id, String status) {
+        JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE orders SET delivered= ? WHERE ord_id= ?")
+                .bind(0, Integer.parseInt(status))
+                .bind(1, id)
+                .execute()
+        );
+    }
+
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getOrderListCondition("1", "0", null).get(0));
+        System.out.println(new OrderDAO().getOrderListByUserId("user6"));
 
     }
 }
