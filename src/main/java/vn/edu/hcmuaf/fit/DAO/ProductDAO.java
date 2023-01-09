@@ -23,6 +23,12 @@ public class ProductDAO {
                 .stream()
                 .collect(Collectors.toList()));
     }
+    public List<Product> loadAllProductContainStatus() {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product")
+                .mapToBean(Product.class)
+                .stream()
+                .collect(Collectors.toList()));
+    }
 
     public List<Product> loadProductWithCondition(int page, int num_per_page, String order_by, String cate_id, String color
             , String price, String size, String search) {

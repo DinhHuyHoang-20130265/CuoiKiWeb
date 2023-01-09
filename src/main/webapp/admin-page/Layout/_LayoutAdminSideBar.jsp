@@ -96,6 +96,17 @@
                             </ul>
                         </li>
                         <li>
+                            <a href="#"> Khuyến mãi <i class="fa arrow"></i></a>
+                            <ul class="sidebar-nav">
+                                <li>
+                                    <a href="promotion-list.jsp"> Danh sách khuyến mãi </a>
+                                </li>
+                                <li>
+                                    <a href="promotion-editor.jsp"> Chỉnh sửa thông tin khuyến mãi </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
                             <a href="#"> Slide trang chủ <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>

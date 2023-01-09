@@ -321,15 +321,19 @@
         const customer_id = $(".user_id").val();
         if (address === '' || address == null) {
             alert("Bạn cần điền địa chỉ giao hàng")
+            return false;
         }
         if (receive_name === '' || receive_name == null) {
             alert("Bạn cần điền tên người nhận hàng")
+            return false;
         }
         if (email === '' || email == null) {
             alert("Bạn cần điền email")
+            return false;
         }
         if (phone_number === '' || phone_number == null) {
             alert("Bạn cần điền số điện thoại nhận hàng")
+            return false;
         }
         $.ajax({
             url: "CheckoutController",

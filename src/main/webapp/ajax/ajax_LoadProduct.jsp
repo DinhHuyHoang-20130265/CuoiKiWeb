@@ -51,7 +51,7 @@
                 </h5>
                 <div class="product__price">
                     <%if (p.getSales() != null) {%>
-                    <p class="card-text price-color product__price-old"><%=p.getPrice()%>đ</p>
+                    <p class="card-text price-color product__price-old"><%=formatter.format(p.getPrice())%>đ</p>
                     <p class="card-text price-color product__price-new"><%=formatter.format(p.getPrice() * (1 - (p.getSales().getDiscount_rate()) * 0.01))%>
                         đ</p>
                     <%} else {%>
