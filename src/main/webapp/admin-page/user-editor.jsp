@@ -288,7 +288,7 @@
                                     </option>
                                     <option value="news" <%=table.equals("news") ? "selected" : ""%>>Tin tức
                                     </option>
-                                    <option value="orders" <%=table.equals("orders") ? "selected" : ""%>>Đơn hàng
+                                    <option value="order" <%=table.equals("order") ? "selected" : ""%>>Đơn hàng
                                     </option>
                                     <option value="category" <%=table.equals("category") ? "selected" : ""%>>Danh mục
                                     </option>
