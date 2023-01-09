@@ -94,7 +94,8 @@
                 <div class="items-search">
                     <form class="form-inline">
                         <div class="input-group">
-                            <input type="text" id="searchUser" class="form-control boxed rounded-s" placeholder="Tìm người dùng...">
+                            <input type="text" id="searchUser" class="form-control boxed rounded-s"
+                                   placeholder="Tìm người dùng...">
                             <span class="input-group-btn">
                                     <button class="btn btn-secondary rounded-s" type="button">
                                         <i class="fa fa-search"></i>
@@ -154,7 +155,7 @@
                     </li>
                     <div id="appendItem">
                         <% List<SiteUser> accounts = AccountService.getInstance().loadAccountWithConditions(1, 6, null);%>
-                        <% for (SiteUser user: accounts) {
+                        <% for (SiteUser user : accounts) {
                             UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
                         %>
                         <li class="item">
@@ -167,20 +168,23 @@
                                 </div>
                                 <div class="item-col fixed item-col-img md">
                                     <a>
-                                        <div class="item-img rounded" style="background-image: url(<%=(info.getAvatar_link() != null) ? info.getAvatar_link() : "https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg"%>)"></div>
+                                        <div class="item-img rounded"
+                                             style="background-image: url(<%=(info.getAvatar_link() != null) ? info.getAvatar_link() : "https://s3.amazonaws.com/uifaces/faces/twitter/brad_frost/128.jpg"%>)"></div>
                                     </a>
                                 </div>
                                 <div class="item-col fixed pull-left item-col-title">
                                     <div class="item-heading">Tên người dùng</div>
                                     <div>
                                         <a style="text-decoration: none">
-                                            <h4 class="item-title"> <%=info.getFull_name()%> </h4>
+                                            <h4 class="item-title"><%=info.getFull_name()%>
+                                            </h4>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="item-col item-col-sales">
                                     <div class="item-heading">Mã nguời dùng</div>
-                                    <div> <%=user.getId()%> </div>
+                                    <div><%=user.getId()%>
+                                    </div>
                                 </div>
                                 <div class="item-col item-col-stats no-overflow">
                                     <div class="item-heading">Email</div>
@@ -191,18 +195,21 @@
                                 <div class="item-col item-col-category no-overflow">
                                     <div class="item-heading">Địa chỉ</div>
                                     <div class="no-overflow">
-                                        <a style="text-decoration: none"><%=info.getAddress() != null ? info.getAddress() : ""%></a>
+                                        <a style="text-decoration: none"><%=info.getAddress() != null ? info.getAddress() : ""%>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="item-col item-col-author">
                                     <div class="item-heading">Trạng thái</div>
                                     <div class="no-overflow">
-                                        <a><%=user.getAccount_status() == 1 ? "Hoạt động" : "Tạm dừng"%></a>
+                                        <a><%=user.getAccount_status() == 1 ? "Hoạt động" : "Tạm dừng"%>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="item-col item-col-date">
                                     <div class="item-heading">Ngày thêm</div>
-                                    <div class="no-overflow"> <%=info.getCreated_date() != null ? info.getCreated_date() : ""%> </div>
+                                    <div class="no-overflow"><%=info.getCreated_date() != null ? info.getCreated_date() : ""%>
+                                    </div>
                                 </div>
                                 <div class="item-col fixed item-col-actions-dropdown">
                                     <div class="item-actions-dropdown">
@@ -216,16 +223,30 @@
                                         </a>
                                         <div class="item-actions-block">
                                             <ul class="item-actions-list">
+                                                <%
+                                                    for (AdminRole role : admin.getRole()) {
+                                                        if (role.getTable().equals("user") && role.getPermission().equals("delete")) {
+                                                %>
                                                 <li>
-                                                    <a style="cursor:pointer;" class="remove" id="remove<%=user.getId()%>" data-toggle="modal" data-target="#confirm-modal">
+                                                    <a style="cursor:pointer;" class="remove"
+                                                       id="remove<%=user.getId()%>" data-toggle="modal"
+                                                       data-target="#confirm-modal">
                                                         <i class="fa fa-trash-o "></i>
                                                     </a>
                                                 </li>
+                                                <%
+                                                    }
+                                                    if (role.getTable().equals("user") && role.getPermission().equals("update")) {
+                                                %>
                                                 <li>
                                                     <a class="edit" href="user-editor.jsp?id=<%=user.getId()%>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 </li>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
                                             </ul>
                                         </div>
                                     </div>
@@ -303,12 +324,12 @@
 <script>
     function reloadScript() {
         const $itemActions = $(".item-actions-dropdown");
-        $(document).on('click',function(e) {
+        $(document).on('click', function (e) {
             if (!$(e.target).closest('.item-actions-dropdown').length) {
                 $itemActions.removeClass('active');
             }
         });
-        $('.item-actions-toggle-btn').on('click',function(e){
+        $('.item-actions-toggle-btn').on('click', function (e) {
             e.preventDefault();
             const $thisActionList = $(this).closest('.item-actions-dropdown');
             $itemActions.not($thisActionList).removeClass('active');

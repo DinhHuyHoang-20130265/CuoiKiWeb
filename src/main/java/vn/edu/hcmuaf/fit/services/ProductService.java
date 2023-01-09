@@ -22,7 +22,9 @@ public class ProductService {
         ProductDAO DAO = new ProductDAO();
         return DAO.loadProductWithCondition(page, num_per_page, order_by, category, color, price, size, search);
     }
-
+    public int getProductSaled(String id) {
+        return new ProductDAO().getProductSaled(id);
+    }
     public List<Product> loadProductWithConditionContainsStatus(int page, int num_per_page, String order_by, String category, String color
             , String price, String size, String search) {
         ProductDAO DAO = new ProductDAO();

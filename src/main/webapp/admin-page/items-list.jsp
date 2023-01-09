@@ -179,7 +179,7 @@
                                 </div>
                                 <div class="item-col item-col-stats no-overflow">
                                     <div class="item-heading">Đã bán</div>
-                                    <div class="no-overflow"> null
+                                    <div class="no-overflow"> <%=ProductService.getInstance().getProductSaled(p.getId())%>
                                     </div>
                                 </div>
                                 <div class="item-col item-col-category no-overflow">

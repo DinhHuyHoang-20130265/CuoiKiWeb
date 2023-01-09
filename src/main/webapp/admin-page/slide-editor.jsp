@@ -1,4 +1,3 @@
-
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
@@ -6,6 +5,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.slide.Slide" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.SlideService" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
   Created by IntelliJ IDEA.
@@ -86,6 +86,17 @@
         response.sendRedirect("login.jsp");
 
     } else {
+        AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("slider")) {
+                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
+                    check = true;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -167,7 +178,7 @@
                                     </div>
                                 </div>
                                 <%
-                                } %>
+                                    } %>
                             </div>
                         </div>
                     </div>
@@ -360,5 +371,6 @@
 
 </html>
 <%
+        }
     }
 %>

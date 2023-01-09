@@ -1,8 +1,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.news.NewsComment" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.news.News" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.NewsService" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %><%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 1/6/2023
@@ -24,7 +23,8 @@
         <div class="item-col fixed item-col-img md" style="justify-content: center; min-width: 120px;margin: 0 50px;">
             <span>#<%=comment.getNews_id()%></span>
         </div>
-        <div class="item-col fixed pull-left item-col-title" style="padding: 0 !important; max-width: 200px; text-align: center;">
+        <div class="item-col fixed pull-left item-col-title"
+             style="padding: 0 !important; max-width: 200px; text-align: center;">
             <div class="item-heading">Người bình luận</div>
             <div>
                 <a>
@@ -67,6 +67,11 @@
                 </a>
                 <div class="item-actions-block">
                     <ul class="item-actions-list">
+                        <%
+                            AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+                            for (AdminRole role : admin.getRole()) {
+                                if (role.getTable().equals("comment") && role.getPermission().equals("delete")) {
+                        %>
                         <li>
                             <a class="remove" id="remove<%=comment.getComment_id()%>" style="cursor: pointer"
                                data-toggle="modal"
@@ -74,11 +79,14 @@
                                 <i class="fa fa-trash-o "></i>
                             </a>
                         </li>
+                        <%}%>
                         <li>
                             <a class="info" id="info<%=comment.getComment_id()%>" style="cursor: pointer">
                                 <i class="fa fa-info-circle"></i>
                             </a>
                         </li>
+                        <%
+                            if (role.getTable().equals("comment") && role.getPermission().equals("update")) {%>
                         <li>
                             <a class="toggle" id="toggle<%=comment.getComment_id()%>" style="cursor: pointer">
                                 <%
@@ -89,6 +97,10 @@
                                 <%} %>
                             </a>
                         </li>
+                        <%
+                                }
+                            }
+                        %>
                     </ul>
                 </div>
             </div>

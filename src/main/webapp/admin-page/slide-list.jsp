@@ -6,6 +6,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.services.NewsCommentService" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.SlideService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.slide.Slide" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -166,6 +167,16 @@
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("slider")) {
+                check = true;
+                break;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -285,6 +296,10 @@
                                         </a>
                                         <div class="item-actions-block">
                                             <ul class="item-actions-list">
+                                                <%
+                                                    for (AdminRole role : admin.getRole()) {
+                                                        if (role.getTable().equals("slider") && role.getPermission().equals("delete")) {
+                                                %>
                                                 <li>
                                                     <a class="remove" id="remove<%=list.get(i).getSlide_id()%>"
                                                        data-toggle="modal"
@@ -292,12 +307,20 @@
                                                         <i class="fa fa-trash-o "></i>
                                                     </a>
                                                 </li>
+                                                <%
+                                                    }
+                                                    if (role.getTable().equals("slider") && role.getPermission().equals("update")) {
+                                                %>
                                                 <li>
                                                     <a class="edit"
                                                        href="slide-editor.jsp?id=<%=list.get(i).getSlide_id()%>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 </li>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
                                             </ul>
                                         </div>
                                     </div>
@@ -403,6 +426,7 @@
             $thisActionList.toggleClass('active');
         });
     }
+
     function deleteSlide() {
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
@@ -427,6 +451,7 @@
             })
         })
     }
+
     deleteSlide();
     $(document).ready(function () {
         $("#btn_prev").on("click", function (e) {
@@ -469,4 +494,7 @@
 </script>
 </body>
 </html>
-<%}%>
+<%
+        }
+    }
+%>

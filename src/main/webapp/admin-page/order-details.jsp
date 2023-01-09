@@ -5,6 +5,7 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.*" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -48,11 +49,21 @@
 
     //----------------------Kiểm tra thử đăng nhập hay chưa--------------------//
     if (request.getSession().getAttribute("userAdmin") == null) {
-        // Send redirect tới login
+        // Sendredirect tới login
         response.sendRedirect("login.jsp");
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("order")) {
+                if (role.getPermission().equals("update"))
+                    check = true;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -541,4 +552,7 @@
 </body>
 
 </html>
-<%}%>
+<%
+        }
+    }
+%>

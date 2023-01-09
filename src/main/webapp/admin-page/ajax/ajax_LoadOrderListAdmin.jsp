@@ -3,7 +3,9 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.AccountService" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.services.AccountService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 1/7/2023
@@ -100,13 +102,40 @@
             </div>
         </div>
     </td>
+    <td>
+        <div class="d-flex">
+            <div class="status-component">
+                <%if (order.getIsCanceled() == 0) { %>
+                <span
+                        class="circle-status mr-2 circle-status-cancel"></span><span
+                    class="badges--order-status-cancel">
+                                                                    Đã Hủy</span>
+                <% } else { %>
+                <span
+                        class="circle-status mr-2 circle-status-complete"></span><span
+                    class="badges--carrier-status-4">
+                                                                    Đang hoạt động</span>
+                <% }%>
+            </div>
+        </div>
+    </td>
     <td class="text-right"><%=formatter.format(order.getTotal())%>
     </td>
     <td>
-        <a style="cursor: pointer" class="remove"
+        <%
+            AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+            for (AdminRole role : admin.getRole()) {
+                if (role.getTable().equals("order") && role.getPermission().equals("delete")) {
+                    if (order.getIsCanceled() == 1) { %>
+        <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
+           data-target="#confirm-modal"
            id="remove<%=order.getOrd_id()%>">
             <i class="fa fa-trash" style="color: red"></i>
         </a>
+        <% }
+        }
+        }
+        %>
     </td>
 </tr>
 <% }

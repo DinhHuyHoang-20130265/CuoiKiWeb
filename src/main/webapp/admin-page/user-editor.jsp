@@ -131,7 +131,7 @@
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
             if (role.getTable().equals("user")) {
-                if (role.getPermission().equals("insert") || role.getPermission().equals("update"))
+                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
                     check = true;
             }
         }
@@ -293,6 +293,8 @@
                                     <option value="category" <%=table.equals("category") ? "selected" : ""%>>Danh mục
                                     </option>
                                     <option value="slider" <%=table.equals("slider") ? "selected" : ""%>>Banner
+                                    </option>
+                                    <option value="sales" <%=table.equals("sales") ? "selected" : ""%>>Giảm giá
                                     </option>
                                 </select>
                                 <select class="c-select form-control"
