@@ -49,7 +49,7 @@ public class OrderDAO {
         String date = java.time.LocalDate.now().toString();
         String date_3days = (java.time.LocalDate.now().plusDays(3)).toString();
         JDBIConnector.get().withHandle(handle -> {
-            handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, payment_status, delivered, total, delivery_date, address," +
+            handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, payment_status, delivered, isCanceled, total, delivery_date, address," +
                             "receive_name, email, phone_number, note, customer_id) VALUES(?,?,0,?,0,-1,1,?,?,?,?,?,?,?,? )")
                     .bind(0, ord_id)
                     .bind(1, date)
