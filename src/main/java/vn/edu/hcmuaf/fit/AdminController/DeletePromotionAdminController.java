@@ -18,7 +18,9 @@ public class DeletePromotionAdminController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-
+    /*
+      Xóa giảm giá trong admin - Nguyễn Huy Hiệp 203130258
+   */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");

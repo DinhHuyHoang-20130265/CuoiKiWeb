@@ -17,7 +17,9 @@ public class DeleteNewsControllerAdmin extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
     }
-
+    /*
+       Xóa tin tức trong admin - Nguyễn Minh Hiếu 203130261
+    */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");

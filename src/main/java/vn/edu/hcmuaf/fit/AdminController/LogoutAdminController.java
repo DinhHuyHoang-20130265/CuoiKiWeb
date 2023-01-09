@@ -14,7 +14,9 @@ public class LogoutAdminController extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        /*
+        Đăng xuất admin làm bởi Đinh Huy Hoàng - 20130265
+        */
         //  Trước tiên xóa userAdmin khỏi sesstion, à xóa phải kiểm tra xem thử hiện tại nó có null không đã
         if(request.getSession().getAttribute("userAdmin") != null){
             request.getSession().removeAttribute("userAdmin");

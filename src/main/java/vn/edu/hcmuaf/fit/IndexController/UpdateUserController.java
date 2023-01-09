@@ -21,7 +21,9 @@ public class UpdateUserController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-
+    /*
+     Cập nhật lại thông tin tài khoản - Nguyễn Minh Hiếu - 20130261
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         SiteUser user = (SiteUser) request.getSession().getAttribute("user");

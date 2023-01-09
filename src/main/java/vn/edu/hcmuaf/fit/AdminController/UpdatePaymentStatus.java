@@ -14,7 +14,9 @@ public class UpdatePaymentStatus extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-
+    /*
+    Cập nhật trạng thái thanh toán trong admin - Đinh Huy Hoàng 20130258
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
