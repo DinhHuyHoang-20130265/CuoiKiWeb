@@ -35,11 +35,10 @@
                     </sup>
                 </a>
                 <div class="dropdown-menu notifications-dropdown-menu">
-                    <ul class="notifications-container">
+                    <ul class="notifications-container" style="overflow-x: unset; overflow-y: scroll; max-height: 500px">
                     <%List<Notify_Admin> list = NotifyService.getInstance().loadNotifyWithPage(1);
                         if (list != null){
                             for (Notify_Admin notify : list){%>
-
                         <li>
                             <a href="" class="notification-item">
                                 <div class="img-col">
