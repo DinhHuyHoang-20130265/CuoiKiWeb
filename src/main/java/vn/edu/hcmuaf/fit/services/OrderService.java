@@ -31,11 +31,6 @@ public class OrderService {
         return new OrderDAO().getOrderById(id);
     }
 
-    public static void main(String[] args) {
-        String id = new OrderDAO().generateIdOrder();
-        OrderService.getInstance().insertOrder(id, 1, 31288.0, "HCM city", "Hiep sss Chai", "dskakd@gmail.com", "21388821812", "Dong hang can than", "user1");
-    }
-
     public List<Order> getOrderListCondition(String page, String order_by, String search) {
         return new OrderDAO().getOrderListCondition(page, order_by, search);
     }
@@ -50,5 +45,10 @@ public class OrderService {
 
     public void UpdateDeliveryStatus(String id, String status) {
         new OrderDAO().UpdateDeliveryStatus(id, status);
+    }
+
+    public static void main(String[] args) {
+        String id = new OrderDAO().generateIdOrder();
+        OrderService.getInstance().insertOrder(id, 1, 31288.0, "HCM city", "Hiep sss Chai", "dskakd@gmail.com", "21388821812", "Dong hang can than", "user1");
     }
 }

@@ -13,7 +13,7 @@ public class OrderDAO {
 
     public List<Order> getOrderListByUserId(String id) {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, " +
-                        "o.payment_method, o.payment_status, o.delivered, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" +
+                        "o.payment_method, o.payment_status, o.delivered,o.isCanceled, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" +
                         " FROM orders o WHERE o.customer_id =?")
                 .bind(0, id)
                 .mapToBean(Order.class)
@@ -50,7 +50,7 @@ public class OrderDAO {
         String date_3days = (java.time.LocalDate.now().plusDays(3)).toString();
         JDBIConnector.get().withHandle(handle -> {
             handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, payment_status, delivered, total, delivery_date, address," +
-                            "receive_name, email, phone_number, note, customer_id) VALUES(?,?,0,?,0,-1,?,?,?,?,?,?,?,? )")
+                            "receive_name, email, phone_number, note, customer_id) VALUES(?,?,0,?,0,-1,1,?,?,?,?,?,?,?,? )")
                     .bind(0, ord_id)
                     .bind(1, date)
                     .bind(2, payment_method)
@@ -69,7 +69,7 @@ public class OrderDAO {
     }
 
     public Order getOrderById(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, " +
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, o.isCanceled, " +
                         "o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note" +
                         " FROM orders o WHERE o.ord_id =?")
                 .bind(0, id)
@@ -80,17 +80,15 @@ public class OrderDAO {
 
     public void removeOrder(String ord_id) {
         JDBIConnector.get().withHandle(handle -> {
-            handle.createUpdate("SET FOREIGN_KEY_CHECKS = 0").execute();
-            handle.createUpdate("DELETE FROM orders WHERE ord_id = ?")
+            handle.createUpdate("UPDATE orders SET isCanceled= 0 WHERE ord_id= ?")
                     .bind(0, ord_id)
                     .execute();
-            handle.createUpdate("SET FOREIGN_KEY_CHECKS = 1").execute();
             return null;
         });
     }
 
     public List<Order> getOrderListCondition(String page, String orderBy, String search) {
-        String sql = "SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note FROM orders o ";
+        String sql = "SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, o.isCanceled, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note FROM orders o ";
         if (search != null) {
             if (search.length() > 0) {
                 sql += " WHERE o.ord_id LIKE '%" + search + "%'";
@@ -150,7 +148,7 @@ public class OrderDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getOrderListByUserId("user6"));
+        System.out.println(new OrderDAO().getOrderById("ord007"));
 
     }
 }

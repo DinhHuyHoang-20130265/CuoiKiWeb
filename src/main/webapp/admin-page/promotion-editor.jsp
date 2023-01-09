@@ -1,4 +1,3 @@
-
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
@@ -9,6 +8,7 @@
 <%@ page import="java.util.Arrays" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.promotion.Promotion" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.PromotionService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
   Created by IntelliJ IDEA.
@@ -89,6 +89,17 @@
         response.sendRedirect("login.jsp");
 
     } else {
+        AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("sales")) {
+                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
+                    check = true;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -123,7 +134,8 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Tên KM: </label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control boxed" name="name"
-                                   id="name" value="<%=(promo != null) ? promo.getName_prom() : ""%>" placeholder="Nhập tên">
+                                   id="name" value="<%=(promo != null) ? promo.getName_prom() : ""%>"
+                                   placeholder="Nhập tên">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -134,7 +146,7 @@
                                     onchange='this.size=1; this.blur();'>
                                 <%
                                     List<Product> products = ProductService.getInstance().loadAllProductContainStatus();
-                                for (Product p : products) { %>
+                                    for (Product p : products) { %>
                                 <option value="<%=p.getId()%>" <%=(promo != null) ? "selected" : ""%>><%=p.getId()%>
                                 </option>
                                 <%}%>
@@ -156,7 +168,8 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Tỉ lệ KM: </label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control boxed" name="discount_rate"
-                                   id="discount_rate" value="<%=(promo != null) ? promo.getDiscount_rate() : ""%>" placeholder="Nhập tỉ lệ khuyến mãi">
+                                   id="discount_rate" value="<%=(promo != null) ? promo.getDiscount_rate() : ""%>"
+                                   placeholder="Nhập tỉ lệ khuyến mãi">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -178,14 +191,14 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Ngày bắt đầu: </label>
                         <div class="col-sm-10">
                             <input type="date" class="form-control boxed" name="start_date"
-                                   id="start_date" value="<%=(promo != null) ? promo.getStart_date() : ""%>" >
+                                   id="start_date" value="<%=(promo != null) ? promo.getStart_date() : ""%>">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Ngày kết thúc: </label>
                         <div class="col-sm-10">
                             <input type="date" class="form-control boxed" name="end_date"
-                                   id="end_date" value="<%=(promo != null) ? promo.getEnd_date() : ""%>" >
+                                   id="end_date" value="<%=(promo != null) ? promo.getEnd_date() : ""%>">
                         </div>
                     </div>
                     <input type="text" id="deletedFile" value="" style="display: none">
@@ -271,7 +284,7 @@
         const content = CKEDITOR.instances.editor.getData();
         const start_date = $("#start_date").val();
         const end_date = $("#end_date").val();
-        if(start_date > end_date) {
+        if (start_date > end_date) {
             alert("Ngày kết thúc không được bé hơn ngày bắt đầu!!")
             return false;
         }
@@ -302,5 +315,6 @@
 
 </html>
 <%
+        }
     }
 %>

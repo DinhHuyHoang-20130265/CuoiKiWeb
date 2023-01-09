@@ -9,6 +9,7 @@ public class Order implements Serializable {
     private int payment_method;
     private int payment_status;
     private int delivered;
+    private int isCanceled;
     private double total;
     private String delivery_date;
     private String address;
@@ -21,7 +22,7 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, double total,
+    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, int isCanceled, double total,
                  String delivery_date, String address, String receive_name, String email, String phone_number, String note, String customer_id) {
         this.ord_id = ord_id;
         this.ord_date = ord_date;
@@ -29,6 +30,7 @@ public class Order implements Serializable {
         this.payment_method = payment_method;
         this.payment_status = payment_status;
         this.delivered = delivered;
+        this.isCanceled = isCanceled;
         this.total = total;
         this.delivery_date = delivery_date;
         this.address = address;
@@ -85,6 +87,14 @@ public class Order implements Serializable {
 
     public void setDelivered(int delivered) {
         this.delivered = delivered;
+    }
+
+    public int getIsCanceled() {
+        return isCanceled;
+    }
+
+    public void setIsCanceled(int isCanceled) {
+        this.isCanceled = isCanceled;
     }
 
     public double getTotal() {
@@ -160,6 +170,7 @@ public class Order implements Serializable {
                 ", payment_method=" + payment_method +
                 ", payment_status=" + payment_status +
                 ", delivered=" + delivered +
+                ", isCanceled=" + isCanceled +
                 ", total=" + total +
                 ", delivery_date='" + delivery_date + '\'' +
                 ", address='" + address + '\'' +

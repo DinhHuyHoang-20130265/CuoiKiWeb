@@ -1,5 +1,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.news.News" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %><%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 1/7/2023
@@ -22,24 +24,27 @@
             <div class="item-heading">Tiêu đề</div>
             <div>
                 <a href="item-editor.jsp?id=<%=news.getNews_id()%>" class="" style="margin-left: 30px !important;">
-                    <h4 class="item-title"><%=news.getNews_title()%></h4>
+                    <h4 class="item-title"><%=news.getNews_title()%>
+                    </h4>
                 </a>
             </div>
         </div>
         <div class="item-col item-col-sales" style="text-align: center;">
             <div class="item-heading">Mã bài</div>
-            <div>#<%=news.getNews_id()%> </div>
+            <div>#<%=news.getNews_id()%>
+            </div>
         </div>
         <div class="item-col item-col-stats no-overflow" style="text-align: center;">
-            <div class="item-heading">Số lượt xem</div>
+            <div class="item-heading">Mô tả</div>
             <div class="no-overflow">
-               1
+                <%=news.getDescription()%>
             </div>
         </div>
         <div class="item-col item-col-author" style="text-align: center;">
             <div class="item-heading">Người thêm</div>
             <div class="no-overflow">
-                <a><%=news.getPosted_by()%></a>
+                <a><%=news.getPosted_by()%>
+                </a>
             </div>
         </div>
         <div class="item-col item-col-author" style="text-align: center;">
@@ -50,7 +55,8 @@
         </div>
         <div class="item-col item-col-date" style="text-align: center;">
             <div class="item-heading">Ngày thêm</div>
-            <div class="no-overflow"><%=news.getPosted_date()%></div>
+            <div class="no-overflow"><%=news.getPosted_date()%>
+            </div>
         </div>
         <div class="item-col fixed item-col-actions-dropdown">
             <div class="item-actions-dropdown">
@@ -64,6 +70,11 @@
                 </a>
                 <div class="item-actions-block">
                     <ul class="item-actions-list">
+                        <%
+                            AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+                            for (AdminRole role : admin.getRole()) {
+                                if (role.getTable().equals("product") && role.getPermission().equals("delete")) {
+                        %>
                         <li>
                             <a class="remove" id="remove<%=news.getNews_id()%>"
                                data-toggle="modal"
@@ -71,16 +82,19 @@
                                 <i class="fa fa-trash-o "></i>
                             </a>
                         </li>
+                        <%
+                            }
+                            if (role.getTable().equals("product") && role.getPermission().equals("update")) {
+                        %>
                         <li>
-                            <a class="info" id="info<%=news.getNews_id()%>"
-                               style="cursor: pointer">
-                                <i class="fa fa-info-circle"></i>
-                            </a>
-                        </li>                        <li>
-                            <a class="edit" id="edit" href="item-editor.jsp?id=<%=news.getNews_id()%>">
+                            <a class="edit" id="edit" href="post-editor.jsp?id=<%=news.getNews_id()%>">
                                 <i class="fa fa-pencil"></i>
                             </a>
                         </li>
+                        <%
+                                }
+                            }
+                        %>
                     </ul>
                 </div>
             </div>

@@ -3,6 +3,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.news.News" %>
 <%@ page import="vn.edu.hcmuaf.fit.DAO.NewsDAO" %>
 <%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -37,6 +38,16 @@
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("news")) {
+                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
+                    check = true;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -77,7 +88,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Mô tả: </label>
                         <div class="col-sm-10">
-                            <input type="text" id="description" class="form-control boxed" placeholder="Điền mô tả vô đây"
+                            <input type="text" id="description" class="form-control boxed"
+                                   placeholder="Điền mô tả vô đây"
                                    value="<%=(news != null)? news.getDescription(): ""%>">
                         </div>
                     </div>
@@ -238,6 +250,7 @@
             }
         });
     }
+
     function removeFilesData() {
         $("#removeImg").on("click", function (e) {
             e.preventDefault();
@@ -283,10 +296,10 @@
             url: "/CuoiKiWeb_war/EditInsertNewsController",
             type: "GET",
             data: {
-                userID :userID,
+                userID: userID,
                 id: id,
                 title: title,
-                description : description,
+                description: description,
                 content: content,
                 removed: removed,
                 oldImg: oldImg,
@@ -304,4 +317,7 @@
 </script>
 </body>
 </html>
-<%}%>
+<%
+        }
+    }
+%>

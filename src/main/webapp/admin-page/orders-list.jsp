@@ -6,6 +6,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -55,6 +56,16 @@
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("order")) {
+                check = true;
+                break;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -144,6 +155,9 @@
                                             </th>
                                             <th class="table-header--status">
                                                 <span id="cspot-orders-trangthaigiaohang">Giao hàng</span>
+                                            </th>
+                                            <th class="table-header--status">
+                                                <span id="cspot-orders-trangthaidonhang">Xác nhận</span>
                                             </th>
                                             <th class="table-header--status">
                                                 <span id="cspot-orders-trangthaidonhang">Trạng thái</span>
@@ -243,14 +257,39 @@
                                                     </div>
                                                 </div>
                                             </td>
+                                            <td>
+                                                <div class="d-flex">
+                                                    <div class="status-component">
+                                                        <%if (order.getIsCanceled() == 0) { %>
+                                                        <span
+                                                                class="circle-status mr-2 circle-status-cancel"></span><span
+                                                            class="badges--order-status-cancel">
+                                                                    Đã Hủy</span>
+                                                        <% } else { %>
+                                                        <span
+                                                                class="circle-status mr-2 circle-status-complete"></span><span
+                                                            class="badges--carrier-status-4">
+                                                                    Đang hoạt động</span>
+                                                        <% }%>
+                                                    </div>
+                                                </div>
+                                            </td>
                                             <td class="text-right"><%=formatter.format(order.getTotal())%>
                                             </td>
                                             <td>
+                                                <%
+                                                    for (AdminRole role : admin.getRole()) {
+                                                        if (role.getTable().equals("order") && role.getPermission().equals("delete")) {
+                                                            if (order.getIsCanceled() == 1) { %>
                                                 <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
                                                    data-target="#confirm-modal"
                                                    id="remove<%=order.getOrd_id()%>">
-                                                    <i class="fa fa-trash-o"></i>
+                                                    <i class="fa fa-trash" style="color: red"></i>
                                                 </a>
+                                                <% }
+                                                }
+                                                }
+                                                %>
                                             </td>
                                         </tr>
                                         <% }
@@ -286,7 +325,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Bạn có chắc muốn xoá đơn hàng này ?</p>
+                        <p>Bạn có chắc muốn hủy đơn hàng này ?</p>
+                        <p>Sau khi hủy sẽ không thể hoàn tác</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="yesButton" class="btn btn-primary" data-dismiss="modal">
@@ -462,4 +502,5 @@
 </body>
 
 </html>
-<%}%>
+<% }
+}%>

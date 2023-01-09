@@ -20,19 +20,20 @@
                 Quản Lý
             </div>
         </div>
+        <%String requestString = request.getRequestURL().toString();%>
         <nav class="menu">
             <ul class="sidebar-menu metismenu" id="sidebar-menu">
-                <li class="active">
+                <li class="<%=requestString.indexOf("index.jsp") != -1 ? "active" : ""%>">
                     <a href="index.jsp">
                         <i class="fa fa-home"></i> Tổng quan </a>
                 </li>
-                <li>
+                <li class="<%=(requestString.indexOf("index.jsp") == -1 && requestString.indexOf("charts-morris.jsp") == -1 && requestString.indexOf("static-tables.jsp") == -1) ? "active" : ""%>">
                     <a href="#">
                         <i class="fa fa-th-large"></i> Quản Lý Đối Tượng
                         <i class="fa arrow"></i>
                     </a>
                     <ul class="sidebar-nav">
-                        <li>
+                        <li class="<%=(requestString.indexOf("item") != -1) ? "active open" : "" %>">
                             <a href="#"> Sản phẩm<i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
@@ -43,7 +44,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="<%=(requestString.indexOf("category") != -1 || requestString.indexOf("catetory") != -1) ? "active open" : "" %>">
                             <a href="#"> Danh mục <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
@@ -54,7 +55,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="<%=(requestString.indexOf("post") != -1) ? "active open" : "" %>">
                             <a href="#"> Bài báo <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
@@ -65,7 +66,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="<%=(requestString.indexOf("order") != -1) ? "active open" : "" %>">
                             <a href="#"> Đơn hàng <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
@@ -73,7 +74,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="<%=(requestString.indexOf("user") != -1) ? "active open" : "" %>">
                             <a href="#"> Người dùng <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
@@ -84,7 +85,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="<%=(requestString.indexOf("comments") != -1 || requestString.indexOf("stars") != -1) ? "active open" : "" %>">
                             <a href="#"> Bình luận/Đánh giá <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
@@ -95,7 +96,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="<%=(requestString.indexOf("promotion") != -1) ? "active open" : "" %>">
                             <a href="#"> Khuyến mãi <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
@@ -106,7 +107,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
+                        <li class="<%=(requestString.indexOf("slide") != -1) ? "active open" : "" %>">
                             <a href="#"> Slide trang chủ <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
@@ -119,7 +120,7 @@
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li class="<%=(requestString.indexOf("charts-morris") != -1 || requestString.indexOf("static-tables") != -1) ? "active" : "" %>">
                     <a href="">
                         <i class="fa fa-area-chart"></i> Thống kê
                         <i class="fa arrow"></i>

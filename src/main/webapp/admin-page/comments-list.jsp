@@ -4,6 +4,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.services.NewsService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.news.NewsComment" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.NewsCommentService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -164,6 +165,16 @@
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("comment")) {
+                check = true;
+                break;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -292,6 +303,10 @@
                                         </a>
                                         <div class="item-actions-block">
                                             <ul class="item-actions-list">
+                                                <%
+                                                    for (AdminRole role : admin.getRole()) {
+                                                        if (role.getTable().equals("comment") && role.getPermission().equals("delete")) {
+                                                %>
                                                 <li>
                                                     <a class="remove" id="remove<%=list.get(i).getComment_id()%>"
                                                        data-toggle="modal"
@@ -299,12 +314,15 @@
                                                         <i class="fa fa-trash-o "></i>
                                                     </a>
                                                 </li>
+                                                <%}%>
                                                 <li>
                                                     <a class="info" id="info<%=list.get(i).getComment_id()%>"
                                                        style="cursor: pointer">
                                                         <i class="fa fa-info-circle"></i>
                                                     </a>
                                                 </li>
+                                                <%
+                                                    if (role.getTable().equals("comment") && role.getPermission().equals("update")) {%>
                                                 <li>
                                                     <a class="toggle" id="toggle<%=list.get(i).getComment_id()%>"
                                                        style="cursor: pointer">
@@ -316,6 +334,10 @@
                                                         <%} %>
                                                     </a>
                                                 </li>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
                                             </ul>
                                         </div>
                                     </div>
@@ -567,4 +589,7 @@
 </script>
 </body>
 </html>
-<%}%>
+<%
+        }
+    }
+%>

@@ -1,6 +1,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductReview" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %><%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 1/6/2023
@@ -86,6 +88,11 @@
                 </a>
                 <div class="item-actions-block">
                     <ul class="item-actions-list">
+                        <%
+                            AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+                            for (AdminRole role : admin.getRole()) {
+                                if (role.getTable().equals("comment") && role.getPermission().equals("delete")) {
+                        %>
                         <li>
                             <a class="remove" id="remove<%=review.getReview_id()%>"
                                data-toggle="modal"
@@ -93,12 +100,15 @@
                                 <i class="fa fa-trash"></i>
                             </a>
                         </li>
+                        <%}%>
                         <li>
                             <a class="info" id="info<%=review.getReview_id()%>"
                                style="cursor: pointer">
                                 <i class="fa fa-info-circle"></i>
                             </a>
                         </li>
+                        <%
+                            if (role.getTable().equals("comment") && role.getPermission().equals("update")) {%>
                         <li>
                             <a class="toggle" id="toggle<%=review.getReview_id()%>"
                                style="cursor: pointer">
@@ -110,6 +120,10 @@
                                 <%} %>
                             </a>
                         </li>
+                        <%
+                                }
+                            }
+                        %>
                     </ul>
                 </div>
             </div>
