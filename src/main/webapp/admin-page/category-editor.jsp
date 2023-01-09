@@ -1,4 +1,3 @@
-
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
@@ -7,6 +6,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductImage" %>
 <%@ page import="java.util.Arrays" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
   Created by IntelliJ IDEA.
@@ -87,6 +87,17 @@
         response.sendRedirect("login.jsp");
 
     } else {
+        AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("category")) {
+                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
+                    check = true;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -121,7 +132,8 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Tên danh mục: </label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control boxed" name="name"
-                                   id="name" value="<%=(cate != null) ? cate.getCate_name() : ""%>" placeholder="Nhập tên">
+                                   id="name" value="<%=(cate != null) ? cate.getCate_name() : ""%>"
+                                   placeholder="Nhập tên">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -137,7 +149,9 @@
                                 <option value="<%=c.getId()%>" <%=(cate != null && cate.getParent_id() != null && c.getId().equals(cate.getParent_id())) ? "selected" : ""%>><%=c.getCate_name()%>
                                 </option>
                                 <%}%>
-                                <option value="0" <%=cate != null && cate.getParent_id() == null ? "selected": ""%>>Không có</option>
+                                <option value="0" <%=cate != null && cate.getParent_id() == null ? "selected" : ""%>>
+                                    Không có
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -271,5 +285,6 @@
 
 </html>
 <%
+        }
     }
 %>

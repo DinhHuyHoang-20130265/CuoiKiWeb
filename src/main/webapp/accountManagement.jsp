@@ -218,16 +218,24 @@
                                     </div>
                                     <div class="col-2">
                                         <div class="fa-3x" style="font-size: 1.5em !important;">
-                                            <%
-                                                if (oder.getStatus() == 0) { %>
-                                            <i class="fa fa-times" aria-hidden="true" style="color: red"></i>
-                                            <%
-                                            } else if (oder.getStatus() == 1) {
+                                            <% if (oder.getIsCanceled() == 0) { %>
+                                            <i class="fa fa-times" aria-hidden="true" style="color: red"
+                                               title="Đơn đã bị hủy"></i>
+                                            <% } else if (oder.getStatus() == 0) { %>
+                                            <i class="fas fa-spinner fa-spin" aria-hidden="true" style="color: blue"
+                                               title="Chờ xác nhận đơn hàng"></i>
+                                            <% } else if (oder.getStatus() == 1) {
                                                 if (oder.getDelivered() == 0) { %>
-                                            <i class="fas fa-spinner fa-spin" style="color: blue;"></i>
-                                            <% } else { %>
+                                            <i class="fas fa-shipping-fast" style="color: blue;"
+                                               title="Đang giao hàng"></i>
+                                            <% } else if (oder.getDelivered() == 1) { %>
                                             <i class="fas fa-check"
-                                               style="margin-right: 0px !important;color: #006500;"></i>
+                                               style="margin-right: 0px !important;color: #006500;"
+                                               title="Đã giao hàng"></i>
+                                            <% } else { %>
+                                            <i class="fas fa-pallet"
+                                               style="margin-right: 0px !important;color: yellow;"
+                                               title="Đơn hàng chuẩn bị giao"></i>
                                             <% }
                                             }
                                             %>

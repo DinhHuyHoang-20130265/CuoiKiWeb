@@ -179,7 +179,8 @@
                                 </div>
                             </div>
                             <%
-                                List<Product> list = ProductService.getInstance().loadProductWithCondition(1, 6, "7", "all", null, null, null, null);%>
+                                List<Product> list = ProductService.getInstance().loadProductWithConditionContainsStatus(1, 6, "7", "all", null, null, null, null);
+                                System.out.println(list.size());%>
                             <ul class="item-list striped" id="items" style="overflow-x: scroll;">
                                 <li class="item item-list-header">
                                     <div class="item-row">

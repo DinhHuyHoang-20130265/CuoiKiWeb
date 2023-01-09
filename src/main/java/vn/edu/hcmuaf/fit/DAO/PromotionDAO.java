@@ -52,10 +52,6 @@ public class PromotionDAO {
                 .one());
     }
 
-    public static void main(String[] args) {
-        System.out.println(new PromotionDAO().loadAll());
-        System.out.println(new PromotionDAO().loadPromotionWithConditionContainsStatus(1, 6));
-    }
     private String generateIdPromotion() {
         List<String> id = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT id FROM user_account").mapTo(String.class).stream().collect(Collectors.toList()));
         String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -95,7 +91,6 @@ public class PromotionDAO {
                 }
         );
     }
-
     public void UpdatePromotion(String promo_id, String product_id, String name_promo, String desc_promo, int discount_rate, int status, String start_date, String end_date) {
         JDBIConnector.get().withHandle(handle ->{
                     handle.createUpdate("UPDATE promotion SET product_id = ?, name_prom = ?, desc_prom = ?, discount_rate = ? , status = ? , start_date = ? , end_date = ? WHERE promo_id = ?")
@@ -111,5 +106,10 @@ public class PromotionDAO {
                     return null;
                 }
         );
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new PromotionDAO().loadAll());
+        System.out.println(new PromotionDAO().loadPromotionWithConditionContainsStatus(1, 6));
     }
 }

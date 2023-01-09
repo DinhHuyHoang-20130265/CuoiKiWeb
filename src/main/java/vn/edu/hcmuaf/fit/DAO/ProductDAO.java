@@ -23,6 +23,14 @@ public class ProductDAO {
                 .stream()
                 .collect(Collectors.toList()));
     }
+    public int getProductSaled(String id) {
+        return JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT COUNT(prod_id) FROM order_details WHERE prod_id= ?")
+                        .bind(0, id)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
     public List<Product> loadAllProductContainStatus() {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product")
                 .mapToBean(Product.class)
@@ -488,6 +496,6 @@ public class ProductDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new ProductDAO().getProductAndDetails("prod008"));
+        System.out.println(new ProductDAO().getProductSaled("prod010"));
     }
 }

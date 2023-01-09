@@ -50,7 +50,7 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("product")) {
+            if (role.getTable().equals("sales")) {
                 check = true;
                 break;
             }
@@ -125,7 +125,7 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
-                    <%List<Promotion> promotions = PromotionService.getInstance().loadPromotionWithConditionContainsStatus(1,6);%>
+                    <%List<Promotion> promotions = PromotionService.getInstance().loadPromotionWithConditionContainsStatus(1, 6);%>
                     <div id="appendItem">
                         <%for (Promotion p : promotions) {%>
                         <li class="item">
@@ -145,7 +145,8 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="item-col fixed item-col-sales" style="min-width:100px; text-align: center; max-width: 100px; margin-left: 50px">
+                                <div class="item-col fixed item-col-sales"
+                                     style="min-width:100px; text-align: center; max-width: 100px; margin-left: 50px">
                                     <div class="item-heading">Tên KM</div>
                                     <div>
                                         <a>
@@ -154,7 +155,8 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="item-col fixed pull-left item-col-category" style="min-width: 180px; max-width: 180px; margin-left: 40px;" >
+                                <div class="item-col fixed pull-left item-col-category"
+                                     style="min-width: 180px; max-width: 180px; margin-left: 40px;">
                                     <div class="item-heading">Mô tả KM</div>
                                     <div>
                                         <a>
@@ -180,7 +182,7 @@
                                     <div class="no-overflow"><%=p.getStart_date()%>
                                     </div>
                                 </div>
-                                <div class="item-col item-col-date" >
+                                <div class="item-col item-col-date">
                                     <div class="item-heading">Ngày kết thúc</div>
                                     <div class="no-overflow" style="text-align: center">
                                         <%=p.getEnd_date()%>
@@ -198,17 +200,29 @@
                                         </a>
                                         <div class="item-actions-block">
                                             <ul class="item-actions-list">
+                                                <%
+                                                    for (AdminRole role : admin.getRole()) {
+                                                        if (role.getTable().equals("sales") && role.getPermission().equals("delete")) {
+                                                %>
                                                 <li>
                                                     <a class="remove" href="#" data-toggle="modal"
                                                        data-target="#confirm-modal" id="delete<%=p.getPromo_id()%>">
                                                         <i class="fa fa-trash-o"></i>
                                                     </a>
                                                 </li>
+                                                <%
+                                                    }
+                                                    if (role.getTable().equals("sales") && role.getPermission().equals("update")) {
+                                                %>
                                                 <li>
                                                     <a class="edit" href="promotion-editor.jsp?id=<%=p.getPromo_id()%>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 </li>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
                                             </ul>
                                         </div>
                                     </div>

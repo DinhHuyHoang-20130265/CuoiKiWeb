@@ -2,6 +2,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.services.NewsService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.news.News" %>
 <%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -35,6 +36,17 @@
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("news")) {
+                check = true;
+                break;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
+
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -74,7 +86,7 @@
                             </div>
                             <div class="item-col item-col-header item-col-stats" style="text-align: center;">
                                 <div class="no-overflow">
-                                    <span>Số lượt xem</span>
+                                    <span>Mô tả</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-author" style="text-align: center;">
@@ -103,99 +115,111 @@
                         else pageNumb = list.size();
                     %>
                     <div id="appendItem">
-                    <% if (list != null)
-                        for (int i = 0; i < pageNumb; i++) {%>
-                    <li class="item" id="item<%=list.get(i).getNews_id()%>">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-check">
-                                <label class="item-check" id="select-all-items">
-                                    <input type="checkbox" class="checkbox">
-                                    <span></span>
-                                </label>
-                            </div>
-                            <div class="item-col fixed pull-left item-col-title">
-                                <div class="item-heading">Tiêu đề</div>
-                                <div>
-                                    <a href="post-editor.jsp?id=<%=list.get(i).getNews_id()%>" class="" style="margin-left: 30px !important;">
-                                        <h4 class="item-title"><%=list.get(i).getNews_title()%></h4>
-                                    </a>
+                        <% if (list != null)
+                            for (int i = 0; i < pageNumb; i++) {%>
+                        <li class="item" id="item<%=list.get(i).getNews_id()%>">
+                            <div class="item-row">
+                                <div class="item-col fixed item-col-check">
+                                    <label class="item-check" id="select-all-items">
+                                        <input type="checkbox" class="checkbox">
+                                        <span></span>
+                                    </label>
                                 </div>
-                            </div>
-                            <div class="item-col item-col-sales" style="text-align: center;">
-                                <div class="item-heading">Mã bài</div>
-                                <div>#<%=list.get(i).getNews_id()%></div>
-                            </div>
-                            <div class="item-col item-col-stats no-overflow">
-                                <div class="item-heading">Số lượt xem</div>
-                                <div class="no-overflow"><%--<div class="item-stats sparkline" data-type="bar">1</div>--%>
-                                    1
+                                <div class="item-col fixed pull-left item-col-title">
+                                    <div class="item-heading">Tiêu đề</div>
+                                    <div>
+                                        <a href="post-editor.jsp?id=<%=list.get(i).getNews_id()%>" class=""
+                                           style="margin-left: 30px !important; text-decoration: none">
+                                            <h4 class="item-title"><%=list.get(i).getNews_title()%>
+                                            </h4>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="item-col item-col-author" style="text-align: center;">
-                                <div class="item-heading">Người thêm</div>
-                                <div class="no-overflow">
-                                    <a><%=list.get(i).getPosted_by()%></a>
+                                <div class="item-col item-col-sales" style="text-align: center;">
+                                    <div class="item-heading">Mã bài</div>
+                                    <div>#<%=list.get(i).getNews_id()%>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="item-col item-col-author" style="text-align: center;">
-                                <div class="item-heading">Trạng Thái</div>
-                                <div class="no-overflow" style="text-align: center">
-                                    <a> Hiển thị </a>
+                                <div class="item-col item-col-stats no-overflow">
+                                    <div class="item-heading">Mô tả</div>
+                                    <div class="no-overflow">
+                                        <%=list.get(i).getDescription()%>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="item-col item-col-date" style="text-align: center;">
-                                <div class="item-heading">Ngày thêm</div>
-                                <div class="no-overflow"><%=list.get(i).getPosted_date()%></div>
-                            </div>
-                            <div class="item-col fixed item-col-actions-dropdown">
-                                <div class="item-actions-dropdown">
-                                    <a class="item-actions-toggle-btn">
+                                <div class="item-col item-col-author" style="text-align: center;">
+                                    <div class="item-heading">Người thêm</div>
+                                    <div class="no-overflow">
+                                        <a><%=list.get(i).getPosted_by()%>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-author" style="text-align: center;">
+                                    <div class="item-heading">Trạng Thái</div>
+                                    <div class="no-overflow" style="text-align: center">
+                                        <a> Hiển thị </a>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-date" style="text-align: center;">
+                                    <div class="item-heading">Ngày thêm</div>
+                                    <div class="no-overflow"><%=list.get(i).getPosted_date()%>
+                                    </div>
+                                </div>
+                                <div class="item-col fixed item-col-actions-dropdown">
+                                    <div class="item-actions-dropdown">
+                                        <a class="item-actions-toggle-btn">
                                         <span class="inactive">
                                             <i class="fa fa-cog"></i>
                                         </span>
-                                        <span class="active">
+                                            <span class="active">
                                             <i class="fa fa-chevron-circle-right"></i>
                                         </span>
-                                    </a>
-                                    <div class="item-actions-block">
-                                        <ul class="item-actions-list">
-                                        <li>
-                                            <a class="remove" id="remove<%=list.get(i).getNews_id()%>"
-                                               data-toggle="modal"
-                                               data-target="#confirm-modal" style="cursor: pointer">
-                                                <i class="fa fa-trash-o "></i>
-                                            </a>
-                                        </li>
-                                            <li>
-                                                <a class="info" id="info<%=list.get(i).getNews_id()%>"
-                                                   style="cursor: pointer">
-                                                    <i class="fa fa-info-circle"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a class="edit" id="edit" href="item-editor.jsp?id=<%=list.get(i).getNews_id()%>">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                        </a>
+                                        <div class="item-actions-block">
+                                            <ul class="item-actions-list">
+                                                <%
+                                                    for (AdminRole role : admin.getRole()) {
+                                                        if (role.getTable().equals("product") && role.getPermission().equals("delete")) {
+                                                %>
+                                                <li>
+                                                    <a class="remove" id="remove<%=list.get(i).getNews_id()%>"
+                                                       data-toggle="modal"
+                                                       data-target="#confirm-modal" style="cursor: pointer">
+                                                        <i class="fa fa-trash-o "></i>
+                                                    </a>
+                                                </li>
+                                                <%
+                                                    }
+                                                    if (role.getTable().equals("product") && role.getPermission().equals("update")) {
+                                                %>
+                                                <li>
+                                                    <a class="edit" id="edit"
+                                                       href="post-editor.jsp?id=<%=list.get(i).getNews_id()%>">
+                                                        <i class="fa fa-pencil"></i>
+                                                    </a>
+                                                </li>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                    <%}%>
+                        </li>
+                        <%}%>
                     </div>
                 </ul>
             </div>
             <nav class="text-right">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" id="btn_prev" style="text-decoration: none;" > Trước </a>
+                        <a class="page-link" id="btn_prev" style="text-decoration: none;"> Trước </a>
                     </li>
                     <li class="page-item active">
                         <a class="page-link" id="pageNumb" href="#" style="text-decoration: none;">1</a>
                     </li>
-                    <a class="page-link" id="btn_next" style="text-decoration: none;" > Kế tiếp </a>
+                    <a class="page-link" id="btn_next" style="text-decoration: none;"> Kế tiếp </a>
                     </li>
                 </ul>
             </nav>
@@ -266,6 +290,7 @@
             $thisActionList.toggleClass('active');
         });
     }
+
     function deleteNews() {
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
@@ -294,7 +319,7 @@
     deleteNews();
 
     $(document).ready(function () {
-        $("#btn_prev").on("click", function (e){
+        $("#btn_prev").on("click", function (e) {
             e.preventDefault();
             const pageNumb = parseInt($("#pageNumb").text()) - 1;
             if (pageNumb > 0) {
@@ -340,4 +365,7 @@
 </script>
 </body>
 </html>
-<%}%>
+<%
+        }
+    }
+%>

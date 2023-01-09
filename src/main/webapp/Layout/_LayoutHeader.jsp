@@ -30,9 +30,11 @@
                     UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
                 %>
                 <div class="_object">
-                    <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() == null ? "./assets/img/product/noavatar.png" : UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link()%>" alt=""/>
+                    <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() == null ? "./assets/img/product/noavatar.png" : UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link()%>"
+                         alt=""/>
                 </div>
-                <div class="_body">Xin chào<br/><%=UserInformationService.getInstance().getUserInfo(user.getId()).getFull_name()%>
+                <div class="_body">Xin
+                    chào<br/><%=UserInformationService.getInstance().getUserInfo(user.getId()).getFull_name()%>
                 </div>
                 <%}%>
             </div>
@@ -133,7 +135,8 @@
                     %>
                     <ul class="nav nav__first right">
                         <li class="nav-item nav-item__first nav-item__first-user">
-                            <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() == null ? "./assets/img/product/noavatar.png" : UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link()%>" alt="" class="nav-item__first-img">
+                            <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() == null ? "./assets/img/product/noavatar.png" : UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link()%>"
+                                 alt="" class="nav-item__first-img">
                             <span class="nav-item__first-name"><%=user.getUsername()%></span>
                             <ul class="nav-item__first-menu">
                                 <li class="nav-item__first-item">
@@ -240,13 +243,13 @@
         <div class="container">
             <ul class="header_nav-list nav">
                 <li class="header_nav-list-item">
-                    <a href="index.jsp" class="active">Trang chủ</a>
+                    <a href="index.jsp" class="<%=request.getRequestURL().indexOf("index") != -1 ? "active" : "" %>">Trang chủ</a>
                 </li>
                 <li class="header_nav-list-item">
-                    <a href="intro.jsp">Giới thiệu</a>
+                    <a href="intro.jsp" class="<%=request.getRequestURL().indexOf("intro") != -1 ? "active" : "" %>">Giới thiệu</a>
                 </li>
                 <li class="header_nav-list-item has-mega">
-                    <a href="Product.jsp?category=all">Sản phẩm<i class="fas fa-angle-right"
+                    <a href="Product.jsp?category=all" class="<%=request.getRequestURL().indexOf("category") != -1 ? "active" : "" %>">Sản phẩm<i class="fas fa-angle-right"
                                                                   style="margin-left: 5px"></i></a>
                     <div class="mega-content" style="overflow-x: hidden">
                         <div class="row">
@@ -267,10 +270,10 @@
                     </div>
                 </li>
                 <li class="header_nav-list-item">
-                    <a href="news.jsp">Tin tức</a>
+                    <a href="news.jsp" class="<%=request.getRequestURL().indexOf("news") != -1 ? "active" : "" %>">Tin tức</a>
                 </li>
                 <li class="header_nav-list-item">
-                    <a href="contact.jsp">Liên hệ</a>
+                    <a href="contact.jsp" class="<%=request.getRequestURL().indexOf("contact") != -1 ? "active" : "" %>">Liên hệ</a>
                 </li>
             </ul>
         </div>

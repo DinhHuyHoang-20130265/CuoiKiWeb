@@ -44,6 +44,17 @@
         response.sendRedirect("login.jsp");
 
     } else {
+        AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        boolean check = false;
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("category")) {
+                check = true;
+                break;
+            }
+        }
+        if (!check) {
+            response.sendRedirect("index.jsp");
+        } else {
 
 %>
 <div class="main-wrapper">
@@ -164,6 +175,10 @@
                                         </a>
                                         <div class="item-actions-block">
                                             <ul class="item-actions-list">
+                                                <%
+                                                    for (AdminRole role : admin.getRole()) {
+                                                        if (role.getTable().equals("product") && role.getPermission().equals("delete")) {
+                                                %>
                                                 <li>
                                                     <a class="remove" id="remove<%=category.getId()%>"
                                                        data-toggle="modal"
@@ -171,12 +186,20 @@
                                                         <i class="fa fa-trash-o "></i>
                                                     </a>
                                                 </li>
+                                                <%
+                                                    }
+                                                    if (role.getTable().equals("product") && role.getPermission().equals("update")) {
+                                                %>
                                                 <li>
                                                     <a class="edit"
                                                        href="category-editor.jsp?id=<%=category.getId()%>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 </li>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
                                             </ul>
                                         </div>
                                     </div>
@@ -341,5 +364,6 @@
 
 </html>
 <%
+        }
     }
 %>
