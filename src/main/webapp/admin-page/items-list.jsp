@@ -179,7 +179,7 @@
                                 </div>
                                 <div class="item-col item-col-stats no-overflow">
                                     <div class="item-heading">Đã bán</div>
-                                    <div class="no-overflow"> <%=ProductService.getInstance().getProductSaled(p.getId())%>
+                                    <div class="no-overflow"><%=ProductService.getInstance().getProductSaled(p.getId())%>
                                     </div>
                                 </div>
                                 <div class="item-col item-col-category no-overflow">
@@ -218,23 +218,30 @@
                                         </a>
                                         <div class="item-actions-block">
                                             <ul class="item-actions-list">
-                                                <%for (AdminRole role : admin.getRole()) {
-                                                    if (role.getTable().equals("product") && role.getPermission().equals("delete")) {%>
+                                                <%
+                                                    for (AdminRole role : admin.getRole()) {
+                                                        if (role.getTable().equals("product") && role.getPermission().equals("delete")) {
+                                                            if (ProductService.getInstance().isProductInOrder(p.getId()) == 0) { %>
                                                 <li>
                                                     <a class="remove" href="#" data-toggle="modal"
                                                        data-target="#confirm-modal" id="delete<%=p.getId()%>">
                                                         <i class="fa fa-trash-o"></i>
                                                     </a>
                                                 </li>
-                                                    <%}
-                                                    if (role.getTable().equals("product") && role.getPermission().equals("update")) {%>
+                                                <%
+                                                        }
+                                                    }
+                                                    if (role.getTable().equals("product") && role.getPermission().equals("update")) {
+                                                %>
                                                 <li>
                                                     <a class="edit" href="item-editor.jsp?id=<%=p.getId()%>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 </li>
-                                                    <%}
-                                                }%>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
                                             </ul>
                                         </div>
                                     </div>
@@ -312,12 +319,12 @@
 <script>
     function reloadScript() {
         const $itemActions = $(".item-actions-dropdown");
-        $(document).on('click',function(e) {
+        $(document).on('click', function (e) {
             if (!$(e.target).closest('.item-actions-dropdown').length) {
                 $itemActions.removeClass('active');
             }
         });
-        $('.item-actions-toggle-btn').on('click',function(e){
+        $('.item-actions-toggle-btn').on('click', function (e) {
             e.preventDefault();
             const $thisActionList = $(this).closest('.item-actions-dropdown');
             $itemActions.not($thisActionList).removeClass('active');
@@ -375,6 +382,7 @@
     }
 
     $(document).ready(function () {
+        deleteProduct();
         $("#filter").change(function (e) {
             filterAdmin(e);
             deleteProduct();

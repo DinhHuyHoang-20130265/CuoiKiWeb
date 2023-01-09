@@ -18,41 +18,24 @@ public class ProductDAO {
     }
 
     public void loadAllProduct() {
-        listProduct = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product WHERE prod_status = 1")
-                .mapToBean(Product.class)
-                .stream()
-                .collect(Collectors.toList()));
-    }
-    public int getProductSaled(String id) {
-        return JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT COUNT(prod_id) FROM order_details WHERE prod_id= ?")
-                        .bind(0, id)
-                        .mapTo(Integer.class)
-                        .one()
-        );
-    }
-    public List<Product> loadAllProductContainStatus() {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product")
-                .mapToBean(Product.class)
-                .stream()
-                .collect(Collectors.toList()));
+        listProduct = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product WHERE prod_status = 1").mapToBean(Product.class).stream().collect(Collectors.toList()));
     }
 
-    public List<Product> loadProductWithCondition(int page, int num_per_page, String order_by, String cate_id, String color
-            , String price, String size, String search) {
-        String query = "SELECT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," +
-                " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
-                " p.updated_date, p.updated_by FROM product p" +
-                " LEFT JOIN color c ON c.prod_id = p.id LEFT JOIN size s ON p.id = s.prod_id" +
-                " INNER JOIN product_from_cate pfc ON pfc.prod_id = p.id" +
-                " WHERE p.prod_status = 1";
+    public int getProductSaled(String id) {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT COUNT(prod_id) FROM order_details WHERE prod_id= ?").bind(0, id).mapTo(Integer.class).one());
+    }
+
+    public List<Product> loadAllProductContainStatus() {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product").mapToBean(Product.class).stream().collect(Collectors.toList()));
+    }
+
+    public List<Product> loadProductWithCondition(int page, int num_per_page, String order_by, String cate_id, String color, String price, String size, String search) {
+        String query = "SELECT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," + " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," + " p.updated_date, p.updated_by FROM product p" + " LEFT JOIN color c ON c.prod_id = p.id LEFT JOIN size s ON p.id = s.prod_id" + " INNER JOIN product_from_cate pfc ON pfc.prod_id = p.id" + " WHERE p.prod_status = 1";
         if (cate_id != null) {
-            if (!cate_id.equals("all"))
-                query += " AND pfc.cate_id = \"" + cate_id + "\"";
+            if (!cate_id.equals("all")) query += " AND pfc.cate_id = \"" + cate_id + "\"";
         }
         if (color != null) {
-            if (!"".equals(color))
-                query += " AND c.color_name IN (" + color.substring(0, color.length() - 1) + ")";
+            if (!"".equals(color)) query += " AND c.color_name IN (" + color.substring(0, color.length() - 1) + ")";
         }
         if (price != null) {
             if (!price.equals("-1")) {
@@ -61,8 +44,7 @@ public class ProductDAO {
             }
         }
         if (size != null) {
-            if (!"".equals(size))
-                query += " AND s.size_name IN (" + size.substring(0, size.length() - 1) + ")";
+            if (!"".equals(size)) query += " AND s.size_name IN (" + size.substring(0, size.length() - 1) + ")";
         }
         if (search != null) {
             query += " AND p.prod_name LIKE '%" + search + "%'";
@@ -80,13 +62,11 @@ public class ProductDAO {
                 size = size.substring(0, size.length() - 1);
                 List<String> listSize = new ArrayList<>(Arrays.asList(size.split(",")));
                 if (color != null) {
-                    if (!"".equals(color))
-                        query += " AND COUNT(DISTINCT s.size_name) = " + listSize.size() + " ";
+                    if (!"".equals(color)) query += " AND COUNT(DISTINCT s.size_name) = " + listSize.size() + " ";
                     else {
                         query += " HAVING COUNT(DISTINCT s.size_name) = " + listSize.size() + " ";
                     }
-                } else
-                    query += " HAVING COUNT(DISTINCT s.size_name) = " + listSize.size() + " ";
+                } else query += " HAVING COUNT(DISTINCT s.size_name) = " + listSize.size() + " ";
             }
         }
         if (order_by != null) {
@@ -103,15 +83,11 @@ public class ProductDAO {
         }
         String finalQuery = query;
         System.out.println(finalQuery);
-        List<Product> filter = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery)
-                .mapToBean(Product.class)
-                .stream()
-                .collect(Collectors.toList()));
+        List<Product> filter = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery).mapToBean(Product.class).stream().collect(Collectors.toList()));
         List<ProductSale> sales = getListSale();
         for (Product p : filter) {
             for (ProductSale sale : sales) {
-                if (p.getId().equals(sale.getProduct_id()))
-                    p.setSales(sale);
+                if (p.getId().equals(sale.getProduct_id())) p.setSales(sale);
             }
         }
         int numpage;
@@ -128,21 +104,13 @@ public class ProductDAO {
         return temp;
     }
 
-    public List<Product> loadProductWithConditionContainsStatus(int page, int num_per_page, String order_by, String cate_id, String color
-            , String price, String size, String search) {
-        String query = "SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," +
-                " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
-                " p.updated_date, p.updated_by FROM product p" +
-                " LEFT JOIN color c ON c.prod_id = p.id LEFT JOIN size s ON p.id = s.prod_id" +
-                " INNER JOIN product_from_cate pfc ON pfc.prod_id = p.id" +
-                " WHERE p.prod_status IN (1, 0)";
+    public List<Product> loadProductWithConditionContainsStatus(int page, int num_per_page, String order_by, String cate_id, String color, String price, String size, String search) {
+        String query = "SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," + " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," + " p.updated_date, p.updated_by FROM product p" + " LEFT JOIN color c ON c.prod_id = p.id LEFT JOIN size s ON p.id = s.prod_id" + " INNER JOIN product_from_cate pfc ON pfc.prod_id = p.id" + " WHERE p.prod_status IN (1, 0)";
         if (cate_id != null) {
-            if (!cate_id.equals("all"))
-                query += " AND pfc.cate_id = \"" + cate_id + "\"";
+            if (!cate_id.equals("all")) query += " AND pfc.cate_id = \"" + cate_id + "\"";
         }
         if (color != null) {
-            if (!"".equals(color))
-                query += " AND c.color_name IN (" + color.substring(0, color.length() - 1) + ")";
+            if (!"".equals(color)) query += " AND c.color_name IN (" + color.substring(0, color.length() - 1) + ")";
         }
         if (price != null) {
             if (!price.equals("-1")) {
@@ -151,12 +119,10 @@ public class ProductDAO {
             }
         }
         if (size != null) {
-            if (!"".equals(size))
-                query += " AND s.size_name IN (" + size.substring(0, size.length() - 1) + ")";
+            if (!"".equals(size)) query += " AND s.size_name IN (" + size.substring(0, size.length() - 1) + ")";
         }
         if (search != null) {
-            if (!search.equals(""))
-                query += " AND p.prod_name LIKE '%" + search + "%'";
+            if (!search.equals("")) query += " AND p.prod_name LIKE '%" + search + "%'";
         }
         if (order_by != null) {
             switch (order_by) {
@@ -171,15 +137,11 @@ public class ProductDAO {
             }
         }
         String finalQuery = query;
-        List<Product> filter = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery)
-                .mapToBean(Product.class)
-                .stream()
-                .collect(Collectors.toList()));
+        List<Product> filter = JDBIConnector.get().withHandle(handle -> handle.createQuery(finalQuery).mapToBean(Product.class).stream().collect(Collectors.toList()));
         List<ProductSale> sales = getListSale();
         for (Product p : filter) {
             for (ProductSale sale : sales) {
-                if (p.getId().equals(sale.getProduct_id()))
-                    p.setSales(sale);
+                if (p.getId().equals(sale.getProduct_id())) p.setSales(sale);
             }
         }
         int numpage;
@@ -197,41 +159,17 @@ public class ProductDAO {
     }
 
     public ArrayList<Product> getListProductByCateId(String id) {
-        return (ArrayList<Product>) JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," +
-                                " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
-                                " p.updated_date, p.updated_by FROM product p INNER JOIN product_from_cate pfc ON p.id = pfc.prod_id" +
-                                " WHERE p.prod_status = 1 AND pfc.cate_id = ?")
-                        .bind(0, id)
-                        .mapToBean(Product.class)
-                        .stream()
-                        .collect(Collectors.toList())
-        );
+        return (ArrayList<Product>) JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.prod_status, p.main_img_link," + " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," + " p.updated_date, p.updated_by FROM product p INNER JOIN product_from_cate pfc ON p.id = pfc.prod_id" + " WHERE p.prod_status = 1 AND pfc.cate_id = ?").bind(0, id).mapToBean(Product.class).stream().collect(Collectors.toList()));
     }
 
     public List<ProductSale> getListSale() {
-        return JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT DISTINCT p.promo_id, p.product_id, p.name_prom, p.desc_prom, p.discount_rate," +
-                                " p.start_date, p.end_date FROM promotion p" +
-                                " WHERE p.end_date > DATE(NOW())")
-                        .mapToBean(ProductSale.class)
-                        .stream()
-                        .collect(Collectors.toList())
-        );
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT DISTINCT p.promo_id, p.product_id, p.name_prom, p.desc_prom, p.discount_rate," + " p.start_date, p.end_date FROM promotion p" + " WHERE p.end_date > DATE(NOW())").mapToBean(ProductSale.class).stream().collect(Collectors.toList()));
     }
-    public List<Product> getFourProductsSameCate(String cate_id) {
-        return (List<Product>) JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," +
-                             " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
-                                " p.updated_date, p.updated_by FROM product p INNER JOIN product_from_cate frcate ON p.id =  frcate.prod_id" +
-                                " INNER JOIN product_categories cate ON cate.id = frcate.cate_id " +
-                                " WHERE cate.id = ?" + "ORDER BY p.id LIMIT 4")
-                        .bind(0, cate_id)
-                        .mapToBean(Product.class)
-                        .stream()
-                        .collect(Collectors.toList())
 
-                );
+    public List<Product> getFourProductsSameCate(String cate_id) {
+        return (List<Product>) JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT DISTINCT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," + " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," + " p.updated_date, p.updated_by FROM product p INNER JOIN product_from_cate frcate ON p.id =  frcate.prod_id" + " INNER JOIN product_categories cate ON cate.id = frcate.cate_id " + " WHERE cate.id = ?" + "ORDER BY p.id LIMIT 4").bind(0, cate_id).mapToBean(Product.class).stream().collect(Collectors.toList())
+
+        );
     }
 
     public ArrayList<Product> getListProduct() {
@@ -243,49 +181,16 @@ public class ProductDAO {
     }
 
     public Product getProductHiddenAndDetails(String id) {
-        Product product = JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," +
-                                " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
-                                " p.updated_date, p.updated_by FROM product p " +
-                                " WHERE p.id =?")
-                        .bind(0, id)
-                        .mapToBean(Product.class)
-                        .one()
-        );
+        Product product = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," + " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," + " p.updated_date, p.updated_by FROM product p " + " WHERE p.id =?").bind(0, id).mapToBean(Product.class).one());
         List<ProductColor> colors;
         List<ProductSize> sizes;
         List<ProductImage> images;
         ProductSale sale = null;
-        colors = JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT c.prod_id, c.color_name FROM color c Where c.prod_id =?")
-                        .bind(0, id)
-                        .mapToBean(ProductColor.class)
-                        .stream()
-                        .collect(Collectors.toList())
-        );
-        sizes = JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT c.prod_id, c.size_name FROM size c Where c.prod_id =?")
-                        .bind(0, id)
-                        .mapToBean(ProductSize.class)
-                        .stream()
-                        .collect(Collectors.toList())
-        );
-        images = JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT c.prod_id, c.prod_img_link FROM img_product c Where c.prod_id =?")
-                        .bind(0, id)
-                        .mapToBean(ProductImage.class)
-                        .stream()
-                        .collect(Collectors.toList())
-        );
+        colors = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT c.prod_id, c.color_name FROM color c Where c.prod_id =?").bind(0, id).mapToBean(ProductColor.class).stream().collect(Collectors.toList()));
+        sizes = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT c.prod_id, c.size_name FROM size c Where c.prod_id =?").bind(0, id).mapToBean(ProductSize.class).stream().collect(Collectors.toList()));
+        images = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT c.prod_id, c.prod_img_link FROM img_product c Where c.prod_id =?").bind(0, id).mapToBean(ProductImage.class).stream().collect(Collectors.toList()));
         try {
-            sale = JDBIConnector.get().withHandle(handle ->
-                    handle.createQuery("SELECT DISTINCT p.promo_id, p.product_id, p.name_prom, p.desc_prom, p.discount_rate," +
-                                    " p.start_date, p.end_date FROM promotion p" +
-                                    " WHERE p.end_date > DATE(NOW()) AND p.product_id = ?")
-                            .bind(0, id)
-                            .mapToBean(ProductSale.class)
-                            .one()
-            );
+            sale = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT DISTINCT p.promo_id, p.product_id, p.name_prom, p.desc_prom, p.discount_rate," + " p.start_date, p.end_date FROM promotion p" + " WHERE p.end_date > DATE(NOW()) AND p.product_id = ?").bind(0, id).mapToBean(ProductSale.class).one());
         } catch (Exception e) {
 
         }
@@ -299,49 +204,16 @@ public class ProductDAO {
     }
 
     public Product getProductAndDetails(String id) {
-        Product product = JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," +
-                                " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," +
-                                " p.updated_date, p.updated_by FROM product p " +
-                                " WHERE p.prod_status = 1 AND p.id =?")
-                        .bind(0, id)
-                        .mapToBean(Product.class)
-                        .one()
-        );
+        Product product = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link," + " p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count," + " p.updated_date, p.updated_by FROM product p " + " WHERE p.prod_status = 1 AND p.id =?").bind(0, id).mapToBean(Product.class).one());
         List<ProductColor> colors;
         List<ProductSize> sizes;
         List<ProductImage> images;
         ProductSale sale = null;
-        colors = JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT c.prod_id, c.color_name FROM color c Where c.prod_id =?")
-                        .bind(0, id)
-                        .mapToBean(ProductColor.class)
-                        .stream()
-                        .collect(Collectors.toList())
-        );
-        sizes = JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT c.prod_id, c.size_name FROM size c Where c.prod_id =?")
-                        .bind(0, id)
-                        .mapToBean(ProductSize.class)
-                        .stream()
-                        .collect(Collectors.toList())
-        );
-        images = JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT c.prod_id, c.prod_img_link FROM img_product c Where c.prod_id =?")
-                        .bind(0, id)
-                        .mapToBean(ProductImage.class)
-                        .stream()
-                        .collect(Collectors.toList())
-        );
+        colors = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT c.prod_id, c.color_name FROM color c Where c.prod_id =?").bind(0, id).mapToBean(ProductColor.class).stream().collect(Collectors.toList()));
+        sizes = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT c.prod_id, c.size_name FROM size c Where c.prod_id =?").bind(0, id).mapToBean(ProductSize.class).stream().collect(Collectors.toList()));
+        images = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT c.prod_id, c.prod_img_link FROM img_product c Where c.prod_id =?").bind(0, id).mapToBean(ProductImage.class).stream().collect(Collectors.toList()));
         try {
-            sale = JDBIConnector.get().withHandle(handle ->
-                    handle.createQuery("SELECT DISTINCT p.promo_id, p.product_id, p.name_prom, p.desc_prom, p.discount_rate," +
-                                    " p.start_date, p.end_date FROM promotion p" +
-                                    " WHERE p.end_date > DATE(NOW()) AND p.product_id = ?")
-                            .bind(0, id)
-                            .mapToBean(ProductSale.class)
-                            .one()
-            );
+            sale = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT DISTINCT p.promo_id, p.product_id, p.name_prom, p.desc_prom, p.discount_rate," + " p.start_date, p.end_date FROM promotion p" + " WHERE p.end_date > DATE(NOW()) AND p.product_id = ?").bind(0, id).mapToBean(ProductSale.class).one());
         } catch (Exception e) {
 
         }
@@ -356,14 +228,17 @@ public class ProductDAO {
 
     public void RemoveProduct(String id) {
         JDBIConnector.get().withHandle(handle -> {
-                    handle.execute("SET FOREIGN_KEY_CHECKS=0");
-                    handle.createUpdate("DELETE FROM product WHERE id =?")
-                            .bind(0, id)
-                            .execute();
-                    handle.execute("SET FOREIGN_KEY_CHECKS=1");
-                    return true;
-                }
-        );
+            handle.execute("SET FOREIGN_KEY_CHECKS=0");
+            handle.createUpdate("DELETE FROM product WHERE id =?").bind(0, id).execute();
+            handle.execute("SET FOREIGN_KEY_CHECKS=1");
+            return true;
+        });
+    }
+
+    public int isProductInOrder(String id) {
+        List<String> idProduct = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT prod_id FROM order_details WHERE prod_id=?").bind(0, id).mapTo(String.class).stream().collect(Collectors.toList()));
+        if (idProduct.contains(id)) return 1;
+        else return 0;
     }
 
     public String generateIdProduct() {
@@ -391,111 +266,56 @@ public class ProductDAO {
     public void InsertNewProduct(String name, String price, int status, String userid, int quantity, String[] stringSize, String[] stringColor, String idCate, String desc, String content, String[] imgFile) {
         String id = generateIdProduct();
         JDBIConnector.get().withHandle(handle -> {
-                    handle.createUpdate("INSERT INTO product values (?, ?, ?, ?, ?, ?, ?, CURDATE(),?,?, 30, 0, NULL, NULL)")
-                            .bind(0, id)
-                            .bind(1, name)
-                            .bind(2, desc)
-                            .bind(3, content)
-                            .bind(4, status)
-                            .bind(5, (imgFile == null) ? "NULL" : "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[0])
-                            .bind(6, Double.parseDouble(price))
-                            .bind(7, userid)
-                            .bind(8, quantity)
-                            .execute();
-                    handle.createUpdate("INSERT INTO product_from_cate values (? ,?)")
-                            .bind(0, idCate)
-                            .bind(1, id)
-                            .execute();
-                    if (imgFile != null) {
-                        for (int i = 1; i < imgFile.length; i++) {
-                            handle.createUpdate("INSERT INTO img_product VALUES (?, ?)")
-                                    .bind(0, id)
-                                    .bind(1, "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[i])
-                                    .execute();
-                        }
-                    }
-                    if (stringSize != null) {
-                        for (int i = 0; i < stringSize.length; i++) {
-                            handle.createUpdate("INSERT INTO size VALUES (?, ?)")
-                                    .bind(0, id)
-                                    .bind(1, stringSize[i])
-                                    .execute();
-                        }
-                    }
-                    if (stringColor != null) {
-                        for (int i = 0; i < stringColor.length; i++) {
-                            handle.createUpdate("INSERT INTO color VALUES (?, ?)")
-                                    .bind(0, id)
-                                    .bind(1, stringColor[i])
-                                    .execute();
-                        }
-                    }
-                    return true;
+            handle.createUpdate("INSERT INTO product values (?, ?, ?, ?, ?, ?, ?, CURDATE(),?,?, 30, 0, NULL, NULL)").bind(0, id).bind(1, name).bind(2, desc).bind(3, content).bind(4, status).bind(5, (imgFile == null) ? "NULL" : "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[0]).bind(6, Double.parseDouble(price)).bind(7, userid).bind(8, quantity).execute();
+            handle.createUpdate("INSERT INTO product_from_cate values (? ,?)").bind(0, idCate).bind(1, id).execute();
+            if (imgFile != null) {
+                for (int i = 1; i < imgFile.length; i++) {
+                    handle.createUpdate("INSERT INTO img_product VALUES (?, ?)").bind(0, id).bind(1, "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[i]).execute();
                 }
-        );
+            }
+            if (stringSize != null) {
+                for (int i = 0; i < stringSize.length; i++) {
+                    handle.createUpdate("INSERT INTO size VALUES (?, ?)").bind(0, id).bind(1, stringSize[i]).execute();
+                }
+            }
+            if (stringColor != null) {
+                for (int i = 0; i < stringColor.length; i++) {
+                    handle.createUpdate("INSERT INTO color VALUES (?, ?)").bind(0, id).bind(1, stringColor[i]).execute();
+                }
+            }
+            return true;
+        });
 
     }
 
     public void UpdateProduct(String id, String name, String price, int status, String userid, int quantity, String[] stringSize, String[] stringColor, String idCate, String desc, String content, String[] imgFile) {
         JDBIConnector.get().withHandle(handle -> {
-                    handle.createUpdate("UPDATE product SET prod_name = ?, prod_desc = ?, content =?, prod_status =?, main_img_link = ?, " +
-                                    "price = ?, quantity = ?, updated_date = CURDATE(), updated_by = ? WHERE id = ?")
-                            .bind(0, name)
-                            .bind(1, desc)
-                            .bind(2, content)
-                            .bind(3, status)
-                            .bind(4, (imgFile == null || imgFile.length == 0) ? "NULL" : "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[0])
-                            .bind(5, Double.parseDouble(price))
-                            .bind(6, quantity)
-                            .bind(7, userid)
-                            .bind(8, id)
-                            .execute();
-                    handle.createUpdate("DELETE FROM product_from_cate WHERE prod_id = ?")
-                            .bind(0, id)
-                            .execute();
-                    handle.createUpdate("DELETE FROM img_product WHERE prod_id=?")
-                            .bind(0, id)
-                            .execute();
-                    handle.createUpdate("DELETE FROM color WHERE prod_id=?")
-                            .bind(0, id)
-                            .execute();
-                    handle.createUpdate("DELETE FROM size WHERE prod_id=?")
-                            .bind(0, id)
-                            .execute();
-                    handle.createUpdate("INSERT INTO product_from_cate values (? ,?)")
-                            .bind(0, idCate)
-                            .bind(1, id)
-                            .execute();
-                    if (imgFile != null) {
-                        for (int i = 1; i < imgFile.length; i++) {
-                            handle.createUpdate("INSERT INTO img_product VALUES (?, ?)")
-                                    .bind(0, id)
-                                    .bind(1, "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[i])
-                                    .execute();
-                        }
-                    }
-                    if (stringSize != null) {
-                        for (int i = 0; i < stringSize.length; i++) {
-                            handle.createUpdate("INSERT INTO size VALUES (?, ?)")
-                                    .bind(0, id)
-                                    .bind(1, stringSize[i])
-                                    .execute();
-                        }
-                    }
-                    if (stringColor != null) {
-                        for (int i = 0; i < stringColor.length; i++) {
-                            handle.createUpdate("INSERT INTO color VALUES (?, ?)")
-                                    .bind(0, id)
-                                    .bind(1, stringColor[i])
-                                    .execute();
-                        }
-                    }
-                    return true;
+            handle.createUpdate("UPDATE product SET prod_name = ?, prod_desc = ?, content =?, prod_status =?, main_img_link = ?, " + "price = ?, quantity = ?, updated_date = CURDATE(), updated_by = ? WHERE id = ?").bind(0, name).bind(1, desc).bind(2, content).bind(3, status).bind(4, (imgFile == null || imgFile.length == 0) ? "NULL" : "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[0]).bind(5, Double.parseDouble(price)).bind(6, quantity).bind(7, userid).bind(8, id).execute();
+            handle.createUpdate("DELETE FROM product_from_cate WHERE prod_id = ?").bind(0, id).execute();
+            handle.createUpdate("DELETE FROM img_product WHERE prod_id=?").bind(0, id).execute();
+            handle.createUpdate("DELETE FROM color WHERE prod_id=?").bind(0, id).execute();
+            handle.createUpdate("DELETE FROM size WHERE prod_id=?").bind(0, id).execute();
+            handle.createUpdate("INSERT INTO product_from_cate values (? ,?)").bind(0, idCate).bind(1, id).execute();
+            if (imgFile != null) {
+                for (int i = 1; i < imgFile.length; i++) {
+                    handle.createUpdate("INSERT INTO img_product VALUES (?, ?)").bind(0, id).bind(1, "http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + imgFile[i]).execute();
                 }
-        );
+            }
+            if (stringSize != null) {
+                for (int i = 0; i < stringSize.length; i++) {
+                    handle.createUpdate("INSERT INTO size VALUES (?, ?)").bind(0, id).bind(1, stringSize[i]).execute();
+                }
+            }
+            if (stringColor != null) {
+                for (int i = 0; i < stringColor.length; i++) {
+                    handle.createUpdate("INSERT INTO color VALUES (?, ?)").bind(0, id).bind(1, stringColor[i]).execute();
+                }
+            }
+            return true;
+        });
     }
 
     public static void main(String[] args) {
-        System.out.println(new ProductDAO().getProductSaled("prod010"));
+        System.out.println(new ProductDAO().isProductInOrder("prod010"));
     }
 }
