@@ -16,7 +16,7 @@ public class LoadOrderListAdmin extends HttpServlet {
         doPost(request, response);
     }
     /*
-    Load more danh sách đơn hàng trong admin - Đinh Huy Hoàng 203130265
+    Load more danh sách đơn hàng trong admin - Đinh Huy Hoàng 20130265
     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

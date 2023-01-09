@@ -52,10 +52,25 @@ public class CategoryService {
         }
     }
 
+    public String findParentCateFromParentId(String id) {
+        StringBuilder result = new StringBuilder();
+        try {
+            CategoryDAO DAO = new CategoryDAO();
+            if (DAO.getParentCategory(id) == null) {
+                return id;
+            } else {
+                return result.append(id).append(",").append(findParentCateFromParentId(DAO.getParentCategory(id))).toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result.toString();
+    }
+
     private void CreateChildMenu(String id, JspWriter writer, int i) {
         try {
-            List<String> idChildMenu = new ArrayList();
-            List<String> nameChildMenu = new ArrayList();
+            List<String> idChildMenu = new ArrayList<>();
+            List<String> nameChildMenu = new ArrayList<>();
             CategoryDAO DAO = new CategoryDAO();
             for (Category child : DAO.getChildCategory(id)) {
                 if (child.getParent_id().equals(id)) {
@@ -139,11 +154,9 @@ public class CategoryService {
     public Category getCateWithID(String category) {
         return new CategoryDAO().getCateWithID(category);
     }
+
     public List<Category> loadloadCategoryWithConditionContainsStatus(int page, int num_per_page) {
         return new CategoryDAO().loadCategoryWithConditionContainsStatus(page, num_per_page);
-    }
-
-    public static void main(String[] args) {
     }
 
     public List<Category> getCateWithProductID(String id) {

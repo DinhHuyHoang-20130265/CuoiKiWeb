@@ -16,7 +16,7 @@ public class DeleteProductAdminController extends HttpServlet {
         doPost(request, response);
     }
     /*
-       Xóa sản phẩm trong admin - Đinh Huy Hoàng 203130265
+       Xóa sản phẩm trong admin - Đinh Huy Hoàng 20130265
     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
