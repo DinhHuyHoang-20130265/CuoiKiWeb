@@ -3,6 +3,7 @@ package vn.edu.hcmuaf.fit.DAO;
 import vn.edu.hcmuaf.fit.beans.Notify_Admin;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -11,7 +12,24 @@ public class NotifyDAO {
     public static List<Notify_Admin> getAllNotify() {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT n.id, n.content, n.order_id FROM notify_admin n").mapToBean(Notify_Admin.class).stream().collect(Collectors.toList()));
     }
-
+    public static List<Notify_Admin> loadNotifyWithPage(int page) {
+        List<Notify_Admin> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM notify_admin ")
+                .mapToBean(Notify_Admin.class)
+                .stream()
+                .collect(Collectors.toList()));
+        int numpage;
+        int start = (page - 1) * 3;
+        if (list.size() - start >= 3) {
+            numpage = start + 3;
+        } else {
+            numpage = list.size();
+        }
+        List<Notify_Admin> temp = new ArrayList<>();
+        for (int i = start; i < numpage; i++) {
+            temp.add(list.get(i));
+        }
+        return temp;
+    }
     public static String generateIdNotify() {
         List<String> id = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT ord_id FROM orders").mapTo(String.class).stream().collect(Collectors.toList()));
         String upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -43,6 +61,6 @@ public class NotifyDAO {
     }
 
     public static void main(String[] args) {
-        addNewNotify("bcda", "123");
+        System.out.println(NotifyDAO.getAllNotify());
     }
 }

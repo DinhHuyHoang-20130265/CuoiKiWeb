@@ -1,5 +1,10 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.Notify_Admin" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.order.Order" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.OrderService" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.NotifyService" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022
@@ -26,61 +31,32 @@
                 <a href="" data-toggle="dropdown">
                     <i class="fa fa-bell-o"></i>
                     <sup>
-                        <span class="counter">8</span>
+                        <span class="counter">3</span>
                     </sup>
                 </a>
                 <div class="dropdown-menu notifications-dropdown-menu">
                     <ul class="notifications-container">
+                    <%List<Notify_Admin> list = NotifyService.getInstance().loadNotifyWithPage(1);
+                        if (list != null){
+                            for (Notify_Admin notify : list){%>
+
                         <li>
                             <a href="" class="notification-item">
                                 <div class="img-col">
-                                    <div class="img" style="background-image: url('/admin-page/assets/faces/3.jpg')">
+                                    <div class="img" style="background-image: url('/admin-page/assets/faces/4.jpg')">
                                     </div>
                                 </div>
                                 <div class="body-col">
                                     <p>
-                                        <span class="accent">User2</span> Thêm sản phẩm:
-                                        <span class="accent">Áo vippro123 được làm từ tinh bột</span>.
+                                        <span class="accent"><%=notify.getContent()%></span>
+                                        <span class="accent">Order: <%=notify.getOrder_id()%></span>
                                     </p>
                                 </div>
                             </a>
                         </li>
-                        <li>
-                            <a href="" class="notification-item">
-                                <div class="img-col">
-                                    <div class="img" style="background-image: url('/admin-page/assets/faces/5.jpg')">
-                                    </div>
-                                </div>
-                                <div class="body-col">
-                                    <p>
-                                        <span class="accent">User1</span> Sửa thông tin sản phẩm:
-                                        <span class="accent">Áo vippro123 được làm từ tinh bột</span>.
-                                    </p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="" class="notification-item">
-                                <div class="img-col">
-                                    <div class="img" style="background-image: url('/admin-page/assets/faces/8.jpg')">
-                                    </div>
-                                </div>
-                                <div class="body-col">
-                                    <p>
-                                        <span class="accent">User3</span> Xoá sản phẩm:
-                                        <span class="accent">Áo vippro123 được làm từ tinh bột</span>.
-                                    </p>
-                                </div>
-                            </a>
-                        </li>
+                        <%}
+                        }%>
                     </ul>
-                    <footer>
-                        <ul>
-                            <li>
-                                <a href="#"> Xem tất cả </a>
-                            </li>
-                        </ul>
-                    </footer>
                 </div>
             </li>
             <%
