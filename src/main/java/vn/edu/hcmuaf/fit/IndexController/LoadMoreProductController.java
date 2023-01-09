@@ -32,11 +32,6 @@ public class LoadMoreProductController extends HttpServlet {
             size = request.getParameter("size");
         String page = request.getParameter("page");
         String category = request.getParameter("category");
-        System.out.println(price);
-        System.out.println(orderby);
-        System.out.println(color);
-        System.out.println(page);
-        System.out.println(category);
         List<Product> next6Product = ProductService.getInstance().loadProductWithCondition(Integer.parseInt(page), 6, orderby, category, color, price, size, null);
         request.setAttribute("next6Product", next6Product);
         request.getRequestDispatcher("ajax/ajax_LoadProduct.jsp").forward(request, response);
