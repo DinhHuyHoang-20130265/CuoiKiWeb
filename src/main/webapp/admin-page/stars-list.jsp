@@ -352,15 +352,10 @@
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </li>
-                                                <%}%>
-                                                <li>
-                                                    <a class="info" id="info<%=list.get(i).getReview_id()%>"
-                                                       style="cursor: pointer">
-                                                        <i class="fa fa-info-circle"></i>
-                                                    </a>
-                                                </li>
                                                 <%
-                                                    if (role.getTable().equals("comment") && role.getPermission().equals("update")) {%>
+                                                    }
+                                                    if (role.getTable().equals("comment") && role.getPermission().equals("update")) {
+                                                %>
                                                 <li>
                                                     <a class="toggle" id="toggle<%=list.get(i).getReview_id()%>"
                                                        style="cursor: pointer">
@@ -376,6 +371,12 @@
                                                         }
                                                     }
                                                 %>
+                                                <li>
+                                                    <a class="info" id="info<%=list.get(i).getReview_id()%>"
+                                                       style="cursor: pointer">
+                                                        <i class="fa fa-info-circle"></i>
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
