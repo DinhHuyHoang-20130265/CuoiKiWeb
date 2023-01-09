@@ -18,6 +18,9 @@ public class NotifyService {
     public List<Notify_Admin> getAllNotify() {
         return NotifyDAO.getAllNotify();
     }
+    public List<Notify_Admin> loadNotifyWithPage(int page){
+        return NotifyDAO.loadNotifyWithPage(page);
+    }
 
     public void AddNewNotify(String content, String order_id) {
         NotifyDAO.addNewNotify(content, order_id);
