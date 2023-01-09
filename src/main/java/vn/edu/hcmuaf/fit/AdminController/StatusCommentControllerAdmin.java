@@ -13,7 +13,9 @@ public class StatusCommentControllerAdmin extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-
+    /*
+    Trạng thái comment trong admin - Nguyễn Minh Hiếu 20130261
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");

@@ -18,7 +18,9 @@ public class ForgotPasswordAdminController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-
+    /*
+       Quên mật khẩu admin - Đinh Huy Hoàng 203130265
+    */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /*

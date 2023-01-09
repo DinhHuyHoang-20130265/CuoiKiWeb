@@ -17,7 +17,9 @@ public class LoadNewsCommentController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-
+    /*
+        Tải thêm bình luận trong chi tiết tin tức - Nguyễn Minh Hiếu 20130261
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("newsid");

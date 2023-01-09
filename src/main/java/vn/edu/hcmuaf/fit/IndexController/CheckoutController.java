@@ -21,7 +21,9 @@ public class CheckoutController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-
+    /*
+    Thanh toán - Nguyễn Huy Hiệp 20130258
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ord_id = new OrderDAO().generateIdOrder();

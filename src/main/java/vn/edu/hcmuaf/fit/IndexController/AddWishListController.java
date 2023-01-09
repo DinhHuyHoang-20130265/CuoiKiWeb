@@ -18,6 +18,9 @@ public class AddWishListController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        /*
+            Thêm sản phẩm vào danh mục yêu thích Nguyễn Huy Hiệp - 20130258
+         */
         String id = request.getParameter("id").substring(11);
         WishList wishList = (WishList) request.getSession().getAttribute("wishList");
         Product product = ProductService.getInstance().getProductAndDetails(id);
