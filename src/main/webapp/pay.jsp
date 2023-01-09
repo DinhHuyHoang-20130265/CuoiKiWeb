@@ -164,28 +164,28 @@
                                         <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="diachi" class="form-label">Địa chỉ</label>
                                         <input id="diachi" type="text" class="form-control"
-                                               value="<%=userInformation.getAddress()%>">
+                                               value="<%=userInformation.getAddress() != null ?userInformation.getAddress(): ""%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <div class="fieldset-name form-group">
                                         <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="hoten" class="form-label">Họ tên</label>
                                         <input id="hoten" type="text" class="form-control"
-                                               value="<%=userInformation.getFull_name()%>">
+                                               value="<%=userInformation.getFull_name() != null ? userInformation.getFull_name(): ""%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <div class="fieldset-address form-group">
                                         <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="email" class="form-label">Email</label>
                                         <input id="email" type="text" class="form-control"
-                                               value="<%=userInformation.getEmail()%>">
+                                               value="<%=userInformation.getEmail() != null ? userInformation.getEmail(): ""%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <div class="fieldset-phone form-group">
                                         <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="sdt" class="form-label">Số điện thoại</label>
                                         <input id="sdt" type="text" class="form-control"
-                                               value="<%=userInformation.getPhone_number()%>">
+                                               value="<%=userInformation.getPhone_number() != null ? userInformation.getPhone_number() : ""%>">
                                         <span class="form-message"></span>
                                     </div>
                                     <textarea id="textbox" type="text" class="form-control"
