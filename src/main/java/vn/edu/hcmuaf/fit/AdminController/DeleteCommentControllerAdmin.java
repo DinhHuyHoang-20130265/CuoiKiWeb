@@ -19,7 +19,7 @@ public class DeleteCommentControllerAdmin extends HttpServlet {
         doPost(request, response);
     }
     /*
-       Xóa comment trong admin - Nguyễn Minh Hiếu 203130261
+       Xóa comment trong admin - Nguyễn Minh Hiếu 20130261
     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

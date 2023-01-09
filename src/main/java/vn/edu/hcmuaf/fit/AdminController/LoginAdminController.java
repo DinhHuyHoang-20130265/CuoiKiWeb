@@ -21,7 +21,7 @@ public class LoginAdminController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         /*
-        Đăng nhập admin làm bởi Đinh Huy Hoàng - 20130265
+        Đăng nhập admin Đinh Huy Hoàng - 20130265
         */
         //  Lấy dữ liệu
         String username = request.getParameter("username").trim();

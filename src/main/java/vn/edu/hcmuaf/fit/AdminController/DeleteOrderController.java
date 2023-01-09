@@ -17,7 +17,7 @@ public class DeleteOrderController extends HttpServlet {
         doPost(request, response);
     }
     /*
-       Xóa đơn hàng trong admin - Đinh Huy Hoàng 203130265
+       Xóa đơn hàng trong admin - Đinh Huy Hoàng 20130265
     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -16,7 +16,7 @@ public class DeleteCateAdminController extends HttpServlet {
         doPost(request, response);
     }
     /*
-       Xóa category trong admin - Nguyễn Huy Hiệp 203130258
+       Xóa category trong admin - Nguyễn Huy Hiệp 20130258
     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

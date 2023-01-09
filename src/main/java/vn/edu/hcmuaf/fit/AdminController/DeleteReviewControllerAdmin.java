@@ -19,7 +19,7 @@ public class DeleteReviewControllerAdmin extends HttpServlet {
         doPost(request, response);
     }
     /*
-      Xóa review trong admin - Nguyễn Minh Hiếu 203130261
+      Xóa review trong admin - Nguyễn Minh Hiếu 20130261
     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
