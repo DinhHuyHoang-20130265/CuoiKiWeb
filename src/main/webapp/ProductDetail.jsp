@@ -424,7 +424,7 @@
 
                     <%if (product.getSales() != null) { %>
                     <div class="sale-off sale-off-2">
-                        <span class="sale-off-percent"><(<%=product.getSales()%>)></span>
+                        <span class="sale-off-percent">(-<%=product.getSales().getDiscount_rate()%>%)</span>
                         <span class="sale-off-label">GIẢM</span>
                     </div>
                     <%} else {%>
@@ -464,7 +464,7 @@
                 </div>
                 <div class="product__price">
                     <%if (product.getSales() != null) { %>
-                    <h2><%=format.format(product.getPrice() * (product.getPrice() * 0.01 * (100 - product.getSales().getDiscount_rate())))%>
+                    <h2><%=format.format(product.getPrice() * 0.01 * (100 - product.getSales().getDiscount_rate()))%>
                         đ</h2>
 
                     <%} else { %>
@@ -474,7 +474,7 @@
                 <div class="price-old">
                     <%if (product.getSales() != null) { %>
                     Giá gốc:
-                    <del><%=format.format(product.getPrice() * (product.getPrice() * 0.01 * (100 - product.getSales().getDiscount_rate())))%>
+                    <del><%=format.format(product.getPrice())%>
                         đ
                     </del>
                     <span class="discount">(-<%=product.getSales().getDiscount_rate()%>%)</span>
@@ -500,16 +500,6 @@
                             <label for="-option">0</label>
                             <div class="outer-circle">0</div>
                         </div>
-                        <%--                        <div class="circlecheck">--%>
-                        <%--                            <input type="radio" id="g-option" class="circle-2" name="selector">--%>
-                        <%--                            <label for="g-option"></label>--%>
-                        <%--                            <div class="outer-circle"></div>--%>
-                        <%--                        </div>--%>
-                        <%--                        <div class="circlecheck">--%>
-                        <%--                            <input type="radio" id="h-option" class="circle-3" name="selector">--%>
-                        <%--                            <label for="h-option"></label>--%>
-                        <%--                            <div class="outer-circle"></div>--%>
-                        <%--                        </div>--%>
                     </div>
                 </div>
                 <div class="product__size d-flex" style="align-items: center;">
@@ -530,21 +520,6 @@
                             <input type="radio" class="variant-1" id="swatch-1" name="mau"/>
                             <label for="swatch-1" class="sd"><span>0</span></label>
                         </div>
-                        <%--                        <div class="swatch-element" data-value="38">--%>
-                        <%--                            <input type="radio" class="variant-1" id="swatch-1-38" name="mau" value="trung"--%>
-                        <%--                                   onclick="check()">--%>
-                        <%--                            <label for="swatch-1-38" class="sd"><span>38</span></label>--%>
-                        <%--                        </div>--%>
-                        <%--                        <div class="swatch-element" data-value="39">--%>
-                        <%--                            <input type="radio" class="variant-1" id="swatch-1-39" name="mau" value="thanh"--%>
-                        <%--                                   onclick="check()">--%>
-                        <%--                            <label for="swatch-1-39" class="sd"><span>39</span></label>--%>
-                        <%--                        </div>--%>
-                        <%--                        <div class="swatch-element" data-value="40">--%>
-                        <%--                            <input type="radio" class="variant-1" id="swatch-1-40" name="mau" value="hieu"--%>
-                        <%--                                   onclick="check()">--%>
-                        <%--                            <label for="swatch-1-40" class="sd"><span>40</span></label>--%>
-                        <%--                        </div>--%>
                     </div>
                 </div>
                 <div class="product__wrap">
@@ -554,7 +529,6 @@
                         <input type="text" value="1" class="text-input" id="text_so_luong-10">
                         <input type="button" value="+" class="control" onclick="cong(10)">
                     </div>
-                    <%--                    <button class="add-cart" onclick="fadeInModal()">Thêm vào giỏ</button>--%>
                 </div>
                 <div class="product__shopnow">
                     <%if (user != null) {%>
@@ -644,9 +618,6 @@
                                         }
                                     }
                                 %>
-                                <%--                                } else { %>--%>
-                                <%--                                    <div>Hiện chưa có bình luận nào</div>--%>
-                                <%--                                <% } %>--%>
                             </div>
                         </div>
                     </div>
@@ -746,21 +717,15 @@
                             <div class="product__price">
                                 <%if (p.getSales() != null) { %>
                                 <p class="card-text price-color product__price-old">
-                                    <%if (p.getSales() != null) { %>
-                                    <%=format.format(p.getPrice() * (p.getPrice() * 0.01 * (100 - p.getSales().getDiscount_rate())))%>
-                                    đ
-                                    <%} else { %>
-                                    <%=format.format(p.getPrice())%>đ
-                                    <%}%>
+                                    <%=format.format(p.getPrice() * 0.01 * (100 - p.getSales().getDiscount_rate()))%>đ
                                 </p>
                                 <%} else {%>
                                 <p class="card-text price-color product__price-old" style="opacity: 0">
-                                        <%}%>
+                                </p>
+                                <%}%>
                                 <p class="card-text price-color product__price-new">
                                     <%if (p.getSales() != null) { %>
-                                    <%=format.format(p.getPrice() * (p.getPrice() * 0.01 * (100 - p.getSales().getDiscount_rate())))%>
-                                    đ
-
+                                    <%=format.format(p.getPrice() * 0.01 * (100 - p.getSales().getDiscount_rate()))%>đ
                                     <%} else { %>
                                     <%=format.format(p.getPrice())%>đ
                                     <%}%>
@@ -776,183 +741,21 @@
                                 </div>
                                 <span class="home-product-item__sold"><%=p.getView_count()%> Lượt xem</span>
                             </div>
-                            <%if (product.getSales() != null) { %>
-                            <div class="sale-off">
-                                <div class="sale-off sale-off-2">
-                                    <span class="sale-off-percent"><(<%=product.getSales()%>)></span>
-                                    <span class="sale-off-label">GIẢM</span>
-                                </div>
+                            <%if (p.getSales() != null) { %>
+                            <div class="sale-off sale-off-2">
+                                <span class="sale-off-percent">(-<%=p.getSales().getDiscount_rate()%>%)</span>
+                                <span class="sale-off-label">GIẢM</span>
                             </div>
                             <%} else {%>
-                            <div class="sale-off" style="opacity: 0">
-                                <div class="sale-off sale-off-2" style="opacity: 0">
-                                    <span class="sale-off-percent"></span>
-                                    <span class="sale-off-label"></span>
-                                </div>
+                            <div class="sale-off sale-off-2" style="display: none">
+                                <span class="sale-off-percent"></span>
+                                <span class="sale-off-label"></span>
                             </div>
                             <%}%>
                         </div>
                     </div>
                 </a>
             </div>
-            <%--            <div class="col-lg-3 col-md-6 col-sm-12 mb-20">--%>
-            <%--                <a href="#" class="product__new-item">--%>
-            <%--                    <div class="card" style="width: 100%">--%>
-            <%--                        <div>--%>
-            <%--                            <img class="card-img-top" src="./assets/imgProduct/images/men/2.jpg" alt="Card image cap"/>--%>
-            <%--                            <form action="" class="hover-icon hidden-sm hidden-xs">--%>
-            <%--                                <input type="hidden"/>--%>
-            <%--                                <a href="pay.jsp" class="btn-add-to-cart" title="Mua ngay">--%>
-            <%--                                    <i class="fas fa-cart-plus"></i>--%>
-            <%--                                </a>--%>
-            <%--                                <a href="cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích"--%>
-            <%--                                   style="margin-top: 10px">--%>
-            <%--                                    <i class="fas fa-heart"></i>--%>
-            <%--                                </a>--%>
-            <%--                                <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">--%>
-            <%--                                    <i class="fas fa-search"></i>--%>
-            <%--                                </a>--%>
-            <%--                            </form>--%>
-            <%--                        </div>--%>
-            <%--                        <div class="card-body">--%>
-            <%--                            <h5 class="card-title custom__name-product">--%>
-            <%--                                Áo len sọc phối màu--%>
-            <%--                            </h5>--%>
-            <%--                            <div class="product__price">--%>
-            <%--                                <p class="card-text price-color product__price-old">--%>
-            <%--                                    1,000,000 đ--%>
-            <%--                                </p>--%>
-            <%--                                <p class="card-text price-color product__price-new">--%>
-            <%--                                    420000 đ--%>
-            <%--                                </p>--%>
-            <%--                            </div>--%>
-            <%--                            <div class="home-product-item__action">--%>
-            <%--                  <span class="home-product-item__like home-product-item__like--liked">--%>
-            <%--                    <i class="home-product-item__like-icon-empty far fa-heart"></i>--%>
-            <%--                    <i class="home-product-item__like-icon-fill fas fa-heart"></i>--%>
-            <%--                  </span>--%>
-            <%--                                <div class="home-product-item__rating">--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="fas fa-star"></i>--%>
-            <%--                                </div>--%>
-            <%--                                <span class="home-product-item__sold">79 đã bán</span>--%>
-            <%--                            </div>--%>
-            <%--                            <div class="sale-off">--%>
-            <%--                                <span class="sale-off-percent">20%</span>--%>
-            <%--                                <span class="sale-off-label">GIẢM</span>--%>
-            <%--                            </div>--%>
-            <%--                        </div>--%>
-            <%--                    </div>--%>
-            <%--                </a>--%>
-            <%--            </div>--%>
-            <%--            <div class="col-lg-3 col-md-6 col-sm-12 mb-20">--%>
-            <%--                <a href="#" class="product__new-item">--%>
-            <%--                    <div class="card" style="width: 100%">--%>
-            <%--                        <div>--%>
-            <%--                            <img class="card-img-top" src="./assets/imgProduct/images/men/3.jpg" alt="Card image cap"/>--%>
-            <%--                            <form action="" class="hover-icon hidden-sm hidden-xs">--%>
-            <%--                                <input type="hidden"/>--%>
-            <%--                                <a href="pay.jsp" class="btn-add-to-cart" title="Mua ngay">--%>
-            <%--                                    <i class="fas fa-cart-plus"></i>--%>
-            <%--                                </a>--%>
-            <%--                                <a href="cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích"--%>
-            <%--                                   style="margin-top: 10px">--%>
-            <%--                                    <i class="fas fa-heart"></i>--%>
-            <%--                                </a>--%>
-            <%--                                <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">--%>
-            <%--                                    <i class="fas fa-search"></i>--%>
-            <%--                                </a>--%>
-            <%--                            </form>--%>
-            <%--                        </div>--%>
-            <%--                        <div class="card-body">--%>
-            <%--                            <h5 class="card-title custom__name-product">--%>
-            <%--                                Áo len traffic--%>
-            <%--                            </h5>--%>
-            <%--                            <div class="product__price">--%>
-            <%--                                <p class="card-text price-color product__price-old">--%>
-            <%--                                    1,000,000 đ--%>
-            <%--                                </p>--%>
-            <%--                                <p class="card-text price-color product__price-new">--%>
-            <%--                                    420000 đ--%>
-            <%--                                </p>--%>
-            <%--                            </div>--%>
-            <%--                            <div class="home-product-item__action">--%>
-            <%--                  <span class="home-product-item__like home-product-item__like--liked">--%>
-            <%--                    <i class="home-product-item__like-icon-empty far fa-heart"></i>--%>
-            <%--                    <i class="home-product-item__like-icon-fill fas fa-heart"></i>--%>
-            <%--                  </span>--%>
-            <%--                                <div class="home-product-item__rating">--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="fas fa-star"></i>--%>
-            <%--                                </div>--%>
-            <%--                                <span class="home-product-item__sold">79 đã bán</span>--%>
-            <%--                            </div>--%>
-            <%--                            <div class="sale-off">--%>
-            <%--                                <span class="sale-off-percent">20%</span>--%>
-            <%--                                <span class="sale-off-label">GIẢM</span>--%>
-            <%--                            </div>--%>
-            <%--                        </div>--%>
-            <%--                    </div>--%>
-            <%--                </a>--%>
-            <%--            </div>--%>
-            <%--            <div class="col-lg-3 col-md-6 col-sm-12 mb-20">--%>
-            <%--                <a href="#" class="product__new-item">--%>
-            <%--                    <div class="card" style="width: 100%">--%>
-            <%--                        <div>--%>
-            <%--                            <img class="card-img-top" src="./assets/imgProduct/images/men/4.jpg" alt="Card image cap"/>--%>
-            <%--                            <form action="" class="hover-icon hidden-sm hidden-xs">--%>
-            <%--                                <input type="hidden"/>--%>
-            <%--                                <a href="pay.jsp" class="btn-add-to-cart" title="Mua ngay">--%>
-            <%--                                    <i class="fas fa-cart-plus"></i>--%>
-            <%--                                </a>--%>
-            <%--                                <a href="cart.jsp" class="btn-add-to-cart" title="Đưa vào trang ưu thích"--%>
-            <%--                                   style="margin-top: 10px">--%>
-            <%--                                    <i class="fas fa-heart"></i>--%>
-            <%--                                </a>--%>
-            <%--                                <a data-toggle="modal" data-target="#myModal" class="quickview" title="Xem nhanh">--%>
-            <%--                                    <i class="fas fa-search"></i>--%>
-            <%--                                </a>--%>
-            <%--                            </form>--%>
-            <%--                        </div>--%>
-            <%--                        <div class="card-body">--%>
-            <%--                            <h5 class="card-title custom__name-product">Áo len nhiều màu--%>
-            <%--                            </h5>--%>
-            <%--                            <div class="product__price">--%>
-            <%--                                <p class="card-text price-color product__price-old">--%>
-            <%--                                    1,000,000 đ--%>
-            <%--                                </p>--%>
-            <%--                                <p class="card-text price-color product__price-new">--%>
-            <%--                                    420000 đ--%>
-            <%--                                </p>--%>
-            <%--                            </div>--%>
-            <%--                            <div class="home-product-item__action">--%>
-            <%--                  <span class="home-product-item__like home-product-item__like--liked">--%>
-            <%--                    <i class="home-product-item__like-icon-empty far fa-heart"></i>--%>
-            <%--                    <i class="home-product-item__like-icon-fill fas fa-heart"></i>--%>
-            <%--                  </span>--%>
-            <%--                                <div class="home-product-item__rating">--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="home-product-item__star--gold fas fa-star"></i>--%>
-            <%--                                    <i class="fas fa-star"></i>--%>
-            <%--                                </div>--%>
-            <%--                                <span class="home-product-item__sold">79 đã bán</span>--%>
-            <%--                            </div>--%>
-            <%--                            <div class="sale-off">--%>
-            <%--                                <span class="sale-off-percent">20%</span>--%>
-            <%--                                <span class="sale-off-label">GIẢM</span>--%>
-            <%--                            </div>--%>
-            <%--                        </div>--%>
-            <%--                    </div>--%>
-            <%--                </a>--%>
-            <%--            </div>--%>
             <% } %>
         </div>
     </div>
