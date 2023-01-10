@@ -28,7 +28,8 @@
                 </a>
             </div>
         </div>
-        <div class="item-col fixed item-col-sales" style="text-align: center; max-width: 100px; margin-left: 50px">
+        <div class="item-col fixed item-col-sales"
+             style="min-width:100px; text-align: center; max-width: 100px; margin-left: 50px">
             <div class="item-heading">Tên KM</div>
             <div>
                 <a>
@@ -37,7 +38,8 @@
                 </a>
             </div>
         </div>
-        <div class="item-col fixed pull-left item-col-category" style="max-width: 180px; margin-left: 40px;">
+        <div class="item-col fixed pull-left item-col-category"
+             style="min-width: 180px; max-width: 180px; margin-left: 40px;">
             <div class="item-heading">Mô tả KM</div>
             <div>
                 <a>
@@ -82,7 +84,6 @@
                 <div class="item-actions-block">
                     <ul class="item-actions-list">
                         <%
-                            AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
                             for (AdminRole role : admin.getRole()) {
                                 if (role.getTable().equals("sales") && role.getPermission().equals("delete")) {
                         %>

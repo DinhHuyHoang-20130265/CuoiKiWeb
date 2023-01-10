@@ -307,6 +307,9 @@
                 else
                     alert("Cập nhật khuyến mãi thành công");
                 window.location.href = "promotion-list.jsp"
+            },
+            error: function () {
+                alert("Sản phẩm của bạn đã có trong danh sách, vui lòng kiểm tra hoặc xóa khuyến mãi đó để có thể thêm mới")
             }
         })
     })
