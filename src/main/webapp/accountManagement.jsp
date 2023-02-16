@@ -84,7 +84,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="heading">
-                    <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() != null ? UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() : "./assets/img/product/noavatar.png"%>"
+                    <img src="<%=(UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() != null && !UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link().equals("null") && !UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link().equals(""))? UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() : "./assets/img/product/noavatar.png"%>"
                          alt="" class="heading-img">
                     <span class="heading-name_acc"><%=UserInformationService.getInstance().getUserInfo(user.getId()).getFull_name()%></span>
                 </div>
