@@ -30,7 +30,7 @@
                     UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
                 %>
                 <div class="_object">
-                    <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() == null ? "./assets/img/product/noavatar.png" : UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link()%>"
+                    <img src="<%=(UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() != null && !UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link().equals("null") && !UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link().equals(""))? UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() : "./assets/img/product/noavatar.png"%>"
                          alt=""/>
                 </div>
                 <div class="_body">Xin
@@ -243,14 +243,18 @@
         <div class="container">
             <ul class="header_nav-list nav">
                 <li class="header_nav-list-item">
-                    <a href="index.jsp" class="<%=request.getRequestURL().indexOf("index") != -1 ? "active" : "" %>">Trang chủ</a>
+                    <a href="index.jsp" class="<%=request.getRequestURL().indexOf("index") != -1 ? "active" : "" %>">Trang
+                        chủ</a>
                 </li>
                 <li class="header_nav-list-item">
-                    <a href="intro.jsp" class="<%=request.getRequestURL().indexOf("intro") != -1 ? "active" : "" %>">Giới thiệu</a>
+                    <a href="intro.jsp" class="<%=request.getRequestURL().indexOf("intro") != -1 ? "active" : "" %>">Giới
+                        thiệu</a>
                 </li>
                 <li class="header_nav-list-item has-mega">
-                    <a href="Product.jsp?category=all" class="<%=request.getRequestURL().indexOf("category") != -1 ? "active" : "" %>">Sản phẩm<i class="fas fa-angle-right"
-                                                                  style="margin-left: 5px"></i></a>
+                    <a href="Product.jsp?category=all"
+                       class="<%=request.getRequestURL().indexOf("category") != -1 ? "active" : "" %>">Sản phẩm<i
+                            class="fas fa-angle-right"
+                            style="margin-left: 5px"></i></a>
                     <div class="mega-content" style="overflow-x: hidden">
                         <div class="row">
                             <ul class="col-8 no-padding level0">
@@ -270,10 +274,12 @@
                     </div>
                 </li>
                 <li class="header_nav-list-item">
-                    <a href="news.jsp" class="<%=request.getRequestURL().indexOf("news") != -1 ? "active" : "" %>">Tin tức</a>
+                    <a href="news.jsp" class="<%=request.getRequestURL().indexOf("news") != -1 ? "active" : "" %>">Tin
+                        tức</a>
                 </li>
                 <li class="header_nav-list-item">
-                    <a href="contact.jsp" class="<%=request.getRequestURL().indexOf("contact") != -1 ? "active" : "" %>">Liên hệ</a>
+                    <a href="contact.jsp"
+                       class="<%=request.getRequestURL().indexOf("contact") != -1 ? "active" : "" %>">Liên hệ</a>
                 </li>
             </ul>
         </div>
