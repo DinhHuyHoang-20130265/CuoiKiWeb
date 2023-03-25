@@ -180,7 +180,16 @@ public class AccountUserDAO {
         });
     }
 
+    public SiteUser getUserByEmail(String email) {
+        Optional<SiteUser> user = JDBIConnector.get().withHandle(handle -> handle.createQuery("select a.id, a.username, a.pass,a.role, a.account_status from user_account a inner join account_information ai on a.id = ai.id WHERE ai.email = ?")
+                .bind(0, email)
+                .mapToBean(SiteUser.class)
+                .findFirst()
+        );
+        return user.orElse(null);
+    }
+
     public static void main(String[] args) {
-        System.out.println( new AccountUserDAO().getAccountById("user6"));
+        System.out.println(new AccountUserDAO().getAccountById("user6"));
     }
 }

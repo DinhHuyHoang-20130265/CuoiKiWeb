@@ -147,11 +147,12 @@
                             style="font-size: 16px;margin-left: 10px;"></i></button>
                     <h4>HOẶC ĐĂNG NHẬP BẰNG</h4>
                     <div class="form-social">
-                        <a href="#" class="form-submit-social btn-blocker">
+                        <a href="#" class="form-submit-social btn-blocker" id="facebook-login">
                             <span>Facebook</span>
                             <img src="./assets/icon/facebook.svg" alt="" class="form-submit-social--img">
                         </a>
-                        <a href="#" class="form-submit-social btn-blocker">
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=profile+email&redirect_uri=http://localhost:8080/CuoiKiWeb_war/login-google&response_type=code
+                        &client_id=910519969681-toe1jki11dlo6blotqtm47npbu31t6rd.apps.googleusercontent.com&approval_prompt=force" class="form-submit-social btn-blocker">
                             <span>GOOGLE</span>
                             <img src="./assets/icon/google.svg" alt="" class="form-submit-social--img">
                         </a>
@@ -209,6 +210,7 @@
         ]
     });
 </script>
+
 </body>
 
 </html>

@@ -178,4 +178,8 @@ public class CategoryService {
     public void UpdateCategory(String id, String cate_name, String cate_desc, String parent_id, int status) {
         new CategoryDAO().UpdateCategory(id, cate_name, cate_desc, parent_id, status);
     }
+
+    public static void main(String[] args) {
+
+    }
 }
