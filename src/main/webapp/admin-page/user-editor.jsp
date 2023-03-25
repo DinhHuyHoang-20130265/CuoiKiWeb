@@ -342,7 +342,7 @@
                                     </div>
                                 </div>
                                 <% } else {
-                                    if (UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAvatar_link() == null) { %>
+                                    if (UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAvatar_link() == null || UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAvatar_link().equals("")) { %>
                                 <div class="image-container">
                                     <div class="image" id="container">
                                         <input type="file" id="image" name="files" class="input-file"/>
@@ -631,10 +631,12 @@
         const removed = $("#deletedFile").val();
         const oldImg = removed.substring(0, removed.length - 1);
         let nameFile = $(".img-product-review").attr("src");
-        if (nameFile.indexOf("\\") != -1)
-            nameFile = nameFile.substring(nameFile.lastIndexOf("\\") + 1);
-        else
-            nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);
+        if (nameFile != null) {
+            if (nameFile.indexOf("\\") != -1)
+                nameFile = nameFile.substring(nameFile.lastIndexOf("\\") + 1);
+            else
+                nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);
+        }
         $.ajax({
             url: "/CuoiKiWeb_war/EditInsertAccountController",
             type: "get",
