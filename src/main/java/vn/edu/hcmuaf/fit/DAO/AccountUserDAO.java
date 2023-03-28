@@ -151,14 +151,14 @@ public class AccountUserDAO {
     }
 
     public String getIdUserByName(String username) {
-        SiteUser Statement = JDBIConnector.get().withHandle(handle ->
+        Optional<String> id = JDBIConnector.get().withHandle(handle ->
                 handle.createQuery("SELECT ua.id" +
                                 " FROM account_information a INNER JOIN user_account ua ON a.id = ua.id WHERE ua.account_status = 1 AND ua.username=? ")
                         .bind(0, username)
-                        .mapToBean(SiteUser.class)
-                        .first()
+                        .mapTo(String.class)
+                        .findFirst()
         );
-        return Statement.getId().toString();
+        return id.orElse(null);
     }
 
     public String getPasswordById(String id) {

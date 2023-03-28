@@ -31,14 +31,14 @@ public class LoginGoogleController extends HttpServlet {
         } else {
             String accessToken = GoogleUtils.getToken(code);
             GooglePojo googlePojo = GoogleUtils.getUserInfo(accessToken);
-            SiteUser user = AccountService.getInstance().getUserByEmail(googlePojo.getEmail());
+            SiteUser user = LoginService.getInstance().getAccountCustomer(googlePojo.getId(), googlePojo.getId());
             if (user != null) {
                 request.getSession().setAttribute("user", user);
                 request.getSession().setAttribute("cart", new Cart());
                 request.getSession().setAttribute("wishList", new WishList());
             } else {
-                SignUpService.getInstance().InsertUser(googlePojo.getName(), googlePojo.getEmail(), googlePojo.getEmail(), MD5.md5(googlePojo.getEmail()));
-                String id = AccountService.getInstance().getIdUserByName(googlePojo.getEmail());
+                SignUpService.getInstance().InsertUser(googlePojo.getName(), googlePojo.getEmail(), googlePojo.getId(), MD5.md5(googlePojo.getId()));
+                String id = AccountService.getInstance().getIdUserByName(googlePojo.getId());
                 UserInformationService.getInstance().UpdateUserInfo(id, googlePojo.getName(), googlePojo.getEmail(), null, null, null);
                 user = AccountService.getInstance().getUserByEmail(googlePojo.getEmail());
                 request.getSession().setAttribute("user", user);

@@ -34,7 +34,7 @@ public class UpdateUserController extends HttpServlet {
         String phone_number = request.getParameter("phone_number");
         String imgFile = request.getParameter("filename");
         System.out.println(imgFile);
-        if (imgFile != null && imgFile.length() > 0) {
+        if (imgFile != null && !"".equals(imgFile) && imgFile.length() > 1) {
             File file = new File(request.getServletContext().getAttribute("TEMPAVATAR_DIR") + File.separator + imgFile);
             FileInputStream fis = new FileInputStream(file);
             File local = new File(request.getServletContext().getAttribute("FILEAVATAR_DIR") + File.separator + imgFile);
