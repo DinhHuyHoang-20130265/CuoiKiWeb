@@ -28,5 +28,14 @@
     <param-name>saveavatar.dir</param-name>
     <param-value>CuoiKiWeb/src/main/webapp/assets/img/logo</param-value>
   </context-param>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>CuoiKiWeb</web-resource-name>
+      <url-pattern>/*</url-pattern>
+    </web-resource-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
 </web-app>
 
