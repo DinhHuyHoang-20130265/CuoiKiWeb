@@ -137,7 +137,7 @@
                         <li class="nav-item nav-item__first nav-item__first-user">
                             <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() == null ? "./assets/img/product/noavatar.png" : UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link()%>"
                                  alt="" class="nav-item__first-img">
-                            <span class="nav-item__first-name"><%=user.getUsername()%></span>
+                            <span class="nav-item__first-name"><%=info2.getFull_name()%></span>
                             <ul class="nav-item__first-menu">
                                 <li class="nav-item__first-item">
                                     <a href="accountManagement.jsp">Tài khoản của tôi</a>
