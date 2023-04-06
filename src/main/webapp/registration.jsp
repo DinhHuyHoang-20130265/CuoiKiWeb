@@ -125,7 +125,7 @@
                     </div>
                     <div class="form-group">
                         <label for="email" class="form-label">Email</label>
-                        <input id="email" name="email" type="text" placeholder="VD: email@domain.com"
+                        <input id="email" name="email" type="email" placeholder="VD: email@domain.com"
                                class="form-control">
                         <span class="form-message"></span>
                     </div>

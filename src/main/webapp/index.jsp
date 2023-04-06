@@ -128,16 +128,6 @@
                             <% h++;
                                 }
                             %>
-<%--                            <div class="carousel-item">--%>
-<%--                                <img src="./assets/img/slideshow/2.jpg" alt="Chicago" width="1100" height="500"/>--%>
-<%--                                <div class="carousel-caption">--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                            <div class="carousel-item">--%>
-<%--                                <img src="./assets/img/slideshow/3.jpg" alt="New York" width="1100" height="500"/>--%>
-<%--                                <div class="carousel-caption">--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
                         </div>
                         <a class="carousel-control-prev" href="#demo" data-slide="prev">
                             <span class="carousel-control-prev-icon"></span>

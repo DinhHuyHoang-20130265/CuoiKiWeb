@@ -37,7 +37,7 @@ public class UserInformationDAO {
                             .bind(1, email)
                             .bind(2, address)
                             .bind(3, phone_number)
-                            .bind(4, filename == null ? avt_Link : "http://localhost:8080/CuoiKiWeb_war/assets/img/logo/" + filename)
+                            .bind(4, (filename == null || filename.length() < 1 || filename.equals("")) ? avt_Link : "http://localhost:8080/CuoiKiWeb_war/assets/img/logo/" + filename)
                             .bind(5, id)
                             .execute();
                     return true;
