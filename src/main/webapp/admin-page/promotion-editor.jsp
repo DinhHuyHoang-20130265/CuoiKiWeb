@@ -251,7 +251,7 @@
 </script>
 <script>
     $('.form-control').on('change', function () {
-        if ($(this).val() == 'other') {
+        if ($(this).val() === 'other') {
             $(this).after('<input placeholder="Nhập..." type="text" name="' + $(this).attr('name') + '" class="otherInput form-control boxed" style="width:50% !important; margin-top:5px;border: 1px solid #ced4da;border-radius: 0.25rem;"/>');
         } else {
             if ($(this).next().is('input.otherInput')) {
