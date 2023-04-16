@@ -189,6 +189,29 @@ public class AccountUserDAO {
         return user.orElse(null);
     }
 
+    public void UpdateAdminAccount(String id, String fullname, String email, String password, String address, String phone, String nameFile) {
+            String pass = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT pass from user_account where id= ?")
+                    .bind(0, id)
+                    .mapTo(String.class)
+                    .first());
+            JDBIConnector.get().withHandle(handle -> {
+                handle.createUpdate("UPDATE user_account SET pass = ? WHERE  id = ?")
+                        .bind(0, (pass.equals(password)) ? pass : MD5.md5(password))
+                        .bind(1, id)
+                        .execute();
+                handle.createUpdate("UPDATE account_information SET full_name =?, email = ?, address = ?, phone_number= ?, avatar_link = ?, updated_date = CURDATE(), updated_by = ? WHERE id = ?")
+                        .bind(0, fullname)
+                        .bind(1, email)
+                        .bind(2, address)
+                        .bind(3, phone)
+                        .bind(4, (nameFile == null || nameFile.equals("")) ? "" : "http://localhost:8080/CuoiKiWeb_war/assets/img/logo/" + nameFile)
+                        .bind(5, id)
+                        .bind(6, id)
+                        .execute();
+                return null;
+            });
+    }
+
     public static void main(String[] args) {
         System.out.println(new AccountUserDAO().getAccountById("user6"));
     }
