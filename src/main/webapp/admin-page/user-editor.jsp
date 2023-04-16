@@ -204,12 +204,19 @@
                                     placeholder="Nhập...">
                         </div>
                     </div>
+                    <% boolean isAdmin = false;
+                        for (AdminRole role : admin.getRole()) {
+                            if (role.getTable().equals("admin") && role.getPermission().equals("admin")) {
+                                isAdmin = true;
+                                break;
+                            }
+                        }%>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Loại tài khoản </label>
                         <div class="col-sm-10" style="">
                             <select class="c-select form-control" name="select-cate" id="select-cate"
                                     onfocus='this.size=2;' onblur='this.size=1;'
-                                    onchange='this.size=1; this.blur();'>
+                                    onchange='this.size=1; this.blur();' <%=(isAdmin) ? "" : "disabled"%> >
                                 <% if (request.getParameter("id") != null) {
                                     if (AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1) { %>
                                 <option value="0">Tài khoản người dùng
@@ -263,7 +270,7 @@
                         </div>
                     </div>
                     <div class="form-group row" id="role"
-                         style="display: <%=(request.getParameter("id") != null && AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1) ? "flex" : "none"%>">
+                         style="display: <%=(request.getParameter("id") != null && AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1 && isAdmin) ? "flex" : "none"%>">
                         <label class="col-sm-2 form-control-label text-xs-right"> Vai trò: </label>
                         <div class="col-sm-10" style="display: block">
                             <% if (request.getParameter("id") != null) {

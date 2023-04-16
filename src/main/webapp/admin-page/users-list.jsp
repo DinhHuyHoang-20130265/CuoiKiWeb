@@ -63,12 +63,15 @@
         response.sendRedirect("login.jsp");
 
     } else {
+        boolean isAdmin = false;
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("user") || role.getTable().equals("admin")) {
+            if (role.getTable().equals("user")) {
                 check = true;
-                break;
+            } else if (role.getTable().equals("admin")) {
+                check = true;
+                isAdmin = true;
             }
         }
         if (!check) {
@@ -156,8 +159,16 @@
                     <div id="appendItem">
                         <% List<SiteUser> accounts = AccountService.getInstance().loadAccountWithConditions(1, 6, null);%>
                         <% for (SiteUser user : accounts) {
-                            if (!user.getId().equals(admin.getId()) && AccountService.getInstance().getAccountRole(user.getId()) == 0) {
-                                UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
+                            if (!user.getId().equals(admin.getId())) {
+                                UserInformation info = null;
+                                if (AccountService.getInstance().getAccountRole(user.getId()) == 0) {
+                                    info = UserInformationService.getInstance().getUserInfo(user.getId());
+                                } else if (AccountService.getInstance().getAccountRole(user.getId()) == 1) {
+                                    if (isAdmin) {
+                                        info = UserInformationService.getInstance().getUserInfo(user.getId());
+                                    }
+                                }
+                                if (info != null) {
                         %>
                         <li class="item">
                             <div class="item-row">
@@ -194,9 +205,9 @@
                                     </div>
                                 </div>
                                 <div class="item-col item-col-category no-overflow">
-                                    <div class="item-heading">Địa chỉ</div>
+                                    <div class="item-heading">Role</div>
                                     <div class="no-overflow">
-                                        <a style="text-decoration: none"><%=info.getAddress() != null ? info.getAddress() : ""%>
+                                        <a style="text-decoration: none"><%=AccountService.getInstance().getAccountRole(user.getId()) == 0 ? "Người dùng" : "Quản lý"%>
                                         </a>
                                     </div>
                                 </div>
@@ -255,7 +266,9 @@
                             </div>
                         </li>
                         <% }
-                        } %>
+                        }
+                        }
+                        %>
                     </div>
                 </ul>
             </div>
