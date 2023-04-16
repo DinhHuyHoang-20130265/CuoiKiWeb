@@ -1,0 +1,7 @@
+POST http://140.238.54.136/api/auth/login
+Content-Type: application/json
+
+{
+  "email":"thanh@1234",
+  "password":"123456"
+}

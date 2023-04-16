@@ -56,8 +56,8 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("order")) {
-                if (role.getPermission().equals("update"))
+            if (role.getTable().equals("order") || role.getTable().equals("admin")) {
+                if (role.getPermission().equals("update") || role.getPermission().equals("admin"))
                     check = true;
             }
         }
@@ -483,7 +483,7 @@
         e.preventDefault();
         const status = $(this).find(":selected").val();
         if ($("#order-status").val() === "0") {
-            alert("Đơn hàng phải ở trạng thái xác nhận mới có thể thay đỏi các trạng thái khác");
+            alert("Đơn hàng phải ở trạng thái xác nhận mới có thể thay đổi các trạng thái khác");
         } else {
             $.ajax({
                 url: "/CuoiKiWeb_war/UpdateDeliveryStatus",

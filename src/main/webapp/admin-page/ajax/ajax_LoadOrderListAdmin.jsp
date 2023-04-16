@@ -125,7 +125,7 @@
         <%
             AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
             for (AdminRole role : admin.getRole()) {
-                if (role.getTable().equals("order") && role.getPermission().equals("delete")) {
+                if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("order") && role.getPermission().equals("delete")) {
                     if (order.getIsCanceled() == 1) { %>
         <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
            data-target="#confirm-modal"

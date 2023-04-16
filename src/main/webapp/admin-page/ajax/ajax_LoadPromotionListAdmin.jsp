@@ -84,7 +84,7 @@
                         <%
                             AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
                             for (AdminRole role : admin.getRole()) {
-                                if (role.getTable().equals("sales") && role.getPermission().equals("delete")) {
+                                if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("sales") && role.getPermission().equals("delete")) {
                         %>
                         <li>
                             <a class="remove" href="#" data-toggle="modal"
@@ -94,7 +94,7 @@
                         </li>
                         <%
                             }
-                            if (role.getTable().equals("sales") && role.getPermission().equals("update")) {
+                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("sales") && role.getPermission().equals("update")) {
                         %>
                         <li>
                             <a class="edit" href="promotion-editor.jsp?id=<%=p.getPromo_id()%>">

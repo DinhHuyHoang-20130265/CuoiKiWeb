@@ -66,7 +66,7 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("user")) {
+            if (role.getTable().equals("user") || role.getTable().equals("admin")) {
                 check = true;
                 break;
             }
@@ -156,7 +156,8 @@
                     <div id="appendItem">
                         <% List<SiteUser> accounts = AccountService.getInstance().loadAccountWithConditions(1, 6, null);%>
                         <% for (SiteUser user : accounts) {
-                            UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
+                            if (!user.getId().equals(admin.getId()) && AccountService.getInstance().getAccountRole(user.getId()) == 0) {
+                                UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
                         %>
                         <li class="item">
                             <div class="item-row">
@@ -225,7 +226,7 @@
                                             <ul class="item-actions-list">
                                                 <%
                                                     for (AdminRole role : admin.getRole()) {
-                                                        if (role.getTable().equals("user") && role.getPermission().equals("delete")) {
+                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("user") && role.getPermission().equals("delete")) {
                                                 %>
                                                 <li>
                                                     <a style="cursor:pointer;" class="remove"
@@ -236,7 +237,7 @@
                                                 </li>
                                                 <%
                                                     }
-                                                    if (role.getTable().equals("user") && role.getPermission().equals("update")) {
+                                                    if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("user") && role.getPermission().equals("update")) {
                                                 %>
                                                 <li>
                                                     <a class="edit" href="user-editor.jsp?id=<%=user.getId()%>">
@@ -253,7 +254,8 @@
                                 </div>
                             </div>
                         </li>
-                        <% } %>
+                        <% }
+                        } %>
                     </div>
                 </ul>
             </div>

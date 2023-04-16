@@ -130,8 +130,8 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("user")) {
-                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
+            if (role.getTable().equals("user") || role.getTable().equals("admin")) {
+                if (role.getPermission().equals("admin") || role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
                     check = true;
             }
         }
@@ -190,7 +190,6 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Password: </label>
                         <div class="col-sm-10">
                             <input
-                                    value="<%=request.getParameter("id") != null ? AccountService.getInstance().getAccountById(request.getParameter("id")).getPass() : ""%>"
                                     type="password" name="password" id="password" style="width:200px"
                                     class="form-control boxed"
                                     placeholder="Nhập password">
@@ -632,7 +631,7 @@
         const oldImg = removed.substring(0, removed.length - 1);
         let nameFile = $(".img-product-review").attr("src");
         if (nameFile != null) {
-            if (nameFile.indexOf("\\") != -1)
+            if (nameFile.indexOf("\\") !== -1)
                 nameFile = nameFile.substring(nameFile.lastIndexOf("\\") + 1);
             else
                 nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);

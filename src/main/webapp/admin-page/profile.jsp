@@ -182,7 +182,6 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Password: </label>
                         <div class="col-sm-10">
                             <input
-                                    value="<%=admin.getPass()%>"
                                     type="password" name="password" id="password" style="width:200px"
                                     class="form-control boxed"
                                     placeholder="Nhập password">
@@ -237,6 +236,8 @@
                                     </option>
                                     <option value="sales" <%=table.equals("sales") ? "selected" : ""%>>Giảm giá
                                     </option>
+                                    <option value="admin" <%=table.equals("admin") ? "selected" : ""%>>Admin
+                                    </option>
                                 </select>
                                 <select class="c-select form-control" disabled>
                                     <option value="null">Không
@@ -246,6 +247,8 @@
                                     <option value="update" <%=permission.equals("update") ? "selected" : ""%>>Sửa
                                     </option>
                                     <option value="delete" <%=permission.equals("delete") ? "selected" : ""%>>Xóa
+                                    </option>
+                                    <option value="admin" <%=permission.equals("admin") ? "selected" : ""%>>Xóa
                                     </option>
                                 </select>
                             </div>
