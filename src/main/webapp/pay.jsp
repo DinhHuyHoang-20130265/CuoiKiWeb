@@ -317,83 +317,6 @@
 <script src="./assets/js/bootstrap.min.js"></script>
 <script src="./assets/js/validator.js"></script>
 <script src="./assets/js/main.js"></script>
-<script>
-    Validator({
-        form: '#form-2',
-        formGroupSelector: '.form-group',
-        errorSelector: '.form-message',
-        rules: [
-            Validator.isRequired('#hoten', 'Vui lòng nhập tên đầy đủ'),
-            Validator.isRequired('#sdt'),
-            Validator.isRequired('#diachi'),
-            Validator.isEmail('#email')
-        ],
-        onSubmit: function (data) {
-            console.log(data);
-        }
-    });
-
-    $(".btn-pay").click(function (e) {
-        e.preventDefault();
-        const city = $("#city option:selected").text();
-        const district = $("#district option:selected").text();
-        const ward = $("#ward option:selected").text();
-        const houseNumb = $("#sonha").val();
-        const addressInfo = houseNumb + ", " + ward + ", " + district + ", " + city;
-        const address = $("#diachi").val(addressInfo);
-        //
-        const receive_name = $("#hoten").val();
-        const email = $("#email").val();
-        const phone_number = $("#sdt").val();
-        const note = $("#textbox").val();
-        const payment_method = $(".selection-btn input[type='radio']:checked").val();
-        const total = $(".total_input").val();
-        const customer_id = $(".user_id").val();
-        if (address === '' || address == null) {
-            // if (city === '' || ward === '' || district === '' || houseNumb === null || houseNumb === '') {
-            alert("Bạn cần điền địa chỉ giao hàng")
-            alert("test: " + address )
-            return false;
-        }
-        if (receive_name === '' || receive_name == null) {
-            alert("Bạn cần điền tên người nhận hàng")
-            return false;
-        }
-        if (email === '' || email == null) {
-            alert("Bạn cần điền email")
-            return false;
-        }
-        if (phone_number === '' || phone_number == null) {
-            alert("Bạn cần điền số điện thoại nhận hàng")
-            return false;
-        }
-        console.log(address);
-        console.log(addressInfo);
-        $.ajax({
-            url: "CheckoutController",
-            type: "post",
-            processData: false,
-            contentType: false,
-            data: {
-                address: address,
-                receive_name: receive_name,
-                email: email,
-                phone_number: phone_number,
-                note: note,
-                payment_method: payment_method,
-                total: total,
-                customer_id: customer_id
-            },
-            success: function (data) {
-                alert(data);
-                window.location.href = "http://localhost:8080/CuoiKiWeb_war/index.jsp"
-            },
-            error: function (data) {
-                alert(data);
-            }
-        })
-    })
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script>
     const cities = document.getElementById("city");
@@ -434,6 +357,82 @@
             }
         };
     }
+</script>
+<script>
+    Validator({
+        form: '#form-2',
+        formGroupSelector: '.form-group',
+        errorSelector: '.form-message',
+        rules: [
+            Validator.isRequired('#hoten', 'Vui lòng nhập tên đầy đủ'),
+            Validator.isRequired('#sdt'),
+            Validator.isRequired('#diachi'),
+            Validator.isEmail('#email')
+        ],
+        onSubmit: function (data) {
+            console.log(data);
+        }
+    });
+
+    $(".btn-pay").click(function (e) {
+        e.preventDefault();
+        const city = $("#city option:selected").text();
+        const district = $("#district option:selected").text();
+        const ward = $("#ward option:selected").text();
+        const houseNumb = $("#sonha").val();
+        const address = houseNumb + ", " + ward + ", " + district + ", " + city;
+        // const address = $("#diachi").val(addressInfo);
+        //
+        const receive_name = $("#hoten").val();
+        const email = $("#email").val();
+        const phone_number = $("#sdt").val();
+        const note = $("#textbox").val();
+        const payment_method = $(".selection-btn input[type='radio']:checked").val();
+        const total = $(".total_input").val();
+        const customer_id = $(".user_id").val();
+        if (address === '' || address == null) {
+            // if (city === '' || ward === '' || district === '' || houseNumb === null || houseNumb === '') {
+            alert("Bạn cần điền địa chỉ giao hàng")
+            return false;
+        }
+        if (receive_name === '' || receive_name == null) {
+            alert("Bạn cần điền tên người nhận hàng")
+            return false;
+        }
+        if (email === '' || email == null) {
+            alert("Bạn cần điền email")
+            return false;
+        }
+        if (phone_number === '' || phone_number == null) {
+            alert("Bạn cần điền số điện thoại nhận hàng")
+            return false;
+        }
+        console.log(address);
+        // console.log(addressInfo);
+        $.ajax({
+            url: "CheckoutController",
+            type: "post",
+            processData: false,
+            contentType: false,
+            data: {
+                address: address,
+                receive_name: receive_name,
+                email: email,
+                phone_number: phone_number,
+                note: note,
+                payment_method: payment_method,
+                total: total,
+                customer_id: customer_id
+            },
+            success: function (data) {
+                alert(data);
+                window.location.href = "http://localhost:8080/CuoiKiWeb_war/index.jsp"
+            },
+            error: function (data) {
+                alert(data);
+            }
+        })
+    })
 </script>
 </body>
 </html>

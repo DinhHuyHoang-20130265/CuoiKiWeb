@@ -127,13 +127,38 @@
                                    value="<%=information.getEmail()%>">
                             <span class="form-message"></span>
                         </div>
-                        <div class="form-group">
-                            <label for="address" class="form-label">Địa chỉ</label>
-                            <input id="address" name="address" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"
-                                   class="form-control"
-                                   value="<%=information.getAddress()%>">
-                            <span class="form-message"></span>
+<%--                        <div class="form-group">--%>
+<%--                            <label for="address" class="form-label">Địa chỉ</label>--%>
+<%--                            <input id="address" name="address" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"--%>
+<%--                                   class="form-control"--%>
+<%--                                   value="<%=information.getAddress()%>">--%>
+<%--                            <span class="form-message"></span>--%>
+<%--                        </div>--%>
+<%--                   TESTING     //--%>
+                        <div class="fieldset-address form-group">
+                            <input type="text" class="error" value="" style="display: none">
+                            <label for="diachi" class="form-label">Địa chỉ</label>
+                            <input id="diachi" type="text" class="form-control" value="<%=information.getAddress()%>"
+<%--                                   style="display: none" --%>
+                                   readonly>
+                            <form>
+                                <section id="thongtin-diachi" >
+                                    <select id="city" class="form-control selection">
+                                        <option value="" selected>Chọn tỉnh thành</option>
+                                    </select>
+                                    <select id="district" class="form-control selection">
+                                        <option value="" selected>Chọn quận huyện</option>
+                                    </select>
+                                    <select id="ward" class="form-control selection">
+                                        <option value="" selected>Chọn phường xã</option>
+                                    </select>
+                                </section>
+                                <label for="sonha" class="label-min">Số nhà</label>
+                                <input id="sonha" type="text" value="<%=information.getAddress() != null ? information.getAddress(): ""%>" class="form-control" placeholder="Điền số nhà">
+                                <span class="form-message"> </span>
+                            </form>
                         </div>
+<%--                  TESTING      //--%>
                         <div class="form-group">
                             <label for="phone_number" class="form-label">Số điện thoại</label>
                             <input id="phone_number" name="phone_number" type="text" placeholder="VD: 089..."
@@ -276,6 +301,47 @@
 <script src="./assets/js/bootstrap.min.js"></script>
 <script src="./assets/js/main.js"></script>
 <script src="./assets/js/validator.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    const cities = document.getElementById("city");
+    const districts = document.getElementById("district");
+    const wards = document.getElementById("ward");
+    const Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+    const promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+    function renderCity(data) {
+        for (const x of data) {
+            cities.options[cities.options.length] = new Option(x.Name, x.Id);
+        }
+        cities.onchange = function () {
+            districts.length = 1;
+            wards.length = 1;
+            if(this.value !== ""){
+                const result = data.filter(n => n.Id === this.value);
+
+                for (const k of result[0].Districts) {
+                    districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                }
+            }
+        };
+        districts.onchange = function () {
+            wards.length = 1;
+            const dataCity = data.filter((n) => n.Id === cities.value);
+            if (this.value !== "") {
+                const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+                for (const w of dataWards) {
+                    wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                }
+            }
+        };
+    }
+</script>
 <script>
     function hienThiDoiMatKhau() {
         $(".detail__confirm-password").removeClass("undisplay");
@@ -285,6 +351,9 @@
         $(".my-order-title").removeClass("active");
         $(".detial__my-profile").addClass("undisplay");
         $(".detial__my-profile").removeClass("display");
+        //
+        $(".detail__my-order").addClass("undisplay");
+        $(".detail__my-order").removeClass("display");
     }
 
     function hienThiDoiThongTin() {
@@ -295,9 +364,15 @@
         $(".my-order-title").removeClass("active");
         $(".detail__confirm-password").addClass("undisplay");
         $(".detail__confirm-password").removeClass("display");
+        //
+        $(".detail__my-order").addClass("undisplay");
+        $(".detail__my-order").removeClass("display");
     }
 
     function hienThiDonHang() {
+        $(".detail__my-order").addClass("display");
+        $(".detail__my-order").removeClass("undisplay");
+
         $(".detial__my-profile").addClass("undisplay");
         $(".detial__my-profile").removeClass("display");
         $(".my-profile-title").removeClass("active");
@@ -350,9 +425,15 @@
 
     $("#submit1").click(function (e) {
         e.preventDefault();
+        const city = $("#city option:selected").text();
+        const district = $("#district option:selected").text();
+        const ward = $("#ward option:selected").text();
+        const houseNumb = $("#sonha").val();
+        const address = houseNumb + ", " + ward + ", " + district + ", " + city;
+        //
         const full_name = $("#full_name").val();
         const email = $("#email").val();
-        const address = $("#address").val();
+        // const address = $("#address").val();
         const phone_number = $("#phone_number").val();
         const filename = $("#fileName").val();
         if (full_name == null || email == null || address == null || phone_number == null) {
