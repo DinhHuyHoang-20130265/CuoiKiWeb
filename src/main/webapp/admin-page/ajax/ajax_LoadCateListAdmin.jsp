@@ -71,7 +71,7 @@
                     <ul class="item-actions-list">
                         <% AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
                             for (AdminRole role : admin.getRole()) {
-                                if (role.getTable().equals("category") && role.getPermission().equals("delete")) {%>
+                                if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("category") && role.getPermission().equals("delete")) {%>
                         <li>
                             <a class="remove" id="remove<%=category.getId()%>"
                                data-toggle="modal"
@@ -81,7 +81,7 @@
                         </li>
                         <%
                             }
-                            if (role.getTable().equals("category") && role.getPermission().equals("update")) {
+                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("category") && role.getPermission().equals("update")) {
                         %>
                         <li>
                             <a class="edit"

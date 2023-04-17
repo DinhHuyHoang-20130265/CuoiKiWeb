@@ -224,7 +224,7 @@
                                         if (user.getId().equals(loadNewsComment.get(i).getComment_by())) {
                                 %>
                                 <a class="remove" id="remove<%=loadNewsComment.get(i).getComment_id()%>"
-                                   style="cursor: pointer; float: right; color: darkred">Xóa comment của bạn</a>
+                                   style="cursor: pointer; float: right; color: darkred"><i class="fa fa-trash"></i> </a>
                                 <% }
                                 } %>
                             </div>

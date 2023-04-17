@@ -85,7 +85,7 @@
                     <ul class="item-actions-list">
                         <% AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
                             for (AdminRole role : admin.getRole()) {
-                                if (role.getTable().equals("product") && role.getPermission().equals("delete")) {
+                                if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("product") && role.getPermission().equals("delete")) {
                                     if (ProductService.getInstance().isProductInOrder(p.getId()) == 0) { %>
                         <li>
                             <a class="remove" href="#" data-toggle="modal"
@@ -96,7 +96,7 @@
                         <%
                                 }
                             }
-                            if (role.getTable().equals("product") && role.getPermission().equals("update")) {
+                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("product") && role.getPermission().equals("update")) {
                         %>
                         <li>
                             <a class="edit" href="item-editor.jsp?id=<%=p.getId()%>">

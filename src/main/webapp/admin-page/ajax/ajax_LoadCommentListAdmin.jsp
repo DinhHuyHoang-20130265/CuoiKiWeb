@@ -70,7 +70,7 @@
                         <%
                             AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
                             for (AdminRole role : admin.getRole()) {
-                                if (role.getTable().equals("comment") && role.getPermission().equals("delete")) {
+                                if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("comment") && role.getPermission().equals("delete")) {
                         %>
                         <li>
                             <a class="remove" id="remove<%=comment.getComment_id()%>" style="cursor: pointer"
@@ -81,7 +81,7 @@
                         </li>
                         <%
                             }
-                            if (role.getTable().equals("comment") && role.getPermission().equals("update")) {
+                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("comment") && role.getPermission().equals("update")) {
                         %>
                         <li>
                             <a class="toggle" id="toggle<%=comment.getComment_id()%>" style="cursor: pointer">
