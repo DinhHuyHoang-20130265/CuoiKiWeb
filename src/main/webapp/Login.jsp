@@ -178,10 +178,6 @@
                             <span>GOOGLE</span>
                             <img src="./assets/icon/google.svg" alt="" class="form-submit-social--img">
                         </a>
-                        <a id="twitter" href="login-twitter" class="form-submit-social btn-blocker">
-                            <span>TWITTER</span>
-                            <img src="./assets/icon/twitter.svg" alt="" class="form-submit-social--img">
-                        </a>
                     </div>
                 </form>
             </div>

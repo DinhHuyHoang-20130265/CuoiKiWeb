@@ -3,7 +3,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.AccountService" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 1/2/2023
@@ -11,9 +12,28 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<% boolean check = false;
+    AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+    for (AdminRole role : admin.getRole()) {
+        if (role.getTable().equals("admin")) {
+            check = true;
+            break;
+        }
+    }
+%>
 <% List<SiteUser> accounts = (List<SiteUser>) request.getAttribute("users");%>
-<% for (SiteUser user : accounts) {
-    UserInformation info = UserInformationService.getInstance().getUserInfo(user.getId());
+<%
+    for (SiteUser user : accounts) {
+        if (!user.getId().equals(admin.getId())) {
+            UserInformation info = null;
+            if (AccountService.getInstance().getAccountRole(user.getId()) == 0) {
+                info = UserInformationService.getInstance().getUserInfo(user.getId());
+            } else if (AccountService.getInstance().getAccountRole(user.getId()) == 1) {
+                if (check) {
+                    info = UserInformationService.getInstance().getUserInfo(user.getId());
+                }
+            }
+            if (info != null) {
 %>
 <li class="item">
     <div class="item-row">
@@ -50,9 +70,9 @@
             </div>
         </div>
         <div class="item-col item-col-category no-overflow">
-            <div class="item-heading">Địa chỉ</div>
+            <div class="item-heading">Role</div>
             <div class="no-overflow">
-                <a style="text-decoration: none"><%=info.getAddress() != null ? info.getAddress() : ""%>
+                <a style="text-decoration: none"><%=AccountService.getInstance().getAccountRole(user.getId()) == 0 ? "Người dùng" : "Quản lý"%>
                 </a>
             </div>
         </div>
@@ -80,19 +100,19 @@
                 </a>
                 <div class="item-actions-block">
                     <ul class="item-actions-list">
-                        <% AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+                        <%
                             for (AdminRole role : admin.getRole()) {
-                                if (role.getTable().equals("user") && role.getPermission().equals("delete")) {
+                                if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("user") && role.getPermission().equals("delete")) {
                         %>
                         <li>
                             <a style="cursor: pointer" class="remove" id="remove<%=user.getId()%>" data-toggle="modal"
                                data-target="#confirm-modal">
-                                <i class="fa fa-trash-o "></i>
+                                <i class="fa fa-trash-o"></i>
                             </a>
                         </li>
                         <%
                             }
-                            if (role.getTable().equals("user") && role.getPermission().equals("update")) {
+                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("user") && role.getPermission().equals("update")) {
                         %>
                         <li>
                             <a class="edit" href="user-editor.jsp?id=<%=user.getId()%>">
@@ -109,4 +129,6 @@
         </div>
     </div>
 </li>
-<% } %>
+<% }
+}
+}%>

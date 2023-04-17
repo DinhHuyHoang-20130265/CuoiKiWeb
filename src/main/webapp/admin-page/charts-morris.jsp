@@ -71,27 +71,11 @@
             </section>
             <section class="section">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-block">
-                                <div class="card-title-block">
-                                    <h3 class="title"> Phương thức thanh toán</h3>
-                                </div>
-                                <section class="example">
-                                    <div id="morris-donut-chart"></div>
-                                </section>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="section">
-                <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-block">
                                 <div class="card-title-block">
-                                    <h3 class="title"> Trung bình độ tuổi khách hàng</h3>
+                                    <h3 class="title"> Sản phẩm bán ra hàng tháng</h3>
                                 </div>
                                 <section class="example">
                                     <div id="morris-one-line-chart"></div>
