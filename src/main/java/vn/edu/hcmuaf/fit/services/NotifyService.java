@@ -22,7 +22,8 @@ public class NotifyService {
         return NotifyDAO.loadNotifyWithPage(page);
     }
 
-    public void AddNewNotify(String content, String order_id) {
-        NotifyDAO.addNewNotify(content, order_id);
+    public String addNewNotify(String content, String order_id) {
+        NotifyDAO DAO = new NotifyDAO();
+        return DAO.addNewNotify(content, order_id);
     }
 }

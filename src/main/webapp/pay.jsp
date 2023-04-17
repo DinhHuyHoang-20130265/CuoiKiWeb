@@ -160,13 +160,37 @@
                                     </div>
                                 </div>
                                 <div class="fieldset">
+<%--                                    <% if(userInformation.getAddress() != null){ %>--%>
+<%--                                    <div class="fieldset-address form-group">--%>
+<%--                                        <input id="error_" type="text" class="error" value="" style="display: none">--%>
+<%--                                        <label for="diachi" class="form-label">Địa chỉ</label>--%>
+<%--                                        <input id="diachi" type="text" class="form-control"--%>
+<%--                                        value="<%=userInformation.getAddress()%>">--%>
+<%--                                        <span class="form-message"></span>--%>
+<%--                                    </div>--%>
+<%--                                    <%} else if(userInformation.getAddress() == null) { %>--%>
                                     <div class="fieldset-address form-group">
-                                        <input id="error" type="text" class="error" value="" style="display: none">
+                                        <input type="text" class="error" value="" style="display: none">
                                         <label for="diachi" class="form-label">Địa chỉ</label>
-                                        <input id="diachi" type="text" class="form-control"
-                                               value="<%=userInformation.getAddress() != null ?userInformation.getAddress(): ""%>">
-                                        <span class="form-message"></span>
+                                        <input id="diachi" type="text" class="form-control" style="display: none">
+                                        <form>
+                                            <section id="thongtin-diachi" >
+                                                <select id="city" class="form-control selection">
+                                                    <option value="" selected>Chọn tỉnh thành</option>
+                                                </select>
+                                                <select id="district" class="form-control selection">
+                                                    <option value="" selected>Chọn quận huyện</option>
+                                                </select>
+                                                <select id="ward" class="form-control selection">
+                                                    <option value="" selected>Chọn phường xã</option>
+                                                </select>
+                                            </section>
+                                            <label for="sonha" class="label-min">Số nhà</label>
+                                            <input id="sonha" type="text" value="<%=userInformation.getAddress() != null ? userInformation.getAddress(): ""%>" class="form-control" placeholder="Điền số nhà">
+                                            <span class="form-message"> </span>
+                                        </form>
                                     </div>
+<%--                                    <%} %>--%>
                                     <div class="fieldset-name form-group">
                                         <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="hoten" class="form-label">Họ tên</label>
@@ -301,7 +325,7 @@
         rules: [
             Validator.isRequired('#hoten', 'Vui lòng nhập tên đầy đủ'),
             Validator.isRequired('#sdt'),
-            Validator.isRequired('#diachi'),
+            Validator.isRequired('#diachi','Vui lòng nhập địa chỉ đầy đủ'),
             Validator.isEmail('#email')
         ],
         onSubmit: function (data) {
@@ -311,7 +335,13 @@
 
     $(".btn-pay").click(function (e) {
         e.preventDefault();
-        const address = $("#diachi").val();
+        const city = $("#city option:selected").text();
+        const district = $("#district option:selected").text();
+        const ward = $("#ward option:selected").text();
+        const houseNumb = $("#sonha").val();
+        const addressInfo = houseNumb + ", " + ward + ", " + district + ", " + city;
+        const address = $("#diachi").val(addressInfo);
+        //
         const receive_name = $("#hoten").val();
         const email = $("#email").val();
         const phone_number = $("#sdt").val();
@@ -320,7 +350,9 @@
         const total = $(".total_input").val();
         const customer_id = $(".user_id").val();
         if (address === '' || address == null) {
+        // if (city === '' || ward === '' || district === '' || houseNumb === null || houseNumb === '') {
             alert("Bạn cần điền địa chỉ giao hàng")
+            alert("test: " + address )
             return false;
         }
         if (receive_name === '' || receive_name == null) {
@@ -335,9 +367,13 @@
             alert("Bạn cần điền số điện thoại nhận hàng")
             return false;
         }
+        console.log(address);
+        console.log(addressInfo);
         $.ajax({
             url: "CheckoutController",
             type: "post",
+            processData: false,
+            contentType: false,
             data: {
                 address: address,
                 receive_name: receive_name,
@@ -357,6 +393,47 @@
             }
         })
     })
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    const cities = document.getElementById("city");
+    const districts = document.getElementById("district");
+    const wards = document.getElementById("ward");
+    const Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+    const promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+    function renderCity(data) {
+        for (const x of data) {
+            cities.options[cities.options.length] = new Option(x.Name, x.Id);
+        }
+        cities.onchange = function () {
+            districts.length = 1;
+            wards.length = 1;
+            if(this.value !== ""){
+                const result = data.filter(n => n.Id === this.value);
+
+                for (const k of result[0].Districts) {
+                    districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                }
+            }
+        };
+        districts.onchange = function () {
+            wards.length = 1;
+            const dataCity = data.filter((n) => n.Id === cities.value);
+            if (this.value !== "") {
+                const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+                for (const w of dataWards) {
+                    wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                }
+            }
+        };
+    }
 </script>
 </body>
 </html>

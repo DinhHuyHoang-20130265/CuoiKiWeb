@@ -16,8 +16,17 @@
   .selection-pay{
     padding: 5px 15px;
   }
-  .selection-btn{
+  .selection-btn {
     font-size: 16px;
     font-weight: 400;
   }
-  
+.selection{
+  margin-bottom: 1rem;
+}
+.label-min {
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding-bottom: 4px;
+}
