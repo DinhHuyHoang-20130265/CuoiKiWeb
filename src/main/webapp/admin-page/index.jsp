@@ -180,7 +180,7 @@
                             </div>
                             <%
                                 List<Product> list = ProductService.getInstance().loadProductWithConditionContainsStatus(1, 6, "7", "all", null, null, null, null);
-                                System.out.println(list.size());%>
+                            %>
                             <ul class="item-list striped" id="items" style="overflow-x: scroll;">
                                 <li class="item item-list-header">
                                     <div class="item-row">
@@ -213,7 +213,7 @@
                                         <div class="item-col fixed item-col-img xs">
                                             <a href="">
                                                 <div class="item-img xs rounded">
-                                                    <img src="<%=p.getMain_img_link()%>" width=30px height=30px></img>
+                                                    <img src="<%=p.getMain_img_link()%>" width=30px height=30px alt=""></img>
                                                 </div>
                                             </a>
                                         </div>
@@ -245,19 +245,6 @@
                                 <%}%>
                                 <input type="text" id="pageValue" value="2" style="display: none">
                             </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-4">
-                        <div class="card sameheight-item sales-breakdown" data-exclude="xs,sm,lg">
-                            <div class="card-header">
-                                <div class="header-block">
-                                    <h3 class="title">Phương thức thanh toán</h3>
-                                </div>
-                            </div>
-                            <div class="card-block">
-                                <div class="dashboard-sales-breakdown-chart" id="dashboard-sales-breakdown-chart">
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

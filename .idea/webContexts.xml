@@ -20,9 +20,11 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/order-details.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/post-editor.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/posts-list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/promotion-editor.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/reset.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/slide-editor.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/user-editor.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/users-list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/ajax/ajax_LoadProduct.jsp" value="file://$PROJECT_DIR$/src/main/webapp/ajax" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/ajax/ajax_QuickView.jsp" value="file://$PROJECT_DIR$/src/main/webapp/ajax" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/cart.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />

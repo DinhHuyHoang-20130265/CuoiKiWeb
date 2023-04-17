@@ -340,7 +340,7 @@
                                                 <div class="section-policy-padding">
                                                     <h3>Hỗ trợ 24/7</h3>
                                                     <div class="section_policy_title">
-                                                        Liên hệ hỗ trợ 24h/ngày
+                                                        Liên hệ hỗ trợ 24/7
                                                     </div>
                                                 </div>
                                             </a>

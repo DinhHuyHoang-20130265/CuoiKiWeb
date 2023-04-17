@@ -1,8 +1,15 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.AccountService" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.AdminLoginService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %><%--
+  Created by IntelliJ IDEA.
+  User: Huy Hoang
+  Date: 4/16/2023
+  Time: 1:33 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -10,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title> Trang Quản Lý </title>
+    <title> Thông tin tài khoản </title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico in the root directory -->
@@ -125,19 +132,9 @@
     if (request.getSession().getAttribute("userAdmin") == null) {
         // Sendredirect tới login
         response.sendRedirect("login.jsp");
-
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
-        boolean check = false;
-        for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("user") || role.getTable().equals("admin")) {
-                if (role.getPermission().equals("admin") || role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
-                    check = true;
-            }
-        }
-        if (!check) {
-            response.sendRedirect("index.jsp");
-        } else {
+        UserInformation infor = UserInformationService.getInstance().getUserInfo(admin.getId());
 %>
 <div class="main-wrapper">
     <div class="app" id="app">
@@ -145,26 +142,20 @@
         <jsp:include page="Layout/_LayoutAdminSideBar.jsp"></jsp:include>
         <article class="content item-editor-page">
             <div class="title-block">
-                <%if (request.getParameter("id") != null) {%>
                 <h3 class="title"> Sửa thông tin tài khoản
                     <span class="sparkline bar" data-type="bar"></span>
                 </h3>
-                <%} else {%>
-                <h3 class="title"> Thêm tài khoản
-                    <span class="sparkline bar" data-type="bar"></span>
-                </h3>
-                <%}%>
             </div>
             <form name="item">
                 <input type="text" id="userId" name="userId"
-                       value="<%=request.getParameter("id") == null ? "" : request.getParameter("id")%>"
+                       value="<%=infor.getId()%>"
                        style="display: none">
                 <div class="card card-block">
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Tên người dùng: </label>
                         <div class="col-sm-10">
                             <input type="text"
-                                   value="<%=request.getParameter("id") != null ? UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getFull_name() : ""%>"
+                                   value="<%=infor.getFull_name()%>"
                                    id="name" name="name" class="form-control boxed" placeholder="Nhập tên">
                         </div>
                     </div>
@@ -172,7 +163,7 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Email: </label>
                         <div class="col-sm-10">
                             <input type="email"
-                                   value="<%=request.getParameter("id") != null ? UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getEmail() : ""%>"
+                                   value="<%=infor.getEmail() == null ? "" : infor.getEmail()%>"
                                    id="email" name="email" class="form-control boxed"
                                    placeholder="Nhập email">
                         </div>
@@ -180,10 +171,11 @@
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Tên đăng nhập: </label>
                         <div class="col-sm-10">
-                            <input value="<%=request.getParameter("id") != null ? AccountService.getInstance().getAccountById(request.getParameter("id")).getUsername() : ""%>"
+                            <input value="<%=admin.getUsername()%>"
                                    type="text" name="username" id=username style="width:200px"
                                    class="form-control boxed"
-                                   placeholder="Nhập username">
+                                   contenteditable="false"
+                                   disabled>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -199,90 +191,32 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Địa chỉ: </label>
                         <div class="col-sm-10">
                             <input
-                                    value="<%=request.getParameter("id") != null ? UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAddress() : ""%>"
+                                    value="<%=infor.getAddress()== null ? "" : infor.getAddress()%>"
                                     type="text" name="address" id="address" class="form-control boxed"
                                     placeholder="Nhập...">
                         </div>
                     </div>
-                    <% boolean isAdmin = false;
-                        for (AdminRole role : admin.getRole()) {
-                            if (role.getTable().equals("admin") && role.getPermission().equals("admin")) {
-                                isAdmin = true;
-                                break;
-                            }
-                        }%>
                     <div class="form-group row">
-                        <label class="col-sm-2 form-control-label text-xs-right"> Loại tài khoản </label>
-                        <div class="col-sm-10" style="">
-                            <select class="c-select form-control" name="select-cate" id="select-cate"
-                                    onfocus='this.size=2;' onblur='this.size=1;'
-                                    onchange='this.size=1; this.blur();' <%=(isAdmin) ? "" : "disabled"%> >
-                                <% if (request.getParameter("id") != null) {
-                                    if (AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1) { %>
-                                <option value="0">Tài khoản người dùng
-                                </option>
-                                <option value="1" selected>Tài khoản quản lý
-                                </option>
-                                <% } else if (AccountService.getInstance().getAccountRole(request.getParameter("id")) == 0) { %>
-                                <option value="0" selected>Tài khoản người dùng
-                                </option>
-                                <option value="1">Tài khoản quản lý
-                                </option>
-                                <%
-                                    }
-                                } else {
-                                %>
-                                <option value="0">Tài khoản người dùng
-                                </option>
-                                <option value="1">Tài khoản quản lý
-                                </option>
-                                <%}%>
-                            </select>
+                        <label class="col-sm-2 form-control-label text-xs-right"> SDT: </label>
+                        <div class="col-sm-10">
+                            <input
+                                    value="<%=infor.getPhone_number()== null ? "" : infor.getPhone_number()%>"
+                                    type="text" name="phone" id="phone" class="form-control boxed"
+                                    placeholder="Nhập...">
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 form-control-label text-xs-right"> Trạng thái </label>
-                        <div class="col-sm-10" style="">
-                            <select class="c-select form-control" name="status" id="status"
-                                    onfocus='this.size=2;' onblur='this.size=1;'
-                                    onchange='this.size=1; this.blur();'>
-                                <% if (request.getParameter("id") != null) {
-                                    if (AccountService.getInstance().getAccountById(request.getParameter("id")).getAccount_status() == 1) { %>
-                                <option value="0">Vô hiệu hóa
-                                </option>
-                                <option value="1" selected>Hoạt động
-                                </option>
-                                <% } else if (AccountService.getInstance().getAccountById(request.getParameter("id")).getAccount_status() == 0) { %>
-                                <option value="0" selected>Vô hiệu hóa
-                                </option>
-                                <option value="1">Hoạt động
-                                </option>
-                                <%
-                                    }
-                                } else {
-                                %>
-                                <option value="0">Vô hiệu hóa
-                                </option>
-                                <option value="1">Hoạt động
-                                </option>
-                                <%}%>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group row" id="role"
-                         style="display: <%=(request.getParameter("id") != null && AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1 && isAdmin) ? "flex" : "none"%>">
+                    <div class="form-group row"
+                         style="display: <%=( AccountService.getInstance().getAccountRole(admin.getId()) == 1) ? "flex" : "none"%>">
                         <label class="col-sm-2 form-control-label text-xs-right"> Vai trò: </label>
                         <div class="col-sm-10" style="display: block">
-                            <% if (request.getParameter("id") != null) {
-                                if (AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1) {
-                                    if (AdminLoginService.getInstance().getListRole(request.getParameter("id")) != null) {
-                                        int i = 0;
-                                        for (AdminRole role : AdminLoginService.getInstance().getListRole(request.getParameter("id"))) {
-                                            String table = role.getTable();
-                                            String permission = role.getPermission();
+                            <%
+                                if (AdminLoginService.getInstance().getListRole(admin.getId()) != null) {
+                                    for (AdminRole role : AdminLoginService.getInstance().getListRole(admin.getId())) {
+                                        String table = role.getTable();
+                                        String permission = role.getPermission();
                             %>
-                            <div class="role-select" id="role-select<%=i%>" style="display: flex">
-                                <select class="c-select form-control" id="select-role<%=i%>">
+                            <div class="role-select" style="display: flex">
+                                <select class="c-select form-control" disabled>
                                     <option value="null">Không có
                                     </option>
                                     <option value="user" <%=table.equals("user") ? "selected" : ""%>>Tài khoản
@@ -302,9 +236,10 @@
                                     </option>
                                     <option value="sales" <%=table.equals("sales") ? "selected" : ""%>>Giảm giá
                                     </option>
+                                    <option value="admin" <%=table.equals("admin") ? "selected" : ""%>>Admin
+                                    </option>
                                 </select>
-                                <select class="c-select form-control"
-                                        id="select-permission<%=i%>">
+                                <select class="c-select form-control" disabled>
                                     <option value="null">Không
                                     </option>
                                     <option value="insert" <%=permission.equals("insert") ? "selected" : ""%>>Thêm
@@ -313,42 +248,20 @@
                                     </option>
                                     <option value="delete" <%=permission.equals("delete") ? "selected" : ""%>>Xóa
                                     </option>
+                                    <option value="admin" <%=permission.equals("admin") ? "selected" : ""%>>Xóa
+                                    </option>
                                 </select>
-                                <button type="button" value="remove<%=i%>" onclick="remove(this.value)" class="remove">
-                                    <i
-                                            class="fa fa-times"></i>
-                                </button>
                             </div>
-                            <% i++;
-                            } %>
-                            <button type="button" value="plus<%=i%>" id="plus"><i class="fa fa-plus"></i>
-                            </button>
-                            <% } else { %>
-                            <button type="button" value="plus0" id="plus"><i class="fa fa-plus"></i>
-                            </button>
-                            <% }
-                            } else { %>
-                            <button type="button" value="plus0" id="plus"><i class="fa fa-plus"></i>
-                            </button>
-                            <% }
-                            } else { %>
-                            <button type="button" value="plus0" id="plus"><i class="fa fa-plus"></i>
-                            </button>
-                            <% } %>
+                            <%
+                                    }
+                                } %>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Ảnh đại diện: </label>
                         <div class="col-sm-10">
                             <div class="images-container">
-                                <% if (request.getParameter("id") == null) { %>
-                                <div class="image-container">
-                                    <div class="image" id="container">
-                                        <input type="file" id="image" name="files" class="input-file"/>
-                                    </div>
-                                </div>
-                                <% } else {
-                                    if (UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAvatar_link() == null || UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAvatar_link().equals("")) { %>
+                                <% if (infor.getAvatar_link() == null || infor.getAvatar_link().equals("")) { %>
                                 <div class="image-container">
                                     <div class="image" id="container">
                                         <input type="file" id="image" name="files" class="input-file"/>
@@ -364,23 +277,18 @@
                                             </a>
                                         </div>
                                         <img class='img-product-review'
-                                             src='<%=UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAvatar_link()%>'
-                                             style='height: 100%'>
+                                             src='<%=infor.getAvatar_link()%>'
+                                             style='height: 100%' alt="">
                                     </div>
                                 </div>
-                                <% }
-                                } %>
+                                <% }%>
                             </div>
                         </div>
                     </div>
                     <input type="text" id="deletedFile" value="" style="display: none">
                     <div class="form-group row">
                         <div class="col-sm-10 col-sm-offset-2">
-                            <%if (request.getParameter("id") != null) {%>
                             <button id="sendform" class="btn btn-primary"> Lưu</button>
-                            <% } else { %>
-                            <button id="sendform" class="btn btn-primary"> Thêm</button>
-                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -414,123 +322,10 @@
 <script src="js/vendor.js"></script>
 <script src="js/app.js"></script>
 <script>
-    function remove(value) {
-        const count = value.substring(6);
-        const old = $("#plus").val().substring(4);
-        console.log(count + "-" + old);
-        if (parseInt(old) === (parseInt(count) + 1)) {
-            $("#role-select" + count).remove();
-            $("#plus").val("plus" + (parseInt(old) - 1));
-        } else {
-            alert("Bạn phải xóa role theo thứ tự từ dưới lên");
-        }
-    }
-
-    $("#plus").click(function (e) {
-        e.preventDefault();
-        const count = $(this).val().substring(4);
-        if (parseInt(count) === 0) {
-            $(this).val("plus" + (parseInt(count) + 1));
-            $(`<div class="role-select" id="role-select` + count + `" style="display: flex">
-                                <select class="c-select form-control" id="select-role` + count + `">
-                                    <option value="null" selected>Không có
-                                    </option>
-                                    <option value="user">Tài khoản
-                                    </option>
-                                    <option value="product"> Sản phẩm
-                                    </option>
-                                    <option value="comment" >Bình
-                                        luận/Đánh giá
-                                    </option>
-                                    <option value="news">Tin tức
-                                    </option>
-                                    <option value="orders">Đơn hàng
-                                    </option>
-                                    <option value="category">Danh mục
-                                    </option>
-                                    <option value="slider">Banner
-                                    </option>
-                                </select>
-                                <select class="c-select form-control"
-                                        id="select-permission` + count + `">
-                                    <option value="null" selected>Không
-                                    </option>
-                                    <option value="insert">Thêm
-                                    </option>
-                                    <option value="update">Sửa
-                                    </option>
-                                    <option value="delete">Xóa
-                                    </option>
-                                </select>
-                                <button type="button" class="remove" onclick="remove(this.value)" value="remove` + count + `"><i class="fa fa-times"></i>
-                                </button>
-                            </div>`).insertBefore("#plus");
-        } else {
-            let check = true;
-            $(".role-select").each(function () {
-                const id = $(this).attr("id").substring(11);
-                const roleselect = $("#select-role" + id).find(":selected").val();
-                const permissionselect = $("#select-permission" + id).find(":selected").val();
-                console.log(id + "-" + roleselect + "-" + permissionselect);
-                if (roleselect === "null" || permissionselect === "null") {
-                    check = false;
-                    return false;
-                }
-            })
-            if (check) {
-                $(this).val("plus" + (parseInt(count) + 1));
-                $(`<div class="role-select" id="role-select` + count + `" style="display: flex">
-                                <select class="c-select form-control" id="select-role` + count + `">
-                                    <option value="null" selected>Không có
-                                    </option>
-                                    <option value="user">Tài khoản
-                                    </option>
-                                    <option value="product"> Sản phẩm
-                                    </option>
-                                    <option value="comment" >Bình
-                                        luận/Đánh giá
-                                    </option>
-                                    <option value="news">Tin tức
-                                    </option>
-                                    <option value="orders">Đơn hàng
-                                    </option>
-                                    <option value="category">Danh mục
-                                    </option>
-                                    <option value="slider">Banner
-                                    </option>
-                                </select>
-                                <select class="c-select form-control"
-                                        id="select-permission` + count + `">
-                                    <option value="null" selected>Không
-                                    </option>
-                                    <option value="insert">Thêm
-                                    </option>
-                                    <option value="update">Sửa
-                                    </option>
-                                    <option value="delete">Xóa
-                                    </option>
-                                </select>
-                                <button type="button" class="remove" onclick="remove(this.value)" value="remove` + count + `"><i class="fa fa-times"></i>
-                                </button>
-                            </div>`).insertBefore("#plus");
-            } else {
-                alert("Phải điền đầy đủ role của admin")
-            }
-        }
-    })
-    $("#select-cate").on('change', function () {
-        if ($(this).find(":selected").val() === "0") {
-            $("#role").css("display", "none");
-        } else {
-            $("#role").css("display", "flex");
-        }
-    })
-</script>
-<script>
     $(".input-file").on('change', function (e) {
         const value = $(this).val();
         let name = "";
-        if (value.indexOf("\\") != -1)
+        if (value.indexOf("\\") !== -1)
             name = value.substring(value.lastIndexOf("\\") + 1);
         else
             name = value.substring(value.lastIndexOf("/") + 1);
@@ -541,7 +336,7 @@
         $(".input-file").on('change', function (e) {
             const value = $(this).val();
             let name = "";
-            if (value.indexOf("\\") != -1)
+            if (value.indexOf("\\") !== -1)
                 name = value.substring(value.lastIndexOf("\\") + 1);
             else
                 name = value.substring(value.lastIndexOf("/") + 1);
@@ -575,7 +370,7 @@
                 //success
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $("#container").prepend("<img class='img-product-review' src='http://localhost:8080/CuoiKiWeb_war/assets/img/logo/" + name + "' style='height: 100%'>");
+                $("#container").prepend("<img class='img-product-review' src='http://localhost:8080/CuoiKiWeb_war/assets/img/logo/" + name + "' style='height: 100%' alt=''>");
                 $(".images-container #container").prepend(`<div class="controls">
                                             <a id="removeImg" class="control-btn remove" style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
                                                 <i class="fa fa-trash-o"></i>
@@ -596,7 +391,7 @@
             e.preventDefault();
             const src = $("#container .img-product-review").attr("src");
             let imageName = "";
-            if (src.indexOf("\\") != -1)
+            if (src.indexOf("\\") !== -1)
                 imageName = src.substring(src.lastIndexOf("\\") + 1);
             else
                 imageName = src.substring(src.lastIndexOf("/") + 1);
@@ -619,21 +414,11 @@
 <script>
     $("#sendform").click(function (e) {
         e.preventDefault();
-        const userId = $("#userId").val();
         const name = $("#name").val();
         const email = $("#email").val();
-        const username = $("#username").val();
         const password = $("#password").val();
         const address = $("#address").val();
-        const status = $("#status").find(":selected").val();
-        const role = $("#select-cate").find(":selected").val();
-        let permission = "";
-        $(".role-select").each(function () {
-            const id = $(this).attr("id").substring(11);
-            const roleselect = $("#select-role" + id).find(":selected").val();
-            const permissionselect = $("#select-permission" + id).find(":selected").val();
-            permission += roleselect + "-" + permissionselect + ",";
-        })
+        const phone = $("#phone").val();
         const removed = $("#deletedFile").val();
         const oldImg = removed.substring(0, removed.length - 1);
         let nameFile = $(".img-product-review").attr("src");
@@ -644,26 +429,19 @@
                 nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);
         }
         $.ajax({
-            url: "/CuoiKiWeb_war/EditInsertAccountController",
+            url: "/CuoiKiWeb_war/UpdateAdminController",
             type: "get",
             data: {
-                userId: userId,
                 fullname: name,
                 email: email,
-                username: username,
                 password: password,
                 address: address,
-                status: status,
-                role: role,
-                permission: permission,
+                phone: phone,
                 oldImg: oldImg,
                 nameFile: nameFile
             },
             success: function () {
-                if (userId.length < 1)
-                    alert("Thêm tài khoản thành công");
-                else
-                    alert("Cập nhật tài khoản thành công");
+                alert("Cập nhật tài khoản thành công");
                 window.location.href = "users-list.jsp"
             }
         });
@@ -673,6 +451,5 @@
 
 </html>
 <%
-        }
     }
 %>

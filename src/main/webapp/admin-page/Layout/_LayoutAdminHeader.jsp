@@ -74,6 +74,8 @@
                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
                     <a class="dropdown-item" href="/CuoiKiWeb_war/LogoutAdminController">
                         <i class="fa fa-power-off icon"></i> Đăng xuất </a>
+                    <a class="dropdown-item" href="profile.jsp">
+                        <i class="fa fa-user icon"></i> Thông tin tài khoản </a>
                 </div>
             </li>
         </ul>
