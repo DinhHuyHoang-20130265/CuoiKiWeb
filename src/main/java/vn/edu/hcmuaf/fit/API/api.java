@@ -1,12 +1,24 @@
 package vn.edu.hcmuaf.fit.API;
 
+import vn.edu.hcmuaf.fit.services.AccountService;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class api {
-    public static void main(String[] args) throws IOException {
+    public static final String EMAIL = "20130265@st.hcmuaf.edu.vn";
+    public static final String PASSWORD = "20130265";
+    private static api api;
+
+    public static api getInstance() {
+        if (api == null)
+            api = new api();
+        return api;
+    }
+
+    public String login() throws IOException {
         URL url = new URL("http://140.238.54.136/api/auth/login ");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
@@ -15,22 +27,26 @@ public class api {
         con.setDoOutput(true);
         String jsonInputString =
                 "    {"
-                        + "      \"email\": \"thanh@1234\","
-                        + "      \"password\" : \"123456\""
+                        + "      \"email\": \"" + EMAIL + "\","
+                        + "      \"password\" : \"" + PASSWORD + "\""
                         + "    }";
         try (OutputStream os = con.getOutputStream()) {
             byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
             os.write(input, 0, input.length);
         }
+        StringBuilder response = new StringBuilder();
         try (BufferedReader br = new BufferedReader(
                 new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
-            StringBuilder response = new StringBuilder();
             String responseLine;
             while ((responseLine = br.readLine()) != null) {
                 response.append(responseLine.trim());
             }
-            System.out.println(response.toString());
         }
+        return response.toString();
+    }
+
+    public static void main(String[] args) throws IOException {
+        System.out.println(getInstance().login());
     }
 
 }

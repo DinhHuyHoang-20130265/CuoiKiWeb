@@ -1,7 +1,9 @@
-POST http://140.238.54.136/api/auth/login
+POST http://140.238.54.136/api/auth/register
 Content-Type: application/json
 
 {
-  "email":"thanh@1234",
-  "password":"123456"
+  "name": "Đinh Huy Hoàng",
+  "email": "20130265@st.hcmuaf.edu.vn",
+  "password": "20130265",
+  "password_confirmation": "20130265"
 }
