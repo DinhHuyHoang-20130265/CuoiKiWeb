@@ -1,3 +1,10 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Huy Hoang
+  Date: 4/18/2023
+  Time: 9:24 PM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.order.Order" %>
 <%@ page import="java.util.List" %>
@@ -14,7 +21,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="x-ua-compatible" content="ie=edge"/>
-    <title>Trang Quản Lý</title>
+    <title>Đơn hàng đã xóa</title>
     <meta name="description" content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link rel="stylesheet" href="../assets/css/bootstrap.css">
@@ -77,11 +84,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h3 class="title">
-                                Danh sách đơn hàng
+                                Danh sách đơn hàng đã xóa
                             </h3>
-                            <br>
-                            <a href="deleted-orders.jsp" class="btn btn-primary btn-sm rounded-s"> Đơn hàng đã xóa
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -172,7 +176,7 @@
                                         </thead>
                                         <tbody>
                                         <%
-                                            List<Order> orders = OrderService.getInstance().getOrderListCondition("1", "0", null);
+                                            List<Order> orders = OrderService.getInstance().getDeletedOrderListCondition("1", "0", null);
                                             NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));
                                             if (orders != null) {
                                                 for (Order order : orders) {
@@ -283,10 +287,15 @@
                                                     for (AdminRole role : admin.getRole()) {
                                                         if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("order") && role.getPermission().equals("delete")) {
                                                 %>
+                                                <a style="cursor: pointer" class="rollback" href="#" data-toggle="modal"
+                                                   data-target="#confirm-modal"
+                                                   id="rollback<%=order.getOrd_id()%>">
+                                                    <i class="fa fa-recycle" style="color: green" title="Khôi phục đơn hàng"></i>
+                                                </a>
                                                 <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
                                                    data-target="#confirm-modal"
                                                    id="remove<%=order.getOrd_id()%>">
-                                                    <i class="fa fa-trash" style="color: red"></i>
+                                                    <i class="fa fa-trash" style="color: red" title="Xóa đơn khỏi hệ thống"></i>
                                                 </a>
                                                 <%
                                                         }
@@ -327,8 +336,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Bạn có chắc muốn xóa đơn hàng này ?</p>
-                        <p>Sau khi hủy sẽ không thể hoàn tác</p>
+                        <p>Bạn có chắc muốn thực hiện thao tác này ?</p>
+                        <p>Sau khi thực hiện sẽ không thể hoàn tác</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="yesButton" class="btn btn-primary" data-dismiss="modal">
@@ -391,7 +400,7 @@
                 e.preventDefault();
                 $("#yesButton").click(function () {
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteOrderController",
+                        url: "/CuoiKiWeb_war/HardDeleteOrderController",
                         type: "post",
                         data: {
                             id: id,
@@ -402,6 +411,36 @@
                         success: function (data) {
                             $("#appendItem tbody").html(data);
                             deleteOrder();
+                            rollbackOrder();
+                        }
+                    })
+                })
+            })
+        })
+    }
+
+    function rollbackOrder() {
+        $(".rollback").each(function () {
+            const id = $(this).attr("id").substring(8);
+            const search = $("#searchUser").val();
+            const page = parseInt($("#page").text());
+            const order = $("#filter").find(':selected').val();
+            $(this).on("click", function (e) {
+                e.preventDefault();
+                $("#yesButton").click(function () {
+                    $.ajax({
+                        url: "/CuoiKiWeb_war/RollbackOrderController",
+                        type: "post",
+                        data: {
+                            id: id,
+                            search: search,
+                            page: page,
+                            order: order
+                        },
+                        success: function (data) {
+                            $("#appendItem tbody").html(data);
+                            deleteOrder();
+                            rollbackOrder();
                         }
                     })
                 })
@@ -415,7 +454,7 @@
         const order = $("#filter").find(':selected').val();
         const search = $("#searchUser").val();
         $.ajax({
-            url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+            url: "/CuoiKiWeb_war/LoadDeletedOrderListAdmin",
             type: "post",
             data: {
                 page: page,
@@ -425,15 +464,18 @@
             success: function (data) {
                 $("#appendItem tbody").html(data);
                 deleteOrder();
+                rollbackOrder();
             }
         })
     }
 
     $(document).ready(function () {
         deleteOrder();
+        rollbackOrder();
         $("#filter").change(function (e) {
             filterAdmin(e);
             deleteOrder();
+            rollbackOrder();
         })
         $("#searchUser").on("input", function (e) {
             e.preventDefault();
@@ -441,7 +483,7 @@
             const order = $("#filter").find(':selected').val();
             const page = 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+                url: "/CuoiKiWeb_war/LoadDeletedOrderListAdmin",
                 type: "post",
                 data: {
                     page: page,
@@ -452,6 +494,7 @@
                     $("#appendItem tbody").html(data);
                     $("#page").text(page)
                     deleteOrder();
+                    rollbackOrder();
                 }
             })
         })
@@ -462,7 +505,7 @@
             const order = $("#filter").find(':selected').val();
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+                    url: "/CuoiKiWeb_war/LoadDeletedOrderListAdmin",
                     type: "post",
                     data: {
                         page: page,
@@ -473,6 +516,7 @@
                         $("#appendItem tbody").html(data);
                         $("#page").text(page)
                         deleteOrder();
+                        rollbackOrder();
                     }
                 })
             }
@@ -483,7 +527,7 @@
             const search = $("#searchUser").val();
             const order = $("#filter").find(':selected').val();
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+                url: "/CuoiKiWeb_war/LoadDeletedOrderListAdmin",
                 type: "post",
                 data: {
                     page: page,
@@ -495,6 +539,7 @@
                         $("#appendItem tbody").html(data);
                         $("#page").text(page)
                         deleteOrder();
+                        rollbackOrder();
                     }
                 }
             })

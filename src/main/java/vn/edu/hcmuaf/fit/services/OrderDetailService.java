@@ -25,5 +25,13 @@ public class OrderDetailService {
     public void removeOrder(String ord_id) {
         new OrderDAO().removeOrder(ord_id);
     }
+
+    public void hardRemoveOrder(String id) {
+        new OrderDAO().hardRemoveOrder(id);
+    }
+
+    public void rollbackOrder(String id) {
+        new OrderDAO().rollbackOrder(id);
+    }
 }
 
