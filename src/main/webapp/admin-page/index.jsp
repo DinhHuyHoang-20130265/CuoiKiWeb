@@ -144,14 +144,13 @@
                         <div class="card sameheight-item" data-exclude="xs" id="dashboard-history">
                             <div class="card-header card-header-sm bordered">
                                 <div class="header-block">
-                                    <h3 class="title">Lịch sử ghé thăm</h3>
+                                    <h3 class="title">Số sản phẩm bán đuược</h3>
                                 </div>
                             </div>
                             <div class="card-block">
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active fade show" id="visits">
-                                        <p class="title-description"> Trung bình số người dùng ghé thăm trang web trong
-                                            vòng 30 ngày </p>
+                                        <p class="title-description"> Tổng số sản phẩm bán được 6 tháng gần nhất </p>
                                         <div id="dashboard-visits-chart"></div>
                                     </div>
                                 </div>
@@ -303,6 +302,8 @@
 <script src="js/jquery-3.6.1.min.js"></script>
 <script src="js/vendor.js"></script>
 <script src="js/app.js"></script>
+
+<jsp:include page="chart/chart_index.jsp"></jsp:include>
 <script>
     $("#loadMore").click(function (e) {
         e.preventDefault();
