@@ -1,91 +1,59 @@
-<%--
+<%@ page import="java.util.Map" %>
+<%@ page import="vn.edu.hcmuaf.fit.DAO.ChartDAO" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 4/14/2023
   Time: 3:59 PM
   To change this template use File | Settings | File Templates.
 --%>
-
+<% Map<String, Integer> chart1 = new ChartDAO().SaledProductByNearest6Months();%>
 <script>
+    // drawing visits chart
+    drawVisitsChart();
 
-    $(function () {
+    function drawVisitsChart() {
+        var dataVisits = [
+            <% int i = 0;
+            boolean check = false;
+            for (String key : chart1.keySet()) {
+            i++;
+            if (i == chart1.keySet().size()) {
+                check = true;
+            }%>
+            {x: '<%=key%>', y: <%=chart1.get(key)%>}<%=check ? "" : ","%>
+            <% } %>
 
-        if (!$('#dashboard-visits-chart').length) {
-            return false;
-        }
-
-        // drawing visits chart
-        drawVisitsChart();
-
-        var el = null;
-        var item = 'visits';
-
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-
-            el = e.target;
-            item = $(el).attr('href').replace('#', '');
-            switchHistoryCharts(item);
-
-        });
-
-        $(document).on("themechange", function () {
-            switchHistoryCharts(item);
-        });
-
-        function switchHistoryCharts(item) {
-            var chartSelector = "#dashboard-" + item + "-chart";
-
-            if ($(chartSelector).has('svg').length) {
-                $(chartSelector).empty();
+        ];
+        <%int minValue = Integer.MAX_VALUE;
+        for (int value : chart1.values()) {
+            if (value < minValue) {
+                minValue = value;
             }
-
-            switch (item) {
-                case 'visits':
-                    drawVisitsChart();
-                    break;
-                case 'downloads':
-                    drawDownloadsChart();
-                    break;
-            }
-        }
-
-        function drawVisitsChart() {
-            var dataVisits = [
-                {x: '2015-09-01', y: 70},
-                {x: '2015-09-02', y: 75},
-                {x: '2015-09-03', y: 50},
-                {x: '2015-09-04', y: 75},
-                {x: '2015-09-05', y: 50},
-                {x: '2015-09-06', y: 75},
-                {x: '2015-09-07', y: 86}
-            ];
-
-
-            Morris.Line({
-                element: 'dashboard-visits-chart',
-                data: dataVisits,
-                xkey: 'x',
-                ykeys: ['y'],
-                ymin: 'auto 40',
-                labels: ['Visits'],
-                xLabels: "day",
-                hideHover: 'auto',
-                yLabelFormat: function (y) {
-                    // Only integers
-                    if (y === parseInt(y, 10)) {
-                        return y;
-                    } else {
-                        return '';
-                    }
-                },
-                resize: true,
-                lineColors: [
-                    config.chart.colorSecondary.toString(),
-                ],
-                pointFillColors: [
-                    config.chart.colorPrimary.toString(),
-                ]
-            });
-        }
-    });
+        }%>
+        Morris.Line({
+            element: 'dashboard-visits-chart',
+            data: dataVisits,
+            xkey: 'x',
+            ykeys: ['y'],
+            ymin: 'auto <%=minValue%>',
+            labels: ['Sales'],
+            xLabels: "month",
+            hideHover: 'auto',
+            yLabelFormat: function (y) {
+                // Only integers
+                if (y === parseInt(y, 10)) {
+                    return y;
+                } else {
+                    return '';
+                }
+            },
+            resize: true,
+            lineColors: [
+                config.chart.colorSecondary.toString(),
+            ],
+            pointFillColors: [
+                config.chart.colorPrimary.toString(),
+            ]
+        });
+    }
 </script>
