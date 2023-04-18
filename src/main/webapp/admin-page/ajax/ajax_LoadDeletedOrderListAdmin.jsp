@@ -5,16 +5,17 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.AccountService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
+<%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
-  Date: 1/7/2023
-  Time: 8:47 PM
+  Date: 4/18/2023
+  Time: 9:39 PM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    List<Order> orders = (List<Order>) request.getAttribute("orders");
+    List<Order> orders = (List<Order>) request.getAttribute("Deletedorders");
     NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));
     if (orders != null) {
         for (Order order : orders) {
@@ -127,10 +128,15 @@
             for (AdminRole role : admin.getRole()) {
                 if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("order") && role.getPermission().equals("delete")) {
         %>
+        <a style="cursor: pointer" class="rollback" href="#" data-toggle="modal"
+           data-target="#confirm-modal"
+           id="rollback<%=order.getOrd_id()%>">
+            <i class="fa fa-recycle" style="color: green" title="Khôi phục đơn hàng"></i>
+        </a>
         <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
            data-target="#confirm-modal"
            id="remove<%=order.getOrd_id()%>">
-            <i class="fa fa-trash" style="color: red"></i>
+            <i class="fa fa-trash" style="color: red" title="Xóa đơn khỏi hệ thống"></i>
         </a>
         <% }
         }
