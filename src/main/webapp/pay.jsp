@@ -163,8 +163,26 @@
                                     <div class="fieldset-address form-group">
                                         <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="diachi" class="form-label">Địa chỉ</label>
-                                        <input id="diachi" type="text" class="form-control"
-                                               value="<%=userInformation.getAddress() != null ?userInformation.getAddress(): ""%>">
+                                        <input id="diachi" type="text" class="form-control" value="<%=userInformation.getAddress()%>"
+                                               style="margin-bottom: 8px"
+                                               readonly>
+                                        <div id="update-info" style="display: none">
+                                            <section id="thongtin" >
+                                                <select id="city" class="form-control selection">
+                                                    <option value="" selected>Chọn tỉnh thành</option>
+                                                </select>
+                                                <select id="district" class="form-control selection">
+                                                    <option value="" selected>Chọn quận huyện</option>
+                                                </select>
+                                                <select id="ward" class="form-control selection">
+                                                    <option value="" selected>Chọn phường xã</option>
+                                                </select>
+                                            </section>
+                                            <label for="sonha" class="label-min">Đường và số nhà</label>
+                                            <input id="sonha" type="text" value="" class="form-control" placeholder="Điền số nhà">
+                                            <span class="form-message"> </span>
+                                        </div>
+                                        <button id="adjust-info">Chỉnh sửa thông tin</button>
                                         <span class="form-message"></span>
                                     </div>
                                     <div class="fieldset-name form-group">
@@ -293,6 +311,66 @@
 <script src="./assets/js/bootstrap.min.js"></script>
 <script src="./assets/js/validator.js"></script>
 <script src="./assets/js/main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    const cities = document.getElementById("city");
+    const districts = document.getElementById("district");
+    const wards = document.getElementById("ward");
+    const Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+    const promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+    function renderCity(data) {
+        for (const x of data) {
+            cities.options[cities.options.length] = new Option(x.Name, x.Id);
+        }
+        cities.onchange = function () {
+            districts.length = 1;
+            wards.length = 1;
+            if(this.value !== ""){
+                const result = data.filter(n => n.Id === this.value);
+
+                for (const k of result[0].Districts) {
+                    districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                }
+            }
+        };
+        districts.onchange = function () {
+            wards.length = 1;
+            const dataCity = data.filter((n) => n.Id === cities.value);
+            if (this.value !== "") {
+                const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+                for (const w of dataWards) {
+                    wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                }
+            }
+        };
+    }
+</script>
+<script>
+    // lấy địa chỉ ra rồi chia ra từng thành phần
+    const addressInfo = $('#diachi').val();
+    const addressParts = addressInfo.split(", ");
+    const houseNumber1 = addressParts[0];
+    const ward1 = addressParts[1];
+    const district1 = addressParts[2];
+    const city1 = addressParts[3];
+    if (addressInfo === "") {
+        $("#sonha").val("null");
+    } else {
+        $("#sonha").val(houseNumber1);
+    }
+    console.log(addressInfo)
+    $("#adjust-info").click(function (event){
+        event.preventDefault();
+        $("#update-info").css("display","block");
+    });
+</script>
 <script>
     Validator({
         form: '#form-2',
@@ -311,7 +389,16 @@
 
     $(".btn-pay").click(function (e) {
         e.preventDefault();
+        const city = $("#city option:selected").text();
+        const district = $("#district option:selected").text();
+        const ward = $("#ward option:selected").text();
+        const houseNumb = $("#sonha").val();
+        const addressInfo = houseNumb + ", " + ward + ", " + district + ", " + city;
         const address = $("#diachi").val();
+        if(address === null || address === ""){
+            address.val(addressInfo);
+        }
+        console.log(address)
         const receive_name = $("#hoten").val();
         const email = $("#email").val();
         const phone_number = $("#sdt").val();
@@ -356,6 +443,31 @@
                 alert(data);
             }
         })
+    })
+    function applyCode() {
+        $(".codebutt").click(function (e) {
+            e.preventDefault();
+            const sale_code = $(".sale_code").val();
+            console.log(sale_code)
+            $.ajax({
+                url: "PromotionCodeController",
+                type: "post",
+                data: {
+                    sale_code: sale_code
+                },
+                success: function (data) {
+                    $(".slider-footer").each(function () {
+                        $(this).html(data);
+                    })
+                },
+                error: function (data) {
+                    alert("Mã của bạn đã hết hạn hoặc không thể sử dụng");
+                }
+            })
+        })
+    }
+    $(document).ready(function () {
+        applyCode();
     })
 </script>
 </body>
