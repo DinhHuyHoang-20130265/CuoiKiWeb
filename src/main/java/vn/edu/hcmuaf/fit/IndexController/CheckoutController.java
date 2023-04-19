@@ -6,6 +6,7 @@ import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.beans.cart.Cart;
 import vn.edu.hcmuaf.fit.beans.cart.CartKey;
 import vn.edu.hcmuaf.fit.beans.order.Order;
+import vn.edu.hcmuaf.fit.beans.promotion_code.PromotionCode;
 import vn.edu.hcmuaf.fit.services.*;
 
 import javax.servlet.*;
@@ -63,6 +64,7 @@ public class CheckoutController extends HttpServlet {
                 OrderDetailService.getInstance().insertOrderDetail(ord_id, prod_id, prod_name, prod_color, prod_size, quantity, price);
             }
         }
+        PromotionCode code = (PromotionCode) request.getSession().getAttribute("code");
         NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));
         if (check) {
             StringBuilder content = new StringBuilder();
@@ -85,7 +87,8 @@ public class CheckoutController extends HttpServlet {
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chi tiết đơn hàng:</p>" +
                     content.toString() +
                     "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Phí ship:   " +format.format(30000)+"đ</p>"  +
-                    "<p style=\"padding: 0;font-weight: 700;font-size: 15px;color: #2a2a2a;font-family:sans-serif\">Tổng: " + format.format(total) + "đ</p>" +
+                    "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Mã khuyến mãi:   -" +format.format(code.getDiscount_money())+"đ</p>"  +
+                    "<p style=\"padding: 0;font-weight: 700;font-size: 15px;color: #2a2a2a;font-family:sans-serif\">Tổng: " + format.format(total - code.getDiscount_money()) + "đ</p>" +
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Bạn có thể xem lại/theo dõi đơn hàng tại trang thông tin tài khoản.</p>" +
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Shop sẽ liên hệ lại với bạn sớm nhất để xác nhận thanh toán, cảm ơn bạn đã mua hàng tại Shop</p>" +
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chúc bạn một ngày mới vui vẻ</p>" +
