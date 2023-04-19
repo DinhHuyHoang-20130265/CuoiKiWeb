@@ -460,7 +460,6 @@
         const email = $("#email").val();
         const phone_number = $("#phone_number").val();
         const filename = $("#fileName").val();
-        console.log(cityValue);
 
         if (full_name == null || email == null || address == null || phone_number == null) {
             alert("Không được để trống các trường");
