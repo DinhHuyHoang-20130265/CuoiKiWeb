@@ -104,7 +104,7 @@
         const role = $("#role").val();
         $.ajax({
             type: 'POST',
-            url: "/CuoiKiWeb_war/ForgotPasswordAdminController",
+            url: "../ForgotPasswordAdminController",
             data: {
                 email: email,
                 code: code,
@@ -114,7 +114,7 @@
             },
             success: function (response) {
                 if (response.includes("complete"))
-                    window.location.href = "http://localhost:8080/CuoiKiWeb_war/admin-page/login.jsp"
+                    window.location.href = "../admin-page/login.jsp"
                 else {
                     $("#reset-form-reset").html(response);
                 }

@@ -447,9 +447,8 @@
                 e.preventDefault();
                 const id = $(this).attr("id").substring(6);
                 const status = $("#status" + id).val();
-                console.log(status);
                 $.ajax({
-                    url: "/CuoiKiWeb_war/StatusCommentControllerAdmin",
+                    url: "../StatusCommentControllerAdmin",
                     type: "post",
                     data: {
                         id: id,
@@ -484,7 +483,7 @@
                 $("#yes").click(function () {
                     console.log("deleted")
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteCommentControllerAdmin",
+                        url: "../DeleteCommentControllerAdmin",
                         type: "post",
                         data: {
                             id: id,
@@ -508,7 +507,7 @@
                 e.preventDefault();
                 const id = $(this).attr("id").substring(4);
                 $.ajax({
-                    url: "/CuoiKiWeb_war/InfoCommentController",
+                    url: "../InfoCommentController",
                     type: "post",
                     data: {
                         id: id
@@ -527,7 +526,7 @@
             e.preventDefault();
             const id = $(this).attr("id").substring(4);
             $.ajax({
-                url: "/CuoiKiWeb_war/InfoCommentController",
+                url: "../InfoCommentController",
                 type: "post",
                 data: {
                     id: id
@@ -545,7 +544,7 @@
             const page = parseInt($("#page").text()) - 1;
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadCommentListAdmin",
+                    url: "../LoadCommentListAdmin",
                     type: "post",
                     data: {
                         page: page,
@@ -565,7 +564,7 @@
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadCommentListAdmin",
+                url: "../LoadCommentListAdmin",
                 type: "post",
                 data: {
                     page: page,

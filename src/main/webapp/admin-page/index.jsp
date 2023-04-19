@@ -308,9 +308,8 @@
     $("#loadMore").click(function (e) {
         e.preventDefault();
         const page = $("#pageValue").val();
-        console.log(page);
         $.ajax({
-            url: "/CuoiKiWeb_war/LoadMoreIndexAdminController",
+            url: "../LoadMoreIndexAdminController",
             type: "post",
             data: {
                 page: page,

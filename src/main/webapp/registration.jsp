@@ -249,7 +249,7 @@
             },
             success : function (response) {
                 if (response.includes("success"))
-                    window.location.href = "http://localhost:8080/CuoiKiWeb_war/Login.jsp"
+                    window.location.href = "../Login.jsp"
                 else {
                     $("#form-1").html(response);
                 }

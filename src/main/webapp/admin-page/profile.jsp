@@ -359,7 +359,7 @@
 
     function postFilesData(name, data) {
         $.ajax({
-            url: '/CuoiKiWeb_war/UpDownImageAvatarController',
+            url: '../UpDownImageAvatarController',
             type: 'POST',
             data: data,
             cache: false,
@@ -370,7 +370,7 @@
                 //success
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $("#container").prepend("<img class='img-product-review' src='http://localhost:8080/CuoiKiWeb_war/assets/img/logo/" + name + "' style='height: 100%' alt=''>");
+                $("#container").prepend("<img class='img-product-review' src='../assets/img/logo/" + name + "' style='height: 100%' alt=''>");
                 $(".images-container #container").prepend(`<div class="controls">
                                             <a id="removeImg" class="control-btn remove" style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
                                                 <i class="fa fa-trash-o"></i>
@@ -429,7 +429,7 @@
                 nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);
         }
         $.ajax({
-            url: "/CuoiKiWeb_war/UpdateAdminController",
+            url: "../UpdateAdminController",
             type: "get",
             data: {
                 fullname: name,

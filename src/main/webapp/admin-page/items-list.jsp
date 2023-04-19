@@ -342,7 +342,7 @@
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteProductAdminController",
+                        url: "../DeleteProductAdminController",
                         type: "post",
                         data: {
                             id: id,
@@ -366,7 +366,7 @@
         const orderby = $("#filter").find(':selected').val();
         const search = $("#searchProduct").val();
         $.ajax({
-            url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+            url: "../LoadProductListAdminProduct",
             type: "post",
             data: {
                 page: page,
@@ -393,7 +393,7 @@
             const page = 1;
             const orderby = $("#filter").find(':selected').val();
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                url: "../LoadProductListAdminProduct",
                 type: "post",
                 data: {
                     page: page,
@@ -415,7 +415,7 @@
             const orderby = $("#filter").find(':selected').val();
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                    url: "../LoadProductListAdminProduct",
                     type: "post",
                     data: {
                         page: page,
@@ -437,7 +437,7 @@
             const orderby = $("#filter").find(':selected').val();
             const search = $("#searchProduct").val();
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                url: "../LoadProductListAdminProduct",
                 type: "post",
                 data: {
                     page: page,
