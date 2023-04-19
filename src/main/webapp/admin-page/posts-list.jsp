@@ -300,7 +300,7 @@
                 $("#yes").click(function () {
                     console.log("deleted")
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteNewsControllerAdmin",
+                        url: "../DeleteNewsControllerAdmin",
                         type: "post",
                         data: {
                             id: id,
@@ -324,7 +324,7 @@
             const pageNumb = parseInt($("#pageNumb").text()) - 1;
             if (pageNumb > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadNewsListAdminController",
+                    url: "../LoadNewsListAdminController",
                     type: "post",
                     data: {
                         pageNumb: pageNumb
@@ -343,7 +343,7 @@
             e.preventDefault();
             const pageNumb = parseInt($("#pageNumb").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadNewsListAdminController",
+                url: "../LoadNewsListAdminController",
                 type: "post",
                 data: {
                     pageNumb: pageNumb

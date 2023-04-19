@@ -184,7 +184,7 @@
                 %>
                 <input type="text" id="usercomment" value="<%=user.getId()%>" style="display: none">
                 <div class="avatar_comment col-md-1">
-                    <img src="<%=information.getAvatar_link() == null ? "http://localhost:8080/CuoiKiWeb_war/assets/imgNews/news/avatar.jpg" : information.getAvatar_link()%>"
+                    <img src="<%=information.getAvatar_link() == null ? "../assets/imgNews/news/avatar.jpg" : information.getAvatar_link()%>"
                          alt="avatar">
                 </div>
                 <div class="box_comment col-md-11">
@@ -208,7 +208,7 @@
                             UserInformation userInfo = UserInformationService.getInstance().getUserInfo(loadNewsComment.get(i).getComment_by());%>
                     <div class="box_result row" id="box_result<%=loadNewsComment.get(i).getComment_id()%>">
                         <div class="avatar_comment col-md-1">
-                            <img src="<%=userInfo.getAvatar_link() == null ? "http://localhost:8080/CuoiKiWeb_war/assets/imgNews/news/avatar.jpg" : userInfo.getAvatar_link()%>"
+                            <img src="<%=userInfo.getAvatar_link() == null ? "../assets/imgNews/news/avatar.jpg" : userInfo.getAvatar_link()%>"
                                  alt="avatar"/>
                         </div>
                         <div class="result_comment col-md-11">

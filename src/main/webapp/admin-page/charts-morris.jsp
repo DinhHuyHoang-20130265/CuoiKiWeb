@@ -62,7 +62,7 @@
                                     <h3 class="title"> Doanh thu </h3>
                                 </div>
                                 <section class="example">
-                                    <div id="morris-bar-chart"></div>
+                                    <div id="flot-bar-chart"></div>
                                 </section>
                             </div>
                         </div>

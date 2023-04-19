@@ -432,7 +432,7 @@
                 $("#yes").click(function () {
                     console.log("deleted")
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteSlideControllerAdmin",
+                        url: "../DeleteSlideControllerAdmin",
                         type: "post",
                         data: {
                             id: id,
@@ -455,7 +455,7 @@
             const page = parseInt($("#page").text()) - 1;
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadListSlideController",
+                    url: "../LoadListSlideController",
                     type: "post",
                     data: {
                         page: page,
@@ -472,7 +472,7 @@
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadListSlideController",
+                url: "../LoadListSlideController",
                 type: "post",
                 data: {
                     page: page,

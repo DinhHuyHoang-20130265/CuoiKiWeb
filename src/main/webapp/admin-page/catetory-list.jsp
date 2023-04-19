@@ -298,7 +298,7 @@
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteCateAdminController",
+                        url: "../DeleteCateAdminController",
                         type: "post",
                         data: {
                             id: id,
@@ -321,7 +321,7 @@
             const page = parseInt($("#page").text()) - 1;
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadCateListAdminProduct",
+                    url: "../LoadCateListAdminProduct",
                     type: "post",
                     data: {
                         page: page,
@@ -339,7 +339,7 @@
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadCateListAdminProduct",
+                url: "../LoadCateListAdminProduct",
                 type: "post",
                 data: {
                     page: page,

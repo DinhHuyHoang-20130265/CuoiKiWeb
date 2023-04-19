@@ -224,7 +224,7 @@
 
     function postFilesData(name, data) {
         $.ajax({
-            url: '/CuoiKiWeb_war/UpDownImageNewsController',
+            url: '../UpDownImageNewsController',
             type: 'POST',
             data: data,
             cache: false,
@@ -235,7 +235,7 @@
                 //success
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $("#container").prepend("<img class='news-review' src='http://localhost:8080/CuoiKiWeb_war/assets/imgNews/news/" + name + "' style='height: 100%'>");
+                $("#container").prepend("<img class='news-review' src='../assets/imgNews/news/" + name + "' style='height: 100%'>");
                 $(".images-container #container").prepend(`<div class="controls">
                                             <a id="removeImg" class="control-btn remove" style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
                                                 <i class="fa fa-trash-o"></i>
@@ -293,7 +293,7 @@
             nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);
         console.log(title);
         $.ajax({
-            url: "/CuoiKiWeb_war/EditInsertNewsController",
+            url: "../EditInsertNewsController",
             type: "GET",
             data: {
                 userID: userID,

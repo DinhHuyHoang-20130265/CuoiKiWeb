@@ -398,6 +398,8 @@
                 </div>
             </div>
         </article>
+        <input type="text" id="isCanceled-status" value="<%=order.getIsCanceled()%>"
+               style="display: none">
         <div class="modal fade" id="confirm-modal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -466,17 +468,21 @@
     $("#orderStatus").click(function (e) {
         e.preventDefault();
         $(".yes").click(function () {
-            $.ajax({
-                url: "/CuoiKiWeb_war/UpdateOrderStatus",
-                type: "post",
-                data: {
-                    id: id
-                },
-                success: function () {
-                    $("#order-status").val("1")
-                    $("#contentOrderStatus").html(`<div class="mb16" style="color: green"><i class="fa fa-check"></i> Đơn hàng đã xác thực</div>`);
-                }
-            })
+            if (parseInt($("#isCanceled-status").val()) === 0) {
+                alert("Đơn hàng hiện đã bị xóa, hãy khôi phục để có thể cập nhật đơn hàng")
+            } else {
+                $.ajax({
+                    url: "../UpdateOrderStatus",
+                    type: "post",
+                    data: {
+                        id: id
+                    },
+                    success: function () {
+                        $("#order-status").val("1")
+                        $("#contentOrderStatus").html(`<div class="mb16" style="color: green"><i class="fa fa-check"></i> Đơn hàng đã xác thực</div>`);
+                    }
+                })
+            }
         })
     })
     $("#deliveryStatus").change(function (e) {
@@ -484,9 +490,11 @@
         const status = $(this).find(":selected").val();
         if ($("#order-status").val() === "0") {
             alert("Đơn hàng phải ở trạng thái xác nhận mới có thể thay đổi các trạng thái khác");
+        } else if (parseInt($("#isCanceled-status").val()) === 0) {
+            alert("Đơn hàng hiện đã bị xóa, hãy khôi phục để có thể cập nhật đơn hàng")
         } else {
             $.ajax({
-                url: "/CuoiKiWeb_war/UpdateDeliveryStatus",
+                url: "../UpdateDeliveryStatus",
                 type: "post",
                 data: {
                     id: id,
@@ -528,9 +536,11 @@
         e.preventDefault();
         if ($("#order-status").val() === "0") {
             alert("Đơn hàng phải ở trạng thái xác nhận mới có thể thay đỏi các trạng thái khác");
+        } else if (parseInt($("#isCanceled-status").val()) === 0) {
+            alert("Đơn hàng hiện đã bị xóa, hãy khôi phục để có thể cập nhật đơn hàng")
         } else {
             $.ajax({
-                url: "/CuoiKiWeb_war/UpdatePaymentStatus",
+                url: "../UpdatePaymentStatus",
                 type: "post",
                 data: {
                     id: id

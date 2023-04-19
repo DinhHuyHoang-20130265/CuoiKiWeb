@@ -321,7 +321,7 @@
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeletePromotionAdminController",
+                        url: "../DeletePromotionAdminController",
                         type: "post",
                         data: {
                             id: id,
@@ -344,7 +344,7 @@
             const page = parseInt($("#page").text()) - 1;
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadPromotionListAdmin",
+                    url: "../LoadPromotionListAdmin",
                     type: "post",
                     data: {
                         page: page,
@@ -362,7 +362,7 @@
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadPromotionListAdmin",
+                url: "../LoadPromotionListAdmin",
                 type: "post",
                 data: {
                     page: page,
