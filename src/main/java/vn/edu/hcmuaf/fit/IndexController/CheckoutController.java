@@ -27,6 +27,7 @@ public class CheckoutController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ord_id = new OrderDAO().generateIdOrder();
         String address = request.getParameter("address");
+        System.out.println(address);
         String receive_name = request.getParameter("receive_name");
         String email = request.getParameter("email");
         String phone_number = request.getParameter("phone_number");
@@ -92,11 +93,10 @@ public class CheckoutController extends HttpServlet {
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chúc bạn một ngày mới vui vẻ</p>" +
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">P&TSHOP</p>";
             String subject = "Đơn hàng đã được đặt tại P&TSHOP thành công";
-
             MailService.getInstance().initializedSesstion(MailConfiguration.USERNAME_PNTSHOP, MailConfiguration.PASSWORD_PNTSHOP);
             MailService.getInstance().sendMail("PNTSHOP", email, subject, text, MailConfiguration.MAIL_HTML);
             response.getWriter().println("Đơn hàng của bạn đã được tạo thành công và đang chờ cửa hàng xử lý");
-            NotifyService.getInstance().AddNewNotify("Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id, ord_id);
+            NotifyService.getInstance().addNewNotify("Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id, ord_id);
             request.getSession().setAttribute("cart", new Cart());
         }
     }

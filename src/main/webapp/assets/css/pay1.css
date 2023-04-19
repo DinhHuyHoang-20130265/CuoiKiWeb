@@ -20,4 +20,22 @@
     font-size: 16px;
     font-weight: 400;
   }
-  
+.selection{
+  margin-bottom: 1rem;
+}
+.label-min {
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5rem;
+  padding-bottom: 4px;
+}
+#adjust-info{
+  margin-top: 8px;
+  height: 30px;
+  padding: 6px 13px;
+  border: 1px solid #b3b3b3;
+  border-radius: 4px;
+  outline: none !important;
+  font-size: 12px;
+}
