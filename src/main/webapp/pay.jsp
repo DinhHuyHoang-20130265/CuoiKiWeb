@@ -131,7 +131,7 @@
     SiteUser user = (SiteUser) request.getSession().getAttribute("user");
     Cart cart = (Cart) request.getSession().getAttribute("cart");
     UserInformation userInformation = null;
-    if (user == null) {
+    if (user == null)  {
         response.sendRedirect("Login.jsp");
     } else {
         userInformation = UserInformationService.getInstance().getUserInfo(user.getId());
@@ -156,8 +156,7 @@
                                 <input class="user_id" value="<%=user.getId()%>" style="display: none">
                                 <div class="main-customer-info">
                                     <div class="main-customer-info-img">
-                                        <img src="<%=userInformation.getAvatar_link()%>" alt="" width="60px"
-                                             height="60px">
+                                        <img src="<%=userInformation.getAvatar_link()%>" alt="" width="60px" height="60px">
                                     </div>
                                 </div>
                                 <div class="fieldset">
@@ -310,29 +309,6 @@
         }
     });
 
-    function applyCode() {
-        $(".codebutt").click(function (e) {
-            e.preventDefault();
-            const sale_code = $(".sale_code").val();
-            console.log(sale_code)
-            $.ajax({
-                url: "PromotionCodeController",
-                type: "post",
-                data: {
-                    sale_code: sale_code
-                },
-                success: function (data) {
-                    $(".slider-footer").each(function () {
-                        $(this).html(data);
-                    })
-                },
-                error: function (data) {
-                    alert("Mã của bạn đã hết hạn hoặc không thể sử dụng");
-                }
-            })
-        })
-    }
-
     $(".btn-pay").click(function (e) {
         e.preventDefault();
         const address = $("#diachi").val();
@@ -380,9 +356,6 @@
                 alert(data);
             }
         })
-    })
-    $(document).ready(function () {
-        applyCode();
     })
 </script>
 </body>

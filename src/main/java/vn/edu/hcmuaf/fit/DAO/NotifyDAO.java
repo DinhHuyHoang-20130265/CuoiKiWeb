@@ -52,12 +52,18 @@ public class NotifyDAO {
         else return sb.toString();
     }
 
-    public static void addNewNotify(String content, String order_id) {
-        JDBIConnector.get().withHandle(handle -> handle.createUpdate("INSERT INTO notify_admin values (?,?,?)")
-                .bind(0, generateIdNotify())
-                .bind(1, content)
-                .bind(2, order_id)
-                .execute());
+    public String addNewNotify(String content, String order_id) {
+        String idNotify = generateIdNotify();
+        JDBIConnector.get().withHandle(handle -> {
+                    handle.createUpdate("INSERT INTO notify_admin values (?,?,?)")
+                            .bind(0, idNotify)
+                            .bind(1, content)
+                            .bind(2, order_id)
+                            .execute();
+                    return true;
+                }
+        );
+        return idNotify;
     }
 
     public static void main(String[] args) {
