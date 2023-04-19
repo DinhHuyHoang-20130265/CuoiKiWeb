@@ -491,7 +491,7 @@
                 const status = $("#status" + id).val();
                 console.log(status);
                 $.ajax({
-                    url: "/CuoiKiWeb_war/StatusReviewControllerAdmin",
+                    url: "../StatusReviewControllerAdmin",
                     type: "post",
                     data: {
                         id: id,
@@ -525,7 +525,7 @@
                 e.preventDefault();
                 $("#yes").click(function () {
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteReviewControllerAdmin",
+                        url: "../DeleteReviewControllerAdmin",
                         type: "post",
                         data: {
                             id: id,
@@ -549,7 +549,7 @@
                 e.preventDefault();
                 const id = $(this).attr("id").substring(4);
                 $.ajax({
-                    url: "/CuoiKiWeb_war/InfoProductReviewController",
+                    url: "../InfoProductReviewController",
                     type: "post",
                     data: {
                         id: id
@@ -568,7 +568,7 @@
             e.preventDefault();
             const id = $(this).attr("id").substring(4);
             $.ajax({
-                url: "/CuoiKiWeb_war/InfoProductReviewController",
+                url: "../InfoProductReviewController",
                 type: "post",
                 data: {
                     id: id
@@ -586,7 +586,7 @@
             const page = parseInt($("#page").text()) - 1;
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadReviewListAdminController",
+                    url: "../LoadReviewListAdminController",
                     type: "post",
                     data: {
                         page: page,
@@ -606,7 +606,7 @@
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadReviewListAdminController",
+                url: "../LoadReviewListAdminController",
                 type: "post",
                 data: {
                     page: page,

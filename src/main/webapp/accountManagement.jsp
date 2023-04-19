@@ -330,7 +330,7 @@
 
     function postFilesData(name, data) {
         $.ajax({
-            url: '/CuoiKiWeb_war/UpDownImageAvatarController',
+            url: 'UpDownImageAvatarController',
             type: 'POST',
             data: data,
             cache: false,
@@ -370,11 +370,11 @@
                 },
                 success: function (data) {
                     alert(data);
-                    window.location.href = "https://localhost:8443/CuoiKiWeb_war/accountManagement.jsp";
+                    window.location.href = "accountManagement.jsp";
                 },
                 error: function (data) {
                     alert(data);
-                    window.location.href = "https://localhost:8443/CuoiKiWeb_war/accountManagement.jsp";
+                    window.location.href = "accountManagement.jsp";
                 }
             })
         }
@@ -402,7 +402,7 @@
                     }, success: function (response) {
                         if (response.includes("complete")) {
                             alert("Đổi mật khẩu thành công");
-                            window.location.href = "http://localhost:8080/CuoiKiWeb_war/accountManagement.jsp";
+                            window.location.href = "accountManagement.jsp";
                         } else {
                             alert(response);
                         }

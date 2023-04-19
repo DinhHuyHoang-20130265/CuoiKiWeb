@@ -361,7 +361,7 @@
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteAccountController",
+                        url: "../DeleteAccountController",
                         type: "post",
                         data: {
                             id: id,
@@ -387,7 +387,7 @@
             const search = this.value
             const page = 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadUserListAdmin",
+                url: "../LoadUserListAdmin",
                 type: "post",
                 data: {
                     page: page,
@@ -407,7 +407,7 @@
             const page = parseInt($("#page").text()) - 1;
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadUserListAdmin",
+                    url: "../LoadUserListAdmin",
                     type: "post",
                     data: {
                         page: page,
@@ -427,7 +427,7 @@
             const page = parseInt($("#page").text()) + 1;
             const search = $("#searchUser").val();
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadUserListAdmin",
+                url: "../LoadUserListAdmin",
                 type: "post",
                 data: {
                     page: page,

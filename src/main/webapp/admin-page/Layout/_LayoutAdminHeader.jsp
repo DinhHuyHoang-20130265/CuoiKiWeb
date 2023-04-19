@@ -1,9 +1,8 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.Notify_Admin" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.order.Order" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.OrderService" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.NotifyService" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
@@ -29,7 +28,7 @@
         <ul class="nav-profile">
             <li class="notifications new">
                 <%List<Notify_Admin> list = NotifyService.getInstance().getAllNotify();%>
-                <a data-toggle="dropdown">
+                <a data-toggle="dropdown" style="cursor: pointer">
                     <i class="fa fa-bell-o"></i>
                     <sup>
                         <span class="counter"><%=list != null ? list.size() : "0"%></span>
@@ -41,9 +40,11 @@
                         <% if (list != null) {
                             for (Notify_Admin notify : list) {%>
                         <li>
-                            <a class="notification-item">
+                            <a class="notification-item"
+                               href="./order-details.jsp?id=<%=notify.getOrder_id()%>">
                                 <div class="img-col">
-                                    <div class="img" style="background-image: url('http://localhost:8080/CuoiKiWeb_war/admin-page/assets/faces/8.jpg')">
+                                    <div class="img"
+                                         style="background-image: url('http://localhost:8080/CuoiKiWeb_war/admin-page/assets/faces/8.jpg')">
                                     </div>
                                 </div>
                                 <div class="body-col">
@@ -72,7 +73,7 @@
                     <span class="name"> <%=admin.getUsername()%> </span>
                 </a>
                 <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <a class="dropdown-item" href="/CuoiKiWeb_war/LogoutAdminController">
+                    <a class="dropdown-item" href="../LogoutAdminController">
                         <i class="fa fa-power-off icon"></i> Đăng xuất </a>
                     <a class="dropdown-item" href="profile.jsp">
                         <i class="fa fa-user icon"></i> Thông tin tài khoản </a>

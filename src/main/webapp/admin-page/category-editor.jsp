@@ -257,7 +257,7 @@
         const status = $("#select-status").find(":selected").val();
         const content = CKEDITOR.instances.editor.getData();
         $.ajax({
-            url: "/CuoiKiWeb_war/EditInsertCategoryController",
+            url: "../EditInsertCategoryController",
             type: "GET",
             data: {
                 id: id,

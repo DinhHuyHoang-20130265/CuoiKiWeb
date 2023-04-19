@@ -472,7 +472,7 @@
                 alert("Đơn hàng hiện đã bị xóa, hãy khôi phục để có thể cập nhật đơn hàng")
             } else {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/UpdateOrderStatus",
+                    url: "../UpdateOrderStatus",
                     type: "post",
                     data: {
                         id: id
@@ -494,7 +494,7 @@
             alert("Đơn hàng hiện đã bị xóa, hãy khôi phục để có thể cập nhật đơn hàng")
         } else {
             $.ajax({
-                url: "/CuoiKiWeb_war/UpdateDeliveryStatus",
+                url: "../UpdateDeliveryStatus",
                 type: "post",
                 data: {
                     id: id,
@@ -540,7 +540,7 @@
             alert("Đơn hàng hiện đã bị xóa, hãy khôi phục để có thể cập nhật đơn hàng")
         } else {
             $.ajax({
-                url: "/CuoiKiWeb_war/UpdatePaymentStatus",
+                url: "../UpdatePaymentStatus",
                 type: "post",
                 data: {
                     id: id

@@ -289,7 +289,7 @@
             return false;
         }
         $.ajax({
-            url: "/CuoiKiWeb_war/EditInsertPromotionController",
+            url: "../EditInsertPromotionController",
             type: "GET",
             data: {
                 id: id,
