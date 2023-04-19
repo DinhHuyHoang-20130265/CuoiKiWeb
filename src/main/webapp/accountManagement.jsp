@@ -319,9 +319,6 @@
             cities.options[cities.options.length] = new Option(x.Name, x.Id);
         }
         cities.onchange = function () {
-            // console.log(this.value);
-            // console.log(cities)
-            // console.log(cityValue);
             districts.length = 1;
             wards.length = 1;
             if(this.value !== ""){
@@ -460,7 +457,6 @@
         const email = $("#email").val();
         const phone_number = $("#phone_number").val();
         const filename = $("#fileName").val();
-        console.log(cityValue);
 
         if (full_name == null || email == null || address == null || phone_number == null) {
             alert("Không được để trống các trường");
