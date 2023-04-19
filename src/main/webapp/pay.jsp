@@ -172,9 +172,11 @@
                                     <div class="fieldset-address form-group">
                                         <input type="text" class="error" value="" style="display: none">
                                         <label for="diachi" class="form-label">Địa chỉ</label>
-                                        <input id="diachi" type="text" class="form-control" style="display: none">
-                                        <form>
-                                            <section id="thongtin-diachi" >
+                                        <input id="diachi" type="text" class="form-control" value="<%=userInformation.getAddress()%>"
+                                                                           style="margin-bottom: 8px"
+                                               readonly>
+                                        <div id="update-info" style="display: none">
+                                            <section id="thongtin" >
                                                 <select id="city" class="form-control selection">
                                                     <option value="" selected>Chọn tỉnh thành</option>
                                                 </select>
@@ -185,10 +187,11 @@
                                                     <option value="" selected>Chọn phường xã</option>
                                                 </select>
                                             </section>
-                                            <label for="sonha" class="label-min">Số nhà</label>
-                                            <input id="sonha" type="text" value="<%=userInformation.getAddress() != null ? userInformation.getAddress(): ""%>" class="form-control" placeholder="Điền số nhà">
+                                            <label for="sonha" class="label-min">Đường và số nhà</label>
+                                            <input id="sonha" type="text" value="" class="form-control" placeholder="Điền số nhà">
                                             <span class="form-message"> </span>
-                                        </form>
+                                        </div>
+                                        <button id="adjust-info">Chỉnh sửa thông tin</button>
                                     </div>
                                     <%--                                    <%} %>--%>
                                     <div class="fieldset-name form-group">
@@ -359,6 +362,24 @@
     }
 </script>
 <script>
+    const addressInfo = $('#diachi').val();
+    const addressParts = addressInfo.split(", ");
+    const houseNumber1 = addressParts[0];
+    const ward1 = addressParts[1];
+    const district1 = addressParts[2];
+    const city1 = addressParts[3];
+    if (addressInfo === "") {
+        $("#sonha").val("null");
+    } else {
+        $("#sonha").val(houseNumber1);
+    }
+    console.log(addressInfo)
+    $("#adjust-info").click(function (event){
+        event.preventDefault();
+        $("#update-info").css("display","block");
+    });
+</script>
+<script>
     Validator({
         form: '#form-2',
         formGroupSelector: '.form-group',
@@ -380,8 +401,9 @@
         const district = $("#district option:selected").text();
         const ward = $("#ward option:selected").text();
         const houseNumb = $("#sonha").val();
-        const address = houseNumb + ", " + ward + ", " + district + ", " + city;
-        // const address = $("#diachi").val(addressInfo);
+        const addressInfo = houseNumb + ", " + ward + ", " + district + ", " + city;
+        const address = $("#diachi").val();
+        console.log(address)
         //
         const receive_name = $("#hoten").val();
         const email = $("#email").val();
@@ -407,8 +429,6 @@
             alert("Bạn cần điền số điện thoại nhận hàng")
             return false;
         }
-        console.log(address);
-        // console.log(addressInfo);
         $.ajax({
             url: "CheckoutController",
             type: "post",
@@ -432,7 +452,7 @@
                 alert(data);
             }
         })
-    })
+    });
 </script>
 </body>
 </html>

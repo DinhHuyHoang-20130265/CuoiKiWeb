@@ -134,14 +134,13 @@
 <%--                                   value="<%=information.getAddress()%>">--%>
 <%--                            <span class="form-message"></span>--%>
 <%--                        </div>--%>
-<%--                   TESTING     //--%>
                         <div class="fieldset-address form-group">
                             <input type="text" class="error" value="" style="display: none">
                             <label for="diachi" class="form-label">Địa chỉ</label>
                             <input id="diachi" type="text" class="form-control" value="<%=information.getAddress()%>"
 <%--                                   style="display: none" --%>
                                    readonly>
-                            <form>
+                            <div id="update-info" style="display: none">
                                 <section id="thongtin-diachi" >
                                     <select id="city" class="form-control selection">
                                         <option value="" selected>Chọn tỉnh thành</option>
@@ -153,12 +152,12 @@
                                         <option value="" selected>Chọn phường xã</option>
                                     </select>
                                 </section>
-                                <label for="sonha" class="label-min">Số nhà</label>
-                                <input id="sonha" type="text" value="<%=information.getAddress() != null ? information.getAddress(): ""%>" class="form-control" placeholder="Điền số nhà">
+                                <label for="sonha" class="label-min">Đường và số nhà</label>
+                                <input id="sonha" type="text" value="" class="form-control" placeholder="Điền số nhà">
                                 <span class="form-message"> </span>
-                            </form>
+                            </div>
+                            <button id="adjust-info">Chỉnh sửa thông tin</button>
                         </div>
-<%--                  TESTING      //--%>
                         <div class="form-group">
                             <label for="phone_number" class="form-label">Số điện thoại</label>
                             <input id="phone_number" name="phone_number" type="text" placeholder="VD: 089..."
@@ -320,11 +319,13 @@
             cities.options[cities.options.length] = new Option(x.Name, x.Id);
         }
         cities.onchange = function () {
+            // console.log(this.value);
+            // console.log(cities)
+            // console.log(cityValue);
             districts.length = 1;
             wards.length = 1;
             if(this.value !== ""){
                 const result = data.filter(n => n.Id === this.value);
-
                 for (const k of result[0].Districts) {
                     districts.options[districts.options.length] = new Option(k.Name, k.Id);
                 }
@@ -343,6 +344,31 @@
     }
 </script>
 <script>
+    function getSelectedOptionValue(selectElement, selectedText) {
+        const options = selectElement.options;
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].text.trim() === selectedText.trim()) {
+                return options[i].value;
+            }
+        }
+        return null;
+    }
+    const addressInfo = $('#diachi').val();
+    const addressParts = addressInfo.split(", ");
+    const houseNumber1 = addressParts[0];
+    const ward1 = addressParts[1];
+    const district1 = addressParts[2];
+    const city1 = addressParts[3];
+    if (addressInfo === "") {
+        $("#sonha").val("null");
+    } else {
+        $("#sonha").val(houseNumber1);
+
+    }
+    $("#adjust-info").click(function (event){
+        event.preventDefault();
+        $("#update-info").css("display","block");
+    });
     function hienThiDoiMatKhau() {
         $(".detail__confirm-password").removeClass("undisplay");
         $(".detail__confirm-password").addClass("display");
@@ -372,7 +398,6 @@
     function hienThiDonHang() {
         $(".detail__my-order").addClass("display");
         $(".detail__my-order").removeClass("undisplay");
-
         $(".detial__my-profile").addClass("undisplay");
         $(".detial__my-profile").removeClass("display");
         $(".my-profile-title").removeClass("active");
@@ -430,12 +455,13 @@
         const ward = $("#ward option:selected").text();
         const houseNumb = $("#sonha").val();
         const address = houseNumb + ", " + ward + ", " + district + ", " + city;
-        //
+
         const full_name = $("#full_name").val();
         const email = $("#email").val();
-        // const address = $("#address").val();
         const phone_number = $("#phone_number").val();
         const filename = $("#fileName").val();
+        console.log(cityValue);
+
         if (full_name == null || email == null || address == null || phone_number == null) {
             alert("Không được để trống các trường");
         } else {
