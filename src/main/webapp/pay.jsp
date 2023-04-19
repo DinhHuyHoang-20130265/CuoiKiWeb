@@ -362,6 +362,7 @@
     }
 </script>
 <script>
+    // lấy địa chỉ ra rồi chia ra từng thành phần
     const addressInfo = $('#diachi').val();
     const addressParts = addressInfo.split(", ");
     const houseNumber1 = addressParts[0];
@@ -403,6 +404,9 @@
         const houseNumb = $("#sonha").val();
         const addressInfo = houseNumb + ", " + ward + ", " + district + ", " + city;
         const address = $("#diachi").val();
+        if(address === null || address === ""){
+            address.val(addressInfo);
+        }
         console.log(address)
         //
         const receive_name = $("#hoten").val();
@@ -432,8 +436,6 @@
         $.ajax({
             url: "CheckoutController",
             type: "post",
-            processData: false,
-            contentType: false,
             data: {
                 address: address,
                 receive_name: receive_name,
