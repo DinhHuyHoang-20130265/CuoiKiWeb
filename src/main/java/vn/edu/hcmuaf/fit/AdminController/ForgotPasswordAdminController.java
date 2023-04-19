@@ -18,12 +18,11 @@ public class ForgotPasswordAdminController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-
+    /*
+       Quên mật khẩu admin - Đinh Huy Hoàng 20130265
+    */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        /*
-        Quên mật khẩu admin Đinh Huy Hoàng - 20130265
-         */
         //  Tạo sẵn 1 thằng forgot password
         //  Trước tiên cứ lấy từ session ra, nếu không có thì tạo mới
         ForgotPasswordStatus forgotPasswordAdmin = (ForgotPasswordStatus) request.getSession().getAttribute("forgotPasswordAdmin");

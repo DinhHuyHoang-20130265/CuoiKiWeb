@@ -2,16 +2,16 @@ package vn.edu.hcmuaf.fit.IndexController;
 
 import vn.edu.hcmuaf.fit.DAO.OrderDAO;
 import vn.edu.hcmuaf.fit.beans.MailConfiguration;
-import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.beans.cart.Cart;
 import vn.edu.hcmuaf.fit.beans.cart.CartKey;
-import vn.edu.hcmuaf.fit.beans.order.Order;
 import vn.edu.hcmuaf.fit.services.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @WebServlet(name = "CheckoutController", value = "/CheckoutController")
 public class CheckoutController extends HttpServlet {
@@ -20,6 +20,9 @@ public class CheckoutController extends HttpServlet {
         doPost(request, response);
     }
 
+    /*
+    Thanh toán - Nguyễn Huy Hiệp 20130258
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ord_id = new OrderDAO().generateIdOrder();
@@ -42,7 +45,7 @@ public class CheckoutController extends HttpServlet {
             String prod_color = p.getColor();
             String prod_size = p.getSize();
             int quantity = cart.getData().get(p).getQuantity_cart();
-            double price = 0;
+            double price;
             if (cart.getData().get(p).getSales() != null) {
                 price = cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate());
             } else {
@@ -60,6 +63,7 @@ public class CheckoutController extends HttpServlet {
                 OrderDetailService.getInstance().insertOrderDetail(ord_id, prod_id, prod_name, prod_color, prod_size, quantity, price);
             }
         }
+        NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));
         if (check) {
             StringBuilder content = new StringBuilder();
             for (CartKey p : cart.getData().keySet()) {
@@ -67,20 +71,23 @@ public class CheckoutController extends HttpServlet {
                 String prod_color = p.getColor();
                 String prod_size = p.getSize();
                 int quantity = cart.getData().get(p).getQuantity_cart();
-                double price = 0;
+                double price;
+                int sale = 0;
                 if (cart.getData().get(p).getSales() != null) {
                     price = (cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate())) * quantity;
+                    sale = cart.getData().get(p).getSales().getDiscount_rate();
                 } else {
                     price = cart.getData().get(p).getPrice() * quantity;
                 }
-                content.append("<p style=\"padding: 0;font-size: 15px;color: mediumvioletred;font-family:sans-serif;margin-left:80px\">").append(prod_name).append(" - ").append(prod_color).append(" - ").append(prod_size).append(" - ").append(quantity).append(" - ").append(price).append(" đ</p>");
+                content.append("<p style=\"padding: 0;font-size: 15px;color: mediumvioletred;font-family:sans-serif;margin-left:80px\">").append(prod_name).append(" (-").append(sale).append("%) - Màu: ").append(prod_color).append(" - Size: ").append(prod_size).append(" - SL: ").append(quantity).append(" - Tạm tính: ").append(format.format(price)).append(" đ</p>");
             }
             String text = "<p style=\"padding: 0;font-size: 17px;color: #707070;font-family:sans-serif\"> P&TSHOP</p>" +
                     "<h1 style=\"padding: 0;font-size: 41px;color: #2672ec;font-family:sans-serif\">Chi tiết đơn hàng</h1>" +
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Đơn hàng mã " + ord_id + " của bạn đã được tạo</p>" +
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chi tiết đơn hàng:</p>" +
                     content.toString() +
-                    "<p style=\"padding: 0;font-weight: 700;font-size: 15px;color: #2a2a2a;font-family:sans-serif\">Tổng: " + cart.total() + " đ</p>" +
+                    "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Phí ship:   " + format.format(30000) + "đ</p>" +
+                    "<p style=\"padding: 0;font-weight: 700;font-size: 15px;color: #2a2a2a;font-family:sans-serif\">Tổng: " + format.format(total) + "đ</p>" +
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Bạn có thể xem lại/theo dõi đơn hàng tại trang thông tin tài khoản.</p>" +
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Shop sẽ liên hệ lại với bạn sớm nhất để xác nhận thanh toán, cảm ơn bạn đã mua hàng tại Shop</p>" +
                     "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chúc bạn một ngày mới vui vẻ</p>" +

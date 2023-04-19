@@ -84,7 +84,7 @@
         <div class="row">
             <div class="col-4">
                 <div class="heading">
-                    <img src="<%=UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() != null ? UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() : "./assets/img/product/noavatar.png"%>"
+                    <img src="<%=(UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() != null && !UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link().equals("null") && !UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link().equals(""))? UserInformationService.getInstance().getUserInfo(user.getId()).getAvatar_link() : "./assets/img/product/noavatar.png"%>"
                          alt="" class="heading-img">
                     <span class="heading-name_acc"><%=UserInformationService.getInstance().getUserInfo(user.getId()).getFull_name()%></span>
                 </div>
@@ -430,7 +430,7 @@
 
     function postFilesData(name, data) {
         $.ajax({
-            url: '/CuoiKiWeb_war/UpDownImageAvatarController',
+            url: 'UpDownImageAvatarController',
             type: 'POST',
             data: data,
             cache: false,
@@ -477,9 +477,11 @@
                 },
                 success: function (data) {
                     alert(data);
+                    window.location.href = "accountManagement.jsp";
                 },
                 error: function (data) {
                     alert(data);
+                    window.location.href = "accountManagement.jsp";
                 }
             })
         }
@@ -495,7 +497,7 @@
             if (password_new == null || password_confirm == null || password_new.length < 6 || password_confirm < 6) {
                 alert("Không được để trống các trường");
             } else if (password_new !== password_confirm) {
-                alert("Mật khẩu mơí và nhập lại không giống nhau");
+                alert("Mật khẩu mớí và nhập lại không giống nhau");
             } else {
                 $.ajax({
                     url: "ChangePasswordController",
@@ -507,7 +509,7 @@
                     }, success: function (response) {
                         if (response.includes("complete")) {
                             alert("Đổi mật khẩu thành công");
-                            window.location.href = "http://localhost:8080/CuoiKiWeb_war/Login.jsp";
+                            window.location.href = "accountManagement.jsp";
                         } else {
                             alert(response);
                         }

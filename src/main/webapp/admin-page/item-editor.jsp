@@ -85,8 +85,8 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("product")) {
-                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
+            if (role.getTable().equals("product") || role.getTable().equals("admin")) {
+                if (role.getPermission().equals("admin") || role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
                     check = true;
             }
         }
@@ -581,7 +581,7 @@
         })
         if (bool === false) {
             $.ajax({
-                url: '/CuoiKiWeb_war/UpDownImageProductController',
+                url: '../UpDownImageProductController',
                 type: 'POST',
                 data: data,
                 cache: false,
@@ -592,7 +592,7 @@
                     //success
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    $("#container" + id).prepend("<img class='img-product-review' src='http://localhost:8080/CuoiKiWeb_war/assets/imgProduct/images/" + name + "' style='height: 100%'>");
+                    $("#container" + id).prepend("<img class='img-product-review' src='../assets/imgProduct/images/" + name + "' style='height: 100%'>");
                     $(".images-container #container" + id).prepend(`<div class="controls">
                                             <a id="remove` + id + `" class="control-btn remove" style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
                                                 <i class="fa fa-trash-o"></i>
@@ -653,7 +653,7 @@
         const removed = $("#deletedFile").val();
         const oldImg = removed.substring(0, removed.length - 1);
         $.ajax({
-            url: "/CuoiKiWeb_war/EditInsertProductController",
+            url: "../EditInsertProductController",
             type: "GET",
             data: {
                 userid: userID,

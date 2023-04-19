@@ -16,7 +16,9 @@ public class EditInsertProductController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-
+    /*
+       Thêm/sửa product trong admin - Đinh Huy Hoàng 20130265
+    */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");

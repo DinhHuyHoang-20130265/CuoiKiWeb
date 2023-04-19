@@ -17,7 +17,9 @@ public class LoadReviewListAdminController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
     }
-
+    /*
+    Load more danh sách review trong admin - Nguyễn Minh Hiếu 20130261
+    */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = request.getParameter("page");

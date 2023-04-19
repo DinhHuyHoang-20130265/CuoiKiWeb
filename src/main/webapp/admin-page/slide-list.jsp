@@ -1,9 +1,5 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.news.News" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.NewsService" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.news.NewsComment" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.NewsCommentService" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.SlideService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.slide.Slide" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
@@ -169,7 +165,7 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("slider")) {
+            if (role.getTable().equals("slider") || role.getTable().equals("admin")) {
                 check = true;
                 break;
             }
@@ -298,7 +294,7 @@
                                             <ul class="item-actions-list">
                                                 <%
                                                     for (AdminRole role : admin.getRole()) {
-                                                        if (role.getTable().equals("slider") && role.getPermission().equals("delete")) {
+                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("slider") && role.getPermission().equals("delete")) {
                                                 %>
                                                 <li>
                                                     <a class="remove" id="remove<%=list.get(i).getSlide_id()%>"
@@ -309,7 +305,7 @@
                                                 </li>
                                                 <%
                                                     }
-                                                    if (role.getTable().equals("slider") && role.getPermission().equals("update")) {
+                                                    if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("slider") && role.getPermission().equals("update")) {
                                                 %>
                                                 <li>
                                                     <a class="edit"
@@ -436,7 +432,7 @@
                 $("#yes").click(function () {
                     console.log("deleted")
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteSlideControllerAdmin",
+                        url: "../DeleteSlideControllerAdmin",
                         type: "post",
                         data: {
                             id: id,
@@ -459,7 +455,7 @@
             const page = parseInt($("#page").text()) - 1;
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadListSlideController",
+                    url: "../LoadListSlideController",
                     type: "post",
                     data: {
                         page: page,
@@ -476,7 +472,7 @@
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadListSlideController",
+                url: "../LoadListSlideController",
                 type: "post",
                 data: {
                     page: page,

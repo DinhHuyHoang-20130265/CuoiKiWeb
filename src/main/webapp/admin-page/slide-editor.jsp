@@ -89,8 +89,8 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("slider")) {
-                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
+            if (role.getTable().equals("slider") || role.getTable().equals("admin")) {
+                if (role.getPermission().equals("admin") || role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
                     check = true;
             }
         }
@@ -281,7 +281,7 @@
 
     function postFilesData(name, data) {
         $.ajax({
-            url: '/CuoiKiWeb_war/UpDownImageAvatarController',
+            url: '../UpDownImageAvatarController',
             type: 'POST',
             data: data,
             cache: false,
@@ -292,7 +292,7 @@
                 //success
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $("#container").prepend("<img class='img-product-review' src='http://localhost:8080/CuoiKiWeb_war/assets/img/logo/" + name + "' style='height: 100%'>");
+                $("#container").prepend("<img class='img-product-review' src='../assets/img/logo/" + name + "' style='height: 100%'>");
                 $(".images-container #container").prepend(`<div class="controls">
                                             <a id="removeImg" class="control-btn remove" style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
                                                 <i class="fa fa-trash-o"></i>
@@ -347,7 +347,7 @@
         else
             nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);
         $.ajax({
-            url: "/CuoiKiWeb_war/EditInsertSlideController",
+            url: "../EditInsertSlideController",
             type: "GET",
             data: {
                 id: id,

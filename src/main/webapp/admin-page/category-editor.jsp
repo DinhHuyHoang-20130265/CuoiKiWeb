@@ -2,10 +2,6 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.product.ProductImage" %>
-<%@ page import="java.util.Arrays" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%--
@@ -90,8 +86,8 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("category")) {
-                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
+            if (role.getTable().equals("category") || role.getTable().equals("admin")) {
+                if (role.getPermission().equals("admin") || role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
                     check = true;
             }
         }
@@ -231,15 +227,14 @@
 </script>
 <script>
     $('.form-control').on('change', function () {
-        if ($(this).val() == 'other') {
+        if ($(this).val() === 'other') {
             $(this).after('<input placeholder="Nhập..." type="text" name="' + $(this).attr('name') + '" class="otherInput form-control boxed" style="width:50% !important; margin-top:5px;border: 1px solid #ced4da;border-radius: 0.25rem;"/>');
         } else {
             if ($(this).next().is('input.otherInput')) {
                 $(this).next().remove();
             }
-            ;
+
         }
-        ;
     });
 </script>
 <script>
@@ -262,7 +257,7 @@
         const status = $("#select-status").find(":selected").val();
         const content = CKEDITOR.instances.editor.getData();
         $.ajax({
-            url: "/CuoiKiWeb_war/EditInsertCategoryController",
+            url: "../EditInsertCategoryController",
             type: "GET",
             data: {
                 id: id,

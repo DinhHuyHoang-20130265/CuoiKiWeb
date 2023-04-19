@@ -130,8 +130,8 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("user")) {
-                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
+            if (role.getTable().equals("user") || role.getTable().equals("admin")) {
+                if (role.getPermission().equals("admin") || role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
                     check = true;
             }
         }
@@ -190,7 +190,6 @@
                         <label class="col-sm-2 form-control-label text-xs-right"> Password: </label>
                         <div class="col-sm-10">
                             <input
-                                    value="<%=request.getParameter("id") != null ? AccountService.getInstance().getAccountById(request.getParameter("id")).getPass() : ""%>"
                                     type="password" name="password" id="password" style="width:200px"
                                     class="form-control boxed"
                                     placeholder="Nhập password">
@@ -205,12 +204,19 @@
                                     placeholder="Nhập...">
                         </div>
                     </div>
+                    <% boolean isAdmin = false;
+                        for (AdminRole role : admin.getRole()) {
+                            if (role.getTable().equals("admin") && role.getPermission().equals("admin")) {
+                                isAdmin = true;
+                                break;
+                            }
+                        }%>
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Loại tài khoản </label>
                         <div class="col-sm-10" style="">
                             <select class="c-select form-control" name="select-cate" id="select-cate"
                                     onfocus='this.size=2;' onblur='this.size=1;'
-                                    onchange='this.size=1; this.blur();'>
+                                    onchange='this.size=1; this.blur();' <%=(isAdmin) ? "" : "disabled"%> >
                                 <% if (request.getParameter("id") != null) {
                                     if (AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1) { %>
                                 <option value="0">Tài khoản người dùng
@@ -264,7 +270,7 @@
                         </div>
                     </div>
                     <div class="form-group row" id="role"
-                         style="display: <%=(request.getParameter("id") != null && AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1) ? "flex" : "none"%>">
+                         style="display: <%=(request.getParameter("id") != null && AccountService.getInstance().getAccountRole(request.getParameter("id")) == 1 && isAdmin) ? "flex" : "none"%>">
                         <label class="col-sm-2 form-control-label text-xs-right"> Vai trò: </label>
                         <div class="col-sm-10" style="display: block">
                             <% if (request.getParameter("id") != null) {
@@ -342,7 +348,7 @@
                                     </div>
                                 </div>
                                 <% } else {
-                                    if (UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAvatar_link() == null) { %>
+                                    if (UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAvatar_link() == null || UserInformationService.getInstance().getUserInfo(request.getParameter("id")).getAvatar_link().equals("")) { %>
                                 <div class="image-container">
                                     <div class="image" id="container">
                                         <input type="file" id="image" name="files" class="input-file"/>
@@ -558,7 +564,7 @@
 
     function postFilesData(name, data) {
         $.ajax({
-            url: '/CuoiKiWeb_war/UpDownImageAvatarController',
+            url: '../UpDownImageAvatarController',
             type: 'POST',
             data: data,
             cache: false,
@@ -569,7 +575,7 @@
                 //success
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                $("#container").prepend("<img class='img-product-review' src='http://localhost:8080/CuoiKiWeb_war/assets/img/logo/" + name + "' style='height: 100%'>");
+                $("#container").prepend("<img class='img-product-review' src='../assets/img/logo/" + name + "' style='height: 100%'>");
                 $(".images-container #container").prepend(`<div class="controls">
                                             <a id="removeImg" class="control-btn remove" style="display: flex !important;width: 136px;justify-content: center;align-items: center;">
                                                 <i class="fa fa-trash-o"></i>
@@ -631,12 +637,14 @@
         const removed = $("#deletedFile").val();
         const oldImg = removed.substring(0, removed.length - 1);
         let nameFile = $(".img-product-review").attr("src");
-        if (nameFile.indexOf("\\") != -1)
-            nameFile = nameFile.substring(nameFile.lastIndexOf("\\") + 1);
-        else
-            nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);
+        if (nameFile != null) {
+            if (nameFile.indexOf("\\") !== -1)
+                nameFile = nameFile.substring(nameFile.lastIndexOf("\\") + 1);
+            else
+                nameFile = nameFile.substring(nameFile.lastIndexOf("/") + 1);
+        }
         $.ajax({
-            url: "/CuoiKiWeb_war/EditInsertAccountController",
+            url: "../EditInsertAccountController",
             type: "get",
             data: {
                 userId: userId,

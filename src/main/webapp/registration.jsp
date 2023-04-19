@@ -125,7 +125,7 @@
                     </div>
                     <div class="form-group">
                         <label for="email" class="form-label">Email</label>
-                        <input id="email" name="email" type="text" placeholder="VD: email@domain.com"
+                        <input id="email" name="email" type="email" placeholder="VD: email@domain.com"
                                class="form-control">
                         <span class="form-message"></span>
                     </div>
@@ -249,7 +249,7 @@
             },
             success : function (response) {
                 if (response.includes("success"))
-                    window.location.href = "http://localhost:8080/CuoiKiWeb_war/Login.jsp"
+                    window.location.href = "../Login.jsp"
                 else {
                     $("#form-1").html(response);
                 }

@@ -26,8 +26,7 @@
                     if (user.getId().equals(comment.getReview_by())) {
             %>
             <a class="remove" id="remove<%=comment.getReview_id()%>"
-               style="cursor: pointer; color: darkred; margin-left: 440px; margin-top: 3px; font-size: 12px">Xóa comment
-                của bạn</a>
+               style="cursor: pointer; color: darkred; margin-left: 440px; margin-top: 3px; font-size: 12px"><i class="fa fa-trash"></i></a>
             <% }
             } %>
         </div>

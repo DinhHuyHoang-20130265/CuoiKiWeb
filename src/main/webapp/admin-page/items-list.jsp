@@ -47,7 +47,7 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("product")) {
+            if (role.getTable().equals("product") || role.getTable().equals("admin")) {
                 check = true;
                 break;
             }
@@ -220,7 +220,7 @@
                                             <ul class="item-actions-list">
                                                 <%
                                                     for (AdminRole role : admin.getRole()) {
-                                                        if (role.getTable().equals("product") && role.getPermission().equals("delete")) {
+                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("product") && role.getPermission().equals("delete")) {
                                                             if (ProductService.getInstance().isProductInOrder(p.getId()) == 0) { %>
                                                 <li>
                                                     <a class="remove" href="#" data-toggle="modal"
@@ -231,7 +231,7 @@
                                                 <%
                                                         }
                                                     }
-                                                    if (role.getTable().equals("product") && role.getPermission().equals("update")) {
+                                                    if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("product") && role.getPermission().equals("update")) {
                                                 %>
                                                 <li>
                                                     <a class="edit" href="item-editor.jsp?id=<%=p.getId()%>">
@@ -342,7 +342,7 @@
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteProductAdminController",
+                        url: "../DeleteProductAdminController",
                         type: "post",
                         data: {
                             id: id,
@@ -366,7 +366,7 @@
         const orderby = $("#filter").find(':selected').val();
         const search = $("#searchProduct").val();
         $.ajax({
-            url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+            url: "../LoadProductListAdminProduct",
             type: "post",
             data: {
                 page: page,
@@ -393,7 +393,7 @@
             const page = 1;
             const orderby = $("#filter").find(':selected').val();
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                url: "../LoadProductListAdminProduct",
                 type: "post",
                 data: {
                     page: page,
@@ -415,7 +415,7 @@
             const orderby = $("#filter").find(':selected').val();
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                    url: "../LoadProductListAdminProduct",
                     type: "post",
                     data: {
                         page: page,
@@ -437,7 +437,7 @@
             const orderby = $("#filter").find(':selected').val();
             const search = $("#searchProduct").val();
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadProductListAdminProduct",
+                url: "../LoadProductListAdminProduct",
                 type: "post",
                 data: {
                     page: page,

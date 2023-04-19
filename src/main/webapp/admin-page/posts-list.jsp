@@ -38,7 +38,7 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("news")) {
+            if (role.getTable().equals("news") || role.getTable().equals("admin")) {
                 check = true;
                 break;
             }
@@ -178,7 +178,7 @@
                                             <ul class="item-actions-list">
                                                 <%
                                                     for (AdminRole role : admin.getRole()) {
-                                                        if (role.getTable().equals("product") && role.getPermission().equals("delete")) {
+                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("product") && role.getPermission().equals("delete")) {
                                                 %>
                                                 <li>
                                                     <a class="remove" id="remove<%=list.get(i).getNews_id()%>"
@@ -189,7 +189,7 @@
                                                 </li>
                                                 <%
                                                     }
-                                                    if (role.getTable().equals("product") && role.getPermission().equals("update")) {
+                                                    if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("product") && role.getPermission().equals("update")) {
                                                 %>
                                                 <li>
                                                     <a class="edit" id="edit"
@@ -300,7 +300,7 @@
                 $("#yes").click(function () {
                     console.log("deleted")
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteNewsControllerAdmin",
+                        url: "../DeleteNewsControllerAdmin",
                         type: "post",
                         data: {
                             id: id,
@@ -324,7 +324,7 @@
             const pageNumb = parseInt($("#pageNumb").text()) - 1;
             if (pageNumb > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadNewsListAdminController",
+                    url: "../LoadNewsListAdminController",
                     type: "post",
                     data: {
                         pageNumb: pageNumb
@@ -343,7 +343,7 @@
             e.preventDefault();
             const pageNumb = parseInt($("#pageNumb").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadNewsListAdminController",
+                url: "../LoadNewsListAdminController",
                 type: "post",
                 data: {
                     pageNumb: pageNumb

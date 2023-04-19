@@ -14,7 +14,9 @@ public class ProductReviewController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
-
+    /*
+    Review sản phẩm trong chi tiết sản phẩm - Nguyễn Huy Hiệp 20130258
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");

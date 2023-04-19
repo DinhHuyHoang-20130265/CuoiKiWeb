@@ -58,7 +58,7 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("order")) {
+            if (role.getTable().equals("order") || role.getTable().equals("admin")) {
                 check = true;
                 break;
             }
@@ -79,6 +79,9 @@
                             <h3 class="title">
                                 Danh sách đơn hàng
                             </h3>
+                            <br>
+                            <a href="deleted-orders.jsp" class="btn btn-primary btn-sm rounded-s"> Đơn hàng đã xóa
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -261,8 +264,7 @@
                                                 <div class="d-flex">
                                                     <div class="status-component">
                                                         <%if (order.getIsCanceled() == 0) { %>
-                                                        <span
-                                                                class="circle-status mr-2 circle-status-cancel"></span><span
+                                                        <span class="circle-status mr-2 circle-status-cancel"></span><span
                                                             class="badges--order-status-cancel">
                                                                     Đã Hủy</span>
                                                         <% } else { %>
@@ -279,16 +281,16 @@
                                             <td>
                                                 <%
                                                     for (AdminRole role : admin.getRole()) {
-                                                        if (role.getTable().equals("order") && role.getPermission().equals("delete")) {
-                                                            if (order.getIsCanceled() == 1) { %>
+                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("order") && role.getPermission().equals("delete")) {
+                                                %>
                                                 <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
                                                    data-target="#confirm-modal"
                                                    id="remove<%=order.getOrd_id()%>">
                                                     <i class="fa fa-trash" style="color: red"></i>
                                                 </a>
-                                                <% }
-                                                }
-                                                }
+                                                <%
+                                                        }
+                                                    }
                                                 %>
                                             </td>
                                         </tr>
@@ -325,7 +327,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Bạn có chắc muốn hủy đơn hàng này ?</p>
+                        <p>Bạn có chắc muốn xóa đơn hàng này ?</p>
                         <p>Sau khi hủy sẽ không thể hoàn tác</p>
                     </div>
                     <div class="modal-footer">
@@ -389,7 +391,7 @@
                 e.preventDefault();
                 $("#yesButton").click(function () {
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteOrderController",
+                        url: "../DeleteOrderController",
                         type: "post",
                         data: {
                             id: id,
@@ -413,7 +415,7 @@
         const order = $("#filter").find(':selected').val();
         const search = $("#searchUser").val();
         $.ajax({
-            url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+            url: "../LoadOrderListAdmin",
             type: "post",
             data: {
                 page: page,
@@ -439,7 +441,7 @@
             const order = $("#filter").find(':selected').val();
             const page = 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+                url: "../LoadOrderListAdmin",
                 type: "post",
                 data: {
                     page: page,
@@ -460,7 +462,7 @@
             const order = $("#filter").find(':selected').val();
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+                    url: "../LoadOrderListAdmin",
                     type: "post",
                     data: {
                         page: page,
@@ -481,7 +483,7 @@
             const search = $("#searchUser").val();
             const order = $("#filter").find(':selected').val();
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadOrderListAdmin",
+                url: "../LoadOrderListAdmin",
                 type: "post",
                 data: {
                     page: page,

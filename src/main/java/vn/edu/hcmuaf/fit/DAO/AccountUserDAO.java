@@ -117,7 +117,7 @@ public class AccountUserDAO {
         JDBIConnector.get().withHandle(handle -> {
             handle.createUpdate("UPDATE user_account SET username = ?, pass = ?, role = ?, account_status = ? WHERE  id = ?")
                     .bind(0, username)
-                    .bind(1, (pass.equals(password)) ? pass : MD5.md5(password))
+                    .bind(1, (password == null || password.length() < 1) ? pass : MD5.md5(password))
                     .bind(2, Integer.parseInt(role))
                     .bind(3, Integer.parseInt(status))
                     .bind(4, id)
@@ -151,14 +151,14 @@ public class AccountUserDAO {
     }
 
     public String getIdUserByName(String username) {
-        SiteUser Statement = JDBIConnector.get().withHandle(handle ->
+        Optional<String> id = JDBIConnector.get().withHandle(handle ->
                 handle.createQuery("SELECT ua.id" +
                                 " FROM account_information a INNER JOIN user_account ua ON a.id = ua.id WHERE ua.account_status = 1 AND ua.username=? ")
                         .bind(0, username)
-                        .mapToBean(SiteUser.class)
-                        .first()
+                        .mapTo(String.class)
+                        .findFirst()
         );
-        return Statement.getId().toString();
+        return id.orElse(null);
     }
 
     public String getPasswordById(String id) {
@@ -180,7 +180,39 @@ public class AccountUserDAO {
         });
     }
 
+    public SiteUser getUserByEmail(String email) {
+        Optional<SiteUser> user = JDBIConnector.get().withHandle(handle -> handle.createQuery("select a.id, a.username, a.pass,a.role, a.account_status from user_account a inner join account_information ai on a.id = ai.id WHERE ai.email = ?")
+                .bind(0, email)
+                .mapToBean(SiteUser.class)
+                .findFirst()
+        );
+        return user.orElse(null);
+    }
+
+    public void UpdateAdminAccount(String id, String fullname, String email, String password, String address, String phone, String nameFile) {
+        String pass = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT pass from user_account where id= ?")
+                .bind(0, id)
+                .mapTo(String.class)
+                .first());
+        JDBIConnector.get().withHandle(handle -> {
+            handle.createUpdate("UPDATE user_account SET pass = ? WHERE  id = ?")
+                    .bind(0, (password == null || password.length() < 1) ? pass : MD5.md5(password))
+                    .bind(1, id)
+                    .execute();
+            handle.createUpdate("UPDATE account_information SET full_name =?, email = ?, address = ?, phone_number= ?, avatar_link = ?, updated_date = CURDATE(), updated_by = ? WHERE id = ?")
+                    .bind(0, fullname)
+                    .bind(1, email)
+                    .bind(2, address)
+                    .bind(3, phone)
+                    .bind(4, (nameFile == null || nameFile.equals("")) ? "" : "http://localhost:8080/CuoiKiWeb_war/assets/img/logo/" + nameFile)
+                    .bind(5, id)
+                    .bind(6, id)
+                    .execute();
+            return null;
+        });
+    }
+
     public static void main(String[] args) {
-        System.out.println( new AccountUserDAO().getAccountById("user6"));
+        System.out.println(new AccountUserDAO().getAccountById("user6"));
     }
 }

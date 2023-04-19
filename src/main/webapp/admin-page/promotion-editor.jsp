@@ -92,8 +92,8 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("sales")) {
-                if (role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
+            if (role.getTable().equals("sales") || role.getTable().equals("admin")) {
+                if (role.getPermission().equals("admin") || role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
                     check = true;
             }
         }
@@ -251,7 +251,7 @@
 </script>
 <script>
     $('.form-control').on('change', function () {
-        if ($(this).val() == 'other') {
+        if ($(this).val() === 'other') {
             $(this).after('<input placeholder="Nhập..." type="text" name="' + $(this).attr('name') + '" class="otherInput form-control boxed" style="width:50% !important; margin-top:5px;border: 1px solid #ced4da;border-radius: 0.25rem;"/>');
         } else {
             if ($(this).next().is('input.otherInput')) {
@@ -289,7 +289,7 @@
             return false;
         }
         $.ajax({
-            url: "/CuoiKiWeb_war/EditInsertPromotionController",
+            url: "../EditInsertPromotionController",
             type: "GET",
             data: {
                 id: id,
@@ -307,6 +307,9 @@
                 else
                     alert("Cập nhật khuyến mãi thành công");
                 window.location.href = "promotion-list.jsp"
+            },
+            error: function () {
+                alert("Sản phẩm của bạn đã có trong danh sách, vui lòng kiểm tra hoặc xóa khuyến mãi đó để có thể thêm mới")
             }
         })
     })

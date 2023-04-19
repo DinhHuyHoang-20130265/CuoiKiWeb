@@ -33,7 +33,7 @@
                     if (user.getId().equals(comment.getComment_by())) {
             %>
             <a class="remove" id="remove<%=comment.getComment_id()%>"
-               style="cursor: pointer; float: right; color: darkred">Xóa comment của bạn</a>
+               style="cursor: pointer; float: right; color: darkred"><i class="fa fa-trash"></i></a>
             <% }
             } %>
         </div>

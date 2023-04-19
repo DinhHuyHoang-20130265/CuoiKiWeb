@@ -179,7 +179,7 @@
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = false;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("comment")) {
+            if (role.getTable().equals("comment") || role.getTable().equals("admin")) {
                 check = true;
                 break;
             }
@@ -343,7 +343,7 @@
                                             <ul class="item-actions-list">
                                                 <%
                                                     for (AdminRole role : admin.getRole()) {
-                                                        if (role.getTable().equals("comment") && role.getPermission().equals("delete")) {
+                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("comment") && role.getPermission().equals("delete")) {
                                                 %>
                                                 <li>
                                                     <a class="remove" id="remove<%=list.get(i).getReview_id()%>"
@@ -354,7 +354,7 @@
                                                 </li>
                                                 <%
                                                     }
-                                                    if (role.getTable().equals("comment") && role.getPermission().equals("update")) {
+                                                    if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("comment") && role.getPermission().equals("update")) {
                                                 %>
                                                 <li>
                                                     <a class="toggle" id="toggle<%=list.get(i).getReview_id()%>"
@@ -491,7 +491,7 @@
                 const status = $("#status" + id).val();
                 console.log(status);
                 $.ajax({
-                    url: "/CuoiKiWeb_war/StatusReviewControllerAdmin",
+                    url: "../StatusReviewControllerAdmin",
                     type: "post",
                     data: {
                         id: id,
@@ -525,7 +525,7 @@
                 e.preventDefault();
                 $("#yes").click(function () {
                     $.ajax({
-                        url: "/CuoiKiWeb_war/DeleteReviewControllerAdmin",
+                        url: "../DeleteReviewControllerAdmin",
                         type: "post",
                         data: {
                             id: id,
@@ -549,7 +549,7 @@
                 e.preventDefault();
                 const id = $(this).attr("id").substring(4);
                 $.ajax({
-                    url: "/CuoiKiWeb_war/InfoProductReviewController",
+                    url: "../InfoProductReviewController",
                     type: "post",
                     data: {
                         id: id
@@ -568,7 +568,7 @@
             e.preventDefault();
             const id = $(this).attr("id").substring(4);
             $.ajax({
-                url: "/CuoiKiWeb_war/InfoProductReviewController",
+                url: "../InfoProductReviewController",
                 type: "post",
                 data: {
                     id: id
@@ -586,7 +586,7 @@
             const page = parseInt($("#page").text()) - 1;
             if (page > 0) {
                 $.ajax({
-                    url: "/CuoiKiWeb_war/LoadReviewListAdminController",
+                    url: "../LoadReviewListAdminController",
                     type: "post",
                     data: {
                         page: page,
@@ -606,7 +606,7 @@
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
             $.ajax({
-                url: "/CuoiKiWeb_war/LoadReviewListAdminController",
+                url: "../LoadReviewListAdminController",
                 type: "post",
                 data: {
                     page: page,

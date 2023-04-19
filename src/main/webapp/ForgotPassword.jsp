@@ -192,7 +192,7 @@
             },
             success: function (response) {
                 if (response.includes("complete"))
-                    window.location.href = "http://localhost:8080/CuoiKiWeb_war/Login.jsp"
+                    window.location.href = "../Login.jsp"
                 else {
                     $("#content-form").html(response);
                 }

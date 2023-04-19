@@ -128,16 +128,6 @@
                             <% h++;
                                 }
                             %>
-<%--                            <div class="carousel-item">--%>
-<%--                                <img src="./assets/img/slideshow/2.jpg" alt="Chicago" width="1100" height="500"/>--%>
-<%--                                <div class="carousel-caption">--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                            <div class="carousel-item">--%>
-<%--                                <img src="./assets/img/slideshow/3.jpg" alt="New York" width="1100" height="500"/>--%>
-<%--                                <div class="carousel-caption">--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
                         </div>
                         <a class="carousel-control-prev" href="#demo" data-slide="prev">
                             <span class="carousel-control-prev-icon"></span>
@@ -350,7 +340,7 @@
                                                 <div class="section-policy-padding">
                                                     <h3>Hỗ trợ 24/7</h3>
                                                     <div class="section_policy_title">
-                                                        Liên hệ hỗ trợ 24h/ngày
+                                                        Liên hệ hỗ trợ 24/7
                                                     </div>
                                                 </div>
                                             </a>
