@@ -48,13 +48,13 @@
 
   } else {
     AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
-    boolean check = false;
-    for (AdminRole role : admin.getRole()) {
-      if (role.getTable().equals("notify") || role.getTable().equals("admin")) {
-        check = true;
-        break;
-      }
-    }
+    boolean check = true;
+//    for (AdminRole role : admin.getRole()) {
+//      if (role.getTable().equals("notify") || role.getTable().equals("admin")) {
+//        check = true;
+//        break;
+//      }
+//    }
     if (!check) {
       response.sendRedirect("index.jsp");
     } else {
@@ -90,7 +90,7 @@
                 </div>
               </div>
               <div class="item-col item-col-header item-col-sales" style="text-align: left!important;">
-                <div style="margin-left: 10px">
+                <div style="margin-left: 25px">
                   <span>Mã đơn hàng</span>
                 </div>
               </div>
@@ -99,28 +99,37 @@
                   <span>Thông báo</span>
                 </div>
               </div>
+              <div class="item-col item-col-header item-col-date" style="text-align: center;">
+                <div>
+                  <span>Ngày thông báo</span>
+                </div>
+              </div>
               <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
             </div>
           </li>
-          <%List<Notify_Admin> notifies = NotifyService.getInstance().loadNotifyWithPage(3);%>
+          <% int pageNumb = -1;
+            List<Notify_Admin> list = NotifyService.getInstance().loadNotifyWithPage(1);
+            if (list.size() > 4)
+              pageNumb = 4;
+            else pageNumb = list.size();
+          %>
           <div id="appendItem">
-            <%
-              for (Notify_Admin notify : notifies) {
-            %>
-            <li class="item">
+            <% if (list != null){
+              for (int i = 0; i < pageNumb; i++) {%>
+            <li class="item<%=list.get(i).getId()%>">
               <div class="item-row">
-                <div class="item-col fixed item-col-check">
+                <div class="item-col fixed item-col-check" style="margin-left: 20px">
                   <label class="item-check" id="select-all-items">
                     <input type="checkbox" class="checkbox">
                     <span></span>
                   </label>
                 </div>
                 <div class="item-col fixed pull-left item-col-title"
-                     style="max-width: 125px !important;">
+                     style="max-width: 115px !important;">
                   <div class="item-heading">Mã thông báo</div>
                   <div>
                     <a>
-                      <h4 class="item-title"><%=notify.getId()%>
+                      <h4 class="item-title"><%=list.get(i).getId()%>
                       </h4>
                     </a>
                   </div>
@@ -128,13 +137,18 @@
                 <div class="item-col item-col-sales" style="text-align: left!important;">
                   <div class="item-heading">Mã đơn hàng</div>
                   <div class="sales" style="text-align: left; padding-left:20px">
-                    <%=notify.getOrder_id()%>
+                    <%=list.get(i).getOrder_id()%>
                   </div>
                 </div>
                 <div class="item-col item-col-category">
                   <div class="item-heading">Thông báo</div>
                   <div class="sales" style="text-align: left">
-                    <%=notify.getContent()%>
+                    <%=list.get(i).getContent()%>
+                  </div>
+                </div>
+                <div class="item-col item-col-date" style="text-align: center;">
+                  <div class="item-heading">Ngày thêm</div>
+                  <div class="no-overflow"><%=list.get(i).getCreated_date()%>
                   </div>
                 </div>
                 <div class="item-col fixed item-col-actions-dropdown">
@@ -148,20 +162,20 @@
                                     </span>
                     </a>
                     <div class="item-actions-block">
-                      <ul class="item-actions-list">
+                      <ul class="item-actions-list" style="margin-top: 6px;">
 <%--                        <%--%>
 <%--                          for (AdminRole role : admin.getRole()) {--%>
-<%--                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("product") && role.getPermission().equals("delete")) {--%>
+<%--                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("notify") && role.getPermission().equals("delete")) {--%>
 <%--                        %>--%>
-<%--                        <li>--%>
-<%--                          <a class="remove" id="remove<%=category.getId()%>"--%>
-<%--                             data-toggle="modal"--%>
-<%--                             data-target="#confirm-modal" style="cursor: pointer">--%>
-<%--                            <i class="fa fa-trash-o "></i>--%>
-<%--                          </a>--%>
-<%--                        </li>--%>
+                        <li>
+                          <a class="remove" id="remove<%=list.get(i).getId()%>"
+                             data-toggle="modal"
+                             data-target="#confirm-modal" style="cursor: pointer">
+                            <i class="fa fa-trash-o "></i>
+                          </a>
+                        </li>
 <%--                        <%--%>
-<%--                          }--%>
+<%--                            }--%>
 <%--                          }--%>
 <%--                        %>--%>
                       </ul>
@@ -170,7 +184,8 @@
                 </div>
               </div>
             </li>
-            <%}%>
+            <% }
+              }%>
           </div>
         </ul>
       </div>
@@ -198,11 +213,11 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>Bạn có chắc muốn xoá danh mục này ?</p>
+            <p>Bạn có chắc muốn xoá lịch sử này ?</p>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary yes" data-dismiss="modal">Có</button>
-            <button type="button" class="btn btn-secondary no" data-dismiss="modal">Không</button>
+            <button type="button" id="yes" class="btn btn-primary yes" data-dismiss="modal">Có</button>
+            <button type="button" id="no" class="btn btn-secondary no" data-dismiss="modal">Không</button>
           </div>
         </div>
         <!-- /.modal-content -->
@@ -282,13 +297,13 @@
   $(document).ready(function () {
     $("#btn_prev").on("click", function (e) {
       e.preventDefault();
-      const page = parseInt($("#page").text()) - 1;
-      if (page > 0) {
+      const pageNumb = parseInt($("#page").text()) - 1;
+      if (pageNumb > 0) {
         $.ajax({
-          url: "../LoadNotifyAdmin",
+          url: "../loadMoreNotifyListAdmin",
           type: "post",
           data: {
-            page: page,
+            pageNumb: pageNumb,
           },
           success: function (data) {
             $("#appendItem").html(data);
@@ -301,12 +316,12 @@
     })
     $("#btn_next").on("click", function (e) {
       e.preventDefault();
-      const page = parseInt($("#page").text()) + 1;
+      const pageNumb = parseInt($("#page").text()) + 1;
       $.ajax({
-        url: "../LoadNotifyAdmin",
+        url: "../loadMoreNotifyListAdmin",
         type: "post",
         data: {
-          page: page,
+          pageNumb: pageNumb,
         },
         success: function (data) {
           console.log(data)
