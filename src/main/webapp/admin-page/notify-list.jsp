@@ -2,17 +2,11 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.Notify_Admin" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.NotifyService" %><%--
-  Created by IntelliJ IDEA.
-  User: PV
-  Date: 4/19/2023
-  Time: 8:31 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="vn.edu.hcmuaf.fit.services.NotifyService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!doctype html>
+<html class="no-js" lang="en">
 <head>
-  <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title> Trang Quản Lý </title>
@@ -36,7 +30,6 @@
         document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
       }
     </script>
-  </head>
 </head>
 <body>
 <%
@@ -269,7 +262,7 @@
     });
   }
 
-  function deleteCate() {
+  function deleteNotify() {
     $(".remove").each(function () {
       const id = $(this).attr("id").substring(6);
       const page = parseInt($("#page").text());
@@ -293,17 +286,17 @@
     })
   }
 
-  deleteCate();
+  deleteNotify();
   $(document).ready(function () {
     $("#btn_prev").on("click", function (e) {
       e.preventDefault();
-      const pageNumb = parseInt($("#page").text()) - 1;
-      if (pageNumb > 0) {
+      const page = parseInt($("#page").text()) - 1;
+      if (page > 0) {
         $.ajax({
           url: "../loadMoreNotifyListAdmin",
           type: "post",
           data: {
-            pageNumb: pageNumb,
+            page: page,
           },
           success: function (data) {
             $("#appendItem").html(data);
@@ -316,12 +309,12 @@
     })
     $("#btn_next").on("click", function (e) {
       e.preventDefault();
-      const pageNumb = parseInt($("#page").text()) + 1;
+      const page = parseInt($("#page").text()) + 1;
       $.ajax({
         url: "../loadMoreNotifyListAdmin",
         type: "post",
         data: {
-          pageNumb: pageNumb,
+          page: page,
         },
         success: function (data) {
           console.log(data)
