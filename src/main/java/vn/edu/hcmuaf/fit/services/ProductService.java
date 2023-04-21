@@ -77,6 +77,10 @@ public class ProductService {
         return new ProductDAO().loadAllProductContainStatus();
     }
 
+    public void AddViewCount(String id) {
+        new ProductDAO().AddViewCount(id);
+    }
+
     public static void main(String[] args) {
         new ProductDAO().loadAllProductContainStatus();
     }

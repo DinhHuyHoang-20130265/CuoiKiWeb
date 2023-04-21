@@ -321,7 +321,14 @@ public class ProductDAO {
         });
     }
 
+    public void AddViewCount(String id) {
+        JDBIConnector.get().withHandle(handle ->
+                handle.createUpdate("UPDATE product SET view_count = view_count + 1 WHERE id=?")
+                        .bind(0, id)
+                        .execute());
+    }
+
     public static void main(String[] args) {
-        new ProductDAO().InsertNewProduct("abc", "6000", 1, "user2", 11, new String[]{"x", "L"}, new String[]{"Red", "blue"}, "cate07", "null", "yesy", new String[]{"5.jpg", "L"});
+        new ProductDAO().AddViewCount("es7eiZnBwf");
     }
 }
