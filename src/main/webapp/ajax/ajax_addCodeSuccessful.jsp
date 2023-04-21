@@ -22,18 +22,17 @@
         <div class="col-6"><span>Phí vận chuyển</span></div>
         <div class="col-6 text-right"><span>30,000₫</span></div>
     </div>
-    <% int discount_ship = code.getDiscount_money();
-        if (code.getType_code().equals("SHIP")) {%>
+    <% int discount = code.getDiscount_money();
+        if (code.getType_code().equals("VANCHUYEN")) {%>
     <div class="row row-sliderbar-footer">
         <div class="col-6"><span>Giảm giá mã vận chuyển</span></div>
-        <div class="col-6 text-right"><span><%=format.format(discount_ship)%>₫</span></div>
+        <div class="col-6 text-right"><span><%=format.format(discount)%>₫</span></div>
     </div>
     <%}%>
-    <% int discount_total = code.getDiscount_money();
-        if (code.getType_code().equals("THOITRANG")) {%>
+    <%if (code.getType_code().equals("THOITRANG")) {%>
     <div class="row row-sliderbar-footer">
         <div class="col-6"><span>Giảm giá mã thời trang</span></div>
-        <div class="col-6 text-right"><span><%=format.format(discount_total)%>₫</span></div>
+        <div class="col-6 text-right"><span><%=format.format(discount)%>₫</span></div>
     </div>
     <%}%>
 </div>
@@ -41,8 +40,8 @@
     <div class="row row-sliderbar-footer">
         <div class="col-6"><span>Tổng cộng:</span></div>
         <div class="col-6 text-right">
-            <span><%=format.format(cart.total() + 30000 - discount_ship - discount_total)%>₫</span></div>
-        <input class="total_input" value="<%=cart.total() + 30000 - discount_ship - discount_total%>"
+            <span><%=format.format(cart.total() + 30000 - discount)%>₫</span></div>
+        <input class="total_input" value="<%=cart.total() + 30000 - discount%>"
                style="display: none">;
     </div>
 </div>

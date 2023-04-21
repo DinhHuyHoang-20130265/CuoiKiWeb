@@ -25,9 +25,6 @@ public class PromotionCodeController extends HttpServlet {
                 request.getSession().setAttribute("code", code);
                 request.getRequestDispatcher("ajax/ajax_addCodeSuccessful.jsp").forward(request, response);
             }
-            else {
-                response.getWriter().println("Mã của bạn đã hết hạn hoặc không thể sử dụng");
-            }
         }
     }
 }

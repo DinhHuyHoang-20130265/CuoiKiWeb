@@ -18,12 +18,13 @@ public class Order implements Serializable {
     private String phone_number;
     private String note;
     private String customer_id;
+    private String code_id;
 
     public Order() {
     }
 
     public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, int isCanceled, double total,
-                 String delivery_date, String address, String receive_name, String email, String phone_number, String note, String customer_id) {
+                 String delivery_date, String address, String receive_name, String email, String phone_number, String note, String customer_id, String code_id) {
         this.ord_id = ord_id;
         this.ord_date = ord_date;
         this.status = status;
@@ -39,6 +40,7 @@ public class Order implements Serializable {
         this.phone_number = phone_number;
         this.note = note;
         this.customer_id = customer_id;
+        this.code_id = code_id;
     }
 
     public String getOrd_id() {
@@ -160,6 +162,13 @@ public class Order implements Serializable {
     public void setCustomer_id(String customer_id) {
         this.customer_id = customer_id;
     }
+    public String getCode_id() {
+        return code_id;
+    }
+
+    public void setCode_id(String customer_id) {
+        this.code_id = code_id;
+    }
 
     @Override
     public String toString() {
@@ -179,6 +188,7 @@ public class Order implements Serializable {
                 ", phone_number='" + phone_number + '\'' +
                 ", note='" + note + '\'' +
                 ", customer_id='" + customer_id + '\'' +
+                ", code_id='" + code_id + '\'' +
                 '}';
     }
 }

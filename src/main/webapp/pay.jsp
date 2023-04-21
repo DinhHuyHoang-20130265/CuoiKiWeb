@@ -406,6 +406,7 @@
         const payment_method = $(".selection-btn input[type='radio']:checked").val();
         const total = $(".total_input").val();
         const customer_id = $(".user_id").val();
+        const sale_code = $(".sale_code").val();
         if (address === '' || address == null) {
             alert("Bạn cần điền địa chỉ giao hàng")
             return false;
@@ -433,7 +434,8 @@
                 note: note,
                 payment_method: payment_method,
                 total: total,
-                customer_id: customer_id
+                customer_id: customer_id,
+                sale_code: sale_code
             },
             success: function (data) {
                 alert(data);
