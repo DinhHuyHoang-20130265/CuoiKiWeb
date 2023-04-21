@@ -14,6 +14,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax/ajax_LoadProductListAdminProduct.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax/ajax_LoadReviewListAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/catetory-list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/chart/chart_type1.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page/chart" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/comments-list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/index.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/item-editor.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
@@ -25,6 +26,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/promotion-editor.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/reset.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/slide-editor.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/static-tables.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/user-editor.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/users-list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/ajax/ajax_LoadProduct.jsp" value="file://$PROJECT_DIR$/src/main/webapp/ajax" />
