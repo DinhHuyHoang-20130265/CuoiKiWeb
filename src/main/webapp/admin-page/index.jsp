@@ -4,6 +4,11 @@
 <%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.SiteUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.AccountService" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.ChartService" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.NewsService" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
@@ -79,7 +84,8 @@
                                                 }
                                         %>
                                         <div class="stat">
-                                            <div class="value"><%=count%></div>
+                                            <div class="value"><%=count%>
+                                            </div>
                                             <div class="name"> Lượt xem sản phẩm</div>
                                         </div>
                                         <div class="progress stat-progress">
@@ -91,7 +97,11 @@
                                             <i class="fa fa-line-chart"></i>
                                         </div>
                                         <div class="stat">
-                                            <div class="value"> $80.560</div>
+                                            <%
+                                                NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));
+                                                Map<String, Double> revenue = ChartService.getInstance().RevenueNearest6Months();
+                                            %>
+                                            <div class="value"><%=formatter.format(revenue.values().toArray()[5])%> đ</div>
                                             <div class="name"> Doanh thu tháng này</div>
                                         </div>
                                         <div class="progress stat-progress">
@@ -117,7 +127,8 @@
                                             <i class="fa fa-list-alt"></i>
                                         </div>
                                         <div class="stat">
-                                            <div class="value"> 20</div>
+                                            <div class="value"><%=NewsService.getInstance().getListNews().size()%>
+                                            </div>
                                             <div class="name"> Bài báo tin tức</div>
                                         </div>
                                         <div class="progress stat-progress">
@@ -129,7 +140,7 @@
                                             <i class="fa fa-dollar"></i>
                                         </div>
                                         <div class="stat">
-                                            <div class="value"> $780.064</div>
+                                            <div class="value"><%=formatter.format(ChartService.getInstance().totalAllTime())%> đ</div>
                                             <div class="name"> Tổng doanh thu</div>
                                         </div>
                                         <div class="progress stat-progress">

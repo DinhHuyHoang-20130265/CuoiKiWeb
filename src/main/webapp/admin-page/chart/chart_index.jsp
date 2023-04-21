@@ -1,12 +1,12 @@
 <%@ page import="java.util.Map" %>
-<%@ page import="vn.edu.hcmuaf.fit.DAO.ChartDAO" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.services.ChartService" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 4/14/2023
   Time: 3:59 PM
   To change this template use File | Settings | File Templates.
 --%>
-<% Map<String, Integer> chart1 = new ChartDAO().SaledProductByNearest6Months();%>
+<% Map<String, Integer> chart1 = ChartService.getInstance().SaledProductByNearest6Months();%>
 <script>
     // drawing visits chart
     drawVisitsChart();
