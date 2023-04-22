@@ -57,6 +57,13 @@ public class NotifyDAO {
         if (id.contains(sb.toString())) return generateIdNotify();
         else return sb.toString();
     }
+    public List<Notify_Admin> loadNewestNotifies() {
+         return JDBIConnector.get().withHandle(handle -> handle.createQuery("" +
+                         "SELECT * FROM notify_admin ORDER BY created_date DESC LIMIT 6")
+                .mapToBean(Notify_Admin.class)
+                .stream()
+                .collect(Collectors.toList()));
+    }
 
     public String addNewNotify(String content, String order_id) {
         String idNotify = generateIdNotify();
@@ -88,7 +95,8 @@ public class NotifyDAO {
         );
     }
     public static void main(String[] args) {
-        System.out.println(new NotifyDAO().loadNotifyWithPage(1));
+//        System.out.println(new NotifyDAO().loadNotifyWithPage(1));
+        System.out.println(new NotifyDAO().loadNewestNotifies());
     //        System.out.println(NotifyDAO.getAllNotify());
     }
 }

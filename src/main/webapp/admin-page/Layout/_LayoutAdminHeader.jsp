@@ -27,7 +27,7 @@
     <div class="header-block header-block-nav">
         <ul class="nav-profile">
             <li class="notifications new">
-                <%List<Notify_Admin> list = NotifyService.getInstance().loadNotifyWithPage(1);%>
+                <%List<Notify_Admin> list = NotifyService.getInstance().loadNewestNotifies();%>
                 <a data-toggle="dropdown" style="cursor: pointer">
                     <i class="fa fa-bell-o"></i>
                     <sup>
@@ -36,7 +36,7 @@
                 </a>
                 <div class="dropdown-menu notifications-dropdown-menu">
                     <ul class="notifications-container"
-                        style="overflow-x: unset; overflow-y: scroll; max-height: 500px">
+                        style="overflow-x: scroll; overflow-y: scroll; max-height: 240px">
                         <% if (list != null)
                             for (Notify_Admin notify : list) {%>
                         <li>
@@ -57,12 +57,13 @@
                         <%
                             }
                         %>
-                        <li id="dropdown-notify">
-                            <a class="loadmore-btn" id="loadMoreNotify" style="cursor: pointer;">Xem thêm</a>
-                            <input type="text" id="page-notify" value="2" style="display: none">
-                            <a class="list-notify" href="notify-list.jsp" style="display: none">Xem tất cả</a>
-                        </li>
                     </ul>
+                    <div id="dropdown-notify">
+                        <%--                            <a class="loadmore-btn" id="loadMoreNotify" style="cursor: pointer;">Xem thêm</a>--%>
+                        <input type="text" id="page-notify" value="2" style="display: none">
+                        <a class="list-notify" href="notify-list.jsp" style="display: block; padding-top: 5px; text-align: center"
+                        >Xem tất cả</a>
+                    </div>
                 </div>
             </li>
             <%
@@ -86,26 +87,3 @@
         </ul>
     </div>
 </header>
-<script>
-    $(document).ready(function () {
-        $("#loadMoreNotify").click(function (e) {
-            e.preventDefault();
-            const page = $("#page-notify").val();
-            $.ajax({
-                type: 'get',
-                url: "LoadNotifyAdminController",
-                data: {
-                    page: page
-                },
-                success: function (data) {
-                    $("#news").append(data);
-                    const page = $("#page").val();
-                    $("#page-notify").val((parseInt(page) + 1) + "");
-                }
-            })
-            if(page === 2){
-                $("#list-notify").css("display","block")
-            }
-        })
-    })
-</script>

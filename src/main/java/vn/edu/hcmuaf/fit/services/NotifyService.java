@@ -33,4 +33,7 @@ public class NotifyService {
         NotifyDAO DAO = new NotifyDAO();
         DAO.removeNotify(id);
     }
+    public List<Notify_Admin> loadNewestNotifies(){
+        return new NotifyDAO().loadNewestNotifies();
+    }
 }
