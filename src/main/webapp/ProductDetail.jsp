@@ -10,6 +10,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.DAO.UserInformationDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.DAO.CategoryDAO" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.ProductReviewService" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -396,6 +398,15 @@
     List<ProductReview> productReviews = productReviewDAO.getCommentsByProductID(product.getId());
     Category cate1 = categoryDAO.getCategoryByProductId(product.getId());
     List<Product> fourProductSameCate = productDAO.getFourProductsSameCate(cate1.getId());
+    List<String> visiteds = (List<String>) request.getSession().getAttribute("listVisited");
+    if (visiteds == null) {
+        visiteds = new ArrayList<>();
+        request.getSession().setAttribute("listVisited", visiteds);
+    }
+    if (!visiteds.contains(product.getId())) {
+        visiteds.add(product.getId());
+        ProductService.getInstance().AddViewCount(product.getId());
+    }
 %>
 
 <jsp:include page="Layout/_LayoutHeader.jsp"></jsp:include>

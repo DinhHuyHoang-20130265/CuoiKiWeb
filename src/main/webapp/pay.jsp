@@ -160,20 +160,11 @@
                                     </div>
                                 </div>
                                 <div class="fieldset">
-<%--                                    <% if(userInformation.getAddress() != null){ %>--%>
-<%--                                    <div class="fieldset-address form-group">--%>
-<%--                                        <input id="error_" type="text" class="error" value="" style="display: none">--%>
-<%--                                        <label for="diachi" class="form-label">Địa chỉ</label>--%>
-<%--                                        <input id="diachi" type="text" class="form-control"--%>
-<%--                                        value="<%=userInformation.getAddress()%>">--%>
-<%--                                        <span class="form-message"></span>--%>
-<%--                                    </div>--%>
-<%--                                    <%} else if(userInformation.getAddress() == null) { %>--%>
                                     <div class="fieldset-address form-group">
-                                        <input type="text" class="error" value="" style="display: none">
+                                        <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="diachi" class="form-label">Địa chỉ</label>
                                         <input id="diachi" type="text" class="form-control" value="<%=userInformation.getAddress()%>"
-                                                                           style="margin-bottom: 8px"
+                                               style="margin-bottom: 8px"
                                                readonly>
                                         <div id="update-info" style="display: none">
                                             <section id="thongtin" >
@@ -194,7 +185,6 @@
                                         <button id="adjust-info">Chỉnh sửa thông tin</button>
                                         <span class="form-message"></span>
                                     </div>
-                                    <%--                                    <%} %>--%>
                                     <div class="fieldset-name form-group">
                                         <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="hoten" class="form-label">Họ tên</label>
@@ -409,7 +399,6 @@
             address.val(addressInfo);
         }
         console.log(address)
-        //
         const receive_name = $("#hoten").val();
         const email = $("#email").val();
         const phone_number = $("#sdt").val();
@@ -418,7 +407,6 @@
         const total = $(".total_input").val();
         const customer_id = $(".user_id").val();
         if (address === '' || address == null) {
-            // if (city === '' || ward === '' || district === '' || houseNumb === null || houseNumb === '') {
             alert("Bạn cần điền địa chỉ giao hàng")
             return false;
         }
@@ -455,7 +443,32 @@
                 alert(data);
             }
         })
-    });
+    })
+    function applyCode() {
+        $(".codebutt").click(function (e) {
+            e.preventDefault();
+            const sale_code = $(".sale_code").val();
+            console.log(sale_code)
+            $.ajax({
+                url: "PromotionCodeController",
+                type: "post",
+                data: {
+                    sale_code: sale_code
+                },
+                success: function (data) {
+                    $(".slider-footer").each(function () {
+                        $(this).html(data);
+                    })
+                },
+                error: function (data) {
+                    alert("Mã của bạn đã hết hạn hoặc không thể sử dụng");
+                }
+            })
+        })
+    }
+    $(document).ready(function () {
+        applyCode();
+    })
 </script>
 </body>
 </html>
