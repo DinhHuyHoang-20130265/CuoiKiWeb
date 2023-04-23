@@ -47,10 +47,10 @@
                         <div class="card">
                             <div class="card-block">
                                 <div class="card-title-block">
-                                    <h3 class="title"> Sản phẩm tiêu thụ nhiều nhất</h3>
+                                    <h3 class="title"> Doanh thu bán hàng 6 tháng gần nhất</h3>
                                 </div>
                                 <section class="example">
-                                    <div id="morris-area-chart"></div>
+                                    <div id="morris-bar-chart"></div>
                                 </section>
                             </div>
                         </div>
@@ -59,10 +59,10 @@
                         <div class="card">
                             <div class="card-block">
                                 <div class="card-title-block">
-                                    <h3 class="title"> Doanh thu </h3>
+                                    <h3 class="title"> Top sản phẩm bán chạy tháng này </h3>
                                 </div>
                                 <section class="example">
-                                    <div id="flot-bar-chart"></div>
+                                    <div id="morris-donut-chart"></div>
                                 </section>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                         <div class="card">
                             <div class="card-block">
                                 <div class="card-title-block">
-                                    <h3 class="title"> Sản phẩm bán ra hàng tháng</h3>
+                                    <h3 class="title"> Hóa đơn hàng tháng (6 tháng gần nhất)</h3>
                                 </div>
                                 <section class="example">
                                     <div id="morris-one-line-chart"></div>
@@ -113,6 +113,7 @@
 </script>
 <script src="js/vendor.js"></script>
 <script src="js/app.js"></script>
+<jsp:include page="chart/chart_page.jsp"></jsp:include>
 </body>
 </html>
 <%}%>
