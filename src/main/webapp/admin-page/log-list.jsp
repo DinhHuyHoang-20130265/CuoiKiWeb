@@ -3,33 +3,35 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.Notify_Admin" %>
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.NotifyService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.LogAdmin" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.LogService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title> Trang Quản Lý </title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Place favicon.ico in the root directory -->
-    <link rel="stylesheet" href="css/vendor.css">
-    <style>
-      .input-group-btn {
-        display: flex;
-      }
-    </style>
-    <!-- Theme initialization -->
-    <script>
-      var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
-              {};
-      var themeName = themeSettings.themeName || '';
-      if (themeName) {
-        document.write('<link rel="stylesheet" id="theme-style" href="css/app-' + themeName + '.css">');
-      } else {
-        document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
-      }
-    </script>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title> Trang Quản Lý </title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Place favicon.ico in the root directory -->
+  <link rel="stylesheet" href="css/vendor.css">
+  <style>
+    .input-group-btn {
+      display: flex;
+    }
+  </style>
+  <!-- Theme initialization -->
+  <script>
+    var themeSettings = (localStorage.getItem('themeSettings')) ? JSON.parse(localStorage.getItem('themeSettings')) :
+            {};
+    var themeName = themeSettings.themeName || '';
+    if (themeName) {
+      document.write('<link rel="stylesheet" id="theme-style" href="css/app-' + themeName + '.css">');
+    } else {
+      document.write('<link rel="stylesheet" id="theme-style" href="css/app.css">');
+    }
+  </script>
 </head>
 <body>
 <%
@@ -41,13 +43,13 @@
 
   } else {
     AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
-    boolean check = false;
-    for (AdminRole role : admin.getRole()) {
-      if (role.getTable().equals("notify") || role.getTable().equals("admin")) {
-        check = true;
-        break;
-      }
-    }
+    boolean check = true;
+//    for (AdminRole role : admin.getRole()) {
+//      if (role.getTable().equals("log") || role.getTable().equals("admin")) {
+//        check = true;
+//        break;
+//      }
+//    }
     if (!check) {
       response.sendRedirect("index.jsp");
     } else {
@@ -101,7 +103,7 @@
             </div>
           </li>
           <% int pageNumb = -1;
-            List<Notify_Admin> list = NotifyService.getInstance().loadNotifyWithPage(1);
+            List<LogAdmin> list = LogService.getInstance().loadLogWithPage(1,6);
             if (list.size() > 4)
               pageNumb = 4;
             else pageNumb = list.size();
@@ -130,13 +132,13 @@
                 <div class="item-col item-col-sales" style="text-align: left!important;">
                   <div class="item-heading">Mã đơn hàng</div>
                   <div class="sales" style="text-align: left; padding-left:55px">
-                    <%=list.get(i).getOrder_id()%>
+<%--                    <%=list.get(i).getOrder_id()%>--%>
                   </div>
                 </div>
                 <div class="item-col item-col-category">
                   <div class="item-heading">Thông báo</div>
                   <div class="sales" style="text-align: left">
-                    <%=list.get(i).getContent()%>
+<%--                    <%=list.get(i).getContent()%>--%>
                   </div>
                 </div>
                 <div class="item-col item-col-date" style="text-align: center;">
@@ -156,10 +158,10 @@
                     </a>
                     <div class="item-actions-block">
                       <ul class="item-actions-list" style="margin-top: 6px;">
-                        <%
-                          for (AdminRole role : admin.getRole()) {
-                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("notify") && role.getPermission().equals("delete")) {
-                        %>
+<%--                        <%--%>
+<%--                          for (AdminRole role : admin.getRole()) {--%>
+<%--                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {--%>
+<%--                        %>--%>
                         <li>
                           <a class="remove" id="remove<%=list.get(i).getId()%>"
                              data-toggle="modal"
@@ -167,10 +169,10 @@
                             <i class="fa fa-trash-o "></i>
                           </a>
                         </li>
-                        <%
-                            }
-                          }
-                        %>
+<%--                        <%--%>
+<%--                            }--%>
+<%--                          }--%>
+<%--                        %>--%>
                       </ul>
                     </div>
                   </div>
@@ -178,7 +180,7 @@
               </div>
             </li>
             <% }
-              }%>
+            }%>
           </div>
         </ul>
       </div>
@@ -262,7 +264,7 @@
     });
   }
 
-  function deleteNotify() {
+  function deleteLog() {
     $(".remove").each(function () {
       const id = $(this).attr("id").substring(6);
       const page = parseInt($("#page").text());
@@ -270,7 +272,7 @@
         e.preventDefault();
         $("button[type='button'].yes").on("click", function () {
           $.ajax({
-            url: "../DeleteNotifyAdmin",
+            url: "../DeleteLogAdmin",
             type: "post",
             data: {
               id: id,
@@ -286,14 +288,14 @@
     })
   }
 
-  deleteNotify();
+  deleteLog();
   $(document).ready(function () {
     $("#btn_prev").on("click", function (e) {
       e.preventDefault();
       const page = parseInt($("#page").text()) - 1;
       if (page > 0) {
         $.ajax({
-          url: "../loadMoreNotifyListAdmin",
+          url: "../loadLogListAdmin",
           type: "post",
           data: {
             page: page,
@@ -311,7 +313,7 @@
       e.preventDefault();
       const page = parseInt($("#page").text()) + 1;
       $.ajax({
-        url: "../loadMoreNotifyListAdmin",
+        url: "../loadLogListAdmin",
         type: "post",
         data: {
           page: page,

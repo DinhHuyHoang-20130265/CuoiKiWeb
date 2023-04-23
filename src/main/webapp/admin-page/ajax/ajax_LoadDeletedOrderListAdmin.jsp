@@ -109,13 +109,11 @@
                 <%if (order.getIsCanceled() == 0) { %>
                 <span
                         class="circle-status mr-2 circle-status-cancel"></span><span
-                    class="badges--order-status-cancel">
-                                                                    Đã Hủy</span>
+                    class="badges--order-status-cancel">Đã Hủy</span>
                 <% } else { %>
                 <span
                         class="circle-status mr-2 circle-status-complete"></span><span
-                    class="badges--carrier-status-4">
-                                                                    Đang hoạt động</span>
+                    class="badges--carrier-status-4">Đang hoạt động</span>
                 <% }%>
             </div>
         </div>

@@ -25,9 +25,9 @@ public class NotifyService {
         NotifyDAO DAO = new NotifyDAO();
         return DAO.getNotifyById(id);
     }
-    public String addNewNotify(String content, String order_id,String type) {
+    public String addNewNotify(String content, String order_id) {
         NotifyDAO DAO = new NotifyDAO();
-        return DAO.addNewNotify(content, order_id,type);
+        return DAO.addNewNotify(content, order_id);
     }
     public void removeNotify(String id){
         NotifyDAO DAO = new NotifyDAO();

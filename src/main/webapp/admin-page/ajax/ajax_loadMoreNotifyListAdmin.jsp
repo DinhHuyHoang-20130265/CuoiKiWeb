@@ -1,5 +1,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.Notify_Admin" %>
 <%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%List<Notify_Admin> loadMoreNotify = (List<Notify_Admin>) request.getAttribute("loadMoreNotify");
     if (loadMoreNotify != null)
@@ -24,7 +26,7 @@
         </div>
         <div class="item-col item-col-sales" style="text-align: left!important;">
             <div class="item-heading">Mã đơn hàng</div>
-            <div class="sales" style="text-align: left; padding-left:20px">
+            <div class="sales" style="text-align: left; padding-left:55px">
                 <%=notify.getOrder_id()%>
             </div>
         </div>
@@ -51,10 +53,11 @@
                 </a>
                 <div class="item-actions-block">
                     <ul class="item-actions-list" style="margin-top: 6px;">
-                        <%--                        <%--%>
-                        <%--                          for (AdminRole role : admin.getRole()) {--%>
-                        <%--                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("notify") && role.getPermission().equals("delete")) {--%>
-                        <%--                        %>--%>
+                    <%
+                        AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+                        for (AdminRole role : admin.getRole()) {
+                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("notify") && role.getPermission().equals("delete")) {
+                    %>
                         <li>
                             <a class="remove" id="remove<%=notify.getId()%>"
                                data-toggle="modal"
@@ -62,10 +65,10 @@
                                 <i class="fa fa-trash-o "></i>
                             </a>
                         </li>
-                        <%--                        <%--%>
-                        <%--                            }--%>
-                        <%--                          }--%>
-                        <%--                        %>--%>
+                        <%
+                            }
+                          }
+                        %>
                     </ul>
                 </div>
             </div>
