@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
 import vn.edu.hcmuaf.fit.DAO.OrderDAO;
+import vn.edu.hcmuaf.fit.DAO.PromotionCodeDAO;
 import vn.edu.hcmuaf.fit.beans.MailConfiguration;
 import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.beans.cart.Cart;
@@ -37,8 +38,7 @@ public class CheckoutController extends HttpServlet {
         int payment_method = Integer.parseInt(request.getParameter("payment_method"));
         double total = Double.parseDouble(request.getParameter("total"));
         String customer_id = request.getParameter("customer_id");
-        PromotionCode code = (PromotionCode) request.getSession().getAttribute("code");
-        String sale_code = code.getCode_id();
+        String sale_code = request.getParameter("sale_code");
 
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         OrderService.getInstance().insertOrder(ord_id, payment_method, total, address, receive_name, email, phone_number, note, customer_id, sale_code);
@@ -83,18 +83,34 @@ public class CheckoutController extends HttpServlet {
                 }
                 content.append("<p style=\"padding: 0;font-size: 15px;color: mediumvioletred;font-family:sans-serif;margin-left:80px\">").append(prod_name).append(" - ").append(prod_color).append(" - ").append(prod_size).append(" - ").append(quantity).append(" - ").append(format.format(price)).append(" đ</p>");
             }
-            String text = "<p style=\"padding: 0;font-size: 17px;color: #707070;font-family:sans-serif\"> P&TSHOP</p>" +
-                    "<h1 style=\"padding: 0;font-size: 41px;color: #2672ec;font-family:sans-serif\">Chi tiết đơn hàng</h1>" +
-                    "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Đơn hàng mã " + ord_id + " của bạn đã được tạo</p>" +
-                    "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chi tiết đơn hàng:</p>" +
-                    content.toString() +
-                    "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Phí ship:   " +format.format(30000)+"đ</p>"  +
-                    "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Mã khuyến mãi:   -" +format.format(code.getDiscount_money())+"đ</p>"  +
-                    "<p style=\"padding: 0;font-weight: 700;font-size: 15px;color: #2a2a2a;font-family:sans-serif\">Tổng: " + format.format(total-code.getDiscount_money()) + "đ</p>" +
-                    "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Bạn có thể xem lại/theo dõi đơn hàng tại trang thông tin tài khoản.</p>" +
-                    "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Shop sẽ liên hệ lại với bạn sớm nhất để xác nhận thanh toán, cảm ơn bạn đã mua hàng tại Shop</p>" +
-                    "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chúc bạn một ngày mới vui vẻ</p>" +
-                    "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">P&TSHOP</p>";
+            String text;
+            if(sale_code != null && !sale_code.equals("NoCode")) {
+                PromotionCode code = new PromotionCodeDAO().getPromotionCodeById(sale_code);
+                 text = "<p style=\"padding: 0;font-size: 17px;color: #707070;font-family:sans-serif\"> P&TSHOP</p>" +
+                        "<h1 style=\"padding: 0;font-size: 41px;color: #2672ec;font-family:sans-serif\">Chi tiết đơn hàng</h1>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Đơn hàng mã " + ord_id + " của bạn đã được tạo</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chi tiết đơn hàng:</p>" +
+                        content.toString() +
+                        "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Phí ship:   " + format.format(30000) + "đ</p>" +
+                        "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Mã khuyến mãi:   -" + format.format(code.getDiscount_money()) + " đ</p>" +
+                        "<p style=\"padding: 0;font-weight: 700;font-size: 15px;color: #2a2a2a;font-family:sans-serif\">Tổng: " + format.format(total) + " đ</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Bạn có thể xem lại/theo dõi đơn hàng tại trang thông tin tài khoản.</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Shop sẽ liên hệ lại với bạn sớm nhất để xác nhận thanh toán, cảm ơn bạn đã mua hàng tại Shop</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chúc bạn một ngày mới vui vẻ</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">P&TSHOP</p>";
+            } else {
+                 text = "<p style=\"padding: 0;font-size: 17px;color: #707070;font-family:sans-serif\"> P&TSHOP</p>" +
+                        "<h1 style=\"padding: 0;font-size: 41px;color: #2672ec;font-family:sans-serif\">Chi tiết đơn hàng</h1>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Đơn hàng mã " + ord_id + " của bạn đã được tạo</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chi tiết đơn hàng:</p>" +
+                        content.toString() +
+                        "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Phí ship:   " + format.format(30000) + " đ</p>" +
+                        "<p style=\"padding: 0;font-weight: 700;font-size: 15px;color: #2a2a2a;font-family:sans-serif\">Tổng: " + format.format(total) + " đ</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Bạn có thể xem lại/theo dõi đơn hàng tại trang thông tin tài khoản.</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Shop sẽ liên hệ lại với bạn sớm nhất để xác nhận thanh toán, cảm ơn bạn đã mua hàng tại Shop</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chúc bạn một ngày mới vui vẻ</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">P&TSHOP</p>";
+            }
             String subject = "Đơn hàng đã được đặt tại P&TSHOP thành công";
             MailService.getInstance().initializedSesstion(MailConfiguration.USERNAME_PNTSHOP, MailConfiguration.PASSWORD_PNTSHOP);
             MailService.getInstance().sendMail("PNTSHOP", email, subject, text, MailConfiguration.MAIL_HTML);

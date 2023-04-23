@@ -19,7 +19,7 @@ public class PromotionCodeController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String sale_code = request.getParameter("sale_code");
-        List<PromotionCode> list_codes = new PromotionCodeDAO().loadAll();
+        List<PromotionCode> list_codes = new PromotionCodeDAO().loadAllLegitCode();
         for(PromotionCode code: list_codes) {
             if(code.getCode_id().equals(sale_code)) {
                 request.getSession().setAttribute("code", code);

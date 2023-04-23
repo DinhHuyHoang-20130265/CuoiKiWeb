@@ -11,12 +11,12 @@ public class PromotionCode implements Serializable {
     private int status;
     private String start_date;
     private String end_date;
-
+    private String created_date;
+    private String created_by;
     public PromotionCode() {
-
     }
 
-    public PromotionCode(String code_id, String name_code, String desc_code, String type_code, int discount_money, int status, String start_date, String end_date) {
+    public PromotionCode(String code_id, String name_code, String desc_code, String type_code, int discount_money, int status, String start_date, String end_date, String created_date, String created_by) {
         this.code_id = code_id;
         this.name_code = name_code;
         this.desc_code = desc_code;
@@ -25,6 +25,8 @@ public class PromotionCode implements Serializable {
         this.status = status;
         this.start_date = start_date;
         this.end_date = end_date;
+        this.created_date = created_date;
+        this.created_by = created_by;
     }
 
     public String getCode_id() {
@@ -63,8 +65,8 @@ public class PromotionCode implements Serializable {
         return discount_money;
     }
 
-    public void setDiscount_money(int discount_rate) {
-        this.discount_money = discount_rate;
+    public void setDiscount_money(int discount_money) {
+        this.discount_money = discount_money;
     }
 
     public int getStatus() {
@@ -91,6 +93,22 @@ public class PromotionCode implements Serializable {
         this.end_date = end_date;
     }
 
+    public String getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(String created_date) {
+        this.created_date = created_date;
+    }
+
+    public String getCreated_by() {
+        return created_by;
+    }
+
+    public void setCreated_by(String created_by) {
+        this.created_by = created_by;
+    }
+
     @Override
     public String toString() {
         return "PromotionCode{" +
@@ -98,10 +116,12 @@ public class PromotionCode implements Serializable {
                 ", name_code='" + name_code + '\'' +
                 ", desc_code='" + desc_code + '\'' +
                 ", type_code='" + type_code + '\'' +
-                ", discount_rate=" + discount_money +
+                ", discount_money=" + discount_money +
                 ", status=" + status +
                 ", start_date='" + start_date + '\'' +
                 ", end_date='" + end_date + '\'' +
+                ", created_date='" + created_date + '\'' +
+                ", created_by='" + created_by + '\'' +
                 '}';
     }
 }

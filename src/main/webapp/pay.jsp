@@ -284,6 +284,7 @@
                                         <textarea class="sale_code form-control"
                                                   placeholder="Nhập vào nếu có"></textarea>
                                         <button class="codebutt">Áp Dụng</button>
+                                        <input class="sale_code_hidden" value="NoCode" style="visibility: hidden">
                                     </div>
                                 </div>
                                 <hr>
@@ -406,7 +407,12 @@
         const payment_method = $(".selection-btn input[type='radio']:checked").val();
         const total = $(".total_input").val();
         const customer_id = $(".user_id").val();
-        const sale_code = $(".sale_code").val();
+        const sale_code = $(".sale_code_hidden").val();
+        console.log(receive_name)
+        console.log(payment_method)
+        console.log(total)
+        console.log(customer_id)
+        console.log(sale_code)
         if (address === '' || address == null) {
             alert("Bạn cần điền địa chỉ giao hàng")
             return false;
@@ -422,6 +428,11 @@
         if (phone_number === '' || phone_number == null) {
             alert("Bạn cần điền số điện thoại nhận hàng")
             return false;
+        }
+        if (sale_code === '' || sale_code == null) {
+           function setSale_code() {
+               sale_code.val("NoCode");
+           }
         }
         $.ajax({
             url: "CheckoutController",

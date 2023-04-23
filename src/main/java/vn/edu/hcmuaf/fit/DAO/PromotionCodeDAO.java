@@ -10,17 +10,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PromotionCodeDAO {
-    public List<PromotionCode> loadAll() {
+    public List<PromotionCode> loadAllLegitCode() {
         return JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT code_id, name_code, desc_code, type_code, discount_money, status, start_date, end_date " +
-                                "FROM promotion_code WHERE status = 1")
+                handle.createQuery("SELECT code_id, name_code, desc_code, type_code, discount_money, status, start_date, end_date, created_date, created_by " +
+                                "FROM promotion_code WHERE status = 1 AND CURRENT_DATE > start_date AND CURRENT_DATE < end_date")
                         .mapToBean(PromotionCode.class)
                         .stream()
                         .collect(Collectors.toList()));
     }
 
     public PromotionCode getPromotionCodeById(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT code_id, name_code, desc_code, type_code, discount_money, status, start_date, end_date" +
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT code_id, name_code, desc_code, type_code, discount_money, status, start_date, end_date, created_date, created_by" +
                         " FROM promotion_code WHERE code_id = ?")
                 .bind(0, id)
                 .mapToBean(PromotionCode.class)
@@ -66,7 +66,7 @@ public class PromotionCodeDAO {
     String date = java.time.LocalDate.now().toString();
     public void InsertNewPromotionCode(String code_id, String name_code, String desc_code, String type_code, int discount_money, int status, String start_date, String end_date, String created_by) {
         JDBIConnector.get().withHandle(handle -> {
-                    handle.createUpdate("INSERT INTO promotion_code(code_id, name_code, desc_code, type_code, discount_money, status, start_date, end_date, created_by, created_date) VALUES (?,?,?,?,?,?,?,?,?,?)")
+                    handle.createUpdate("INSERT INTO promotion_code(code_id, name_code, desc_code, type_code, discount_money, status, start_date, end_date, created_date, created_by) VALUES (?,?,?,?,?,?,?,?,?,?)")
                             .bind(0, code_id)
                             .bind(1, name_code)
                             .bind(2, desc_code)
@@ -75,8 +75,8 @@ public class PromotionCodeDAO {
                             .bind(5, status)
                             .bind(6, start_date)
                             .bind(7, end_date)
-                            .bind(8, created_by)
-                            .bind(9, date)
+                            .bind(8, date)
+                            .bind(9, created_by)
                             .execute();
                     return true;
                 }
@@ -85,7 +85,7 @@ public class PromotionCodeDAO {
 
     public void UpdatePromotionCode(String code_edit, String code_id, String name_code, String desc_code, String type_code, int discount_money, int status, String start_date, String end_date, String created_by) {
         JDBIConnector.get().withHandle(handle -> {
-                    handle.createUpdate("UPDATE promotion_code SET code_id = ?, name_code = ?, desc_code = ?, type_code = ? , discount_money = ? , status = ?, start_date = ? , end_date = ?, created_by = ?, created_date = ? WHERE code_id = ?")
+                    handle.createUpdate("UPDATE promotion_code SET code_id = ?, name_code = ?, desc_code = ?, type_code = ? , discount_money = ? , status = ?, start_date = ? , end_date = ?, created_date = ?, created_by = ? WHERE code_id = ?")
                             .bind(0, code_id)
                             .bind(1, name_code)
                             .bind(2, desc_code)
@@ -94,8 +94,8 @@ public class PromotionCodeDAO {
                             .bind(5, status)
                             .bind(6, start_date)
                             .bind(7, end_date)
-                            .bind(8, created_by)
-                            .bind(9, date)
+                            .bind(8, date)
+                            .bind(9, created_by)
                             .bind(10, code_edit)
                             .execute();
                     return null;
@@ -104,8 +104,6 @@ public class PromotionCodeDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new PromotionCodeDAO().loadAll());
         System.out.println(new PromotionCodeDAO().getPromotionCodeById("DUNGVAY"));
-        System.out.println(new PromotionCodeDAO().loadPromotionWithConditionContainsStatus(2, 6));
     }
 }

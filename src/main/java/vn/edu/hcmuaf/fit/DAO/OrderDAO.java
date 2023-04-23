@@ -48,25 +48,48 @@ public class OrderDAO {
                             String receive_name, String email, String phone_number, String note, String customer_id, String code_id) {
         String date = java.time.LocalDate.now().toString();
         String date_3days = (java.time.LocalDate.now().plusDays(3)).toString();
-        JDBIConnector.get().withHandle(handle -> {
-            handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, payment_status, delivered, isCanceled, total, delivery_date, address," +
-                            "receive_name, email, phone_number, note, customer_id, code_id) VALUES(?,?,0,?,0,-1,1,?,?,?,?,?,?,?,?,? )")
-                    .bind(0, ord_id)
-                    .bind(1, date)
-                    .bind(2, payment_method)
-                    .bind(3, total)
-                    .bind(4, date_3days)
-                    .bind(5, address)
-                    .bind(6, receive_name)
-                    .bind(7, email)
-                    .bind(8, phone_number)
-                    .bind(9, note)
-                    .bind(10, customer_id)
-                    .bind(11, code_id)
-                    .execute();
+        if(code_id == null) {
+            JDBIConnector.get().withHandle(handle -> {
+                handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, payment_status, delivered, isCanceled, total, delivery_date, address," +
+                                "receive_name, email, phone_number, note, customer_id) VALUES(?,?,0,?,0,-1,1,?,?,?,?,?,?,?,? )")
+                        .bind(0, ord_id)
+                        .bind(1, date)
+                        .bind(2, payment_method)
+                        .bind(3, total)
+                        .bind(4, date_3days)
+                        .bind(5, address)
+                        .bind(6, receive_name)
+                        .bind(7, email)
+                        .bind(8, phone_number)
+                        .bind(9, note)
+                        .bind(10, customer_id)
+                        .execute();
 
-            return null;
-        });
+                return null;
+            });
+        }
+        else {
+            JDBIConnector.get().withHandle(handle -> {
+                handle.createUpdate("INSERT INTO orders (ord_id, ord_date, status, payment_method, payment_status, delivered, isCanceled, total, delivery_date, address," +
+                                "receive_name, email, phone_number, note, customer_id, code_id) VALUES(?,?,0,?,0,-1,1,?,?,?,?,?,?,?,?,? )")
+                        .bind(0, ord_id)
+                        .bind(1, date)
+                        .bind(2, payment_method)
+                        .bind(3, total)
+                        .bind(4, date_3days)
+                        .bind(5, address)
+                        .bind(6, receive_name)
+                        .bind(7, email)
+                        .bind(8, phone_number)
+                        .bind(9, note)
+                        .bind(10, customer_id)
+                        .bind(11, code_id)
+                        .execute();
+
+                return null;
+            });
+        }
+
     }
 
     public Order getOrderById(String id) {

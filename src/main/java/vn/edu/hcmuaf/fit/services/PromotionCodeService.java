@@ -16,8 +16,8 @@ public class PromotionCodeService {
         }
         return promotionCodeService;
     }
-    public List<PromotionCode> loadAll() {
-        return new PromotionCodeDAO().loadAll();
+    public List<PromotionCode> loadAllLegitCode() {
+        return new PromotionCodeDAO().loadAllLegitCode();
     }
     public PromotionCode getPromotionCodeById(String id) {
         return new PromotionCodeDAO().getPromotionCodeById(id);

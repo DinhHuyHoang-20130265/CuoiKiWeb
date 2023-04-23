@@ -26,31 +26,49 @@
         if (code.getType_code().equals("VANCHUYEN")) {%>
     <div class="row row-sliderbar-footer">
         <div class="col-6"><span>Giảm giá mã vận chuyển</span></div>
-        <div class="col-6 text-right"><span><%=format.format(discount)%>₫</span></div>
+        <div class="col-6 text-right"><span>- <%=format.format(discount)%>₫</span></div>
     </div>
     <%}%>
     <%if (code.getType_code().equals("THOITRANG")) {%>
     <div class="row row-sliderbar-footer">
         <div class="col-6"><span>Giảm giá mã thời trang</span></div>
-        <div class="col-6 text-right"><span><%=format.format(discount)%>₫</span></div>
+        <div class="col-6 text-right"><span>- <%=format.format(discount)%>₫</span></div>
     </div>
     <%}%>
 </div>
 <div class="total">
     <div class="row row-sliderbar-footer">
         <div class="col-6"><span>Tổng cộng:</span></div>
+        <%if ((discount > cart.total()) && code.getType_code().equals("THOITRANG")) { %>
         <div class="col-6 text-right">
-            <span><%=format.format(cart.total() + 30000 - discount)%>₫</span></div>
-        <input class="total_input" value="<%=cart.total() + 30000 - discount%>"
+            <span><%=format.format(30000)%>₫</span></div>
+        <input class="total_input" value="<%=30000%>"
                style="display: none">;
+        <%
+        } else {
+            if (code.getType_code().equals("VANCHUYEN") && discount > 30000) {
+        %>
+        <div class="col-6 text-right">
+            <span><%=format.format(cart.total())%>₫</span></div>
+        <input class="total_input" value="<%=cart.total()%>"
+               style="display: none">;
+        <%} else {%>
+        <div class="col-6 text-right">
+                <span><%=format.format(cart.total() + 30000 - discount)%>₫</span></div>
+        <input class="total_input" value="<%=cart.total() + 30000 - discount%>"
+           style="display: none">;
+           <%}%>
+        <%}%>
+
     </div>
 </div>
 <div class="salecode">
     <div class="row row-sliderbar-footer">
         <div class="col-6"><span>Nhập mã ưu đãi:</span></div>
         <textarea class="sale_code form-control"
-                  placeholder="Nhập vào nếu có"></textarea>
+                  placeholder=""><%=code.getCode_id()%></textarea>
         <button class="codebutt">Áp Dụng</button>
+        <input class="sale_code_hidden" value="<%=code.getCode_id()%>" style="visibility: hidden">
     </div>
 </div>
 <hr>
