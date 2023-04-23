@@ -88,8 +88,17 @@ public class SiteUserDAO {
             return null;
         });
     }
-
+    public String getIdUser(String user_name) {
+        for (SiteUser user : users) {
+            if (user.getUsername().equals(user_name)) {
+                return "Tài khoản" + user.getId();
+            }
+        }
+        return "Tài khoản không tồn tại " + user_name;
+    }
     public static void main(String[] args) {
-        System.out.println(new SiteUserDAO().users);
+//        System.out.println(new SiteUserDAO().users);
+        System.out.println(new SiteUserDAO().getIdUser("da"));
+        System.out.println(new SiteUserDAO().getIdUser("teo"));
     }
 }

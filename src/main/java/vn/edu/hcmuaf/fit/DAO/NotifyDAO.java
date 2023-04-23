@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.DAO;
 
 import vn.edu.hcmuaf.fit.beans.Notify_Admin;
+import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
@@ -65,13 +66,14 @@ public class NotifyDAO {
                 .collect(Collectors.toList()));
     }
 
-    public String addNewNotify(String content, String order_id) {
+    public String addNewNotify(String content, String order_id,String type) {
         String idNotify = generateIdNotify();
         JDBIConnector.get().withHandle(handle -> {
-                    handle.createUpdate("INSERT INTO notify_admin values (?,?,?,CURDATE())")
+                    handle.createUpdate("INSERT INTO notify_admin values (?,?,?,?,CURDATE())")
                             .bind(0, idNotify)
                             .bind(1, content)
                             .bind(2, order_id)
+                            .bind(3, type)
                             .execute();
                     return true;
                 }

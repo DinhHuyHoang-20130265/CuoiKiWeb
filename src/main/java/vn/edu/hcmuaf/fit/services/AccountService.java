@@ -56,6 +56,10 @@ public class AccountService {
     public SiteUser getUserByEmail(String email) {
         return new AccountUserDAO().getUserByEmail(email);
     }
+    public String getUserIdNotify(String username){
+        SiteUserDAO DAO = new SiteUserDAO();
+        return DAO.getIdUser(username);
+    }
 
     public void ChangeUserPassword(String id,String password_new, String password_old, String password_confirm) {
         new AccountUserDAO().ChangeUserPassword(id,password_new, password_old, password_confirm);

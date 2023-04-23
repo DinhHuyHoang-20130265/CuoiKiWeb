@@ -7,16 +7,18 @@ public class Notify_Admin implements Serializable {
     private String id;
     private String content;
     private String order_id;
+    private String type;
     private Date created_date;
 
     public Notify_Admin() {
 
     }
 
-    public Notify_Admin(String id, String content, String order_id, Date created_date) {
+    public Notify_Admin(String id, String content, String order_id,String type, Date created_date) {
         this.id = id;
         this.content = content;
         this.order_id = order_id;
+        this.type = type;
         this.created_date = created_date;
     }
 
@@ -44,6 +46,14 @@ public class Notify_Admin implements Serializable {
         this.order_id = order_id;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public Date getCreated_date() {
         return created_date;
     }
@@ -57,6 +67,7 @@ public class Notify_Admin implements Serializable {
                 "id='" + id + '\'' +
                 ", content='" + content + '\'' +
                 ", order_id='" + order_id + '\'' +
+                ", type='" + type + '\'' +
                 ", created_date=" + created_date +
                 '}';
     }

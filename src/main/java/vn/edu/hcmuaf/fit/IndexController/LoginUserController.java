@@ -1,10 +1,13 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
+import vn.edu.hcmuaf.fit.DAO.SiteUserDAO;
 import vn.edu.hcmuaf.fit.beans.ForgotPasswordStatus;
 import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.beans.cart.Cart;
 import vn.edu.hcmuaf.fit.beans.wishlist.WishList;
+import vn.edu.hcmuaf.fit.services.AccountService;
 import vn.edu.hcmuaf.fit.services.LoginService;
+import vn.edu.hcmuaf.fit.services.NotifyService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -25,6 +28,7 @@ public class LoginUserController extends HttpServlet {
         */
         String username = request.getParameter("username");
         String pass = request.getParameter("password");
+        String message = AccountService.getInstance().getUserIdNotify(username);
         // remove session của lấy lại mật khẩu, và của bên trang đăng ký nếu có
         ForgotPasswordStatus forgotPassword = (ForgotPasswordStatus) request.getSession().getAttribute("forgotPassword");
         String success = (String) request.getSession().getAttribute("success");
@@ -42,7 +46,9 @@ public class LoginUserController extends HttpServlet {
             session.setAttribute("cart", new Cart());
             session.setAttribute("wishList", new WishList());
             response.sendRedirect("index.jsp");
+            NotifyService.getInstance().addNewNotify(message + " đã đăng nhập thành công ",null ,"login");
         } else { // nếu = null chứng tỏ sai
+            NotifyService.getInstance().addNewNotify(message + " đã cố đăng nhập vào hệ thống ",null ,"login");
             request.setAttribute("loginStatus", LoginService.getInstance().getStatus());
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
