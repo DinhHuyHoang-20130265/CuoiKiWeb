@@ -1,15 +1,19 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
-<%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.category.Category" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.CategoryService" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.promotion.Promotion" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.PromotionService" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.promotion_code.PromotionCode" %>
+<%@ page import="vn.edu.hcmuaf.fit.DAO.PromotionCodeDAO" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %><%--
+  Created by IntelliJ IDEA.
+  User: LEGION
+  Date: 4/21/2023
+  Time: 11:35 AM
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!doctype html>
 <html class="no-js" lang="en">
 
 <head>
@@ -69,8 +73,8 @@
                 <div class="title-block">
                     <div class="row">
                         <div class="col-md-6">
-                            <h3 class="title"> Danh sách khuyến mãi sản phẩm
-                                <a href="promotion-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm khuyến mãi
+                            <h3 class="title"> Danh sách mã khuyến mãi
+                                <a href="promotion-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm mã khuyến mãi
                                 </a>
                             </h3>
                         </div>
@@ -89,22 +93,27 @@
                             </div>
                             <div class="item-col item-col-header item-col-sales" style="text-align: left">
                                 <div>
-                                    <span>Mã sản phẩm</span>
+                                    <span>ID mã KM</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-sales" style="text-align: left;">
+                            <div class="item-col item-col-header item-col-sales" style="text-align: left; margin-left: 20px">
                                 <div>
-                                    <span>Tên KM</span>
+                                    <span>Tên mã KM</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-category">
+                            <div class="item-col item-col-header item-col-category" style="margin-left: 10px">
                                 <div class="no-overflow">
-                                    <span>Mô tả KM</span>
+                                    <span>Mô tả mã KM</span>
+                                </div>
+                            </div>
+                            <div class="item-col item-col-header item-col-category" style="margin-left: 40px">
+                                <div class="no-overflow">
+                                    <span>Loại mã</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-stats">
                                 <div class="no-overflow">
-                                    <span>Tỉ lệ</span>
+                                    <span>Giảm giá</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-author">
@@ -125,9 +134,11 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
-                    <%List<Promotion> promotions = PromotionService.getInstance().loadPromotionWithConditionContainsStatus(1, 6);%>
+                    <%List<PromotionCode> codes = new PromotionCodeDAO().loadPromotionWithConditionContainsStatus(1, 6);
+                        NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));
+                    %>
                     <div id="appendItem">
-                        <%for (Promotion p : promotions) {%>
+                        <%for (PromotionCode code: codes) {%>
                         <li class="item">
                             <div class="item-row">
                                 <div class="item-col fixed item-col-check">
@@ -136,56 +147,66 @@
                                         <span></span>
                                     </label>
                                 </div>
-                                <div class="item-col fixed item-col-sales" style="text-align: center">
-                                    <div class="item-heading">Mã sản phẩm</div>
+                                <div class="item-col fixed item-col-sales" style="text-align: left; max-width: 130px;min-width: 130px;">
+                                    <div class="item-heading">ID mã KM</div>
                                     <div>
                                         <a>
-                                            <h4 class="item-title"><%=p.getProduct_id()%>
+                                            <h4 class="item-title"><%=code.getCode_id()%>
                                             </h4>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="item-col fixed item-col-sales"
-                                     style="min-width:100px; text-align: center; max-width: 100px; margin-left: 50px">
-                                    <div class="item-heading">Tên KM</div>
+                                     style="min-width:100px; text-align: center; max-width: 100px">
+                                    <div class="item-heading">Tên mã KM</div>
                                     <div>
                                         <a>
-                                            <h4 class="item-title"><%=p.getName_prom()%>
+                                            <h4 class="item-title"><%=code.getName_code()%>
                                             </h4>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="item-col fixed pull-left item-col-category"
-                                     style="min-width: 180px; max-width: 180px; margin-left: 40px;">
-                                    <div class="item-heading">Mô tả KM</div>
+                                     style="min-width: 130px; max-width: 130px; margin-left: 40px;">
+                                    <div class="item-heading">Mô tả mã KM</div>
                                     <div>
                                         <a>
-                                            <h4 class="item-title"><%=p.getDesc_prom()%>
+                                            <h4 class="item-title"><%=code.getDesc_code()%>
                                             </h4>
                                         </a>
                                     </div>
                                 </div>
-                                <div class="item-col item-col-stats">
-                                    <div class="item-heading">Tỉ lệ</div>
-                                    <div class="sales" style="text-align: center"><%=p.getDiscount_rate()%>
+                                <div class="item-col fixed pull-left item-col-category"
+                                     style="min-width: 150px; max-width: 150px; margin-left: 20px">
+                                    <div class="item-heading">Loại mã</div>
+                                    <div>
+                                        <a>
+                                            <h4 class="item-title"><%=code.getType_code()%>
+                                            </h4>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="item-col item-col-stats" style="margin-left: -10px">
+                                    <div class="item-heading">Giảm giá</div>
+                                    <div class="sales" style="text-align: center"><%=format.format(code.getDiscount_money())%>đ
                                     </div>
                                 </div>
                                 <div class="item-col item-col-author" style="text-align: center">
                                     <div class="item-heading">Trạng thái</div>
                                     <div class="no-overflow">
-                                        <a><%=p.getStatus() == 1 ? "Hiển thị" : "Đã ẩn"%>
+                                        <a><%=code.getStatus() == 1 ? "Hiển thị" : "Đã ẩn"%>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="item-col item-col-date no-overflow">
                                     <div class="item-heading">Ngày bắt đầu</div>
-                                    <div class="no-overflow"><%=p.getStart_date()%>
+                                    <div class="no-overflow"><%=code.getStart_date()%>
                                     </div>
                                 </div>
                                 <div class="item-col item-col-date">
                                     <div class="item-heading">Ngày kết thúc</div>
                                     <div class="no-overflow" style="text-align: center">
-                                        <%=p.getEnd_date()%>
+                                        <%=code.getEnd_date()%>
                                     </div>
                                 </div>
                                 <div class="item-col fixed item-col-actions-dropdown">
@@ -206,7 +227,7 @@
                                                 %>
                                                 <li>
                                                     <a class="remove" href="#" data-toggle="modal"
-                                                       data-target="#confirm-modal" id="delete<%=p.getPromo_id()%>">
+                                                       data-target="#confirm-modal" id="delete<%=code.getCode_id()%>">
                                                         <i class="fa fa-trash-o"></i>
                                                     </a>
                                                 </li>
@@ -215,7 +236,7 @@
                                                     if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("sales") && role.getPermission().equals("update")) {
                                                 %>
                                                 <li>
-                                                    <a class="edit" href="promotion-editor.jsp?id=<%=p.getPromo_id()%>">
+                                                    <a class="edit" href="code-editor.jsp?id=<%=code.getCode_id()%>">
                                                         <i class="fa fa-pencil"></i>
                                                     </a>
                                                 </li>
@@ -313,7 +334,7 @@
         });
     }
 
-    function deletePromotion() {
+    function deletePromotionCode() {
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
             const page = parseInt($("#page").text());
@@ -321,7 +342,7 @@
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
                     $.ajax({
-                        url: "../DeletePromotionAdminController",
+                        url: "../DeletePromotionCodeAdminController",
                         type: "post",
                         data: {
                             id: id,
@@ -337,22 +358,23 @@
         })
     }
 
-    deletePromotion();
+    deletePromotionCode();
     $(document).ready(function () {
         $("#btn_prev").on("click", function (e) {
             e.preventDefault();
             const page = parseInt($("#page").text()) - 1;
+            console.log(page)
             if (page > 0) {
                 $.ajax({
-                    url: "../LoadPromotionListAdmin",
+                    url: "../LoadPromotionCodeListAdmin",
                     type: "post",
                     data: {
-                        page: page,
+                        page: page
                     },
                     success: function (data) {
                         $("#appendItem").html(data);
                         $("#page").text(page)
-                        deletePromotion();
+                        deletePromotionCode();
                         reloadScript();
                     }
                 })
@@ -361,18 +383,19 @@
         $("#btn_next").on("click", function (e) {
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
+            console.log(page)
             $.ajax({
-                url: "../LoadPromotionListAdmin",
+                url: "../LoadPromotionCodeListAdmin",
                 type: "post",
                 data: {
-                    page: page,
+                    page: page
                 },
                 success: function (data) {
                     console.log(data)
                     if ($.trim(data)) {
                         $("#appendItem").html(data);
                         $("#page").text(page)
-                        deletePromotion();
+                        deletePromotionCode();
                         reloadScript();
                     }
                 },

@@ -6,6 +6,8 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.*" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.promotion_code.PromotionCode" %>
+<%@ page import="vn.edu.hcmuaf.fit.DAO.PromotionCodeDAO" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -277,7 +279,7 @@
                                             <div class="ui-information-body pb-4">
                                                 <div class="row">
                                                     <div class="col">Tổng tiền hàng</div>
-                                                    <div class="col-auto text-right"><%=formatter.format(price)%>₫
+                                                    <div class="col-auto text-right"><%=formatter.format(price)%> ₫
                                                     </div>
                                                 </div>
                                             </div>
@@ -289,6 +291,29 @@
                                                     <div class="col-auto text-right">30,000 ₫</div>
                                                 </div>
                                             </div>
+                                            <%
+                                                if (order.getCode_id() != null && !order.getCode_id().equals("NoCode")) {
+                                                    PromotionCode code = PromotionCodeService.getInstance().getPromotionCodeById(order.getCode_id());
+                                                    if (code.getType_code().equals("THOITRANG")) {%>
+                                                    <div class="ui-information-body pb-4">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p class="mb-0">Mã giảm giá thời trang</p>
+                                                            </div>
+                                                            <div class="col-auto text-right">- <%=formatter.format(code.getDiscount_money())%> đ</div>
+                                                        </div>
+                                                    </div>
+                                                    <%} else {%>
+                                                    <div class="ui-information-body pb-4">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p class="mb-0">Mã giảm giá vận chuyển</p>
+                                                            </div>
+                                                            <div class="col-auto text-right">- <%=formatter.format(code.getDiscount_money())%> đ</div>
+                                                        </div>
+                                                    </div>
+                                                    <%}%>
+                                            <%}%>
                                             <div class="ui-information-body pb-4">
                                                 <div class="row">
                                                     <div class="col ">

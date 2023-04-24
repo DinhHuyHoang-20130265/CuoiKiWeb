@@ -521,6 +521,7 @@
         $(this).click(function (e) {
             e.preventDefault();
             const idToggle = $(this).attr("id").substring(5);
+            console.log(idToggle)
             $.ajax({
                 type: "post",
                 url: "QuickViewOrderController",
