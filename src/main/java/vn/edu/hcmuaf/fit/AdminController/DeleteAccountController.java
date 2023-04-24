@@ -1,9 +1,7 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.SiteUser;
-import vn.edu.hcmuaf.fit.beans.product.Product;
 import vn.edu.hcmuaf.fit.services.AccountService;
-import vn.edu.hcmuaf.fit.services.ProductService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

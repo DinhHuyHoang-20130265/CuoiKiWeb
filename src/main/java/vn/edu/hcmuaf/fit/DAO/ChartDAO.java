@@ -206,12 +206,12 @@ public class ChartDAO {
 
     public Map<String, Integer> TopSaleProductThisMonth() {
         return JDBIConnector.get().withHandle(handle ->
-                handle.createQuery("SELECT od.prod_name as year, SUM(od.quantity) AS total " +
+                handle.createQuery("SELECT od.prod_name as nameprod, SUM(od.quantity) AS total " +
                                 "FROM orders o INNER JOIN order_details od ON o.ord_id = od.ord_id " +
                                 "WHERE YEAR(o.ord_date) = YEAR(NOW()) AND MONTH(o.ord_date) = MONTH(NOW()) " +
-                                "GROUP BY o.ord_date, od.prod_name " +
+                                "GROUP BY YEAR(o.ord_date), MONTH(o.ord_date), od.prod_name " +
                                 "ORDER BY o.ord_date DESC")
-                        .setMapKeyColumn("year")
+                        .setMapKeyColumn("nameprod")
                         .setMapValueColumn("total")
                         .collectInto(new GenericType<>() {
                         })
@@ -226,7 +226,7 @@ public class ChartDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new ChartDAO().totalAllTime());
+        System.out.println(new ChartDAO().TopSaleProductThisMonth());
     }
 }
 
