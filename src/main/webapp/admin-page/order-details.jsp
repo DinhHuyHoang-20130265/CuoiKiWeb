@@ -292,28 +292,28 @@
                                                 </div>
                                             </div>
                                             <%
-                                                if (order.getCode_id() != null) {
+                                                if (order.getCode_id() != null && !order.getCode_id().equals("NoCode")) {
                                                     PromotionCode code = PromotionCodeService.getInstance().getPromotionCodeById(order.getCode_id());
-                                            %>
-                                            <div class="ui-information-body pb-4">
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <p class="mb-0">Mã giảm giá</p>
+                                                    if (code.getType_code().equals("THOITRANG")) {%>
+                                                    <div class="ui-information-body pb-4">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p class="mb-0">Mã giảm giá thời trang</p>
+                                                            </div>
+                                                            <div class="col-auto text-right">- <%=formatter.format(code.getDiscount_money())%> đ</div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-auto text-right"><%=formatter.format(code.getDiscount_money())%> đ</div>
-                                                </div>
-                                            </div>
-                                            <div class="ui-information-body pb-4">
-                                                <div class="row">
-                                                    <div class="col ">
-                                                        <p class="mb-1 font-weight-bold">Tổng giá trị đơn hàng</p>
+                                                    <%} else {%>
+                                                    <div class="ui-information-body pb-4">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <p class="mb-0">Mã giảm giá vận chuyển</p>
+                                                            </div>
+                                                            <div class="col-auto text-right">- <%=formatter.format(code.getDiscount_money())%> đ</div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-auto text-right font-weight-bold"><%=formatter.format(order.getTotal() - code.getDiscount_money())%>
-                                                        ₫
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <%} else {%>
+                                                    <%}%>
+                                            <%}%>
                                             <div class="ui-information-body pb-4">
                                                 <div class="row">
                                                     <div class="col ">
@@ -324,7 +324,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <%}%>
                                             <div class="ui-information-body pb-4">
                                                 <div class="row">
                                                     <div class="col">Đã thanh toán</div>

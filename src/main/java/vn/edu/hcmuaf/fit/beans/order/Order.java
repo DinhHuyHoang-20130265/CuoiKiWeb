@@ -12,19 +12,18 @@ public class Order implements Serializable {
     private int isCanceled;
     private double total;
     private String delivery_date;
+    private String customer_id;
     private String address;
     private String receive_name;
     private String email;
     private String phone_number;
     private String note;
-    private String customer_id;
     private String code_id;
 
     public Order() {
     }
 
-    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, int isCanceled, double total,
-                 String delivery_date, String address, String receive_name, String email, String phone_number, String note, String customer_id, String code_id) {
+    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, int isCanceled, double total, String delivery_date, String customer_id, String address, String receive_name, String email, String phone_number, String note, String code_id) {
         this.ord_id = ord_id;
         this.ord_date = ord_date;
         this.status = status;
@@ -34,12 +33,12 @@ public class Order implements Serializable {
         this.isCanceled = isCanceled;
         this.total = total;
         this.delivery_date = delivery_date;
+        this.customer_id = customer_id;
         this.address = address;
         this.receive_name = receive_name;
         this.email = email;
         this.phone_number = phone_number;
         this.note = note;
-        this.customer_id = customer_id;
         this.code_id = code_id;
     }
 
@@ -115,6 +114,14 @@ public class Order implements Serializable {
         this.delivery_date = delivery_date;
     }
 
+    public String getCustomer_id() {
+        return customer_id;
+    }
+
+    public void setCustomer_id(String customer_id) {
+        this.customer_id = customer_id;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -155,18 +162,11 @@ public class Order implements Serializable {
         this.note = note;
     }
 
-    public String getCustomer_id() {
-        return customer_id;
-    }
-
-    public void setCustomer_id(String customer_id) {
-        this.customer_id = customer_id;
-    }
     public String getCode_id() {
         return code_id;
     }
 
-    public void setCode_id(String customer_id) {
+    public void setCode_id(String code_id) {
         this.code_id = code_id;
     }
 
@@ -182,12 +182,12 @@ public class Order implements Serializable {
                 ", isCanceled=" + isCanceled +
                 ", total=" + total +
                 ", delivery_date='" + delivery_date + '\'' +
+                ", customer_id='" + customer_id + '\'' +
                 ", address='" + address + '\'' +
                 ", receive_name='" + receive_name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone_number='" + phone_number + '\'' +
                 ", note='" + note + '\'' +
-                ", customer_id='" + customer_id + '\'' +
                 ", code_id='" + code_id + '\'' +
                 '}';
     }
