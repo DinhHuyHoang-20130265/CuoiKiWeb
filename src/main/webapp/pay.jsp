@@ -407,7 +407,6 @@
         if (address === null || address === "") {
             address.val(addressInfo);
         }
-        console.log(address)
         const receive_name = $("#hoten").val();
         const email = $("#email").val();
         const phone_number = $("#sdt").val();
@@ -522,8 +521,6 @@
                 success: function (data) {
                     Province = data.original.data.find(obj => province.indexOf(obj.ProvinceName) !== -1)
                     provinceCode = Province.ProvinceID
-                    console.log(Province.ProvinceName)
-                    console.log(provinceCode)
                     checkDistrict(ward, district);
                 },
                 error: function (data) {
@@ -544,8 +541,6 @@
             success: function (data) {
                 District = data.original.data.find(obj => district.indexOf(obj.DistrictName) !== -1)
                 districtCode = District.DistrictID
-                console.log(District.DistrictName)
-                console.log(districtCode)
                 checkWard(ward);
             },
             error: function (data) {
@@ -565,8 +560,6 @@
             success: function (data) {
                 Ward = data.original.data.find(obj => ward.indexOf(obj.WardName) !== -1)
                 wardCode = Ward.WardCode
-                console.log(Ward.WardName)
-                console.log(wardCode)
                 Calculate(provinceCode, districtCode, wardCode);
                 Time(provinceCode, districtCode, wardCode);
             },
@@ -577,7 +570,25 @@
     }
 
     function Calculate(provinceCode, districtCode, wardCode) {
-
+        $.ajax({
+            url: "./API/Fee",
+            type: "post",
+            data: {
+                access_token: access_token,
+                to_district_id: districtCode,
+                to_ward_id: wardCode
+            },
+            success: function (data) {
+                let fee = new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(parseInt(data.data[0].service_fee) / 10)
+                $("#transfer-fee").text(fee)
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
     }
 
     function Time(provinceCode, districtCode, wardCode) {
