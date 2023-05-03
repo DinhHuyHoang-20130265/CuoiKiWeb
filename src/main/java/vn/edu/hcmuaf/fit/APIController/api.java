@@ -137,8 +137,73 @@ public class api {
         }
         return response.toString();
     }
-
+    public String time(String token, String to_district_id, String to_ward_id) throws IOException {
+        URL url = new URL("http://140.238.54.136/api/leadTime");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true);
+        String jsonInputString =
+                "    {\n" +
+                        "  \"token\": \"" + token + "\",\n" +
+                        "  \"from_district_id\":\"" + District_id + "\",\n" +
+                        "  \"from_ward_id\":\"" + Ward_id + "\",\n" +
+                        "  \"to_district_id\":\"" + to_district_id + "\",\n" +
+                        "  \"to_ward_id\":\"" + to_ward_id + "\",\n" +
+                        "  \"height\":\"100\",\n" +
+                        "  \"length\":\"100\",\n" +
+                        "  \"width\":\"100\",\n" +
+                        "  \"weight\":\"100\"\n" +
+                        "}";
+        try (OutputStream os = con.getOutputStream()) {
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        }
+        StringBuilder response = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+        }
+        return response.toString();
+    }
+    public String registerTransport(String token, String to_district_id, String to_ward_id) throws IOException {
+        URL url = new URL("http://140.238.54.136/api/registerTransport");
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true);
+        String jsonInputString =
+                "    {\n" +
+                        "  \"token\": \"" + token + "\",\n" +
+                        "  \"from_district_id\":\"" + District_id + "\",\n" +
+                        "  \"from_ward_id\":\"" + Ward_id + "\",\n" +
+                        "  \"to_district_id\":\"" + to_district_id + "\",\n" +
+                        "  \"to_ward_id\":\"" + to_ward_id + "\",\n" +
+                        "  \"height\":\"100\",\n" +
+                        "  \"length\":\"100\",\n" +
+                        "  \"width\":\"100\",\n" +
+                        "  \"weight\":\"100\"\n" +
+                        "}";
+        try (OutputStream os = con.getOutputStream()) {
+            byte[] input = jsonInputString.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+        }
+        StringBuilder response = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8))) {
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                response.append(responseLine.trim());
+            }
+        }
+        return response.toString();
+    }
     public static void main(String[] args) throws IOException {
-        System.out.println(getInstance().Ward("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTQwLjIzOC41NC4xMzYvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2ODI0MzQ3ODgsImV4cCI6MTY4MjQzNTM4OCwibmJmIjoxNjgyNDM0Nzg4LCJqdGkiOiJXRUx2RElSTVpqNnJJRXY2Iiwic3ViIjoiNTFiYzUwZmMwNDJjNDBlOTkxMzdiYjc0NDQ5M2U2MjMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.X18_kkKAm4RL-E9Qv62jsmZkKCExyG3RkmbGlkPgOxY", "3695"));
+        System.out.println(getInstance().time("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTQwLjIzOC41NC4xMzYvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2ODMxMjE1OTcsImV4cCI6MTY4MzEyMjE5NywibmJmIjoxNjgzMTIxNTk3LCJqdGkiOiIwN0VCNlZMWDFYTGhEVmd1Iiwic3ViIjoiNTFiYzUwZmMwNDJjNDBlOTkxMzdiYjc0NDQ5M2U2MjMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.EdJyceux_y5IiWSCEiDG7gSGzEeOSJ7meYHA7rO5cqk", "2270", "231013"));
     }
 }

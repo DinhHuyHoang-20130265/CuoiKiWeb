@@ -250,7 +250,7 @@
                                     </div>
                                     <div class="col-2">
                                         <%if (cart.getData().get(p).getSales() != null) {%>
-                                        <span><%=format.format(cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate()))%>₫ - (-<%=cart.getData().get(p).getSales().getDiscount_rate()%>%)</span>
+                                        <span><%=format.format(cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate()))%>₫ (-<%=cart.getData().get(p).getSales().getDiscount_rate()%>%)</span>
                                         <%} else {%>
                                         <span><%=format.format(cart.getData().get(p).getPrice())%>₫</span>
                                         <%}%>
@@ -268,8 +268,9 @@
                                             <span><%=cart != null ? format.format(cart.total()) : 0%>₫</span></div>
                                     </div>
                                     <div class="row row-sliderbar-footer">
-                                        <div class="col-6"><span>Phí vận chuyển</span></div>
-                                        <div class="col-6 text-right"><span id="transfer-fee"></span></div>
+                                        <div class="col-6"><span>Phí vận chuyển:</span></div>
+                                        <div class="col-6 text-right"><span id="transfer-fee"><i
+                                                class="fas fa-spinner fa-spin" aria-hidden="true"></i></span></div>
                                     </div>
                                 </div>
                                 <div class="total">
@@ -282,8 +283,10 @@
                                     </div>
                                 </div>
                                 <div class="row row-sliderbar-footer">
-                                    <div class="col-6"><span>Dự kiến giao hàng</span></div>
-                                    <div class="col-6 text-right"><span id="lead-time"></span></div>
+                                    <div class="col-6"><span>Dự kiến giao hàng:</span></div>
+                                    <div class="col-6 text-right"><span id="lead-time"><i class="fas fa-spinner fa-spin"
+                                                                                          aria-hidden="true"></i></span>
+                                    </div>
                                 </div>
                                 <div class="salecode">
                                     <div class="row row-sliderbar-footer">
@@ -362,6 +365,7 @@
     }
 </script>
 <script>
+    let transferFee = 0;
     // lấy địa chỉ ra rồi chia ra từng thành phần
     const addressInfo = $('#diachi').val();
     const addressParts = addressInfo.split(", ");
@@ -375,10 +379,6 @@
         $("#sonha").val(houseNumber1);
     }
     console.log(addressInfo)
-    $("#adjust-info").click(function (event) {
-        event.preventDefault();
-        $("#update-info").css("display", "block");
-    });
 </script>
 <script>
     Validator({
@@ -395,6 +395,28 @@
             console.log(data);
         }
     });
+
+    function onChangeAddress() {
+        $("#adjust-info").click(function (event) {
+            event.preventDefault();
+            if ($("#update-info").css("display").toLowerCase() === "block") {
+                const city = $("#city option:selected").text();
+                const district = $("#district option:selected").text();
+                const ward = $("#ward option:selected").text();
+                const houseNumb = $("#sonha").val();
+                const addressInfo = houseNumb + ", " + ward + ", " + district + ", " + city;
+                if ($("#city option:selected").val() !== "" &&
+                    $("#district option:selected").val() !== "" &&
+                    $("#ward option:selected").val() !== "" &&
+                    $("#sonha").val() !== "") {
+                    $("#diachi").val(addressInfo);
+                    updateFeeAndTime();
+                }
+                $("#update-info").css("display", "none");
+            } else
+                $("#update-info").css("display", "block");
+        })
+    }
 
     $(".btn-pay").click(function (e) {
         e.preventDefault();
@@ -448,7 +470,8 @@
                 payment_method: payment_method,
                 total: total,
                 customer_id: customer_id,
-                sale_code: sale_code
+                sale_code: sale_code,
+                transferFee: transferFee
             },
             success: function (data) {
                 alert(data);
@@ -462,28 +485,32 @@
 
     function applyCode() {
         $(".codebutt").click(function (e) {
-            e.preventDefault();
-            const sale_code = $(".sale_code").val();
-            console.log(sale_code)
-            $.ajax({
-                url: "PromotionCodeController",
-                type: "post",
-                data: {
-                    sale_code: sale_code
-                },
-                success: function (data) {
-                    $(".slider-footer").each(function () {
-                        $(this).html(data);
-                    })
-                },
-                error: function (data) {
-                    alert("Mã của bạn đã hết hạn hoặc không thể sử dụng");
-                }
-            })
+            if ($(".sale_code").val() == null || $(".sale_code").val().length < 1) {
+                alert("Mã ưu đãi rỗng !")
+            } else {
+                e.preventDefault();
+                const sale_code = $(".sale_code").val();
+                $.ajax({
+                    url: "PromotionCodeController",
+                    type: "post",
+                    data: {
+                        sale_code: sale_code
+                    },
+                    success: function (data) {
+                        $(".slider-footer").each(function () {
+                            $(this).html(data);
+                        })
+                    },
+                    error: function (data) {
+                        alert("Mã của bạn đã hết hạn hoặc không thể sử dụng");
+                    }
+                })
+            }
         })
     }
 
     $(document).ready(function () {
+        onChangeAddress();
         applyCode();
     })
 </script>
@@ -495,17 +522,23 @@
     let districtCode
     let Ward
     let wardCode
-    $.ajax({
-        url: "./API/Login",
-        type: "post",
-        success: function (data) {
-            access_token = data.access_token
-            checkAddress()
-        },
-        error: function (data) {
-            console.log(data)
-        }
-    })
+    updateFeeAndTime()
+
+    function updateFeeAndTime() {
+        $("#transfer-fee").empty().append(`<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>`)
+        $("#lead-time").empty().append(`<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>`)
+        $.ajax({
+            url: "./API/Login",
+            type: "post",
+            success: function (data) {
+                access_token = data.access_token
+                checkAddress()
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
+    }
 
     function checkAddress() {
         const address = $("#diachi").val();
@@ -579,10 +612,11 @@
                 to_ward_id: wardCode
             },
             success: function (data) {
+                transferFee = parseInt(data.data[0].service_fee) / 50
                 let fee = new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
                     currency: 'VND'
-                }).format(parseInt(data.data[0].service_fee) / 10)
+                }).format(transferFee)
                 $("#transfer-fee").text(fee)
             },
             error: function (data) {
@@ -592,7 +626,22 @@
     }
 
     function Time(provinceCode, districtCode, wardCode) {
-
+        $.ajax({
+            url: "./API/Time",
+            type: "post",
+            data: {
+                access_token: access_token,
+                to_district_id: districtCode,
+                to_ward_id: wardCode
+            },
+            success: function (data) {
+                let time = data.data[0].formattedDate
+                $("#lead-time").text(time.substring(0, time.indexOf("T")))
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
     }
 </script>
 </body>
