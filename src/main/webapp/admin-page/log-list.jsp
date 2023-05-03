@@ -79,21 +79,26 @@
                   <span></span>
                 </label>
               </div>
-              <div class="item-col item-col-header item-col-title" style="max-width: 125px !important;">
-                <div>
-                  <span>Mã thông báo</span>
-                </div>
-              </div>
-              <div class="item-col item-col-header item-col-sales" style="text-align: left!important;">
-                <div style="margin-left: 25px">
-                  <span>Mã đơn hàng</span>
-                </div>
-              </div>
+<%--              <div class="item-col item-col-header item-col-title" style="max-width: 125px !important;">--%>
+<%--                <div>--%>
+<%--                  <span>Mã log</span>--%>
+<%--                </div>--%>
+<%--              </div>--%>
+<%--              <div class="item-col item-col-header item-col-sales" style="text-align: left!important;">--%>
+<%--                <div style="margin-left: 25px">--%>
+<%--                  <span>Mã người dùng</span>--%>
+<%--                </div>--%>
+<%--              </div>--%>
               <div class="item-col item-col-header item-col-category">
                 <div class="no-overflow">
                   <span>Thông báo</span>
                 </div>
               </div>
+<%--              <div class="item-col item-col-header item-col-category">--%>
+<%--                <div class="no-overflow">--%>
+<%--                  <span>Level</span>--%>
+<%--                </div>--%>
+<%--              </div>--%>
               <div class="item-col item-col-header item-col-date" style="text-align: center;">
                 <div>
                   <span>Ngày thông báo</span>
@@ -102,16 +107,18 @@
               <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
             </div>
           </li>
-          <% int pageNumb = -1;
-            List<LogAdmin> list = LogService.getInstance().loadLogWithPage(1,6);
-            if (list.size() > 4)
-              pageNumb = 4;
-            else pageNumb = list.size();
-          %>
+<%--          <% int pageNumb = -1;--%>
+<%--            List<LogAdmin> list = LogService.getInstance().loadLogWithPage(1,6);--%>
+<%--            if (list.size() > 4)--%>
+<%--              pageNumb = 4;--%>
+<%--            else pageNumb = list.size();--%>
+<%--          %>--%>
           <div id="appendItem">
-            <% if (list != null){
-              for (int i = 0; i < pageNumb; i++) {%>
-            <li class="item<%=list.get(i).getId()%>">
+<%--            <% if (list != null){--%>
+<%--              for (int i = 0; i < pageNumb; i++) {%>--%>
+            <li class="item
+<%--<%=list.get(i).getId()%>--%>
+">
               <div class="item-row">
                 <div class="item-col fixed item-col-check" style="margin-left: 20px">
                   <label class="item-check" id="select-all-items">
@@ -119,31 +126,32 @@
                     <span></span>
                   </label>
                 </div>
-                <div class="item-col fixed pull-left item-col-title"
-                     style="max-width: 115px !important;">
-                  <div class="item-heading">Mã thông báo</div>
-                  <div>
-                    <a>
-                      <h4 class="item-title"><%=list.get(i).getId()%>
-                      </h4>
-                    </a>
+                <div class="log-item" style="display: flex">
+                  <div class="log-pic" style="width: 100%">
                   </div>
-                </div>
-                <div class="item-col item-col-sales" style="text-align: left!important;">
-                  <div class="item-heading">Mã đơn hàng</div>
-                  <div class="sales" style="text-align: left; padding-left:55px">
-<%--                    <%=list.get(i).getOrder_id()%>--%>
-                  </div>
-                </div>
-                <div class="item-col item-col-category">
-                  <div class="item-heading">Thông báo</div>
-                  <div class="sales" style="text-align: left">
-<%--                    <%=list.get(i).getContent()%>--%>
-                  </div>
-                </div>
-                <div class="item-col item-col-date" style="text-align: center;">
-                  <div class="item-heading">Ngày thêm</div>
-                  <div class="no-overflow"><%=list.get(i).getCreated_date()%>
+                  <div class="log-content" style="width: 100%">
+                    <div class="content">
+                      <div class=""
+                           style="max-width: 115px !important;">
+                        <div class="item-heading">Mã log</div>
+                        <div class="item-col item-col-category">
+                          <div class="item-heading">Thông báo</div>
+                          <div class="sales" style="text-align: center">
+                            test message
+<%--                            <%=list.get(i).getMessage()%>--%>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="log-date">
+                      <div class="" style="text-align: center;">
+                        <div class="item-heading">Ngày thêm</div>
+                        <div class="no-overflow">
+                          test ngayf
+  <%--                        <%=list.get(i).getCreated_date()%>--%>
+                      </div>
+                    </div>
+                    </div>
                   </div>
                 </div>
                 <div class="item-col fixed item-col-actions-dropdown">
@@ -157,13 +165,15 @@
                                     </span>
                     </a>
                     <div class="item-actions-block">
-                      <ul class="item-actions-list" style="margin-top: 6px;">
+                      <ul class="item-actions-list" style="margin-top: 1px;">
 <%--                        <%--%>
 <%--                          for (AdminRole role : admin.getRole()) {--%>
 <%--                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {--%>
 <%--                        %>--%>
                         <li>
-                          <a class="remove" id="remove<%=list.get(i).getId()%>"
+                          <a class="remove" id="remove
+<%--<%=list.get(i).getId()%>--%>
+"
                              data-toggle="modal"
                              data-target="#confirm-modal" style="cursor: pointer">
                             <i class="fa fa-trash-o "></i>
@@ -179,8 +189,8 @@
                 </div>
               </div>
             </li>
-            <% }
-            }%>
+<%--            <% }--%>
+<%--            }%>--%>
           </div>
         </ul>
       </div>
@@ -295,7 +305,7 @@
       const page = parseInt($("#page").text()) - 1;
       if (page > 0) {
         $.ajax({
-          url: "../loadLogListAdmin",
+          url: "../LoadLogAdmin",
           type: "post",
           data: {
             page: page,
@@ -313,7 +323,7 @@
       e.preventDefault();
       const page = parseInt($("#page").text()) + 1;
       $.ajax({
-        url: "../loadLogListAdmin",
+        url: "../LoadLogAdmin",
         type: "post",
         data: {
           page: page,

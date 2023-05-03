@@ -27,4 +27,8 @@ public class LogService {
         LogAdminDAO DAO = new LogAdminDAO();
         return DAO.addNewLog(id_user, level,message);
     }
+    public void RemoveLog(String id) {
+        LogAdminDAO DAO = new LogAdminDAO();
+        DAO.RemoveLog(id);
+    }
 }

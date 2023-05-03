@@ -77,6 +77,15 @@ public class LogAdminDAO {
         );
         return idLog;
     }
+    public void RemoveLog(String id) {
+        JDBIConnector.get().withHandle(handle -> {
+                    handle.createUpdate("DELETE FROM log_admin WHERE id = ?")
+                            .bind(0, id)
+                            .execute();
+                    return true;
+                }
+        );
+    }
     public static void main(String[] args) {
         System.out.println(new LogAdminDAO().loadNewestLogs());
     }
