@@ -12,6 +12,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax/ajax_LoadNewsListAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax/ajax_LoadOrderListAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax/ajax_LoadProductListAdminProduct.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax/ajax_LoadPromotionListAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax/ajax_LoadReviewListAdmin.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page/ajax" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/catetory-list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/chart/chart_type1.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page/chart" />
@@ -35,6 +36,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/index.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/listlike.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/newDetail.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/pay.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>
     </option>
   </component>

@@ -4,7 +4,10 @@
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.promotion_code.PromotionCode" %>
+<%@ page import="vn.edu.hcmuaf.fit.DAO.PromotionCodeDAO" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.PromotionCodeService" %><%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 1/6/2023
@@ -16,13 +19,31 @@
     List<OrderDetail> list = (List<OrderDetail>) request.getAttribute("list");
     NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));
     Order order = (Order) request.getAttribute("order");
+    List<PromotionCode> list_code = PromotionCodeService.getInstance().loadAllLegitCode();
+
     if (list != null) {
 %>
 <div class="modal-body" style="margin-top:10px">
     <div class="body-one">
-        <div>Tổng tiền: <p><%=formatter.format(order.getTotal())%> đ</p></div>
+        <%if (order.getCode_id() != null && !order.getCode_id().equals("NoCode")) {
+                PromotionCode code = PromotionCodeService.getInstance().getPromotionCodeById(order.getCode_id()); %>
+        <div>Tạm tính: <p><%=formatter.format(order.getTotal() - 30000 + code.getDiscount_money())%> đ</p></div>
         <div>Phí ship:<p>30.000 đ</p></div>
-        <div>Thành Tiền: <p><%=formatter.format(order.getTotal() + 30000)%> đ</p></div>
+        <%if(code.getType_code().equals("THOITRANG")) {%>
+            <div>Mã khuyến mãi thời trang:<p>- <%=formatter.format(code.getDiscount_money())%> đ</p></div>
+        <%} else {%>
+            <div>Mã khuyến mãi vận chuyển:<p>- <%=formatter.format(code.getDiscount_money())%> đ</p></div>
+        <%}%>
+        <div>Tổng Tiền: <p><%=formatter.format(order.getTotal())%> đ</p></div>
+        <span style="visibility: hidden"><%=order.getCode_id()%></span>
+        <span style="visibility: hidden"><%=order.getOrd_id()%></span>
+        <%} else {%>
+        <div>Tạm tính: <p><%=formatter.format(order.getTotal() - 30000)%> đ</p></div>
+        <div>Phí ship:<p>30.000 đ</p></div>
+        <div>Tổng Tiền: <p><%=formatter.format(order.getTotal())%> đ</p></div>
+        <span style="visibility: hidden"><%=order.getCode_id()%></span>
+        <span style="visibility: hidden"><%=order.getOrd_id()%></span>
+        <%}%>
     </div>
     <form action="">
         <div class="my-order-heading">

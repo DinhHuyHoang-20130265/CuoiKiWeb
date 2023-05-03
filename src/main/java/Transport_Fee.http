@@ -1,4 +1,4 @@
-POST http://140.238.54.136/api/leadTime
+POST http://140.238.54.136/api/calculateFee
 Content-Type: application/json
 
 {

@@ -131,7 +131,7 @@
     SiteUser user = (SiteUser) request.getSession().getAttribute("user");
     Cart cart = (Cart) request.getSession().getAttribute("cart");
     UserInformation userInformation = null;
-    if (user == null)  {
+    if (user == null) {
         response.sendRedirect("Login.jsp");
     } else {
         userInformation = UserInformationService.getInstance().getUserInfo(user.getId());
@@ -156,18 +156,20 @@
                                 <input class="user_id" value="<%=user.getId()%>" style="display: none">
                                 <div class="main-customer-info">
                                     <div class="main-customer-info-img">
-                                        <img src="<%=userInformation.getAvatar_link()%>" alt="" width="60px" height="60px">
+                                        <img src="<%=userInformation.getAvatar_link()%>" alt="" width="60px"
+                                             height="60px">
                                     </div>
                                 </div>
                                 <div class="fieldset">
                                     <div class="fieldset-address form-group">
                                         <input id="error" type="text" class="error" value="" style="display: none">
                                         <label for="diachi" class="form-label">Địa chỉ</label>
-                                        <input id="diachi" type="text" class="form-control" value="<%=userInformation.getAddress()%>"
+                                        <input id="diachi" type="text" class="form-control"
+                                               value="<%=userInformation.getAddress()%>"
                                                style="margin-bottom: 8px"
                                                readonly>
                                         <div id="update-info" style="display: none">
-                                            <section id="thongtin" >
+                                            <section id="thongtin">
                                                 <select id="city" class="form-control selection">
                                                     <option value="" selected>Chọn tỉnh thành</option>
                                                 </select>
@@ -179,7 +181,8 @@
                                                 </select>
                                             </section>
                                             <label for="sonha" class="label-min">Đường và số nhà</label>
-                                            <input id="sonha" type="text" value="" class="form-control" placeholder="Điền số nhà">
+                                            <input id="sonha" type="text" value="" class="form-control"
+                                                   placeholder="Điền số nhà">
                                             <span class="form-message"> </span>
                                         </div>
                                         <button id="adjust-info">Chỉnh sửa thông tin</button>
@@ -247,7 +250,7 @@
                                     </div>
                                     <div class="col-2">
                                         <%if (cart.getData().get(p).getSales() != null) {%>
-                                        <span><%=format.format(cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate()))%>₫ - (-<%=cart.getData().get(p).getSales().getDiscount_rate()%>%)</span>
+                                        <span><%=format.format(cart.getData().get(p).getPrice() * 0.01 * (100 - cart.getData().get(p).getSales().getDiscount_rate()))%>₫ (-<%=cart.getData().get(p).getSales().getDiscount_rate()%>%)</span>
                                         <%} else {%>
                                         <span><%=format.format(cart.getData().get(p).getPrice())%>₫</span>
                                         <%}%>
@@ -265,8 +268,9 @@
                                             <span><%=cart != null ? format.format(cart.total()) : 0%>₫</span></div>
                                     </div>
                                     <div class="row row-sliderbar-footer">
-                                        <div class="col-6"><span>Phí vận chuyển</span></div>
-                                        <div class="col-6 text-right"><span>30,000₫</span></div>
+                                        <div class="col-6"><span>Phí vận chuyển:</span></div>
+                                        <div class="col-6 text-right"><span id="transfer-fee"><i
+                                                class="fas fa-spinner fa-spin" aria-hidden="true"></i></span></div>
                                     </div>
                                 </div>
                                 <div class="total">
@@ -278,12 +282,19 @@
                                                style="display: none">;
                                     </div>
                                 </div>
+                                <div class="row row-sliderbar-footer">
+                                    <div class="col-6"><span>Dự kiến giao hàng:</span></div>
+                                    <div class="col-6 text-right"><span id="lead-time"><i class="fas fa-spinner fa-spin"
+                                                                                          aria-hidden="true"></i></span>
+                                    </div>
+                                </div>
                                 <div class="salecode">
                                     <div class="row row-sliderbar-footer">
                                         <div class="col-6"><span>Nhập mã ưu đãi:</span></div>
                                         <textarea class="sale_code form-control"
                                                   placeholder="Nhập vào nếu có"></textarea>
                                         <button class="codebutt">Áp Dụng</button>
+                                        <input class="sale_code_hidden" value="NoCode" style="visibility: hidden">
                                     </div>
                                 </div>
                                 <hr>
@@ -325,6 +336,7 @@
     promise.then(function (result) {
         renderCity(result.data);
     });
+
     function renderCity(data) {
         for (const x of data) {
             cities.options[cities.options.length] = new Option(x.Name, x.Id);
@@ -332,7 +344,7 @@
         cities.onchange = function () {
             districts.length = 1;
             wards.length = 1;
-            if(this.value !== ""){
+            if (this.value !== "") {
                 const result = data.filter(n => n.Id === this.value);
 
                 for (const k of result[0].Districts) {
@@ -353,6 +365,7 @@
     }
 </script>
 <script>
+    let transferFee = 0;
     // lấy địa chỉ ra rồi chia ra từng thành phần
     const addressInfo = $('#diachi').val();
     const addressParts = addressInfo.split(", ");
@@ -366,10 +379,6 @@
         $("#sonha").val(houseNumber1);
     }
     console.log(addressInfo)
-    $("#adjust-info").click(function (event){
-        event.preventDefault();
-        $("#update-info").css("display","block");
-    });
 </script>
 <script>
     Validator({
@@ -387,6 +396,28 @@
         }
     });
 
+    function onChangeAddress() {
+        $("#adjust-info").click(function (event) {
+            event.preventDefault();
+            if ($("#update-info").css("display").toLowerCase() === "block") {
+                const city = $("#city option:selected").text();
+                const district = $("#district option:selected").text();
+                const ward = $("#ward option:selected").text();
+                const houseNumb = $("#sonha").val();
+                const addressInfo = houseNumb + ", " + ward + ", " + district + ", " + city;
+                if ($("#city option:selected").val() !== "" &&
+                    $("#district option:selected").val() !== "" &&
+                    $("#ward option:selected").val() !== "" &&
+                    $("#sonha").val() !== "") {
+                    $("#diachi").val(addressInfo);
+                    updateFeeAndTime();
+                }
+                $("#update-info").css("display", "none");
+            } else
+                $("#update-info").css("display", "block");
+        })
+    }
+
     $(".btn-pay").click(function (e) {
         e.preventDefault();
         const city = $("#city option:selected").text();
@@ -395,10 +426,9 @@
         const houseNumb = $("#sonha").val();
         const addressInfo = houseNumb + ", " + ward + ", " + district + ", " + city;
         const address = $("#diachi").val();
-        if(address === null || address === ""){
+        if (address === null || address === "") {
             address.val(addressInfo);
         }
-        console.log(address)
         const receive_name = $("#hoten").val();
         const email = $("#email").val();
         const phone_number = $("#sdt").val();
@@ -406,6 +436,7 @@
         const payment_method = $(".selection-btn input[type='radio']:checked").val();
         const total = $(".total_input").val();
         const customer_id = $(".user_id").val();
+        const sale_code = $(".sale_code_hidden").val();
         if (address === '' || address == null) {
             alert("Bạn cần điền địa chỉ giao hàng")
             return false;
@@ -422,6 +453,11 @@
             alert("Bạn cần điền số điện thoại nhận hàng")
             return false;
         }
+        if (sale_code === '' || sale_code == null) {
+            function setSale_code() {
+                sale_code.val("NoCode");
+            }
+        }
         $.ajax({
             url: "CheckoutController",
             type: "post",
@@ -433,7 +469,9 @@
                 note: note,
                 payment_method: payment_method,
                 total: total,
-                customer_id: customer_id
+                customer_id: customer_id,
+                sale_code: sale_code,
+                transferFee: transferFee
             },
             success: function (data) {
                 alert(data);
@@ -444,31 +482,167 @@
             }
         })
     })
+
     function applyCode() {
         $(".codebutt").click(function (e) {
-            e.preventDefault();
-            const sale_code = $(".sale_code").val();
-            console.log(sale_code)
-            $.ajax({
-                url: "PromotionCodeController",
-                type: "post",
-                data: {
-                    sale_code: sale_code
-                },
-                success: function (data) {
-                    $(".slider-footer").each(function () {
-                        $(this).html(data);
-                    })
-                },
-                error: function (data) {
-                    alert("Mã của bạn đã hết hạn hoặc không thể sử dụng");
-                }
-            })
+            if ($(".sale_code").val() == null || $(".sale_code").val().length < 1) {
+                alert("Mã ưu đãi rỗng !")
+            } else {
+                e.preventDefault();
+                const sale_code = $(".sale_code").val();
+                $.ajax({
+                    url: "PromotionCodeController",
+                    type: "post",
+                    data: {
+                        sale_code: sale_code
+                    },
+                    success: function (data) {
+                        $(".slider-footer").each(function () {
+                            $(this).html(data);
+                        })
+                    },
+                    error: function (data) {
+                        alert("Mã của bạn đã hết hạn hoặc không thể sử dụng");
+                    }
+                })
+            }
         })
     }
+
     $(document).ready(function () {
+        onChangeAddress();
         applyCode();
     })
+</script>
+<script>
+    let access_token
+    let Province
+    let provinceCode
+    let District
+    let districtCode
+    let Ward
+    let wardCode
+    updateFeeAndTime()
+
+    function updateFeeAndTime() {
+        $("#transfer-fee").empty().append(`<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>`)
+        $("#lead-time").empty().append(`<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>`)
+        $.ajax({
+            url: "./API/Login",
+            type: "post",
+            success: function (data) {
+                access_token = data.access_token
+                checkAddress()
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
+    function checkAddress() {
+        const address = $("#diachi").val();
+        if (address !== null && address !== "null" && address !== "") {
+            const myArray = address.split(", ");
+            let [_, ward, district, province] = myArray;
+            $.ajax({
+                url: "./API/Province",
+                type: "get",
+                data: {
+                    access_token: access_token
+                },
+                success: function (data) {
+                    Province = data.original.data.find(obj => province.indexOf(obj.ProvinceName) !== -1)
+                    provinceCode = Province.ProvinceID
+                    checkDistrict(ward, district);
+                },
+                error: function (data) {
+                    console.log(data)
+                }
+            })
+        }
+    }
+
+    function checkDistrict(ward, district) {
+        $.ajax({
+            url: "./API/District",
+            type: "get",
+            data: {
+                access_token: access_token,
+                provinceCode: provinceCode
+            },
+            success: function (data) {
+                District = data.original.data.find(obj => district.indexOf(obj.DistrictName) !== -1)
+                districtCode = District.DistrictID
+                checkWard(ward);
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        });
+    }
+
+    function checkWard(ward) {
+        $.ajax({
+            url: "./API/Ward",
+            type: "get",
+            data: {
+                access_token: access_token,
+                districtCode: districtCode
+            },
+            success: function (data) {
+                Ward = data.original.data.find(obj => ward.indexOf(obj.WardName) !== -1)
+                wardCode = Ward.WardCode
+                Calculate(provinceCode, districtCode, wardCode);
+                Time(provinceCode, districtCode, wardCode);
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
+    function Calculate(provinceCode, districtCode, wardCode) {
+        $.ajax({
+            url: "./API/Fee",
+            type: "post",
+            data: {
+                access_token: access_token,
+                to_district_id: districtCode,
+                to_ward_id: wardCode
+            },
+            success: function (data) {
+                transferFee = parseInt(data.data[0].service_fee) / 50
+                let fee = new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(transferFee)
+                $("#transfer-fee").text(fee)
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
+    }
+
+    function Time(provinceCode, districtCode, wardCode) {
+        $.ajax({
+            url: "./API/Time",
+            type: "post",
+            data: {
+                access_token: access_token,
+                to_district_id: districtCode,
+                to_ward_id: wardCode
+            },
+            success: function (data) {
+                let time = data.data[0].formattedDate
+                $("#lead-time").text(time.substring(0, time.indexOf("T")))
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
+    }
 </script>
 </body>
 </html>

@@ -35,6 +35,9 @@
             element: 'morris-donut-chart',
             data: [
                 <%
+                if (sales.isEmpty()) {%>
+                {label: 'empty', value: 0}
+                <%}
                 for (String key : sales.keySet()) {
                 i++;%>
                 {label: '<%=key%>', value: <%=sales.get(key)%>}<%=i==sales.keySet().size() ? "": ","%>

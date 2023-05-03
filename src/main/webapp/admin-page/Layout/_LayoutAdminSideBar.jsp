@@ -100,10 +100,16 @@
                             <a href="#"> Khuyến mãi <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
-                                    <a href="promotion-list.jsp"> Danh sách khuyến mãi </a>
+                                    <a href="promotion-list.jsp"> Danh sách khuyến mãi sản phẩm </a>
                                 </li>
                                 <li>
-                                    <a href="promotion-editor.jsp"> Chỉnh sửa thông tin khuyến mãi </a>
+                                    <a href="promotion-editor.jsp"> Chỉnh sửa thông tin khuyến mãi sản phẩm </a>
+                                </li>
+                                <li>
+                                    <a href="code-list.jsp"> Danh sách mã khuyến mãi </a>
+                                </li>
+                                <li>
+                                    <a href="code-editor.jsp"> Chỉnh sửa thông tin mã khuyến mãi </a>
                                 </li>
                             </ul>
                         </li>
