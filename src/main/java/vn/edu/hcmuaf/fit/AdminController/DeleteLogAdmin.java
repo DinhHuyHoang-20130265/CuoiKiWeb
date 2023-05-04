@@ -21,7 +21,7 @@ public class DeleteLogAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         int page = Integer.parseInt(request.getParameter("page"));
-        LogService.getInstance().RemoveLog(id);
+        LogService.getInstance().removeLog(id);
         List<LogAdmin> list = LogService.getInstance().loadLogWithPage(page,6);
         request.setAttribute("loadLogs", list);
         request.getRequestDispatcher("/admin-page/ajax/ajax_loadLogListAdmin.jsp").forward(request, response);

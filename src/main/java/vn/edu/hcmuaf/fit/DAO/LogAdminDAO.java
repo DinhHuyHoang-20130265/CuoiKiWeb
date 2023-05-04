@@ -77,7 +77,7 @@ public class LogAdminDAO {
         );
         return idLog;
     }
-    public void RemoveLog(String id) {
+    public void removeLog(String id) {
         JDBIConnector.get().withHandle(handle -> {
                     handle.createUpdate("DELETE FROM log_admin WHERE id = ?")
                             .bind(0, id)

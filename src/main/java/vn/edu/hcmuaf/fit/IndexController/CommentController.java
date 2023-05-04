@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
 import vn.edu.hcmuaf.fit.beans.news.NewsComment;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.NewsCommentService;
 
 import javax.servlet.*;
@@ -24,7 +25,9 @@ public class CommentController extends HttpServlet {
         String comment = request.getParameter("comment");
         String NewsId = request.getParameter("newsid");
         String Comment_id = NewsCommentService.getInstance().AddNewComment(id, comment, NewsId);
+        String username = NewsCommentService.getInstance().getUserByIdComment(id);
         NewsComment news = NewsCommentService.getInstance().getNewsCommentByIdComment(Comment_id);
+        LogService.getInstance().addNewLog(username,"comment","Người dùng "+ username + " đã bình luận vào tin tức " + id);
         request.setAttribute("new_comment", news);
         request.getRequestDispatcher("ajax/ajax_showNewComment.jsp").forward(request, response);
     }

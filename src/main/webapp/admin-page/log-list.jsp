@@ -74,12 +74,6 @@
         <ul class="item-list striped" id="items">
           <li class="item item-list-header" id="first-child">
             <div class="item-row">
-              <div class="item-col fixed item-col-check">
-                <label class="item-check" id="select-all-items">
-                  <input type="checkbox" class="checkbox">
-                  <span></span>
-                </label>
-              </div>
               <div class="item-col item-col-header item-col-category">
                 <div class="no-overflow">
                   <span>Thông báo</span>
@@ -89,7 +83,7 @@
             </div>
           </li>
 <%--          <% int pageNumb = -1;--%>
-<%--            List<LogAdmin> list = LogService.getInstance().loadLogWithPage(1,6);--%>
+<%--            List<LogAdmin> list = LogService.getInstance().loadLogWithPage(1,8);--%>
 <%--            if (list.size() > 4)--%>
 <%--              pageNumb = 4;--%>
 <%--            else pageNumb = list.size();--%>
@@ -97,74 +91,64 @@
           <div id="appendItem">
 <%--            <% if (list != null){--%>
 <%--              for (int i = 0; i < pageNumb; i++) {%>--%>
-            <li class="item
+            <li class="item log-row
 <%--<%=list.get(i).getId()%>--%>
 ">
-              <div class="item-row">
-<%--                <div class="item-col fixed item-col-check">--%>
-<%--                  <label class="item-check" id="select-all-items">--%>
-<%--                    <input type="checkbox" class="checkbox">--%>
-<%--                    <span></span>--%>
-<%--                  </label>--%>
-<%--                </div>--%>
-                <div class="log-item" style="display: flex;
-                                             width: 1000px">
-                  <div class="log-pic">pic test</div>
-                  <div class="log-content">
-                    <div class="log-ctnt">
-                      <div class=""
-<%--                           style="width: 115px !important;"--%>
-                      >
+              <div class="item-row log-container">
+                <div class="log-item">
+                    <div class="log-pic"></div>
+                    <div class="log-content">
                         <div class="log-msg">
-                          <div class="sales" style="text-align: left">
-                            test message test messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagettest messagetest messagetest messageest messagetest message
-<%--                            <%=list.get(i).getMessage()%>--%>
+                      <div class="log-txt" style="text-align: left">
+                        User Nguyễn Minh Hiếu đã cố đăng nhập vào hệ thống vào ngày 18/02/2002 vào 12h30
+                          User ID:minhiudeptraisiucapvutru1802
+    <%--                            <%=list.get(i).getMessage()%>--%>
+                      </div>
+                    </div>
+                        <div class="log-date">
+                          <div class="" style="text-align: left;">
+                              <div class="">
+                                  <i>
+                                        Ngày 18/02/2002
+                                      <%--                        Ngày <%=list.get(i).getCreated_date()%>--%>
+                                  </i>
+                              </div>
                           </div>
-                        </div>
                       </div>
                     </div>
-                    <div class="log-date">
-                      <div class="" style="text-align: left;">
-                        <div class="">
-                          test ngayf test ngayf
-                        <%--                        <%=list.get(i).getCreated_date()%>--%>
-                      </div>
-                    </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="item-col fixed item-col-actions-dropdown">
-                  <div class="item-actions-dropdown">
-                    <a class="item-actions-toggle-btn">
+                    <div class="item-col fixed item-col-actions-dropdown log-btn">
+                        <div class="item-actions-dropdown " >
+                            <a class="item-actions-toggle-btn ">
                                     <span class="inactive">
-                                        <i class="fa fa-cog"></i>
+                                        <i class="fa fa-cog" style="margin-top: 5px;display: none"></i>
                                     </span>
-                      <span class="active">
-                                        <i class="fa fa-chevron-circle-right"></i>
+                                <span class="active">
+                                        <i class="fa fa-chevron-circle-right" style="margin-top: 5px"></i>
                                     </span>
-                    </a>
-                    <div class="item-actions-block">
-                      <ul class="item-actions-list" style="margin-top: 1px;">
-<%--                        <%--%>
-<%--                          for (AdminRole role : admin.getRole()) {--%>
-<%--                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {--%>
-<%--                        %>--%>
-                        <li>
-                          <a class="remove" id="remove
+                            </a>
+                            <div class="item-actions-block" style="margin-top: 1px">
+                                <ul class="item-actions-list" style="margin-top: 1px;">
+                                    <%--                        <%--%>
+                                    <%--                          for (AdminRole role : admin.getRole()) {--%>
+                                    <%--                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {--%>
+                                    <%--                        %>--%>
+                                    <li>
+                                        <a class="remove" id="remove
 <%--<%=list.get(i).getId()%>--%>
 "
-                             data-toggle="modal"
-                             data-target="#confirm-modal" style="cursor: pointer">
-                            <i class="fa fa-trash-o "></i>
-                          </a>
-                        </li>
-<%--                        <%--%>
-<%--                            }--%>
-<%--                          }--%>
-<%--                        %>--%>
-                      </ul>
+                                           data-toggle="modal"
+                                           data-target="#confirm-modal" style="cursor: pointer">
+                                            <i class="fa fa-trash-o "></i>
+                                        </a>
+                                    </li>
+                                    <%--                        <%--%>
+                                    <%--                            }--%>
+                                    <%--                          }--%>
+                                    <%--                        %>--%>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
-                  </div>
                 </div>
               </div>
             </li>
@@ -292,7 +276,7 @@
           success: function (data) {
             $("#appendItem").html(data);
             $("#page").text(page)
-            deleteCate();
+              deleteLog();
             reloadScript();
           }
         })
@@ -312,7 +296,7 @@
           if ($.trim(data)) {
             $("#appendItem").html(data);
             $("#page").text(page)
-            deleteCate();
+              deleteLog();
             reloadScript();
           }
         },

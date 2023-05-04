@@ -133,7 +133,16 @@ public class NewsCommentDAO {
                 .execute()
         );
     }
+    public String getUserByIdComment(String id){
+        NewsComment user =  JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT comment_by FROM news_comment WHERE comment_id = ?")
+                .bind(0, id)
+                .mapToBean(NewsComment.class)
+                .first()
+        );
+        return user.getComment_by().toString();
+    }
     public static void main(String[] args) {
-        System.out.println(new NewsCommentDAO().getAllCommentByPage(3));
+        System.out.println(new NewsCommentDAO().getAllCommentByPage(1));
+        System.out.println(new NewsCommentDAO().getUserByIdComment("cmt10"));
     }
 }

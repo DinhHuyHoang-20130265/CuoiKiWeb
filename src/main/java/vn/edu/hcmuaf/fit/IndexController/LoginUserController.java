@@ -1,13 +1,12 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
-import vn.edu.hcmuaf.fit.DAO.SiteUserDAO;
 import vn.edu.hcmuaf.fit.beans.ForgotPasswordStatus;
 import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.beans.cart.Cart;
 import vn.edu.hcmuaf.fit.beans.wishlist.WishList;
 import vn.edu.hcmuaf.fit.services.AccountService;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.LoginService;
-import vn.edu.hcmuaf.fit.services.NotifyService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -44,9 +43,11 @@ public class LoginUserController extends HttpServlet {
             session.setAttribute("user", account);
             session.setAttribute("cart", new Cart());
             session.setAttribute("wishList", new WishList());
+            LogService.getInstance().addNewLog(AccountService.getInstance().getIdUserByName(username),"login","Người dùng "+ AccountService.getInstance().getIdUserByName(username) + " đã đặt đăng nhập vào hệ thống thành công");
             response.sendRedirect("index.jsp");
         } else { // nếu = null chứng tỏ sai
             request.setAttribute("loginStatus", LoginService.getInstance().getStatus());
+            LogService.getInstance().addNewLog(null,"error","Người dùng "+ username + " đã cố đăng nhập vào hệ thống thất bại");
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
     }

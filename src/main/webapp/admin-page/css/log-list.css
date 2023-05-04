@@ -1,25 +1,39 @@
-.log.item{
-    min-height: 70px ;
-    border: 1px solid gray;
+.log-row{
+    width: auto;
 }
-.log-content{
-    min-height: 70px;
-    max-height: 75px;
-    margin-left: 10px;
+.log-item{
+    min-height: 70px ;
+    display: flex;
+    width:auto;
 }
 .log-pic{
     background: #00cccc;
-    border-radius: 20%;
+    border-radius: 50%;
     border: 1px solid #0c5460;
-    height: 45px;
-    width: 45px;
-    margin-top: 4px;
+    width: 10px;
+    height: 10px;
+    padding: 28px;
+    margin-top: 7px;
+}
+.log-content{
+    padding-top: 3px;
+    height: 70px;
+    min-width: 60%;
+    margin-left: 10px;
 }
 .log-msg{
     font-size: 17px;
     font-weight: 600;
 }
 .log-date{
-    font-size: 11px;
-    font-weight: 200;
+    font-size: 13px;
+    font-weight: 400;
+}
+.log-row:hover > .log-container{
+    border-radius: 20PX;
+    background: rgba(152, 152, 152, 0.6);
+}
+.log-row:hover .fa-cog{
+    display: block !important;
+    color: rgba(73, 73, 73, 0.9) !important;
 }

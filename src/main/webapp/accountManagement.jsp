@@ -127,13 +127,6 @@
                                    value="<%=information.getEmail()%>">
                             <span class="form-message"></span>
                         </div>
-<%--                        <div class="form-group">--%>
-<%--                            <label for="address" class="form-label">Địa chỉ</label>--%>
-<%--                            <input id="address" name="address" type="text" placeholder="VD: 86/2/3 Bình Thạnh TP HCM"--%>
-<%--                                   class="form-control"--%>
-<%--                                   value="<%=information.getAddress()%>">--%>
-<%--                            <span class="form-message"></span>--%>
-<%--                        </div>--%>
                         <div class="fieldset-address form-group">
                             <input type="text" class="error" value="" style="display: none">
                             <label for="diachi" class="form-label">Địa chỉ</label>
@@ -254,11 +247,11 @@
                                                title="Đang giao hàng"></i>
                                             <% } else if (oder.getDelivered() == 1) { %>
                                             <i class="fas fa-check"
-                                               style="margin-right: 0px !important;color: #006500;"
+                                               style="margin-right: 0 !important;color: #006500;"
                                                title="Đã giao hàng"></i>
                                             <% } else { %>
                                             <i class="fas fa-pallet"
-                                               style="margin-right: 0px !important;color: yellow;"
+                                               style="margin-right: 0 !important;color: yellow;"
                                                title="Đơn hàng chuẩn bị giao"></i>
                                             <% }
                                             }
