@@ -1,0 +1,25 @@
+.log.item{
+    min-height: 70px ;
+    border: 1px solid gray;
+}
+.log-content{
+    min-height: 70px;
+    max-height: 75px;
+    margin-left: 10px;
+}
+.log-pic{
+    background: #00cccc;
+    border-radius: 20%;
+    border: 1px solid #0c5460;
+    height: 45px;
+    width: 45px;
+    margin-top: 4px;
+}
+.log-msg{
+    font-size: 17px;
+    font-weight: 600;
+}
+.log-date{
+    font-size: 11px;
+    font-weight: 200;
+}

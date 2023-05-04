@@ -15,8 +15,9 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Place favicon.ico in the root directory -->
-  <link rel="stylesheet" href="css/vendor.css">
-  <style>
+    <link rel="stylesheet" href="css/log-list.css">
+    <link rel="stylesheet" href="css/vendor.css">
+    <style>
     .input-group-btn {
       display: flex;
     }
@@ -79,29 +80,9 @@
                   <span></span>
                 </label>
               </div>
-<%--              <div class="item-col item-col-header item-col-title" style="max-width: 125px !important;">--%>
-<%--                <div>--%>
-<%--                  <span>Mã log</span>--%>
-<%--                </div>--%>
-<%--              </div>--%>
-<%--              <div class="item-col item-col-header item-col-sales" style="text-align: left!important;">--%>
-<%--                <div style="margin-left: 25px">--%>
-<%--                  <span>Mã người dùng</span>--%>
-<%--                </div>--%>
-<%--              </div>--%>
               <div class="item-col item-col-header item-col-category">
                 <div class="no-overflow">
                   <span>Thông báo</span>
-                </div>
-              </div>
-<%--              <div class="item-col item-col-header item-col-category">--%>
-<%--                <div class="no-overflow">--%>
-<%--                  <span>Level</span>--%>
-<%--                </div>--%>
-<%--              </div>--%>
-              <div class="item-col item-col-header item-col-date" style="text-align: center;">
-                <div>
-                  <span>Ngày thông báo</span>
                 </div>
               </div>
               <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
@@ -120,35 +101,33 @@
 <%--<%=list.get(i).getId()%>--%>
 ">
               <div class="item-row">
-                <div class="item-col fixed item-col-check" style="margin-left: 20px">
-                  <label class="item-check" id="select-all-items">
-                    <input type="checkbox" class="checkbox">
-                    <span></span>
-                  </label>
-                </div>
-                <div class="log-item" style="display: flex">
-                  <div class="log-pic" style="width: 100%">
-                  </div>
-                  <div class="log-content" style="width: 100%">
-                    <div class="content">
+<%--                <div class="item-col fixed item-col-check">--%>
+<%--                  <label class="item-check" id="select-all-items">--%>
+<%--                    <input type="checkbox" class="checkbox">--%>
+<%--                    <span></span>--%>
+<%--                  </label>--%>
+<%--                </div>--%>
+                <div class="log-item" style="display: flex;
+                                             width: 1000px">
+                  <div class="log-pic">pic test</div>
+                  <div class="log-content">
+                    <div class="log-ctnt">
                       <div class=""
-                           style="max-width: 115px !important;">
-                        <div class="item-heading">Mã log</div>
-                        <div class="item-col item-col-category">
-                          <div class="item-heading">Thông báo</div>
-                          <div class="sales" style="text-align: center">
-                            test message
+<%--                           style="width: 115px !important;"--%>
+                      >
+                        <div class="log-msg">
+                          <div class="sales" style="text-align: left">
+                            test message test messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagetest messagettest messagetest messagetest messageest messagetest message
 <%--                            <%=list.get(i).getMessage()%>--%>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="log-date">
-                      <div class="" style="text-align: center;">
-                        <div class="item-heading">Ngày thêm</div>
-                        <div class="no-overflow">
-                          test ngayf
-  <%--                        <%=list.get(i).getCreated_date()%>--%>
+                      <div class="" style="text-align: left;">
+                        <div class="">
+                          test ngayf test ngayf
+                        <%--                        <%=list.get(i).getCreated_date()%>--%>
                       </div>
                     </div>
                     </div>

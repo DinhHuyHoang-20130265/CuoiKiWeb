@@ -19,10 +19,10 @@ public class DeleteNotifyAdmin extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        int pageNumb = Integer.parseInt(request.getParameter("pageNumb"));
+        int page = Integer.parseInt(request.getParameter("page"));
         NotifyService.getInstance().removeNotify(id);
-        List<Notify_Admin> list = NotifyService.getInstance().loadNotifyWithPage(pageNumb);
+        List<Notify_Admin> list = NotifyService.getInstance().loadNotifyWithPage(page);
         request.setAttribute("loadMoreNotify", list);
-        request.getRequestDispatcher("/admin-page/ajax/ajax_loadNotifyListAdmin.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin-page/ajax/ajax_loadMoreNotifyListAdmin.jsp").forward(request, response);
     }
 }
