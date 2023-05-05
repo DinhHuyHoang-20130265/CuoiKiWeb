@@ -1,10 +1,11 @@
 .log-row{
-    width: auto;
+    width: 100%;
 }
 .log-item{
     min-height: 70px ;
     display: flex;
-    width:auto;
+    justify-content: flex-start;
+    width: 100%;
 }
 .log-pic{
     background: #00cccc;
@@ -16,17 +17,17 @@
     margin-top: 7px;
 }
 .log-content{
-    padding-top: 3px;
+    padding-top: 12px;
     height: 70px;
-    min-width: 60%;
+    min-width: 700px;
     margin-left: 10px;
 }
 .log-msg{
-    font-size: 17px;
+    font-size: 19px;
     font-weight: 600;
 }
 .log-date{
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 400;
 }
 .log-row:hover > .log-container{

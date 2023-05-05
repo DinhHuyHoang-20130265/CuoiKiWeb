@@ -19,8 +19,8 @@ public class LoadLogListAdmin extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String page = request.getParameter("page");
-        List<LogAdmin> loadLog = LogService.getInstance().loadLogWithPage(Integer.parseInt(page),8);
+        int page = Integer.parseInt(request.getParameter("page"));
+        List<LogAdmin> loadLog = LogService.getInstance().loadLogWithPage(page,9);
         request.setAttribute("loadLogs", loadLog);
         request.getRequestDispatcher("/admin-page/ajax/ajax_loadLogListAdmin.jsp").forward(request, response);
     }

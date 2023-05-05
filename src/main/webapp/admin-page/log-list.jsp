@@ -82,17 +82,17 @@
               <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
             </div>
           </li>
-<%--          <% int pageNumb = -1;--%>
-<%--            List<LogAdmin> list = LogService.getInstance().loadLogWithPage(1,8);--%>
-<%--            if (list.size() > 4)--%>
-<%--              pageNumb = 4;--%>
-<%--            else pageNumb = list.size();--%>
-<%--          %>--%>
+          <% int pageNumb = -1;
+            List<LogAdmin> list = LogService.getInstance().loadLogWithPage(1,9);
+            if (list.size() > 9)
+              pageNumb = 9;
+            else pageNumb = list.size();
+          %>
           <div id="appendItem">
-<%--            <% if (list != null){--%>
-<%--              for (int i = 0; i < pageNumb; i++) {%>--%>
+            <% if (list != null){
+              for (int i = 0; i < pageNumb; i++) {%>
             <li class="item log-row
-<%--<%=list.get(i).getId()%>--%>
+<%=list.get(i).getId()%>
 ">
               <div class="item-row log-container">
                 <div class="log-item">
@@ -100,23 +100,23 @@
                     <div class="log-content">
                         <div class="log-msg">
                       <div class="log-txt" style="text-align: left">
-                        User Nguyễn Minh Hiếu đã cố đăng nhập vào hệ thống vào ngày 18/02/2002 vào 12h30
-                          User ID:minhiudeptraisiucapvutru1802
-    <%--                            <%=list.get(i).getMessage()%>--%>
+                          <%=list.get(i).getMessage()%>
                       </div>
                     </div>
                         <div class="log-date">
                           <div class="" style="text-align: left;">
                               <div class="">
                                   <i>
-                                        Ngày 18/02/2002
-                                      <%--                        Ngày <%=list.get(i).getCreated_date()%>--%>
+                                      Ngày <%=list.get(i).getCreated_date()%>
                                   </i>
                               </div>
                           </div>
                       </div>
                     </div>
-                    <div class="item-col fixed item-col-actions-dropdown log-btn">
+<%--                    <div class="log-undisplay"></div>--%>
+                    <div class="item-col fixed item-col-actions-dropdown log-btn"
+                         style="margin-left: auto !important;"
+                    >
                         <div class="item-actions-dropdown " >
                             <a class="item-actions-toggle-btn ">
                                     <span class="inactive">
@@ -133,9 +133,7 @@
                                     <%--                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {--%>
                                     <%--                        %>--%>
                                     <li>
-                                        <a class="remove" id="remove
-<%--<%=list.get(i).getId()%>--%>
-"
+                                        <a class="remove" id="remove<%=list.get(i).getId()%>"
                                            data-toggle="modal"
                                            data-target="#confirm-modal" style="cursor: pointer">
                                             <i class="fa fa-trash-o "></i>
@@ -152,8 +150,8 @@
                 </div>
               </div>
             </li>
-<%--            <% }--%>
-<%--            }%>--%>
+            <% }
+            }%>
           </div>
         </ul>
       </div>
@@ -253,6 +251,7 @@
             },
             success: function (data) {
               $("#appendItem").html(data);
+              console.log("Xóa thành công");
               reloadScript();
             }
           })

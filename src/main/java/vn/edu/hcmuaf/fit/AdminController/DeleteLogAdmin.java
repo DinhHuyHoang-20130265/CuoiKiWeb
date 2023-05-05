@@ -22,7 +22,7 @@ public class DeleteLogAdmin extends HttpServlet {
         String id = request.getParameter("id");
         int page = Integer.parseInt(request.getParameter("page"));
         LogService.getInstance().removeLog(id);
-        List<LogAdmin> list = LogService.getInstance().loadLogWithPage(page,6);
+        List<LogAdmin> list = LogService.getInstance().loadLogWithPage(page,9);
         request.setAttribute("loadLogs", list);
         request.getRequestDispatcher("/admin-page/ajax/ajax_loadLogListAdmin.jsp").forward(request, response);
     }
