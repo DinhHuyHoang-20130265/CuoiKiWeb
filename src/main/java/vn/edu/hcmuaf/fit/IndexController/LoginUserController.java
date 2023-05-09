@@ -43,11 +43,11 @@ public class LoginUserController extends HttpServlet {
             session.setAttribute("user", account);
             session.setAttribute("cart", new Cart());
             session.setAttribute("wishList", new WishList());
-            LogService.getInstance().addNewLog(AccountService.getInstance().getIdUserByName(username),"login","Người dùng "+ AccountService.getInstance().getIdUserByName(username) + " đã đặt đăng nhập vào hệ thống thành công");
+            LogService.getInstance().addNewLog(AccountService.getInstance().getIdUserByName(username),"login","customer","Người dùng "+ AccountService.getInstance().getIdUserByName(username) + " đã đặt đăng nhập vào hệ thống thành công");
             response.sendRedirect("index.jsp");
         } else { // nếu = null chứng tỏ sai
             request.setAttribute("loginStatus", LoginService.getInstance().getStatus());
-            LogService.getInstance().addNewLog(null,"error","Người dùng "+ username + " đã cố đăng nhập vào hệ thống thất bại");
+            LogService.getInstance().addNewLog(null,"error","customer","Người dùng "+ username + " đã cố đăng nhập vào hệ thống thất bại");
             request.getRequestDispatcher("Login.jsp").forward(request, response);
         }
     }

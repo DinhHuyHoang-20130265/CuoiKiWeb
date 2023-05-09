@@ -164,10 +164,12 @@
                             <textarea name="noidung" id="noidung" cols="131" rows="10"></textarea>
                             <span class="form-message"></span>
                         </div>
-
-                        <button class="form-submit btn-blocker" style="border-radius: unset;">Gửi tin nhắn<i
-                                class="fas fa-arrow-right"
-                                style="font-size: 16px;margin-left: 10px;"></i></button>
+                        <button class="form-submit btn-blocker" style="border-radius: unset;">
+                            Gửi tin nhắn
+                            <i class="fas fa-arrow-right"
+                                style="font-size: 16px;margin-left: 10px;"
+                                id="submit-btn">
+                        </i></button>
                     </form>
                 </div>
             </div>
@@ -195,19 +197,61 @@
         rules: [
             Validator.isRequired('#fullname', 'Vui lòng nhập tên đầy đủ'),
             Validator.isRequired('#email'),
-            Validator.isEmail('#email'),
-            Validator.minLength('#password', 6),
-            Validator.isRequired('#password_confirmation'),
-            Validator.isRequired('input[name="gender"]'),
-            Validator.isConfirmed('#password_confirmation', function () {
-                return document.querySelector('#form-1 #password').value;
-            }, 'Mật khẩu nhập lại không chính xác'),
+            // Validator.isEmail('#email'),
+            // Validator.minLength('#password', 6),
+            // Validator.isRequired('#password_confirmation'),
+            // Validator.isRequired('input[name="gender"]'),
+            // Validator.isConfirmed('#password_confirmation', function () {
+            //     return document.querySelector('#form-1 #password').value;
+            // }, 'Mật khẩu nhập lại không chính xác'),
             Validator.isRequired('#noidung')
         ],
         onSubmit: function (data) {
             // call api
             console.log(data);
         }
+    });
+</script>
+<script>
+    $("submit-btn").click(function (evt){
+        evt.preventDefault();
+        const fullname = $("fullname").val();
+        const email = $("email").val();
+        const phone = $("phone").val();
+        const noidung = $("noidung").val();
+        if(fullname === null){
+            alert("Không được để trống họ tên")
+        } else if(fullname < 5){
+            alert("Họ tên không hợp lệ")
+        }
+        if(email === null){
+            alert("Không được để trống email")
+        }
+        if(phone === null){
+            alert("Không được để trống số điện thoại")
+        }
+        if(noidung === null){
+            alert("Nội dung không tồn tại")
+        }
+        $.ajax({
+            url: "UploadContentController",
+            type: "post",
+            data: {
+                fullname: fullname,
+                email: email,
+                phone: phone,
+                noidung: noidung,
+            },
+            success: function () {
+                alert("Bạn đã gửi contact thành công");
+                console.log("Bạn đã gửi contact thành công");
+                // window.location.href = "contact.jsp"
+            },
+            error: function () {
+                alert("Bạn đã gửi contact thất bại");
+                console.log("Bạn đã gửi contact thất bại");
+            }
+        })
     });
 </script>
 </body>

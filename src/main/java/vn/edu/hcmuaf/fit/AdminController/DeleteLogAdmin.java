@@ -1,7 +1,7 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
 
-import vn.edu.hcmuaf.fit.beans.LogAdmin;
+import vn.edu.hcmuaf.fit.beans.Log.LogAdmin;
 import vn.edu.hcmuaf.fit.services.LogService;
 
 import javax.servlet.*;

@@ -1,4 +1,4 @@
-<%@ page import="vn.edu.hcmuaf.fit.beans.LogAdmin" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.Log.LogAdmin" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%List<LogAdmin> loadLogs = (List<LogAdmin>) request.getAttribute("loadLogs");

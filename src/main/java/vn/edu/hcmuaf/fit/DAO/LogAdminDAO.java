@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.DAO;
 
-import vn.edu.hcmuaf.fit.beans.LogAdmin;
+import vn.edu.hcmuaf.fit.beans.Log.LogAdmin;
+import vn.edu.hcmuaf.fit.beans.contact.Contact;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
@@ -63,14 +64,15 @@ public class LogAdminDAO {
                 .stream()
                 .collect(Collectors.toList()));
     }
-    public String addNewLog(String id_user, String level,String message) {
+    public String addNewLog(String id_user, String level,String type,String message) {
         String idLog = generateIdLog();
         JDBIConnector.get().withHandle(handle -> {
-                    handle.createUpdate("INSERT INTO log_admin values (?,?,?,?,CURDATE())")
+                    handle.createUpdate("INSERT INTO log_admin values (?,?,?,?,?,CURDATE())")
                             .bind(0, idLog)
                             .bind(1, id_user)
                             .bind(2, level)
-                            .bind(3,message)
+                            .bind(3, type)
+                            .bind(4,message)
                             .execute();
                     return true;
                 }

@@ -3,7 +3,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.Notify_Admin" %>
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.NotifyService" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.LogAdmin" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.Log.LogAdmin" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.LogService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
