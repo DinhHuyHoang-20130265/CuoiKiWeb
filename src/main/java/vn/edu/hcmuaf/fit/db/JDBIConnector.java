@@ -2,10 +2,9 @@ package vn.edu.hcmuaf.fit.db;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.jdbi.v3.core.Jdbi;
-import vn.edu.hcmuaf.fit.beans.AdminUser;
+import vn.edu.hcmuaf.fit.beans.category.Category;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.stream.Collectors;
 
 
@@ -38,10 +37,11 @@ public class JDBIConnector {
     }
 
     public static void main(String[] args) {
-        List<AdminUser> users = JDBIConnector.get().withHandle(handle -> {
-            return handle.createQuery("select * from admin_user")
-                    .mapToBean(AdminUser.class).stream().collect(Collectors.toList());
-        });
-        System.out.println(users);
+        JDBIConnector.get().withHandle(handle ->
+                handle.createQuery("SELECT c.id, c.cate_name, c.cate_desc, c.parent_id, c.cate_status " +
+                        "FROM product_categories c WHERE c.cate_status = 1")
+                        .mapToBean(Category.class)
+                        .stream()
+                        .collect(Collectors.toList()));
     }
 }

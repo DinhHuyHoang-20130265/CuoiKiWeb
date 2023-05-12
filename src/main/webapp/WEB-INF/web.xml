@@ -17,6 +17,10 @@
         <param-value>CuoiKiWeb_war/assets/img/logo</param-value>
     </context-param>
     <context-param>
+        <param-name>font.dir</param-name>
+        <param-value>CuoiKiWeb_war/assets/font</param-value>
+    </context-param>
+    <context-param>
         <param-name>saveproduct.dir</param-name>
         <param-value>CuoiKiWeb/src/main/webapp/assets/imgProduct/images</param-value>
     </context-param>
@@ -28,14 +32,14 @@
         <param-name>saveavatar.dir</param-name>
         <param-value>CuoiKiWeb/src/main/webapp/assets/img/logo</param-value>
     </context-param>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>CuoiKiWeb</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+<!--    <security-constraint>-->
+<!--        <web-resource-collection>-->
+<!--            <web-resource-name>CuoiKiWeb</web-resource-name>-->
+<!--            <url-pattern>/*</url-pattern>-->
+<!--        </web-resource-collection>-->
+<!--        <user-data-constraint>-->
+<!--            <transport-guarantee>CONFIDENTIAL</transport-guarantee>-->
+<!--        </user-data-constraint>-->
+<!--    </security-constraint>-->
 </web-app>
 
