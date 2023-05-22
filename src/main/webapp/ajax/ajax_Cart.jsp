@@ -121,6 +121,7 @@
                     </div>
                 </div>
             </form>
+            <div class="page_title" style="font-size: 20px;margin-left: 27px;margin-bottom: 20px;border-bottom: 3px solid black">Giỏ hàng</div>
         </div>
     </div>
 </div>

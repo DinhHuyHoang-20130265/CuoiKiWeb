@@ -82,6 +82,9 @@
                     </ul>
                 </li>
                 <li class="ng-scope">
+                    <a href="ProductHistory.jsp">Sản phẩm vừa xem</a>
+                </li>
+                <li class="ng-scope">
                     <a href="news.jsp">Tin tức</a>
                 </li>
                 <li class="ng-scope">
@@ -272,6 +275,9 @@
                             </div>
                         </div>
                     </div>
+                </li>
+                <li class="header_nav-list-item">
+                    <a href="ProductHistory.jsp" class="<%=request.getRequestURL().indexOf("history") != -1 ? "active" : "" %>">Sản phẩm vừa xem</a>
                 </li>
                 <li class="header_nav-list-item">
                     <a href="news.jsp" class="<%=request.getRequestURL().indexOf("news") != -1 ? "active" : "" %>">Tin

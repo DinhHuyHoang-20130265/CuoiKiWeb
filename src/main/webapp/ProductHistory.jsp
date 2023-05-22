@@ -2,6 +2,9 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.wishlist.WishList" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
+<%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -132,7 +135,7 @@
     <div class="container">
         <div class="cart-wrap">
             <div class="cart-content">
-                <div class="page_title" style="font-size: 20px;margin-left: 27px;margin-bottom: 20px;border-bottom: 3px solid black">Sản phẩm yêu thích</div>
+                <div class="page_title" style="font-size: 20px;margin-left: 27px;margin-bottom: 20px;border-bottom: 3px solid black">Sản phẩm vừa xem</div>
                 <form action="" class="form-cart">
                     <div class="cart-body-left">
                         <div class="cart-heding hidden-xs">
@@ -148,44 +151,42 @@
                             </div>
                         </div>
                         <div class="cart-body">
-                            <% WishList wishList = (WishList) request.getSession().getAttribute("wishList");
+                            <% List<String> visiteds = (List<String>) request.getSession().getAttribute("listVisited");
                                 NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));%>
-                            <% if (wishList != null) {
-                                for (String id : wishList.getData().keySet()) {%>
+                            <% if (visiteds != null) {
+                                for (String id : visiteds) {
+                                    Product seenProduct = new ProductService().getProductAndDetails(id);
+                            %>
                             <div class="row cart-body-row cart-body-row-1" style="align-items: center;">
                                 <div class="col-md-11 col-10" style="text-align: center;">
                                     <div class="row card-info" style="align-items: center;">
                                         <div class="col-md-2 col-12 card-info-img">
                                             <a href=""><img class="cart-img"
-                                                            src="<%=wishList.getData().get(id).getMain_img_link()%>"
+                                                            src="<%=seenProduct.getMain_img_link()%>"
                                                             alt=""></a>
                                         </div>
                                         <div class="col-md-3 col-12">
                                             <a href="" class="cart-name">
-                                                <h5><%=wishList.getData().get(id).getProd_name()%>
+                                                <h5><%=seenProduct.getProd_name()%>
                                                 </h5>
                                             </a>
                                         </div>
-                                        <%if (wishList.getData().get(id).getSales() != null) {%>
+                                        <%if (seenProduct.getSales() != null) {%>
                                         <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <span><%=format.format(wishList.getData().get(id).getPrice() * 0.01 * (100 - wishList.getData().get(id).getSales().getDiscount_rate()))%>₫ - (-<%=wishList.getData().get(id).getSales().getDiscount_rate()%>)</span>
+                                            <span><%=format.format(seenProduct.getPrice() * 0.01 * (100 - seenProduct.getSales().getDiscount_rate()))%>₫ - (-<%=seenProduct.getSales().getDiscount_rate()%>)</span>
                                         </div>
                                         <%} else {%>
                                         <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <span><%=format.format(wishList.getData().get(id).getPrice())%>₫</span>
+                                            <span><%=format.format(seenProduct.getPrice())%>₫</span>
                                         </div>
                                         <%}%>
-<%--                                        <div class="col-md-3 col-12">--%>
-<%--                                            <div class="cart-fiding">--%>
-<%--                                                <a href="#">Tìm sản phẩm tương tự</a>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
+                                        <%--                                        <div class="col-md-3 col-12">--%>
+                                        <%--                                            <div class="cart-fiding">--%>
+                                        <%--                                                <a href="#">Tìm sản phẩm tương tự</a>--%>
+                                        <%--                                            </div>--%>
+                                        <%--                                        </div>--%>
                                         <div class="col-md-2 col-12" style="font-size: 16px;">
-                                            <a href="./ProductDetail.jsp?id=<%=wishList.getData().get(id).getId()%>" class="likecartbutton"> Xem ngay </a>
-                                        </div>
-                                        <div class="col-md-1 col-2 text-right delete-product">
-                                            <a href="#" class="deleteProd" id="delete<%=wishList.getData().get(id).getId()%>"><i
-                                                    class="fas fa-trash"></i></a>
+                                            <a href="./ProductDetail.jsp?id=<%=seenProduct.getId()%>" class="likecartbutton"> Xem ngay </a>
                                         </div>
                                     </div>
                                 </div>
@@ -195,17 +196,6 @@
                                     }
                                 }
                             %>
-                        </div>
-                        <div class="cart-footer">
-                            <div class="row cart-footer-row">
-                                <div class="col-1"></div>
-                                <div class="col-11 continue">
-                                    <a href="Product.jsp">
-                                        <i class="fas fa-chevron-left"></i>
-                                        Tiếp tục mua sắm
-                                    </a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </form>
@@ -218,40 +208,5 @@
 <script src="./assets/js/jquery-3.6.1.min.js"></script>
 <script src="./assets/js/bootstrap.min.js"></script>
 <script src="./assets/js/main.js"></script>
-<script>
-    function deleteProduct() {
-        $(".deleteProd").click(function (e) {
-            const id = this.id;
-            console.log(id);
-            e.preventDefault();
-            $.ajax({
-                url: "DeleteProductWishListController",
-                type: "get",
-                data: {
-                    id: id
-                },
-                success: function (data) {
-                    $(".cart").html(data);
-                    deleteProduct();
-                }
-            })
-            $.ajax({
-                url: "UpdateQuantityWishListController",
-                type: "get",
-                data: {
-                    id:id
-                },
-                success: function (data) {
-                    $(".header_wishlist").each(function () {
-                        $(this).text(data)
-                    })
-                }
-            })
-        })
-    }
-    $(document).ready(function () {
-        deleteProduct();
-    })
-</script>
 </body>
 </html>
