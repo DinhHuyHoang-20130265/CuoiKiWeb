@@ -1,7 +1,6 @@
 package vn.edu.hcmuaf.fit.DAO;
 
 import vn.edu.hcmuaf.fit.beans.contact.Contact;
-import vn.edu.hcmuaf.fit.beans.news.NewsComment;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
@@ -65,12 +64,12 @@ public class ContactDAO {
                 .stream()
                 .collect(Collectors.toList()));
     }
-    public String addNewContact(String name, String email,String phone,String content) {
+    public String addNewContact(String fullname, String email,String phone,String content) {
         String idContact = generateIdContact();
         JDBIConnector.get().withHandle(handle -> {
                     handle.createUpdate("INSERT INTO contact values (?,?,?,?,?,null,null,CURDATE(),0)")
                             .bind(0, idContact)
-                            .bind(1, name)
+                            .bind(1, fullname)
                             .bind(2, email)
                             .bind(3, phone)
                             .bind(4,content)

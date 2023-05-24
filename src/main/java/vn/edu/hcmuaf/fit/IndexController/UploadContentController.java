@@ -23,6 +23,6 @@ public class UploadContentController extends HttpServlet {
         String phone = request.getParameter("phone");
         String noidung = request.getParameter("noidung");
         String add_contact = ContactService.getInstance().addNewContact(fullname,email,phone,noidung);
-        request.setAttribute("contact", new Contact());
+//        request.setAttribute("contact", new Contact());
     }
 }
