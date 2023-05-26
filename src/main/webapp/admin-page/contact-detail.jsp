@@ -4,6 +4,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.*" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.contact.Contact" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html class="no-js" lang="en">
@@ -53,12 +54,12 @@
   } else {
     AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
     boolean check = true;
-//    for (AdminRole role : admin.getRole()) {
-//      if (role.getTable().equals("contact") || role.getTable().equals("admin")) {
-//        if (role.getPermission().equals("update") || role.getPermission().equals("admin"))
-//          check = true;
-//      }
-//    }
+    for (AdminRole role : admin.getRole()) {
+      if (role.getTable().equals("contact") || role.getTable().equals("admin")) {
+        if (role.getPermission().equals("update") || role.getPermission().equals("admin"))
+          check = true;
+      }
+    }
     if (!check) {
       response.sendRedirect("index.jsp");
     } else {

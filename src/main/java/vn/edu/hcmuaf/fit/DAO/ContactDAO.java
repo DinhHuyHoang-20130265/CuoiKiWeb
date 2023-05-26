@@ -104,6 +104,26 @@ public class ContactDAO {
                 .first()
         );
     }
+    public List<Contact> loadReplyContactWithPage(int page) {
+        List<Contact> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM contact c WHERE c.status = 1 ORDER BY created_date DESC ")
+                .mapToBean(Contact.class)
+                .stream()
+                .collect(Collectors.toList()));
+        int numpage;
+        int start = (page - 1) * 4;
+        if (list.size() - start >= 4) {
+            numpage = start + 4;
+        } else {
+            numpage = list.size();
+        }
+        List<Contact> temp = new ArrayList<>();
+        for (int i = start; i < numpage; i++) {
+            temp.add(list.get(i));
+        }
+        return temp;
+    }
+
     public static void main(String[] args) {
+        System.out.println(new ContactDAO().loadReplyContactWithPage(1));
     }
 }

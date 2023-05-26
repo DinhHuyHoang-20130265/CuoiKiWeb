@@ -1,5 +1,7 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.Log.LogAdmin" %>
 <%@ page import="java.util.List" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%List<LogAdmin> loadLogs = (List<LogAdmin>) request.getAttribute("loadLogs");
     if (loadLogs != null)
@@ -41,10 +43,10 @@
                     </a>
                     <div class="item-actions-block" style="margin-top: 1px">
                         <ul class="item-actions-list" style="margin-top: 1px;">
-                            <%--                        <%--%>
-                            <%--                          for (AdminRole role : admin.getRole()) {--%>
-                            <%--                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {--%>
-                            <%--                        %>--%>
+                            <%AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+                              for (AdminRole role : admin.getRole()) {
+                                if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {
+                            %>
                             <li>
                                 <a class="remove" id="remove<%=log.getId()%>"
                                    data-toggle="modal"
@@ -52,10 +54,10 @@
                                     <i class="fa fa-trash-o "></i>
                                 </a>
                             </li>
-                            <%--                        <%--%>
-                            <%--                            }--%>
-                            <%--                          }--%>
-                            <%--                        %>--%>
+                                <%
+                                    }
+                                  }
+                                %>
                         </ul>
                     </div>
                 </div>

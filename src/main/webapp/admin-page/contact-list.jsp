@@ -27,6 +27,13 @@
         .input-group-btn {
             display: flex;
         }
+        .overtext{
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 50px !important;
+        }
     </style>
     <!-- Theme initialization -->
     <script>
@@ -59,12 +66,12 @@
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
         boolean check = true;
-//        for (AdminRole role : admin.getRole()) {
-//            if (role.getTable().equals("contact") || role.getTable().equals("admin")) {
-//                check = true;
-//                break;
-//            }
-//        }
+        for (AdminRole role : admin.getRole()) {
+            if (role.getTable().equals("contact") || role.getTable().equals("admin")) {
+                check = true;
+                break;
+            }
+        }
         if (!check) {
             response.sendRedirect("index.jsp");
         } else {
@@ -83,7 +90,7 @@
                             </h3>
                             <br>
                             <a
-<%--                                    href="reply-contact.jsp" --%>
+                                    href="reply-contact.jsp"
                         class="btn btn-primary btn-sm rounded-s"> Liên hệ đã trả lời
                             </a>
                         </div>
@@ -97,45 +104,6 @@
                             <a class="omni-tab omni-tab-selected"><span class="text-black">Tất cả liên hệ</span></a>
                         </li>
                     </ul>
-<%--                    <div class="p-4">--%>
-<%--                        <div class="row no-gutters">--%>
-<%--                            <div class="col">--%>
-<%--                                <div class="">--%>
-<%--                                    <div class="row no-gutters">--%>
-<%--                                        <div class="col-auto pr-3">--%>
-<%--                                            <div class="filter-options__childrent__dropdown__menu">--%>
-<%--                                                <select class="form-select" aria-label="Default select example"--%>
-<%--                                                        style="border: none;" id="filter">--%>
-<%--                                                    <option value="0" selected>Sắp xếp theo: Ngày tạo gần nhất</option>--%>
-<%--                                                    <option value="1">Ngày tạo cũ nhất</option>--%>
-<%--                                                    <option value="2">Giá trị nhỏ dần</option>--%>
-<%--                                                    <option value="3">Giá trị lớn dần</option>--%>
-<%--                                                </select>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="col">--%>
-<%--                                            <div class="next-input--stylized">--%>
-<%--                                                <div class="next-input-add-on next-input__add-on--before">--%>
-<%--                                                    <svg class="svg-next-icon svg-next-icon-size-18" width="18"--%>
-<%--                                                         height="18">--%>
-<%--                                                        <svg viewBox="0 0 12 12">--%>
-<%--                                                            <path fill-rule="evenodd" clip-rule="evenodd"--%>
-<%--                                                                  d="M7.92082 7.44942C7.95668 7.484 8.00454 7.50332 8.05435 7.50332H8.23644C8.40734 7.50332 8.57122 7.57129 8.69194 7.69226L11.3339 10.3395C11.608 10.6141 11.6078 11.0589 11.3334 11.3333C11.059 11.6077 10.6142 11.6079 10.3395 11.3338L7.69232 8.69188C7.57135 8.57116 7.50338 8.40728 7.50338 8.23638V8.05429C7.50338 8.00448 7.48406 7.95661 7.44948 7.92076C7.3787 7.84736 7.26321 7.84232 7.18318 7.90552C6.44385 8.48941 5.51187 8.83665 4.50338 8.83665C2.11004 8.83665 0.170044 6.89665 0.170044 4.50332C0.170044 2.10998 2.11004 0.169983 4.50338 0.169983C6.89671 0.169983 8.83671 2.10998 8.83671 4.50332C8.83671 5.51181 8.48947 6.44378 7.90558 7.18312C7.84238 7.26315 7.84742 7.37864 7.92082 7.44942ZM1.50338 4.50332C1.50338 6.16332 2.84338 7.50332 4.50338 7.50332C6.16338 7.50332 7.50338 6.16332 7.50338 4.50332C7.50338 2.84332 6.16338 1.50332 4.50338 1.50332C2.84338 1.50332 1.50338 2.84332 1.50338 4.50332Z">--%>
-<%--                                                            </path>--%>
-<%--                                                        </svg>--%>
-<%--                                                    </svg>--%>
-<%--                                                </div>--%>
-<%--                                                <input autocomplete="on" type="text" id="searchUser"--%>
-<%--                                                       class="next-input next-input--invisible" placeholder="Tìm kiếm"--%>
-<%--                                                       step="1" value=""/>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                    </div>--%>
-<%--                                    <div class="display-none"></div>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
                     <div>
                         <div class="position-relative">
                             <div class="order-list--table table-list--config">
@@ -238,7 +206,7 @@
                                                 <div class="trigger">
                                                     <span>
                                                         <div class="order_list_customer">
-                                                            <p class="mb-0 px-2 align-items-center word-break">
+                                                            <p class="mb-0 px-2 align-items-center word-break overtext">
                                                                 <span class="omni-shorten-text"
                                                                       title="<%=list.get(i).getContent()%>>"><%=list.get(i).getContent()%></span>
                                                             </p>
@@ -263,19 +231,19 @@
                                                 </div>
                                             </td>
                                             <td>
-<%--                                                <%--%>
-<%--                                                    for (AdminRole role : admin.getRole()) {--%>
-<%--                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("order") && role.getPermission().equals("delete")) {--%>
-<%--                                                %>--%>
+                                                <%
+                                                    for (AdminRole role : admin.getRole()) {
+                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("contact") && role.getPermission().equals("delete")) {
+                                                %>
                                                 <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
                                                    data-target="#confirm-modal"
                                                    id="remove<%=list.get(i).getId()%>">
                                                     <i class="fa fa-trash" style="color: red"></i>
                                                 </a>
-<%--                                                <%--%>
-<%--                                                        }--%>
-<%--                                                    }--%>
-<%--                                                %>--%>
+                                                <%
+                                                        }
+                                                    }
+                                                %>
                                             </td>
                                         </tr>
                                         <%

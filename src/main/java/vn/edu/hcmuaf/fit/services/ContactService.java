@@ -38,5 +38,8 @@ public class ContactService {
         ContactDAO DAO = new ContactDAO();
         return DAO.getContactById(id);
     }
+    public List<Contact> loadReplyContactWithPage(int page){
+        return new ContactDAO().loadReplyContactWithPage(page);
+    }
 }
 

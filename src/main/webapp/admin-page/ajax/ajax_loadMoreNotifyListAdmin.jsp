@@ -53,11 +53,11 @@
                 </a>
                 <div class="item-actions-block">
                     <ul class="item-actions-list">
-<%--                    <%--%>
-<%--                        AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");--%>
-<%--                        for (AdminRole role : admin.getRole()) {--%>
-<%--                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("notify") && role.getPermission().equals("delete")) {--%>
-<%--                    %>--%>
+                        <%
+                            AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+                            for (AdminRole role : admin.getRole()) {
+                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("notify") && role.getPermission().equals("delete")) {
+                        %>
                         <li>
                             <a class="remove" id="remove<%=notify.getId()%>"
                                data-toggle="modal"
@@ -65,10 +65,10 @@
                                 <i class="fa fa-trash-o "></i>
                             </a>
                         </li>
-<%--                        <%--%>
-<%--                            }--%>
-<%--                          }--%>
-<%--                        %>--%>
+                            <%
+                                }
+                              }
+                            %>
                     </ul>
                 </div>
             </div>

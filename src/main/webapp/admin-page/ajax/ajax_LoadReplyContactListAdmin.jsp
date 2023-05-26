@@ -2,26 +2,27 @@
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: PV
   Date: 5/27/2023
-  Time: 4:59 AM
+  Time: 6:03 AM
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%List<Contact> loadContact = (List<Contact>) request.getAttribute("loadContact"); %>
+<%List<Contact> loadContact = (List<Contact>) request.getAttribute("replyContact"); %>
 <% if (loadContact != null)
-    for (Contact contact : loadContact) { %>
+  for (Contact contact : loadContact) { %>
 <tr class="order" id="order<%=contact.getEmail()%>">
-    <td class="cursor-pointer">
-        <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
-             width="20" height="20">
-        </svg>
-    </td>
-    <td class="no-wrap pl-0">
-        <a href="contact-details.jsp?id=<%=contact.getId()%>">#<%=contact.getId()%>
-        </a>
-        <div class="d-inline-block">
+  <td class="cursor-pointer">
+    <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
+         width="20" height="20">
+    </svg>
+  </td>
+  <td class="no-wrap pl-0">
+    <a href="contact-details.jsp?id=<%=contact.getId()%>">#<%=contact.getId()%>
+    </a>
+    <div class="d-inline-block">
             <span class="ml-1">
                 <svg class="svg-next-icon ui-icon--notes position-top-minus-one svg-next-icon-size-14"
                      width="14" height="14">
@@ -31,23 +32,23 @@
                         </path>
                     </svg></svg>
             </span>
-        </div>
-    </td>
-    <td class="order-date"><%=contact.getCreated_date()%></td>
-    <td style="max-width:300px">
-        <div class="trigger">
+    </div>
+  </td>
+  <td class="order-date"><%=contact.getCreated_date()%></td>
+  <td style="max-width:300px">
+    <div class="trigger">
             <span>
                 <div class="order_list_customer">
-                    <p class="mb-0 px-2 align-items-center word-break overtext">
+                    <p class="mb-0 px-2 align-items-center word-break">
                         <span class="omni-shorten-text"
                               title="<%=contact.getName()%>>"><%=contact.getName()%></span>
                     </p>
                 </div>
             </span>
-        </div>
-    </td>
-    <td style="max-width:300px">
-        <div class="trigger">
+    </div>
+  </td>
+  <td style="max-width:300px">
+    <div class="trigger">
             <span>
                 <div class="order_list_customer">
                     <p class="mb-0 px-2 align-items-center word-break">
@@ -56,10 +57,10 @@
                     </p>
                 </div>
             </span>
-        </div>
-    </td>
-    <td>
-        <div class="trigger">
+    </div>
+  </td>
+  <td>
+    <div class="trigger">
             <span>
                 <div class="order_list_customer">
                     <p class="mb-0 px-2 align-items-center word-break">
@@ -68,51 +69,45 @@
                     </p>
                 </div>
             </span>
-        </div>
-    </td>
-    <td>
-        <div class="trigger">
+    </div>
+  </td>
+  <td>
+    <div class="trigger">
             <span>
                 <div class="order_list_customer">
-                    <p class="mb-0 px-2 align-items-center word-break">
+                    <p class="mb-0 px-2 align-items-center word-break overtext">
                         <span class="omni-shorten-text"
                               title="<%=contact.getContent()%>>"><%=contact.getContent()%></span>
                     </p>
                 </div>
             </span>
-        </div>
-    </td>
-    <td>
-        <div class="d-flex">
-            <div class="status-component">
-                <%if (contact.getStatus() == 0) { %>
-                <span class="circle-status mr-2 circle-status-cancel"></span><span
-                    class="badges--order-status-cancel">
-                        Chưa trả lời</span>
-                <% } else { %>
-                <span
-                        class="circle-status mr-2 circle-status-complete"></span><span
-                    class="badges--carrier-status-4">
-                         Đã trả lời</span>
-                <% }%>
-            </div>
-        </div>
-    </td>
-    <td>
-        <%
-            AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
-            for (AdminRole role : admin.getRole()) {
-                if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("order") && role.getPermission().equals("delete")) {
-        %>
-        <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
-           data-target="#confirm-modal"
-           id="remove<%=contact.getId()%>">
-            <i class="fa fa-trash" style="color: red"></i>
-        </a>
-        <%
-                }
-            }
-        %>
-    </td>
+    </div>
+  </td>
+  <td>
+    <div class="d-flex">
+      <div class="status-component">
+        <span class="circle-status mr-2 circle-status-complete"></span>
+          <span
+              class="badges--carrier-status-4">Đã trả lời
+      </span>
+      </div>
+    </div>
+  </td>
+  <td>
+    <%
+      AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+      for (AdminRole role : admin.getRole()) {
+        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("order") && role.getPermission().equals("delete")) {
+    %>
+    <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
+       data-target="#confirm-modal"
+       id="remove<%=contact.getId()%>">
+      <i class="fa fa-trash" style="color: red"></i>
+    </a>
+    <%
+        }
+      }
+    %>
+  </td>
 </tr>
 <%}%>

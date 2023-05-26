@@ -45,12 +45,12 @@
   } else {
     AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
     boolean check = true;
-//    for (AdminRole role : admin.getRole()) {
-//      if (role.getTable().equals("log") || role.getTable().equals("admin")) {
-//        check = true;
-//        break;
-//      }
-//    }
+    for (AdminRole role : admin.getRole()) {
+      if (role.getTable().equals("log") || role.getTable().equals("admin")) {
+        check = true;
+        break;
+      }
+    }
     if (!check) {
       response.sendRedirect("index.jsp");
     } else {
@@ -128,10 +128,10 @@
                             </a>
                             <div class="item-actions-block" style="margin-top: 1px">
                                 <ul class="item-actions-list" style="margin-top: 1px;">
-                                    <%--                        <%--%>
-                                    <%--                          for (AdminRole role : admin.getRole()) {--%>
-                                    <%--                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {--%>
-                                    <%--                        %>--%>
+                                    <%
+                                      for (AdminRole role : admin.getRole()) {
+                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {
+                                    %>
                                     <li>
                                         <a class="remove" id="remove<%=list.get(i).getId()%>"
                                            data-toggle="modal"
@@ -139,10 +139,10 @@
                                             <i class="fa fa-trash-o "></i>
                                         </a>
                                     </li>
-                                    <%--                        <%--%>
-                                    <%--                            }--%>
-                                    <%--                          }--%>
-                                    <%--                        %>--%>
+                                    <%
+                                        }
+                                      }
+                                    %>
                                 </ul>
                             </div>
                         </div>
