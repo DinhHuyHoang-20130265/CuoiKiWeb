@@ -90,9 +90,7 @@
             <label class="col-sm-2 form-control-label text-xs-right"> Họ tên : </label>
             <div class="col-sm-10">
               <input type="text" class="form-control boxed" name="name"
-                     id="name" value="
-                  <%=(contact != null) ? contact.getName() : ""%>
-123"
+                     id="name" value="<%=(contact != null) ? contact.getName() : ""%>"
                      readonly>
             </div>
           </div>
@@ -100,9 +98,7 @@
             <label class="col-sm-2 form-control-label text-xs-right"> Email : </label>
             <div class="col-sm-10">
               <input type="text" class="form-control boxed" name="name"
-                     id="name" value="123
-                  <%=(contact != null) ? contact.getEmail() : ""%>
-"
+                     id="name" value="<%=(contact != null) ? contact.getEmail() : ""%>"
                      readonly>
             </div>
           </div>
@@ -110,9 +106,7 @@
             <label class="col-sm-2 form-control-label text-xs-right"> Số điện thoại : </label>
             <div class="col-sm-10">
               <input type="text" class="form-control boxed" name="name"
-                     id="name" value="123
-                  <%=(contact != null) ? contact.getPhone() : ""%>
-"
+                     id="name" value="<%=(contact != null) ? contact.getPhone() : ""%>"
                      readonly>
             </div>
           </div>
@@ -120,27 +114,10 @@
             <label class="col-sm-2 form-control-label text-xs-right"> Mô tả: </label>
             <div class="col-sm-10">
                 <textarea id="content"
-                       style="width: 100%; height: 400px !important;
+                       style="width: 100%; height: 300px !important;
                         white-space: inherit;
                         font-size: 17px;"
                        readonly>
-<%--           Có lẽ phụ huynh nào cũng từng xuất hiện trong bài văn của con mình với vẻ ngoài và tính tình hoàn toàn không giống mình nhưng lại rất giống nhau.--%>
-
-<%--Ngày mới ra trường, khi chấm bài kiểm tra tập làm văn lớp sáu với đề bài "kể lại một việc tốt em đã làm", tôi đã ngạc nhiên khi hầu như cả lớp chỉ làm có hai việc tốt, một là dẫn bà cụ qua đường, hai là nhặt được chiếc ví và trả lại người mất.--%>
-
-<%--Điều khiến tôi không biết nên cười hay nên khóc là bà cụ trong bài nào cũng đứng ở ngã tư, cũng "tóc bạc phơ, dáng người gầy gầy, lưng cong cong, đôi mắt hiền từ". Chiếc ví nào cũng nhặt được trên đường đi học về, cũng "màu nâu đậm, hình vuông, bên trong có chứa nhiều giấy tờ quan trọng và một số tiền lớn".--%>
-
-<%--Chẳng lẽ cả lớp 40 em lại gặp đúng một bà cụ, nhặt được cùng một chiếc ví? Tất nhiên ai cũng biết là không thể. Đó là một minh chứng cho việc học sinh bị lệ thuộc vào văn mẫu.--%>
-
-<%--Thực trạng trên ở các lớp nhỏ, lên đến các lớp lớn hơn, khi chuyển sang các dạng văn khó hơn như nghị luận xã hội, nghị luận văn học, đề bài cũng phong phú hơn. Các em không thể chỉ học thuộc một vài bài văn mẫu tả cha mẹ, thầy cô, việc tốt, kỷ niệm vui buồn nữa mà phải phân tích, trình bày quan điểm của mình về các sự việc, hiện tượng trong xã hội hoặc các tư tưởng, đạo lý, tác phẩm văn học.--%>
-
-<%--Tưởng chừng văn mẫu sẽ không còn đất dụng võ ở các khối lớp lớn cấp hai, cấp ba, nhưng chúng vẫn chi phối rất nhiều khi học sinh học thuộc những mở bài với cấu trúc giới thiệu tác giả, tác phẩm, vấn đề nghị luận... Đối với đoạn thơ đó, câu chuyện đó, nhiều em biết cần phải thuộc được những câu văn phân tích có sẵn để dễ lấy điểm hơn.--%>
-
-<%--Tôi từng đọc được bình luận của học trò: "Đề thi thì ghi nêu cảm nhận của em, nhưng đáp án lại chấm theo ý của thầy cô". Thực ra, không phải chúng tôi chấm theo ý của thầy cô mà là chấm theo khung đáp án của Bộ, và để có điểm, ý tứ trong bài văn của các em phải phù hợp với đáp án. Đa số học sinh đều lựa chọn cách nhanh nhất để làm được điều đó, đó là học từ văn mẫu.--%>
-
-<%--Không phải đến thế hệ giáo viên chúng tôi, văn mẫu mới trở thành đề tài gây nhiều tranh cãi trong việc dạy và học. Văn mẫu có cả "công" và "tội".--%>
-
-<%--Văn mẫu trước hết là những bài văn hay. Đọc một bài văn hay, con người có thể nâng tầm nhận thức và thẩm mĩ, có thể nảy sinh những cảm xúc bồi đắp tâm hồn, được gợi cảm hứng để làm điều tốt đẹp. Học sinh có thể nhìn vào đó học hỏi được cách triển khai bài của mình, cách dẫn dắt ý, dùng từ ngữ, gạn lọc ý tâm đắc hoặc diễn đạt sáng tạo. Nó giúp ích rất nhiều cho khả năng viết của các em.--%>
             <%=(contact != null) ? contact.getContent() : ""%>
                 </textarea>
             </div>
@@ -155,6 +132,9 @@
             <div class="col-sm-10">
                     <textarea id="editor"
                               class="form-control boxed"
+                              style="width: 100%; height: 300px !important;
+                              white-space: inherit;
+                              font-size: 17px;"
                               placeholder="Nhập reply của bạn ở đây...."></textarea>
               <script>
                 CKEDITOR.replace('editor');
@@ -164,7 +144,7 @@
               <button type="submit" class="btn btn-primary">Xác nhận</button>
             </div>
           </div>
-<%--     reply--%>
+<%--   End reply--%>
         </div>
       </form>
     </article>

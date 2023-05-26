@@ -140,6 +140,14 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="<%=(requestString.indexOf("contact") != -1) ? "active open" : "" %>">
+                            <a href="#"> Contact <i class="fa arrow"></i></a>
+                            <ul class="sidebar-nav">
+                                <li>
+                                    <a href="contact-list.jsp"> Danh sách Contact </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li class="<%=(requestString.indexOf("charts-morris") != -1 || requestString.indexOf("static-tables") != -1) ? "active" : "" %>">

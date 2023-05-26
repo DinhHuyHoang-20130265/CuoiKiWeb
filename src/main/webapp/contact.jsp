@@ -22,7 +22,6 @@
 </head>
 <style>
     .title-heading {
-        margin: 0;
         color: #36424b;
         font-size: 18px;
         font-weight: 500;

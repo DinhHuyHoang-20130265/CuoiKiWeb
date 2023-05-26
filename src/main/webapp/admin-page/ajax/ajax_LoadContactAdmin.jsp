@@ -101,11 +101,11 @@
 <%--            for (AdminRole role : admin.getRole()) {--%>
 <%--                if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("order") && role.getPermission().equals("delete")) {--%>
 <%--        %>--%>
-<%--        <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"--%>
-<%--           data-target="#confirm-modal"--%>
-<%--           id="remove<%=list.get(i).getId()%>">--%>
-<%--            <i class="fa fa-trash" style="color: red"></i>--%>
-<%--        </a>--%>
+        <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
+           data-target="#confirm-modal"
+           id="remove<%=contact.getId()%>">
+            <i class="fa fa-trash" style="color: red"></i>
+        </a>
 <%--        <%--%>
 <%--                }--%>
 <%--            }--%>

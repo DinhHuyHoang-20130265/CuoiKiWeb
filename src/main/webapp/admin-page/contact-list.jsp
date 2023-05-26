@@ -267,11 +267,11 @@
 <%--                                                    for (AdminRole role : admin.getRole()) {--%>
 <%--                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("order") && role.getPermission().equals("delete")) {--%>
 <%--                                                %>--%>
-<%--                                                <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"--%>
-<%--                                                   data-target="#confirm-modal"--%>
-<%--                                                   id="remove<%=list.get(i).getId()%>">--%>
-<%--                                                    <i class="fa fa-trash" style="color: red"></i>--%>
-<%--                                                </a>--%>
+                                                <a style="cursor: pointer" class="remove" href="#" data-toggle="modal"
+                                                   data-target="#confirm-modal"
+                                                   id="remove<%=list.get(i).getId()%>">
+                                                    <i class="fa fa-trash" style="color: red"></i>
+                                                </a>
 <%--                                                <%--%>
 <%--                                                        }--%>
 <%--                                                    }--%>
@@ -368,58 +368,32 @@
     function deleteContact() {
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
-            const search = $("#searchUser").val();
             const page = parseInt($("#page").text());
-            // const order = $("#filter").find(':selected').val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("#yesButton").click(function () {
                     $.ajax({
-                        url: "../DeleteContactController",
+                        url: "../DeleteContactAdminController",
                         type: "post",
                         data: {
                             id: id,
-                            // search: search,
                             page: page,
                         },
                         success: function (data) {
                             $("#appendItem tbody").html(data);
-                            deleteContact();
+                            console.log("Xóa thành công");
                         }
                     })
                 })
             })
         })
     }
-
-    // function filterAdmin(e) {
-    //     e.preventDefault();
-    //     const page = 1;
-    //     const order = $("#filter").find(':selected').val();
-    //     const search = $("#searchUser").val();
-    //     $.ajax({
-    //         url: "../LoadOrderListAdmin",
-    //         type: "post",
-    //         data: {
-    //             page: page,
-    //             order: order,
-    //             search: search
-    //         },
-    //         success: function (data) {
-    //             $("#appendItem tbody").html(data);
-    //             deleteContact();
-    //         }
-    //     })
-    // }
+    deleteContact();
 
     $(document).ready(function () {
-        // deleteContact();
-        // $("#filter").change(function (e) {
-        //     deleteContact();
-        // })
+
         $("#btn_prev").on("click", function (e) {
             e.preventDefault();
-            // const search = $("#searchUser").val();
             const page = parseInt($("#page").text()) - 1;
             if (page > 0) {
                 $.ajax({
@@ -427,7 +401,6 @@
                     type: "post",
                     data: {
                         page: page,
-                        // search: search,
                     },
                     success: function (data) {
                         $("#appendItem tbody").html(data);
@@ -440,13 +413,11 @@
         $("#btn_next").on("click", function (e) {
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
-            // const search = $("#searchUser").val();
             $.ajax({
                 url: "../LoadContactListAdmin",
                 type: "post",
                 data: {
                     page: page,
-                    // search: search,
                 },
                 success: function (data) {
                     if ($.trim(data)) {
@@ -454,6 +425,9 @@
                         $("#page").text(page)
                         deleteContact();
                     }
+                },
+                error: function (data) {
+                    console.log(data)
                 }
             })
         })
