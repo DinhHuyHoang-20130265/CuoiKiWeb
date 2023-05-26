@@ -19,10 +19,10 @@ public class ContactService {
     public List<Contact> getAllContact() {
         return ContactDAO.getAllContact();
     }
-    public List<Contact> loadLogWithPage(int page){
+    public List<Contact> loadContactWithPage(int page){
         return new ContactDAO().loadContactWithPage(page);
     }
-    public List<Contact> loadNewestLogs(){
+    public List<Contact> loadNewestContacts(){
         return new ContactDAO().loadNewestContact();
     }
     public String addNewContact(String name, String email,String phone,String content) {

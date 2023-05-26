@@ -84,7 +84,7 @@
                             <br>
                             <a
 <%--                                    href="reply-contact.jsp" --%>
-                                    class="btn btn-primary btn-sm rounded-s"> Liên hệ đã trả lời
+                        class="btn btn-primary btn-sm rounded-s"> Liên hệ đã trả lời
                             </a>
                         </div>
                     </div>
@@ -172,7 +172,7 @@
                                         </thead>
                                         <tbody>
                                         <% int numb = -1;
-                                            List<Contact> list = ContactService.getInstance().loadLogWithPage(1);
+                                            List<Contact> list = ContactService.getInstance().loadContactWithPage(1);
                                             numb = Math.min(list.size(), 6);
                                             if (list != null)
                                                 for (int i = 0; i < numb; i++) {%>
@@ -183,7 +183,7 @@
                                                 </svg>
                                             </td>
                                             <td class="no-wrap pl-0">
-                                                <a href="contact-details.jsp?id=<%=list.get(i).getId()%>">#<%=list.get(i).getId()%>
+                                                <a href="contact-detail.jsp?id=<%=list.get(i).getId()%>">#<%=list.get(i).getId()%>
                                                 </a>
                                                 <div class="d-inline-block">
                                                     <span class="ml-1">
@@ -370,7 +370,7 @@
             const id = $(this).attr("id").substring(6);
             const search = $("#searchUser").val();
             const page = parseInt($("#page").text());
-            const order = $("#filter").find(':selected').val();
+            // const order = $("#filter").find(':selected').val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("#yesButton").click(function () {
@@ -379,9 +379,8 @@
                         type: "post",
                         data: {
                             id: id,
-                            search: search,
+                            // search: search,
                             page: page,
-                            order: order
                         },
                         success: function (data) {
                             $("#appendItem tbody").html(data);
@@ -420,17 +419,15 @@
         // })
         $("#btn_prev").on("click", function (e) {
             e.preventDefault();
-            const search = $("#searchUser").val();
+            // const search = $("#searchUser").val();
             const page = parseInt($("#page").text()) - 1;
-            const order = $("#filter").find(':selected').val();
             if (page > 0) {
                 $.ajax({
                     url: "../LoadContactListAdmin",
                     type: "post",
                     data: {
                         page: page,
-                        search: search,
-                        order: order
+                        // search: search,
                     },
                     success: function (data) {
                         $("#appendItem tbody").html(data);
@@ -443,15 +440,13 @@
         $("#btn_next").on("click", function (e) {
             e.preventDefault();
             const page = parseInt($("#page").text()) + 1;
-            const search = $("#searchUser").val();
-            const order = $("#filter").find(':selected').val();
+            // const search = $("#searchUser").val();
             $.ajax({
                 url: "../LoadContactListAdmin",
                 type: "post",
                 data: {
                     page: page,
-                    search: search,
-                    order: order
+                    // search: search,
                 },
                 success: function (data) {
                     if ($.trim(data)) {
