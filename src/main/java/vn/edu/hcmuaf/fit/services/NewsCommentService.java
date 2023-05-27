@@ -45,7 +45,10 @@ public class NewsCommentService {
         NewsCommentDAO DAO = new NewsCommentDAO();
         DAO.RemoveComment(id);
     }
-
+    public String getUserByIdComment(String id){
+        NewsCommentDAO DAO = new NewsCommentDAO();
+        return DAO.getUserByIdComment(id);
+    }
     public void ChangeStatusComment(String id, String status) {
         new NewsCommentDAO().ChangeStatusComment(id, status);
     }

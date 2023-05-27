@@ -169,12 +169,7 @@
                         </a>
                     </div>
                     <div class="mobile_cart visible-sm visible-xs">
-                        <% if
-                        (
-                                user
-                                        ==
-                                        null
-                        ) {%>
+                        <% if (user == null) {%>
                         <a href="Login.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
@@ -203,12 +198,7 @@
                 </div>
                 <div class="col-3 m-auto hidden-sm hidden-xs">
                     <div class="item-car clearfix">
-                        <% if
-                        (
-                                user
-                                        ==
-                                        null
-                        ) {%>
+                        <% if (user == null) {%>
                         <a href="Login.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
                         </a>
@@ -221,12 +211,7 @@
                         <%}%>
                     </div>
                     <div class="item-like clearfix">
-                        <% if
-                        (
-                                user
-                                        ==
-                                        null
-                        ) {%>
+                        <% if (user == null) {%>
                         <a href="Login.jsp" class="header__second__like--icon">
                             <i class="far fa-heart"></i>
                         </a>

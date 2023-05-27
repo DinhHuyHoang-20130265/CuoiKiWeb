@@ -124,6 +124,30 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="<%=(requestString.indexOf("notify") != -1) ? "active open" : "" %>">
+                            <a href="#"> Thông báo <i class="fa arrow"></i></a>
+                            <ul class="sidebar-nav">
+                                <li>
+                                    <a href="notify-list.jsp"> Danh sách thông báo </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="<%=(requestString.indexOf("notify") != -1) ? "active open" : "" %>">
+                            <a href="#"> Log <i class="fa arrow"></i></a>
+                            <ul class="sidebar-nav">
+                                <li>
+                                    <a href="log-list.jsp"> Danh sách Log </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="<%=(requestString.indexOf("contact") != -1) ? "active open" : "" %>">
+                            <a href="#"> Contact <i class="fa arrow"></i></a>
+                            <ul class="sidebar-nav">
+                                <li>
+                                    <a href="contact-list.jsp"> Danh sách Contact </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li class="<%=(requestString.indexOf("charts-morris") != -1 || requestString.indexOf("static-tables") != -1) ? "active" : "" %>">
