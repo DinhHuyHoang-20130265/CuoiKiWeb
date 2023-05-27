@@ -31,7 +31,6 @@ public class CheckoutController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String ord_id = new OrderDAO().generateIdOrder();
         String address = request.getParameter("address");
-        System.out.println(address);
         String receive_name = request.getParameter("receive_name");
         String email = request.getParameter("email");
         String phone_number = request.getParameter("phone_number");
@@ -118,6 +117,7 @@ public class CheckoutController extends HttpServlet {
             MailService.getInstance().sendMail("PNTSHOP", email, subject, text, MailConfiguration.MAIL_HTML);
             response.getWriter().println("Đơn hàng của bạn đã được tạo thành công và đang chờ cửa hàng xử lý");
             NotifyService.getInstance().addNewNotify("Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id, ord_id);
+            LogService.getInstance().addNewLog(customer_id,"order","customer","Tài khoản "+ customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " +ord_id);
             request.getSession().setAttribute("cart", new Cart());
         }
     }

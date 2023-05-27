@@ -27,7 +27,7 @@
     <div class="header-block header-block-nav">
         <ul class="nav-profile">
             <li class="notifications new">
-                <%List<Notify_Admin> list = NotifyService.getInstance().getAllNotify();%>
+                <%List<Notify_Admin> list = NotifyService.getInstance().loadNewestNotifies();%>
                 <a data-toggle="dropdown" style="cursor: pointer">
                     <i class="fa fa-bell-o"></i>
                     <sup>
@@ -36,8 +36,8 @@
                 </a>
                 <div class="dropdown-menu notifications-dropdown-menu">
                     <ul class="notifications-container"
-                        style="overflow-x: unset; overflow-y: scroll; max-height: 500px">
-                        <% if (list != null) {
+                        style="overflow-x: scroll; overflow-y: scroll; max-height: 240px">
+                        <% if (list != null)
                             for (Notify_Admin notify : list) {%>
                         <li>
                             <a class="notification-item"
@@ -55,10 +55,15 @@
                             </a>
                         </li>
                         <%
-                                }
                             }
                         %>
                     </ul>
+                    <div id="dropdown-notify">
+                        <%--                            <a class="loadmore-btn" id="loadMoreNotify" style="cursor: pointer;">Xem thêm</a>--%>
+                        <input type="text" id="page-notify" value="2" style="display: none">
+                        <a class="list-notify" href="notify-list.jsp" style="display: block; padding-top: 5px; text-align: center"
+                        >Xem tất cả</a>
+                    </div>
                 </div>
             </li>
             <%

@@ -22,7 +22,6 @@
 </head>
 <style>
     .title-heading {
-        margin: 0;
         color: #36424b;
         font-size: 18px;
         font-weight: 500;
@@ -140,34 +139,39 @@
                     <span class="text-contact">Bạn hãy điền nội dung tin nhắn vào form dưới đây
                             và gửi cho chúng tôi. Chúng tôi sẽ trả lời bạn sau khi nhận được.
                         </span>
-                    <form action="" method="POST" class="form" id="form-1">
+                    <form action=""
+                          method="post"
+                          class="form" id="form-1">
                         <div class="form-group">
                             <label for="fullname" class="form-label">Tên đầy đủ</label>
-                            <input id="fullname" name="fullname" type="text" placeholder="VD: User1"
+                            <input id="fullname" name="fullname" data-value="" type="text" placeholder="VD: User1"
                                    class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="email" class="form-label">Email</label>
-                            <input id="email" name="email" type="text" placeholder="VD: email@domain.com"
+                            <input id="email" name="email" data-value="" type="text" placeholder="VD: email@domain.com"
                                    class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <div class="form-group">
                             <label for="phone" class="form-label">Điện thoại</label>
-                            <input id="phone" pattern="[0-9]{10}" name="phone" type="tel" placeholder="0912*******"
+                            <input id="phone" pattern="[0-9]{10}" name="phone" data-value="" type="tel" placeholder="0912*******"
                                    class="form-control">
                             <span class="form-message"></span>
                         </div>
                         <label for="phone" class="form-label">Nội dung</label>
                         <div class="form-group">
-                            <textarea name="noidung" id="noidung" cols="131" rows="10"></textarea>
+                            <textarea name="noidung" id="noidung" data-value="" cols="131" rows="10"></textarea>
                             <span class="form-message"></span>
                         </div>
-
-                        <button class="form-submit btn-blocker" style="border-radius: unset;">Gửi tin nhắn<i
-                                class="fas fa-arrow-right"
-                                style="font-size: 16px;margin-left: 10px;"></i></button>
+                        <button class="form-submit btn-blocker" style="border-radius: unset;">
+                            Gửi tin nhắn
+<%--                            <p class="fas fa-arrow-right"--%>
+<%--                                style="font-size: 16px;margin-left: 10px;"--%>
+<%--                                id="submit-btn">--%>
+<%--                        </p>--%>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -188,26 +192,84 @@
 <script src="./assets/js/main.js"></script>
 <script src="./assets/js/validator.js"></script>
 <script>
-    Validator({
-        form: '#form-1',
-        formGroupSelector: '.form-group',
-        errorSelector: '.form-message',
-        rules: [
-            Validator.isRequired('#fullname', 'Vui lòng nhập tên đầy đủ'),
-            Validator.isRequired('#email'),
-            Validator.isEmail('#email'),
-            Validator.minLength('#password', 6),
-            Validator.isRequired('#password_confirmation'),
-            Validator.isRequired('input[name="gender"]'),
-            Validator.isConfirmed('#password_confirmation', function () {
-                return document.querySelector('#form-1 #password').value;
-            }, 'Mật khẩu nhập lại không chính xác'),
-            Validator.isRequired('#noidung')
-        ],
-        onSubmit: function (data) {
-            // call api
-            console.log(data);
+    // Validator({
+    //     form: '#form-1',
+    //     formGroupSelector: '.form-group',
+    //     errorSelector: '.form-message',
+    //     rules: [
+    //         Validator.isRequired('#fullname', 'Vui lòng nhập tên đầy đủ'),
+    //         Validator.isRequired('#email'),
+    //         Validator.isEmail('#email'),
+    //         Validator.minLength('#password', 6),
+    //         Validator.isRequired('#password_confirmation'),
+    //         Validator.isRequired('input[name="gender"]'),
+    //         Validator.isConfirmed('#password_confirmation', function () {
+    //             return document.querySelector('#form-1 #password').value;
+    //         }, 'Mật khẩu nhập lại không chính xác'),
+    //         Validator.isRequired('#noidung')
+    //     ],
+    //     onSubmit: function (data) {
+    //         // call api
+    //         console.log(data);
+    //     }
+    // });
+</script>
+<script>
+    function formSubmit(){
+        const name_ipt = document.getElementById("fullname");
+        const email_ipt = document.getElementById("email");
+        const phone_ipt = document.getElementById("phone");
+        const noidung_ipt = document.getElementById("noidung");
+        const submit_btn = document.getElementsByClassName("form-submit");
+        name_ipt.readOnly = true;
+        email_ipt.readOnly = true;
+        phone_ipt.readOnly = true;
+        noidung_ipt.readOnly = true;
+        submit_btn.disable = true;
+    }
+</script>
+<script>
+    $(".form-submit").click(function (evt){
+        evt.preventDefault();
+        const fullname = $("#fullname").val();
+        const email = $("#email").val();
+        const phone = $("#phone").val();
+        const noidung = $("#noidung").val();
+        if(fullname === null){
+            alert("Không được để trống họ tên")
+        } else if(fullname < 5){
+            alert("Họ tên không hợp lệ")
         }
+        if(email === null){
+            alert("Không được để trống email")
+        }
+        if(phone === null){
+            alert("Không được để trống số điện thoại")
+        }
+        if(noidung === null){
+            alert("Nội dung không tồn tại")
+        }
+        formSubmit();
+        console.log(fullname)
+        console.log(phone)
+        console.log(email)
+        console.log(noidung)
+        $.ajax({
+            url: "UploadContentController",
+            type: "post",
+            data: {
+                fullname: fullname,
+                email: email,
+                phone: phone,
+                noidung: noidung,
+            },
+            success: function () {
+                console.log("Bạn đã gửi contact thành công");
+            },
+            error: function () {
+                console.log("Bạn đã gửi contact thất bại");
+            }
+        })
     });
 </script>
 </body>

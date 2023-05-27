@@ -923,6 +923,7 @@
             const amount = $("#text_so_luong-10").val();
             const size = $(".swatch-element input[type='radio']:checked").val();
             const color = $(".circlecheck input[type='radio']:checked").attr("id");
+            //thêm pop up alert (nếu chưa chọn màu, kích cỡ => Yêu cầu thông tin đầy đủ)
             if (size == null || color == null) {
                 alert("Yêu cầu nhập đầy đủ thông tin")
             } else {
