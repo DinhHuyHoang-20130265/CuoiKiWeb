@@ -19,11 +19,21 @@ public class NotifyService {
         return NotifyDAO.getAllNotify();
     }
     public List<Notify_Admin> loadNotifyWithPage(int page){
-        return NotifyDAO.loadNotifyWithPage(page);
+        return new NotifyDAO().loadNotifyWithPage(page);
     }
-
+    public Notify_Admin getNotifyById(String id){
+        NotifyDAO DAO = new NotifyDAO();
+        return DAO.getNotifyById(id);
+    }
     public String addNewNotify(String content, String order_id) {
         NotifyDAO DAO = new NotifyDAO();
         return DAO.addNewNotify(content, order_id);
+    }
+    public void removeNotify(String id){
+        NotifyDAO DAO = new NotifyDAO();
+        DAO.removeNotify(id);
+    }
+    public List<Notify_Admin> loadNewestNotifies(){
+        return new NotifyDAO().loadNewestNotifies();
     }
 }

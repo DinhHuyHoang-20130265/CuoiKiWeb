@@ -145,7 +145,7 @@
         <a href="#" class="fab-action fab-action-2">
             <i class="fab fa-instagram"></i>
         </a>
-        <a href="#" class="fab-action fab-action-3">
+        <a href="contact.jsp" class="fab-action fab-action-3">
             <i class="far fa-comment-dots"></i>
         </a>
         <a href="#" class="fab-action fab-action-4">

@@ -52,11 +52,9 @@ public class AccountService {
         AccountUserDAO DAO = new AccountUserDAO();
         return DAO.getIdUserByName(username);
     }
-
     public SiteUser getUserByEmail(String email) {
         return new AccountUserDAO().getUserByEmail(email);
     }
-
     public void ChangeUserPassword(String id,String password_new, String password_old, String password_confirm) {
         new AccountUserDAO().ChangeUserPassword(id,password_new, password_old, password_confirm);
     }
