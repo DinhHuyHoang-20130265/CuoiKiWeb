@@ -8,7 +8,6 @@ import java.nio.charset.StandardCharsets;
 public class api {
     public static final String EMAIL = "20130265@st.hcmuaf.edu.vn";
     public static final String PASSWORD = "20130265";
-
     public static final String Province_id = "202";
     public static final String District_id = "3695";
     public static final String Ward_id = "90737";
