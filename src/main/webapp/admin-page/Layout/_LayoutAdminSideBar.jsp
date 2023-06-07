@@ -113,6 +113,14 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="<%=(requestString.indexOf("import") != -1) ? "active open" : "" %>">
+                            <a href="#"> Nhập hàng <i class="fa arrow"></i></a>
+                            <ul class="sidebar-nav">
+                                <li>
+                                    <a href="import-product-list.jsp"> Danh sách nhập hàng </a>
+                                </li>
+                            </ul>
+                        </li>
                         <li class="<%=(requestString.indexOf("slide") != -1) ? "active open" : "" %>">
                             <a href="#"> Slide trang chủ <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">

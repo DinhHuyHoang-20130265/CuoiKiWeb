@@ -132,6 +132,7 @@
     <div class="container">
         <div class="cart-wrap">
             <div class="cart-content">
+                <div class="page_title" style="font-size: 20px;margin-left: 27px;margin-bottom: 20px;border-bottom: 3px solid black">Sản phẩm yêu thích</div>
                 <form action="" class="form-cart">
                     <div class="cart-body-left">
                         <div class="cart-heding hidden-xs">
