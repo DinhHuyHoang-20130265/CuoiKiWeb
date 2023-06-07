@@ -3,7 +3,13 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.cart.Cart" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.wishlist.WishList" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.UserInformationService" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %><%--
+<%@ page import="vn.edu.hcmuaf.fit.beans.UserInformation" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Collections" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
+<%@ page import="vn.edu.hcmuaf.fit.beans.product.Product" %>
+<%@ page import="vn.edu.hcmuaf.fit.services.ProductService" %><%--
   Created by IntelliJ IDEA.
   User: Huy Hoang
   Date: 11/27/2022
@@ -14,6 +20,7 @@
 <% SiteUser user = (SiteUser) request.getSession().getAttribute("user");%>
 <% Cart cart = (Cart) request.getSession().getAttribute("cart"); %>
 <% WishList wishList = (WishList) request.getSession().getAttribute("wishList"); %>
+
 <div class="overlay hidden"></div>
 <!-- mobile menu -->
 <div class="mobile-main-menu">
@@ -223,9 +230,15 @@
                         </a>
                         <%}%>
                     </div>
+                    <button class="item-history clearfix open-history" style="margin-left: 35px; border: none">
+                        <a class="header__second__like--icon">
+                            <i class="fas fa-history"></i>
+                        </a>
+                    </button>
                 </div>
             </div>
         </div>
+        <div id="got" class="got"> </div>
     </div>
     <nav class="header_nav hidden-sm hidden-xs">
         <div class="container">
@@ -260,9 +273,6 @@
                             </div>
                         </div>
                     </div>
-                </li>
-                <li class="header_nav-list-item">
-                    <a href="ProductHistory.jsp" class="<%=request.getRequestURL().indexOf("history") != -1 ? "active" : "" %>">Sản phẩm vừa xem</a>
                 </li>
                 <li class="header_nav-list-item">
                     <a href="news.jsp" class="<%=request.getRequestURL().indexOf("news") != -1 ? "active" : "" %>">Tin
@@ -324,6 +334,30 @@
                 $("#search-result").css("display", "block")
             } else
                 $("#search-result").css("display", "none")
+        });
+    })
+    function loadHistory() {
+        const list_history = $(".visited").val();
+        const id_prod = $(".id_prod").val();
+        $.ajax({
+            url: "LoadHistoryController",
+            type: "get",
+            data: {
+                list_history: list_history,
+                id_prod: id_prod
+            },
+            success: function (data) {
+                $("#got").append(data);
+            }
+        })
+    }
+    $(document).ready(function () {
+        loadHistory();
+        $(".open-history").click(function() {
+            $("#popup").fadeIn();
+        });
+        $(".close").click(function() {
+            $("#popup").css("display", "none");
         });
     })
 </script>

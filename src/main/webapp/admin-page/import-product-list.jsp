@@ -14,6 +14,15 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico in the root directory -->
+    <link rel="stylesheet" href="DataTables-1.13.4/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="DataTables-1.13.4/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="DataTables-1.13.4/css/dataTables.bootstrap.min.css">
+    <%--    <link rel="stylesheet" href="DataTables-1.13.4/css/dataTables.bootstrap4.min.css">--%>
+    <%--    <link rel="stylesheet" href="DataTables-1.13.4/css/dataTables.bootstrap5.min.css">--%>
+    <link rel="stylesheet" href="DataTables-1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="DataTables-1.13.4/css/dataTables.bulma.min.css">
+    <link rel="stylesheet" href="DataTables-1.13.4/css/dataTables.jqueryui.min.css">
+    <link rel="stylesheet" href="DataTables-1.13.4/css/dataTables.semanticui.min.css">
     <link rel="stylesheet" href="css/vendor.css">
     <style>
         .input-group-btn {
@@ -78,148 +87,83 @@
                                     <label for="quantity" style="margin-right: 17px;">Số lượng nhập</label>
                                     <input type="text" class="form-control" id="quantity">
                                 </div>
-                                <button type="submit" class="btn btn-primary import_btn" style="margin: 0 0 40px 20px;">Nhập hàng</button>
+                                <button type="submit" class="btn btn-primary import_btn" style="margin: 0 0 40px 20px;">
+                                    Nhập hàng
+                                </button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card item">
-                <ul class="item-list striped" id="items">
-                    <li class="item item-list-header" id="first-child">
-                        <div class="item-row">
-                            <div class="item-col fixed item-col-check">
-                                <label class="item-check" id="select-all-items">
-                                    <input type="checkbox" class="checkbox">
-                                    <span></span>
-                                </label>
-                            </div>
-                            <div class="item-col item-col-header item-col-title" style="max-width: 125px !important;">
-                                <div>
-                                    <span>Mã nhập hàng</span>
+                <table id="myTable">
+                    <thead>
+                    <tr>
+                        <th>
+                            Mã nhập hàng
+                        </th>
+                        <th>
+                            Mã sản phẩm
+                        </th>
+                        <th>
+                            Tên sản phẩm
+                        </th>
+                        <th>
+                            Số lượng nhập
+                        </th>
+                        <th>
+                            Người nhập
+                        </th>
+                        <th>
+                            Ngày nhập
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="appendItem">
+                    <% List<ImportProduct> importProductList = ImportProductService.getInstance().loadImportWithConditionContainsStatus(1, 6);
+                        for (ImportProduct importProduct : importProductList) { %>
+                    <tr class="item">
+                        <td>
+                            <%= importProduct.getId() %>
+                        </td>
+                        <td>
+                            <%= importProduct.getId_prod() %>
+                        </td>
+                        <td>
+                            <%= importProduct.getProd_name() %>
+                        </td>
+                        <td>
+                            <%= importProduct.getQuantity() %>
+                        </td>
+                        <td>
+                            <%= importProduct.getImport_by() %>
+                        </td>
+                        <td>
+                            <%= importProduct.getDate_import() %>
+                        </td>
+                        <td>
+                            <div class="item-actions-dropdown">
+                                <div class="item-actions-block">
+                                    <ul class="item-actions-list">
+                                        <% for (AdminRole role : admin.getRole()) {
+                                            if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("import") && role.getPermission().equals("delete")) { %>
+                                        <li style="list-style: none">
+                                            <a class="remove" id="remove<%= importProduct.getId() %>"
+                                               data-toggle="modal"
+                                               data-target="#confirm-modal" style="cursor: pointer">
+                                                <i class="fa fa-trash-o" style="color: red"></i>
+                                            </a>
+                                        </li>
+                                        <% }
+                                        } %>
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-sales" style="text-align: left!important;">
-                                <div style="margin-left: 10px">
-                                    <span>Mã sản phẩm</span>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-header item-col-category">
-                                <div class="no-overflow">
-                                    <span>Tên sản phẩm</span>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-header item-col-category">
-                                <div class="no-overflow">
-                                    <span>Số lượng nhập</span>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-header item-col-author" style="max-width: 196px;">
-                                <div class="no-overflow" style="text-align: center">
-                                    <span>Người nhập</span>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-header item-col-author" style="max-width: 115px;">
-                                <div class="no-overflow" style="text-align: center">
-                                    <span>Ngày nhập</span>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
-                        </div>
-                    </li>
-                    <%List<ImportProduct> importProductList = ImportProductService.getInstance().loadImportWithConditionContainsStatus(1, 6);%>
-                    <div id="appendItem">
-                        <%
-                            for (ImportProduct importProduct : importProductList) {
-                        %>
-                        <li class="item">
-                            <div class="item-row">
-                                <div class="item-col fixed item-col-check">
-                                    <label class="item-check" id="select-all-items">
-                                        <input type="checkbox" class="checkbox">
-                                        <span></span>
-                                    </label>
-                                </div>
-                                <div class="item-col fixed pull-left item-col-title"
-                                     style="max-width: 125px !important;">
-                                    <div class="item-heading">Mã nhập hàng</div>
-                                    <div>
-                                        <a>
-                                            <h4 class="item-title"><%=importProduct.getId()%>
-                                            </h4>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-sales" style="text-align: left!important;">
-                                    <div class="item-heading">Mã sản phẩm</div>
-                                    <div class="sales" style="text-align: left; padding-left:20px">
-                                        <%=importProduct.getId_prod()%>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-category">
-                                    <div class="item-heading">Tên sản phẩm</div>
-                                    <div class="sales" style="text-align: left; margin-left: -69px">
-                                        <%=importProduct.getProd_name()%>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-category" style="max-width: 125px; margin-left: -50px">
-                                    <div class="item-heading">Số lượng nhập</div>
-                                    <div class="sales" style="text-align: left; margin-left: -50px">
-                                        <%=importProduct.getQuantity()%>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-author" style="max-width: 220px;">
-                                    <div class="item-heading">Người nhập</div>
-                                    <div class="no-overflow" style="text-align: center">
-                                        <a>
-                                            <%=importProduct.getImport_by()%>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-author" style="max-width: 100px;">
-                                    <div class="item-heading">Ngày nhập</div>
-                                    <div class="no-overflow" style="text-align: center">
-                                        <a>
-                                            <%=importProduct.getDate_import()%>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item-col fixed item-col-actions-dropdown">
-                                    <div class="item-actions-dropdown">
-                                        <a class="item-actions-toggle-btn">
-                                    <span class="inactive">
-                                        <i class="fa fa-cog"></i>
-                                    </span>
-                                            <span class="active">
-                                        <i class="fa fa-chevron-circle-right"></i>
-                                    </span>
-                                        </a>
-                                        <div class="item-actions-block">
-                                            <ul class="item-actions-list">
-                                                <%
-                                                    for (AdminRole role : admin.getRole()) {
-                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("import") && role.getPermission().equals("delete")) {
-                                                %>
-                                                <li>
-                                                    <a class="remove" id="remove<%=importProduct.getId()%>"
-                                                       data-toggle="modal"
-                                                       data-target="#confirm-modal" style="cursor: pointer">
-                                                        <i class="fa fa-trash-o "></i>
-                                                    </a>
-                                                </li>
-                                                <%
-                                                        }
-                                                    }
-                                                %>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <%}%>
-                    </div>
-                </ul>
+                        </td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
             </div>
             <nav class="text-right">
                 <ul class="pagination">
@@ -283,8 +227,25 @@
     ga('send', 'pageview');
 </script>
 <script src="./js/jquery-3.6.1.min.js"></script>
+<script src="./DataTables-1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="./js/datatables.min.js"></script>
+<script src="./DataTables-1.13.4/js/dataTables.bootstrap.min.js"></script>
+<%--<script src="./DataTables-1.13.4/js/dataTables.bootstrap4.min.js"></script>--%>
+<%--<script src="./DataTables-1.13.4/js/dataTables.bootstrap5.min.js"></script>--%>
+
+<script src="./DataTables-1.13.4/js/dataTables.jqueryui.min.js"></script>
+<script src="./DataTables-1.13.4/js/dataTables.bulma.min.js"></script>
+<script src="./DataTables-1.13.4/js/dataTables.dataTables.min.js"></script>
+<script src="./DataTables-1.13.4/js/dataTables.foundation.min.js"></script>
+<script src="./DataTables-1.13.4/js/dataTables.semanticui.min.js"></script>
+
 <script src="./js/vendor.js"></script>
 <script src="./js/app.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable()
+    });
+</script>
 <script>
     function reloadScript() {
         const $itemActions = $(".item-actions-dropdown");
@@ -324,15 +285,16 @@
             })
         })
     }
+
     $(".import_btn").click(function (e) {
         e.preventDefault();
         const idProd = $("#idProd").val();
         const quantity = $("#quantity").val();
         const id_admin = $(".id_admin").val();
-        if(idProd==="" || quantity === ""){
+        if (idProd === "" || quantity === "") {
             alert("Vui lòng điền đầy đủ mã sản phẩm và số lượng nhập");
             return false;
-        }else {
+        } else {
             $.ajax({
                 type: 'post',
                 url: '../AddImportController',
@@ -361,7 +323,7 @@
                         page: page,
                     },
                     success: function (data) {
-                        $("#appendItem").html(data);
+                        $(".appendItem").html(data);
                         $("#page").text(page)
                         deleteImport();
                         reloadScript();
@@ -381,7 +343,7 @@
                 success: function (data) {
                     console.log(data)
                     if ($.trim(data)) {
-                        $("#appendItem").html(data);
+                        $(".appendItem").html(data);
                         $("#page").text(page)
                         deleteImport();
                         reloadScript();

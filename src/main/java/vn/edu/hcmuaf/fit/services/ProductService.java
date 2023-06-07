@@ -81,6 +81,9 @@ public class ProductService {
         new ProductDAO().AddViewCount(id);
     }
 
+    public Product getProductById(String id) {
+        return new ProductDAO().getProductById(id);
+    }
     public static void main(String[] args) {
         new ProductDAO().loadAllProductContainStatus();
     }
