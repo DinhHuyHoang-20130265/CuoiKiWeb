@@ -394,6 +394,7 @@
     CategoryDAO categoryDAO = new CategoryDAO();
     SiteUser user = (SiteUser) request.getSession().getAttribute("user");
     Product product = productDAO.getProductAndDetails(request.getParameter("id"));
+    String id = request.getParameter("id");
     NumberFormat format = NumberFormat.getInstance(new Locale("vn", "VN"));
     List<ProductReview> productReviews = productReviewDAO.getCommentsByProductID(product.getId());
     Category cate1 = categoryDAO.getCategoryByProductId(product.getId());
@@ -404,7 +405,7 @@
         request.getSession().setAttribute("listVisited", visiteds);
     }
     if (!visiteds.contains(product.getId())) {
-        visiteds.add(product.getId());
+        visiteds.add(0, product.getId());
         ProductService.getInstance().AddViewCount(product.getId());
     }
 %>
@@ -947,7 +948,26 @@
         })
     }
 
+    function loadHistory() {
+        const list_history = $(".visited").val();
+        const id_prod = $(".id_prod").val();
+        console.log(list_history)
+        console.log(id_prod)
+        $.ajax({
+            url: "LoadHistoryController",
+            type: "get",
+            data: {
+                list_history: list_history,
+                id_prod: id_prod
+            },
+            success: function (data) {
+                $(".popup-content table").append(data);
+            }
+        })
+    }
+
     $(document).ready(function () {
+        // loadHistory();
         addcart();
     })
 </script>

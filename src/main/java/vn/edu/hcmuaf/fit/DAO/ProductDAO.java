@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.DAO;
 
 import vn.edu.hcmuaf.fit.beans.category.Category;
+import vn.edu.hcmuaf.fit.beans.order.Order;
 import vn.edu.hcmuaf.fit.beans.product.*;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 import vn.edu.hcmuaf.fit.services.CategoryService;
@@ -225,7 +226,15 @@ public class ProductDAO {
         product.setSales(sale);
         return product;
     }
-
+    public Product getProductById(String id) {
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link, p.price, " +
+                        "p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count, p.updated_date, p.updated_by" +
+                        " FROM product p WHERE p.id =?")
+                .bind(0, id)
+                .mapToBean(Product.class)
+                .first()
+        );
+    }
     public void RemoveProduct(String id) {
         JDBIConnector.get().withHandle(handle -> {
             handle.execute("SET FOREIGN_KEY_CHECKS=0");

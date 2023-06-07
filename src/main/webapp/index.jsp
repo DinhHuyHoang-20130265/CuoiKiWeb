@@ -113,20 +113,21 @@
                     %>
                     <div id="demo" class="carousel slide" data-ride="carousel">
                         <ul class="carousel-indicators">
-                            <% for( int k = 0; k < listSlide.size(); k++) { %>
+                            <% for (int k = 0; k < listSlide.size(); k++) { %>
                             <li data-target="#demo" data-slide-to="<%=k%>" class="<%=k==0 ? "active" : ""%>"></li>
                             <%}%>
                         </ul>
                         <div class="carousel-inner">
-                            <%  int h = 0;
-                                for (Slide slide: listSlide) {%>
+                            <% int h = 0;
+                                for (Slide slide : listSlide) {%>
                             <div class="carousel-item <%=h==0 ? "active" : ""%>">
-                                <img src="<%=slide.getSlide_link()%>" alt="Los Angeles" width="1100" height="500" style="max-width: 1100px; max-height: 500px; min-width: 1100px; min-height: 500px;"/>
+                                <img src="<%=slide.getSlide_link()%>" alt="Los Angeles" width="1100" height="500"
+                                     style="max-width: 1100px; max-height: 500px; min-width: 1100px; min-height: 500px;"/>
                                 <div class="carousel-caption">
                                 </div>
                             </div>
                             <% h++;
-                                }
+                            }
                             %>
                         </div>
                         <a class="carousel-control-prev" href="#demo" data-slide="prev">
@@ -189,7 +190,8 @@
                                     <form class="hover-icon hidden-sm hidden-xs">
                                         <input type="hidden">
                                         <% if (user != null) {%>
-                                        <a class="btn-add-to-cart add-wishlist" id="addWishList<%=newProducts.get(i).getId()%>"
+                                        <a class="btn-add-to-cart add-wishlist"
+                                           id="addWishList<%=newProducts.get(i).getId()%>"
                                            title="Đưa vào danh sách yêu thích">
                                             <i class="fas fa-heart"></i>
                                         </a>
@@ -256,7 +258,8 @@
                                     <form class="hover-icon hidden-sm hidden-xs">
                                         <input type="hidden">
                                         <% if (user != null) {%>
-                                        <a class="btn-add-to-cart add-wishlist" id="addWishList<%=hotProducts.get(i).getId()%>"
+                                        <a class="btn-add-to-cart add-wishlist"
+                                           id="addWishList<%=hotProducts.get(i).getId()%>"
                                            title="Đưa vào danh sách yêu thích">
                                             <i class="fas fa-heart"></i>
                                         </a>
@@ -395,7 +398,8 @@
                                     <form class="hover-icon hidden-sm hidden-xs">
                                         <input type="hidden">
                                         <% if (user != null) {%>
-                                        <a class="btn-add-to-cart add-wishlist" id="addWishList<%=likeProducts.get(i).getId()%>"
+                                        <a class="btn-add-to-cart add-wishlist"
+                                           id="addWishList<%=likeProducts.get(i).getId()%>"
                                            title="Đưa vào danh sách yêu thích">
                                             <i class="fas fa-heart"></i>
                                         </a>
