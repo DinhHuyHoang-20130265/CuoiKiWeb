@@ -17,12 +17,14 @@ public class FileLocationContextListener implements ServletContextListener, Http
         String rootPath = System.getProperty("catalina.home");
         String realRootPath = rootPath.substring(0, rootPath.lastIndexOf("\\"));
         ServletContext ctx = sce.getServletContext();
+        String font = ctx.getInitParameter("font.dir");
         String productRelativePath = ctx.getInitParameter("tempproduct.dir");
         String newsRelativePath = ctx.getInitParameter("tempnews.dir");
         String avatarRelativePath = ctx.getInitParameter("tempavatar.dir");
         String realProductPath = ctx.getInitParameter("saveproduct.dir");
         String realNewsPath = ctx.getInitParameter("savenews.dir");
         String realAvatarPath = ctx.getInitParameter("saveavatar.dir");
+        File fontPath = new File(rootPath + File.separator + "webapps" + File.separator + font);
         File tempproduct = new File(rootPath + File.separator + "webapps" + File.separator + productRelativePath);
         File tempnews = new File(rootPath + File.separator + "webapps" + File.separator + newsRelativePath);
         File tempavatar = new File(rootPath + File.separator + "webapps" + File.separator + avatarRelativePath);
@@ -41,12 +43,15 @@ public class FileLocationContextListener implements ServletContextListener, Http
             savenews.mkdirs();
         if (!saveavatar.exists())
             saveavatar.mkdirs();
+        if (!fontPath.exists())
+            fontPath.mkdirs();
         ctx.setAttribute("FILES_DIR_TEMPPRODUCT", tempproduct);
         ctx.setAttribute("FILES_DIR_TEMPNEWS", tempnews);
         ctx.setAttribute("FILES_DIR_TEMPAVATAR", tempavatar);
         ctx.setAttribute("FILES_DIR_FILEPRODUCT", saveproduct);
         ctx.setAttribute("FILES_DIR_FILENEWS", savenews);
         ctx.setAttribute("FILES_DIR_FILEAVATAR", saveavatar);
+        ctx.setAttribute("FONT_DIR", rootPath + File.separator + "webapps" + File.separator + font);
         ctx.setAttribute("TEMPPRODUCT_DIR", rootPath + File.separator + "webapps" + File.separator + productRelativePath);
         ctx.setAttribute("TEMPNEWS_DIR", rootPath + File.separator + "webapps" + File.separator + newsRelativePath);
         ctx.setAttribute("TEMPAVATAR_DIR", rootPath + File.separator + "webapps" + File.separator + avatarRelativePath);

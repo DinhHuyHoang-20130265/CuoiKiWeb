@@ -195,7 +195,7 @@
                                                         <div class="order-block--table-content"><a
                                                                 target="_blank" href="#"><strong
                                                                 class="text-primary mb-2 d-inline-block table-break-word"><span
-                                                                class=""><%=ProductService.getInstance().getProductHiddenAndDetails(detail.getProd_id()).getProd_name()%>
+                                                                class=""><%=ProductService.getInstance().getProductHiddenAndDetails(detail.getProd_id()).getProd_name()%> - <%=detail.getProd_size()%> - <%=detail.getProd_color()%>
                                                                             </span></strong></a>
                                                             <div class="mb-2 text-secondary"></div>
                                                             <span
@@ -288,31 +288,37 @@
                                                     <div class="col">
                                                         <p class="mb-0">Vận chuyển</p>
                                                     </div>
-                                                    <div class="col-auto text-right">30,000 ₫</div>
+                                                    <div class="col-auto text-right"><%=formatter.format(order.getTransfer_fee())%>
+                                                        ₫
+                                                    </div>
                                                 </div>
                                             </div>
                                             <%
                                                 if (order.getCode_id() != null && !order.getCode_id().equals("NoCode")) {
                                                     PromotionCode code = PromotionCodeService.getInstance().getPromotionCodeById(order.getCode_id());
                                                     if (code.getType_code().equals("THOITRANG")) {%>
-                                                    <div class="ui-information-body pb-4">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p class="mb-0">Mã giảm giá thời trang</p>
-                                                            </div>
-                                                            <div class="col-auto text-right">- <%=formatter.format(code.getDiscount_money())%> đ</div>
-                                                        </div>
+                                            <div class="ui-information-body pb-4">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <p class="mb-0">Mã giảm giá thời trang</p>
                                                     </div>
-                                                    <%} else {%>
-                                                    <div class="ui-information-body pb-4">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p class="mb-0">Mã giảm giá vận chuyển</p>
-                                                            </div>
-                                                            <div class="col-auto text-right">- <%=formatter.format(code.getDiscount_money())%> đ</div>
-                                                        </div>
+                                                    <div class="col-auto text-right">
+                                                        - <%=formatter.format(code.getDiscount_money())%> đ
                                                     </div>
-                                                    <%}%>
+                                                </div>
+                                            </div>
+                                            <%} else {%>
+                                            <div class="ui-information-body pb-4">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <p class="mb-0">Mã giảm giá vận chuyển</p>
+                                                    </div>
+                                                    <div class="col-auto text-right">
+                                                        - <%=formatter.format(code.getDiscount_money())%> đ
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <%}%>
                                             <%}%>
                                             <div class="ui-information-body pb-4">
                                                 <div class="row">
@@ -350,6 +356,14 @@
                                                             <% } %>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <div class="pb-0 text-left">
+                                                <div class="pb-0 text-left">
+                                                    <a class="btn btn-primary btn" id="invoice"
+                                                       href="Invoice?id=<%=order.getOrd_id()%>"><span
+                                                            class="mr-2">In hóa đơn</span>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

@@ -3,10 +3,8 @@ package vn.edu.hcmuaf.fit.IndexController;
 import vn.edu.hcmuaf.fit.DAO.OrderDAO;
 import vn.edu.hcmuaf.fit.DAO.PromotionCodeDAO;
 import vn.edu.hcmuaf.fit.beans.MailConfiguration;
-import vn.edu.hcmuaf.fit.beans.SiteUser;
 import vn.edu.hcmuaf.fit.beans.cart.Cart;
 import vn.edu.hcmuaf.fit.beans.cart.CartKey;
-import vn.edu.hcmuaf.fit.beans.order.Order;
 import vn.edu.hcmuaf.fit.beans.promotion_code.PromotionCode;
 import vn.edu.hcmuaf.fit.services.*;
 
@@ -39,10 +37,10 @@ public class CheckoutController extends HttpServlet {
         double total = Double.parseDouble(request.getParameter("total"));
         String customer_id = request.getParameter("customer_id");
         String sale_code = request.getParameter("sale_code");
-        int transferFee = Integer.parseInt(request.getParameter("transferFee"));
+        double transferFee = Double.parseDouble(request.getParameter("transferFee"));
 
         Cart cart = (Cart) request.getSession().getAttribute("cart");
-        OrderService.getInstance().insertOrder(ord_id, payment_method, total, address, receive_name, email, phone_number, note, customer_id, sale_code);
+        OrderService.getInstance().insertOrder(ord_id, payment_method, total, address, receive_name, email, phone_number, note, customer_id, sale_code, transferFee);
         boolean check = true;
         for (CartKey p : cart.getData().keySet()) {
             String prod_id = cart.getData().get(p).getId();
@@ -92,7 +90,7 @@ public class CheckoutController extends HttpServlet {
                         "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Đơn hàng mã " + ord_id + " của bạn đã được tạo</p>" +
                         "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chi tiết đơn hàng:</p>" +
                         content.toString() +
-                        "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Phí ship:   " + format.format(30000) + "đ</p>" +
+                        "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Phí ship:   " + format.format(transferFee) + "đ</p>" +
                         "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Mã khuyến mãi:   -" + format.format(code.getDiscount_money()) + " đ</p>" +
                         "<p style=\"padding: 0;font-weight: 700;font-size: 15px;color: #2a2a2a;font-family:sans-serif\">Tổng: " + format.format(total) + " đ</p>" +
                         "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Bạn có thể xem lại/theo dõi đơn hàng tại trang thông tin tài khoản.</p>" +
@@ -105,7 +103,7 @@ public class CheckoutController extends HttpServlet {
                         "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Đơn hàng mã " + ord_id + " của bạn đã được tạo</p>" +
                         "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chi tiết đơn hàng:</p>" +
                         content.toString() +
-                        "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Phí ship:   " + format.format(30000) + " đ</p>" +
+                        "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Phí ship:   " + format.format(transferFee) + " đ</p>" +
                         "<p style=\"padding: 0;font-weight: 700;font-size: 15px;color: #2a2a2a;font-family:sans-serif\">Tổng: " + format.format(total) + " đ</p>" +
                         "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Bạn có thể xem lại/theo dõi đơn hàng tại trang thông tin tài khoản.</p>" +
                         "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Shop sẽ liên hệ lại với bạn sớm nhất để xác nhận thanh toán, cảm ơn bạn đã mua hàng tại Shop</p>" +
@@ -117,7 +115,7 @@ public class CheckoutController extends HttpServlet {
             MailService.getInstance().sendMail("PNTSHOP", email, subject, text, MailConfiguration.MAIL_HTML);
             response.getWriter().println("Đơn hàng của bạn đã được tạo thành công và đang chờ cửa hàng xử lý");
             NotifyService.getInstance().addNewNotify("Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id, ord_id);
-            LogService.getInstance().addNewLog(customer_id,"order","customer","Tài khoản "+ customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " +ord_id);
+            LogService.getInstance().addNewLog(customer_id, "order", "customer", "Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id);
             request.getSession().setAttribute("cart", new Cart());
         }
     }

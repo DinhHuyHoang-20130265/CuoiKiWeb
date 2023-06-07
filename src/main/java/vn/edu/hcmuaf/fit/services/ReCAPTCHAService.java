@@ -51,7 +51,7 @@ public class ReCAPTCHAService {
 
             InputStream is = conn.getInputStream();
 
-            JsonReader jsonReader = (JsonReader) Json.createReader(is);
+            JsonReader jsonReader = Json.createReader(is);
             JsonObject jsonObject = jsonReader.readObject();
             jsonReader.close();
             return jsonObject.getBoolean("success");
