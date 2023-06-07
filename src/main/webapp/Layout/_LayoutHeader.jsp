@@ -238,7 +238,16 @@
                 </div>
             </div>
         </div>
-        <div id="got" class="got"> </div>
+<%--        <div id="got" class="got">--%>
+            <div id="popup" class="popup">
+                <span class="close">x</span>
+                <div class="popup-content">
+                    <table>
+
+                    </table>
+                </div>
+            </div>
+<%--        </div>--%>
     </div>
     <nav class="header_nav hidden-sm hidden-xs">
         <div class="container">
@@ -347,18 +356,18 @@
                 id_prod: id_prod
             },
             success: function (data) {
-                $("#got").append(data);
+                $(".popup-content table").append(data);
             }
         })
     }
     $(document).ready(function () {
-        loadHistory();
         $(".open-history").click(function() {
             $("#popup").fadeIn();
         });
         $(".close").click(function() {
-            $("#popup").css("display", "none");
+            $("#popup").fadeOut();
         });
+        loadHistory();
     })
 </script>
 <!-- end header -->

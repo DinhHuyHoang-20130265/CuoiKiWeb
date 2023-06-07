@@ -961,13 +961,13 @@
                 id_prod: id_prod
             },
             success: function (data) {
-                $("#got").append(data);
+                $(".popup-content table").append(data);
             }
         })
     }
 
     $(document).ready(function () {
-        loadHistory();
+        // loadHistory();
         addcart();
     })
 </script>

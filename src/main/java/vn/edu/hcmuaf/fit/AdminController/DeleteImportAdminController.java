@@ -21,9 +21,8 @@ public class DeleteImportAdminController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        String page = request.getParameter("page");
         ImportProductService.getInstance().removeImport(id);
-        List<ImportProduct> imports = ImportProductService.getInstance().loadImportWithConditionContainsStatus(Integer.parseInt(page), 6);
+        List<ImportProduct> imports = ImportProductService.getInstance().getListImport();
         request.setAttribute("imports", imports);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadImportListAdmin.jsp").forward(request, response);
     }

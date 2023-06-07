@@ -22,7 +22,5 @@ public class LoadImportListAdminProduct extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page = request.getParameter("page");
         List<ImportProduct> imports = ImportProductService.getInstance().loadImportWithConditionContainsStatus(Integer.parseInt(page), 6);
-        request.setAttribute("imports", imports);
-        request.getRequestDispatcher("/admin-page/ajax/ajax_LoadImportListAdmin.jsp").forward(request, response);
     }
 }

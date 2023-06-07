@@ -117,10 +117,13 @@
                         <th>
                             Ngày nhập
                         </th>
+                        <th>
+                            Thao tác
+                        </th>
                     </tr>
                     </thead>
                     <tbody class="appendItem">
-                    <% List<ImportProduct> importProductList = ImportProductService.getInstance().loadImportWithConditionContainsStatus(1, 6);
+                    <% List<ImportProduct> importProductList = ImportProductService.getInstance().getListImport();
                         for (ImportProduct importProduct : importProductList) { %>
                     <tr class="item">
                         <td>
@@ -165,17 +168,6 @@
                     </tbody>
                 </table>
             </div>
-            <nav class="text-right">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" style="text-decoration: none;" id="btn_prev"> Trước </a>
-                    </li>
-                    <li class="page-item active">
-                        <a class="page-link" id="page" href="#" style="text-decoration: none;">1</a>
-                    </li>
-                    <a class="page-link" id="btn_next" style="text-decoration: none;"> Kế tiếp </a>
-                </ul>
-            </nav>
         </article>
         <div class="modal fade" id="confirm-modal">
             <div class="modal-dialog" role="document">
@@ -228,6 +220,9 @@
 </script>
 <script src="./js/jquery-3.6.1.min.js"></script>
 <script src="./DataTables-1.13.4/js/jquery.dataTables.min.js"></script>
+<script>
+    let table = new DataTable('#myTable');
+</script>
 <script src="./js/datatables.min.js"></script>
 <script src="./DataTables-1.13.4/js/dataTables.bootstrap.min.js"></script>
 <%--<script src="./DataTables-1.13.4/js/dataTables.bootstrap4.min.js"></script>--%>
@@ -241,12 +236,11 @@
 
 <script src="./js/vendor.js"></script>
 <script src="./js/app.js"></script>
+
 <script>
     $(document).ready(function () {
-        $('#myTable').DataTable()
-    });
-</script>
-<script>
+        deleteImport();
+    })
     function reloadScript() {
         const $itemActions = $(".item-actions-dropdown");
         $(document).on('click', function (e) {
@@ -265,7 +259,7 @@
     function deleteImport() {
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
-            const page = parseInt($("#page").text());
+            console.log(id)
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
@@ -273,11 +267,10 @@
                         url: "../DeleteImportAdminController",
                         type: "post",
                         data: {
-                            id: id,
-                            page: page,
+                            id: id
                         },
                         success: function (data) {
-                            $("#appendItem").html(data);
+                            window.location.href = "/CuoiKiWeb_war/admin-page/import-product-list.jsp"
                             reloadScript();
                         }
                     })
@@ -311,50 +304,6 @@
         }
     })
     deleteImport();
-    $(document).ready(function () {
-        $("#btn_prev").on("click", function (e) {
-            e.preventDefault();
-            const page = parseInt($("#page").text()) - 1;
-            if (page > 0) {
-                $.ajax({
-                    url: "../LoadImportListAdminProduct",
-                    type: "post",
-                    data: {
-                        page: page,
-                    },
-                    success: function (data) {
-                        $(".appendItem").html(data);
-                        $("#page").text(page)
-                        deleteImport();
-                        reloadScript();
-                    }
-                })
-            }
-        })
-        $("#btn_next").on("click", function (e) {
-            e.preventDefault();
-            const page = parseInt($("#page").text()) + 1;
-            $.ajax({
-                url: "../LoadImportListAdminProduct",
-                type: "post",
-                data: {
-                    page: page,
-                },
-                success: function (data) {
-                    console.log(data)
-                    if ($.trim(data)) {
-                        $(".appendItem").html(data);
-                        $("#page").text(page)
-                        deleteImport();
-                        reloadScript();
-                    }
-                },
-                error: function (data) {
-                    console.log(data)
-                }
-            })
-        })
-    })
 </script>
 </body>
 
