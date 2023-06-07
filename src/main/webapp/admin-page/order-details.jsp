@@ -288,7 +288,9 @@
                                                     <div class="col">
                                                         <p class="mb-0">Vận chuyển</p>
                                                     </div>
-                                                    <div class="col-auto text-right">30,000 ₫</div>
+                                                    <div class="col-auto text-right"><%=formatter.format(order.getTransfer_fee())%>
+                                                        ₫
+                                                    </div>
                                                 </div>
                                             </div>
                                             <%
@@ -358,7 +360,8 @@
                                             </div>
                                             <div class="pb-0 text-left">
                                                 <div class="pb-0 text-left">
-                                                    <a class="btn btn-primary btn" id="invoice" href="Invoice?id=<%=order.getOrd_id()%>"><span
+                                                    <a class="btn btn-primary btn" id="invoice"
+                                                       href="Invoice?id=<%=order.getOrd_id()%>"><span
                                                             class="mr-2">In hóa đơn</span>
                                                     </a>
                                                 </div>

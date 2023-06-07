@@ -95,8 +95,12 @@ public class Invoice extends HttpServlet {
             }
             document.add(detail);
 
+            Paragraph withoutFee = new Paragraph("Tạm tính: " + format.format(order.getTotal() - order.getTransfer_fee()) + "đ", font);
+            withoutFee.setAlignment(Element.ALIGN_RIGHT);
+            document.add(withoutFee);
+
             // vận chuyển
-            Paragraph transport = new Paragraph("Phí vận chuyển: " + format.format(30000) + "đ", font);
+            Paragraph transport = new Paragraph("Phí vận chuyển: " + format.format(order.getTransfer_fee()) + "đ", font);
             transport.setAlignment(Element.ALIGN_RIGHT);
             document.add(transport);
 

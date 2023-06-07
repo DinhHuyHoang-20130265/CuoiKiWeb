@@ -25,21 +25,24 @@
 %>
 <div class="modal-body" style="margin-top:10px">
     <div class="body-one">
-        <%if (order.getCode_id() != null && !order.getCode_id().equals("NoCode")) {
-                PromotionCode code = PromotionCodeService.getInstance().getPromotionCodeById(order.getCode_id()); %>
-        <div>Tạm tính: <p><%=formatter.format(order.getTotal() - 30000 + code.getDiscount_money())%> đ</p></div>
-        <div>Phí ship:<p>30.000 đ</p></div>
-        <%if(code.getType_code().equals("THOITRANG")) {%>
-            <div>Mã khuyến mãi thời trang:<p>- <%=formatter.format(code.getDiscount_money())%> đ</p></div>
+        <%
+            if (order.getCode_id() != null && !order.getCode_id().equals("NoCode")) {
+                PromotionCode code = PromotionCodeService.getInstance().getPromotionCodeById(order.getCode_id());
+        %>
+        <div>Tạm tính: <p><%=formatter.format(order.getTotal() - order.getTransfer_fee() + code.getDiscount_money())%>
+            đ</p></div>
+        <div>Phí ship:<p><%=formatter.format(order.getTransfer_fee())%> đ</p></div>
+        <%if (code.getType_code().equals("THOITRANG")) {%>
+        <div>Mã khuyến mãi thời trang:<p>- <%=formatter.format(code.getDiscount_money())%> đ</p></div>
         <%} else {%>
-            <div>Mã khuyến mãi vận chuyển:<p>- <%=formatter.format(code.getDiscount_money())%> đ</p></div>
+        <div>Mã khuyến mãi vận chuyển:<p>- <%=formatter.format(code.getDiscount_money())%> đ</p></div>
         <%}%>
         <div>Tổng Tiền: <p><%=formatter.format(order.getTotal())%> đ</p></div>
         <span style="visibility: hidden"><%=order.getCode_id()%></span>
         <span style="visibility: hidden"><%=order.getOrd_id()%></span>
         <%} else {%>
-        <div>Tạm tính: <p><%=formatter.format(order.getTotal() - 30000)%> đ</p></div>
-        <div>Phí ship:<p>30.000 đ</p></div>
+        <div>Tạm tính: <p><%=formatter.format(order.getTotal() - order.getTransfer_fee())%> đ</p></div>
+        <div>Phí ship:<p><%=formatter.format(order.getTransfer_fee())%> đ</p></div>
         <div>Tổng Tiền: <p><%=formatter.format(order.getTotal())%> đ</p></div>
         <span style="visibility: hidden"><%=order.getCode_id()%></span>
         <span style="visibility: hidden"><%=order.getOrd_id()%></span>

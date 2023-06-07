@@ -19,8 +19,8 @@ public class OrderService {
         return orderService;
     }
 
-    public void insertOrder(String ord_id, int pay_ment, double total, String address, String receive_name, String email, String phone_number, String note, String customer_id, String code_id) {
-        new OrderDAO().insertOrder(ord_id, pay_ment, total, address, receive_name, email, phone_number, note, customer_id, code_id);
+    public void insertOrder(String ord_id, int pay_ment, double total, String address, String receive_name, String email, String phone_number, String note, String customer_id, String code_id, double transferfee) {
+        new OrderDAO().insertOrder(ord_id, pay_ment, total, address, receive_name, email, phone_number, note, customer_id, code_id, transferfee);
     }
 
     public List<Order> getOrderListByUserId(String id) {
@@ -47,12 +47,11 @@ public class OrderService {
         new OrderDAO().UpdateDeliveryStatus(id, status);
     }
 
-    public static void main(String[] args) {
-        String id = new OrderDAO().generateIdOrder();
-        OrderService.getInstance().insertOrder(id, 1, 31288.0, "HCM city", "Hiep sss Chai", "dskakd@gmail.com", "21388821812", "Dong hang can than", "user1", "");
-    }
-
     public List<Order> getDeletedOrderListCondition(String page, String order, String search) {
         return new OrderDAO().getDeletedOrderListCondition(page, order, search);
+    }
+
+    public static void main(String[] args) {
+        String id = new OrderDAO().generateIdOrder();
     }
 }

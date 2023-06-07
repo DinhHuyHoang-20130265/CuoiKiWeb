@@ -267,18 +267,22 @@
                                         <div class="col-6 text-right">
                                             <span><%=cart != null ? format.format(cart.total()) : 0%>₫</span></div>
                                     </div>
+                                    <input type="text" id="total-not-contain-fee" value="<%=cart.total()%>"
+                                           style="display: none">
                                     <div class="row row-sliderbar-footer">
                                         <div class="col-6"><span>Phí vận chuyển:</span></div>
                                         <div class="col-6 text-right"><span id="transfer-fee"><i
                                                 class="fas fa-spinner fa-spin" aria-hidden="true"></i></span></div>
                                     </div>
+                                    <input type="text" id="cal-fee" value="0" style="display: none">
                                 </div>
                                 <div class="total">
                                     <div class="row row-sliderbar-footer">
                                         <div class="col-6"><span>Tổng cộng:</span></div>
                                         <div class="col-6 text-right">
-                                            <span><%=format.format(cart.total() + 30000)%>₫</span></div>
-                                        <input class="total_input" value="<%=cart.total() + 30000%>"
+                                            <span id="total-display"><i
+                                                    class="fas fa-spinner fa-spin" aria-hidden="true"></i></span></div>
+                                        <input class="total_input" value="0"
                                                style="display: none">;
                                     </div>
                                 </div>
@@ -306,7 +310,7 @@
                                         <input type="radio" id="cash" name="select-btn" value="0" checked>
                                         <label for="cash"> Thanh toán bằng tiền mặt khi nhận hàng(COD)</label><br>
                                         <input type="radio" id="bank" name="select-btn" value="1">
-                                        <label for="bank"> Thanh toán bằng thẻ ngân hàng</label><br>
+                                        <label for="bank"> Thanh toán online với VNPAY</label><br>
                                     </div>
                                 </div>
                             </div>
@@ -458,6 +462,7 @@
                 sale_code.val("NoCode");
             }
         }
+
         $.ajax({
             url: "CheckoutController",
             type: "post",
@@ -522,22 +527,24 @@
     let districtCode
     let Ward
     let wardCode
+
     updateFeeAndTime()
 
     function updateFeeAndTime() {
         $("#transfer-fee").empty().append(`<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>`)
         $("#lead-time").empty().append(`<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>`)
-        $.ajax({
-            url: "./API/Login",
-            type: "post",
-            success: function (data) {
-                access_token = data.access_token
-                checkAddress()
-            },
-            error: function (data) {
-                console.log(data)
-            }
-        })
+        setInterval(
+            $.ajax({
+                url: "./API/Login",
+                type: "post",
+                success: function (data) {
+                    access_token = data.access_token
+                    checkAddress()
+                },
+                error: function (data) {
+                    console.log(data)
+                }
+            }), 600000)
     }
 
     function checkAddress() {
@@ -618,6 +625,12 @@
                     currency: 'VND'
                 }).format(transferFee)
                 $("#transfer-fee").text(fee)
+                $("#cal-fee").val(transferFee)
+                $(".total_input").val(transferFee + parseFloat($("#total-not-contain-fee").val()))
+                $("#total-display").html(new Intl.NumberFormat('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                }).format(transferFee + parseFloat($("#total-not-contain-fee").val())))
             },
             error: function (data) {
                 console.log(data)

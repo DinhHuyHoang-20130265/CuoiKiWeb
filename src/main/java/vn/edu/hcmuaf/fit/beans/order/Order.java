@@ -20,10 +20,12 @@ public class Order implements Serializable {
     private String note;
     private String code_id;
 
+    private double transfer_fee;
+
     public Order() {
     }
 
-    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, int isCanceled, double total, String delivery_date, String customer_id, String address, String receive_name, String email, String phone_number, String note, String code_id) {
+    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, int isCanceled, double total, String delivery_date, String customer_id, String address, String receive_name, String email, String phone_number, String note, String code_id, double transfer_fee) {
         this.ord_id = ord_id;
         this.ord_date = ord_date;
         this.status = status;
@@ -40,6 +42,7 @@ public class Order implements Serializable {
         this.phone_number = phone_number;
         this.note = note;
         this.code_id = code_id;
+        this.transfer_fee = transfer_fee;
     }
 
     public String getOrd_id() {
@@ -170,6 +173,14 @@ public class Order implements Serializable {
         this.code_id = code_id;
     }
 
+    public double getTransfer_fee() {
+        return transfer_fee;
+    }
+
+    public void setTransfer_fee(double transfer_fee) {
+        this.transfer_fee = transfer_fee;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -189,6 +200,7 @@ public class Order implements Serializable {
                 ", phone_number='" + phone_number + '\'' +
                 ", note='" + note + '\'' +
                 ", code_id='" + code_id + '\'' +
+                ", transfer_fee='" + transfer_fee + '\'' +
                 '}';
     }
 }

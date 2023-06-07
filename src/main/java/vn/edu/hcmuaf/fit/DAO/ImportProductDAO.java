@@ -29,13 +29,14 @@ public class ImportProductDAO {
         if (id.contains(sb.toString())) return generateIdImport();
         else return sb.toString();
     }
-    public String insertImport(String idProduct,String prodName, String quantity, String id_admin){
+
+    public String insertImport(String idProduct, String prodName, String quantity, String id_admin) {
         String id = generateIdImport();
         String date = java.time.LocalDate.now().toString();
         JDBIConnector.get().withHandle(handle -> {
             handle.createUpdate("insert into import_product (id , id_prod, prod_name, quantity , import_by, date_import) " +
                             "values (?,?,?,?,?,?)")
-                    .bind(0,id)
+                    .bind(0, id)
                     .bind(1, idProduct)
                     .bind(2, prodName)
                     .bind(3, quantity)
@@ -44,9 +45,17 @@ public class ImportProductDAO {
                     .execute();
             return true;
         });
+        JDBIConnector.get().withHandle(handle -> {
+            handle.createUpdate("update product set quantity=quantity + ? where id = ?")
+                    .bind(0, quantity)
+                    .bind(1, idProduct)
+                    .execute();
+            return true;
+        });
         return id;
     }
-    public List<ImportProduct> getListImport(){
+
+    public List<ImportProduct> getListImport() {
         return JDBIConnector.get().withHandle(handle -> {
             return handle.createQuery("select id, id_prod, prod_name, quantity, import_by, date_import from `import_product` order by date_import desc")
                     .mapToBean(ImportProduct.class).stream().collect(Collectors.toList());
@@ -69,6 +78,7 @@ public class ImportProductDAO {
         }
         return temp;
     }
+
     public void removeImport(String id) {
         JDBIConnector.get().withHandle(handle -> {
                     handle.createUpdate("DELETE FROM import_product WHERE id = ?")
@@ -78,7 +88,8 @@ public class ImportProductDAO {
                 }
         );
     }
-    public boolean checkIdProduct(String idProduct){
+
+    public boolean checkIdProduct(String idProduct) {
         List<String> listId = JDBIConnector.get().withHandle(
                 handle -> handle.createQuery("SELECT id FROM product")
                         .mapTo(String.class)
@@ -89,6 +100,6 @@ public class ImportProductDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new ImportProductDAO().insertImport("prod001", "danchoi", "200", "user2"));
+        System.out.println(new ImportProductDAO().insertImport("prod001", "Áo len sọc lớn màu", "10", "user2"));
     }
 }
