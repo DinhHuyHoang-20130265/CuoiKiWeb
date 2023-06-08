@@ -310,7 +310,8 @@
                                         <input type="radio" id="cash" name="select-btn" value="0" checked>
                                         <label for="cash"> Thanh toán bằng tiền mặt khi nhận hàng(COD)</label><br>
                                         <input type="radio" id="bank" name="select-btn" value="1">
-                                        <label for="bank"> Thanh toán online với VNPAY</label><br>
+                                        <label for="bank"> Thanh toán qua thẻ ATM/Tài khoản nội địa (nên sử
+                                            dụng)</label><br>
                                     </div>
                                 </div>
                             </div>
@@ -479,8 +480,12 @@
                 transferFee: transferFee
             },
             success: function (data) {
-                alert(data);
-                window.location.href = "index.jsp"
+                if (!$.trim(data))
+                    window.location.href = "vnpay";
+                else {
+                    alert(data);
+                    window.location.href = "index.jsp";
+                }
             },
             error: function (data) {
                 alert(data);

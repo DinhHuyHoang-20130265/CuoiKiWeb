@@ -19,13 +19,16 @@ public class Order implements Serializable {
     private String phone_number;
     private String note;
     private String code_id;
-
     private double transfer_fee;
+
+    private String transaction_code;
+
+    private String transaction_date_string;
 
     public Order() {
     }
 
-    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, int isCanceled, double total, String delivery_date, String customer_id, String address, String receive_name, String email, String phone_number, String note, String code_id, double transfer_fee) {
+    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, int isCanceled, double total, String delivery_date, String customer_id, String address, String receive_name, String email, String phone_number, String note, String code_id, double transfer_fee, String transaction_code, String transaction_date_string) {
         this.ord_id = ord_id;
         this.ord_date = ord_date;
         this.status = status;
@@ -43,6 +46,8 @@ public class Order implements Serializable {
         this.note = note;
         this.code_id = code_id;
         this.transfer_fee = transfer_fee;
+        this.transaction_code = transaction_code;
+        this.transaction_date_string = transaction_date_string;
     }
 
     public String getOrd_id() {
@@ -181,6 +186,22 @@ public class Order implements Serializable {
         this.transfer_fee = transfer_fee;
     }
 
+    public String getTransaction_code() {
+        return transaction_code;
+    }
+
+    public void setTransaction_code(String transaction_code) {
+        this.transaction_code = transaction_code;
+    }
+
+    public String getTransaction_date_string() {
+        return transaction_date_string;
+    }
+
+    public void setTransaction_date_string(String transaction_date_string) {
+        this.transaction_date_string = transaction_date_string;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -201,6 +222,8 @@ public class Order implements Serializable {
                 ", note='" + note + '\'' +
                 ", code_id='" + code_id + '\'' +
                 ", transfer_fee='" + transfer_fee + '\'' +
+                ", transaction_code='" + transaction_code + '\'' +
+                ", transaction_date_string='" + transaction_date_string + '\'' +
                 '}';
     }
 }

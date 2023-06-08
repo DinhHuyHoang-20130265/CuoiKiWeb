@@ -106,17 +106,34 @@ public class CheckoutController extends HttpServlet {
                         "<p style=\"padding: 0;font-size: 15px;color: #707070;font-family:sans-serif; margin-left:80px\">Phí ship:   " + format.format(transferFee) + " đ</p>" +
                         "<p style=\"padding: 0;font-weight: 700;font-size: 15px;color: #2a2a2a;font-family:sans-serif\">Tổng: " + format.format(total) + " đ</p>" +
                         "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Bạn có thể xem lại/theo dõi đơn hàng tại trang thông tin tài khoản.</p>" +
-                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Shop sẽ liên hệ lại với bạn sớm nhất để xác nhận thanh toán, cảm ơn bạn đã mua hàng tại Shop</p>" +
+                        "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">" + (payment_method == 0 ? "Shop sẽ liên hệ lại với bạn sớm nhất để xác nhận thanh toán, cảm ơn bạn đã mua hàng tại Shop</p>" : "Đơn hàng đã được thanh toán qua phương thức banking online, cảm ơn bạn đã mua hàng tại Shop</p>") +
                         "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">Chúc bạn một ngày mới vui vẻ</p>" +
                         "<p style=\"padding: 0;font-size: 14px;color: #2a2a2a;font-family:sans-serif\">P&TSHOP</p>";
             }
             String subject = "Đơn hàng đã được đặt tại P&TSHOP thành công";
-            MailService.getInstance().initializedSesstion(MailConfiguration.USERNAME_PNTSHOP, MailConfiguration.PASSWORD_PNTSHOP);
-            MailService.getInstance().sendMail("PNTSHOP", email, subject, text, MailConfiguration.MAIL_HTML);
-            response.getWriter().println("Đơn hàng của bạn đã được tạo thành công và đang chờ cửa hàng xử lý");
-            NotifyService.getInstance().addNewNotify("Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id, ord_id);
-            LogService.getInstance().addNewLog(customer_id, "order", "customer", "Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id);
-            request.getSession().setAttribute("cart", new Cart());
+            if (payment_method == 0) {
+                MailService.getInstance().initializedSesstion(MailConfiguration.USERNAME_PNTSHOP, MailConfiguration.PASSWORD_PNTSHOP);
+                MailService.getInstance().sendMail("PNTSHOP", email, subject, text, MailConfiguration.MAIL_HTML);
+                response.getWriter().println("Đơn hàng của bạn đã được tạo thành công và đang chờ cửa hàng xử lý");
+                NotifyService.getInstance().addNewNotify("Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id, ord_id);
+                LogService.getInstance().addNewLog(customer_id, "order", "customer", "Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id);
+                request.getSession().setAttribute("cart", new Cart());
+            } else {
+//            MailService.getInstance().initializedSesstion(MailConfiguration.USERNAME_PNTSHOP, MailConfiguration.PASSWORD_PNTSHOP);
+//            MailService.getInstance().sendMail("PNTSHOP", email, subject, text, MailConfiguration.MAIL_HTML);
+//            response.getWriter().println("Đơn hàng của bạn đã được tạo thành công và đang chờ cửa hàng xử lý");
+//            NotifyService.getInstance().addNewNotify("Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id, ord_id);
+//            LogService.getInstance().addNewLog(customer_id, "order", "customer", "Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id);
+//            request.getSession().setAttribute("cart", new Cart());
+
+                request.getSession().setAttribute("ord_id_return", ord_id);
+                request.getSession().setAttribute("id_user", customer_id);
+                request.getSession().setAttribute("email_user", email);
+                request.getSession().setAttribute("subject", subject);
+                request.getSession().setAttribute("text", text);
+                request.getSession().setAttribute("notify_ord_id_and_log", ord_id);
+                request.getSession().setAttribute("amount", total);
+            }
         }
     }
 }
