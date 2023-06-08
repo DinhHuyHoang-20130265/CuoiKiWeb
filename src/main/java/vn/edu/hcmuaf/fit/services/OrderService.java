@@ -47,6 +47,10 @@ public class OrderService {
         new OrderDAO().UpdateDeliveryStatus(id, status);
     }
 
+    public void setTransactionVNPAY(String ord_id, String transaction_code, String transaction_date_string) {
+        new OrderDAO().setTransactionVNPAY(ord_id, transaction_code, transaction_date_string);
+    }
+
     public List<Order> getDeletedOrderListCondition(String page, String order, String search) {
         return new OrderDAO().getDeletedOrderListCondition(page, order, search);
     }
