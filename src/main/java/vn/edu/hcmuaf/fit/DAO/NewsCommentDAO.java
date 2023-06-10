@@ -142,7 +142,7 @@ public class NewsCommentDAO {
         return user.getComment_by().toString();
     }
     public static void main(String[] args) {
-        System.out.println(new NewsCommentDAO().getAllCommentByPage(1));
+//        System.out.println(new NewsCommentDAO().getAllCommentByPage(1));
         System.out.println(new NewsCommentDAO().getUserByIdComment("cmt10"));
     }
 }
