@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
+import vn.edu.hcmuaf.fit.DAO.ProductReviewDAO;
 import vn.edu.hcmuaf.fit.beans.product.ProductReview;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.ProductReviewService;
 
 import javax.servlet.*;
@@ -14,6 +16,7 @@ public class ProductReviewController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
+
     /*
     Review sản phẩm trong chi tiết sản phẩm - Nguyễn Huy Hiệp 20130258
      */
@@ -24,7 +27,8 @@ public class ProductReviewController extends HttpServlet {
         String productid = request.getParameter("productid");
         int stars = Integer.parseInt(request.getParameter("stars"));
         String productReviewId = ProductReviewService.getInstance().AddNewReview(id, productid, comment, stars);
-        System.out.println(comment);
+        String review_id = ProductReviewService.getInstance().getIdReviewByReview(comment);
+        LogService.getInstance().addNewLog(id, "review", "customer", "Người dùng " + id + " đã đánh giá sản phẩm: " + productid + "(" + review_id + ")");
         ProductReview productReview = ProductReviewService.getInstance().getReviewByIdReview(productReviewId);
         request.setAttribute("product_review", productReview);
         request.getRequestDispatcher("ajax/ajax_showLatestReview.jsp").forward(request, response);

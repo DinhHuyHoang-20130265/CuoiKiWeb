@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.NewsCommentService;
 
 import javax.servlet.*;
@@ -19,6 +20,8 @@ public class DeleteCommentController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
+        String username = NewsCommentService.getInstance().getUserByIdComment(id);
+        LogService.getInstance().addNewLog(username,"comment","customer","Người dùng "+ username + " đã xóa bình luận " + id);
         NewsCommentService.getInstance().RemoveComment(id);
     }
 }

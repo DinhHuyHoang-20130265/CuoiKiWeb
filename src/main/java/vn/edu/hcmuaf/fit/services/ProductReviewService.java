@@ -46,8 +46,8 @@ public class ProductReviewService {
         return new ProductReviewDAO().getReviewByUserId(id);
     }
 
-    public List<ProductReview> loadAllReviewByPage(int page){
-            ProductReviewDAO DAO = new ProductReviewDAO();
+    public List<ProductReview> loadAllReviewByPage(int page) {
+        ProductReviewDAO DAO = new ProductReviewDAO();
         return DAO.loadAllReviewByPage(page);
     }
 
@@ -57,7 +57,26 @@ public class ProductReviewService {
         ProductReviewService.getInstance().EditReview("0QhO4faMmp", "lamao lmao");
     }
 
+    public String getUserIdByReview(String id) {
+        ProductReviewDAO DAO = new ProductReviewDAO();
+        return DAO.getUserIdByReview(id);
+    }
+
     public void ChangeStatusReview(String id, String status) {
         new ProductReviewDAO().ChangeStatusComment(id, status);
+    }
+
+    public String getProductIdByReview(String id) {
+        ProductReviewDAO DAO = new ProductReviewDAO();
+        return DAO.getProductIdByReview(id);
+    }
+
+    public String getIdReviewByReview(String comment) {
+        ProductReviewDAO DAO = new ProductReviewDAO();
+        return DAO.getIdReviewByReview(comment);
+    }
+
+    public boolean getReviewByUserId(String id, String prod_id) {
+        return new ProductReviewDAO().getReviewByUserId(id, prod_id);
     }
 }

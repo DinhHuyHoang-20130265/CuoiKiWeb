@@ -34,17 +34,45 @@ public class ProductReviewDAO {
         }
     }
 
+    public boolean checkIfUserReviewed(String prod) {
+
+        return true;
+    }
+
     public ProductReview getReviewByIdReview(String id) {
         Optional<ProductReview> review = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review WHERE review_id = ?")
                 .bind(0, id)
                 .mapToBean(ProductReview.class)
                 .findFirst()
         );
-        if (review.isEmpty()) {
-            return null;
-        } else {
-            return review.get();
-        }
+        return review.orElse(null);
+    }
+
+    public String getUserIdByReview(String id) {
+        ProductReview user = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT review_by FROM product_review WHERE review_id = ?")
+                .bind(0, id)
+                .mapToBean(ProductReview.class)
+                .first()
+        );
+        return user.getReview_by();
+    }
+
+    public String getProductIdByReview(String id) {
+        ProductReview user = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT review_prod FROM product_review WHERE review_id = ?")
+                .bind(0, id)
+                .mapToBean(ProductReview.class)
+                .first()
+        );
+        return user.getReview_prod();
+    }
+
+    public String getIdReviewByReview(String comment) {
+        ProductReview user = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT review_id FROM product_review WHERE review_desc = ?")
+                .bind(0, comment)
+                .mapToBean(ProductReview.class)
+                .first()
+        );
+        return user.getReview_id();
     }
 
     public String generateIdReviewProduct() {
@@ -133,8 +161,26 @@ public class ProductReviewDAO {
         );
     }
 
+
+    public boolean getReviewByUserId(String id, String prodId) {
+        Optional<ProductReview> review = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review WHERE review_by = ? AND review_prod=?")
+                .bind(0, id)
+                .bind(1, prodId)
+                .mapToBean(ProductReview.class)
+                .findFirst()
+        );
+        if (review.isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println(new ProductReviewDAO().loadAllReviewByPage(3));
+//        System.out.println(new ProductReviewDAO().loadAllReviewByPage(3));
+        System.out.println(new ProductReviewDAO().getUserIdByReview("review01"));
+        System.out.println(new ProductReviewDAO().getProductIdByReview("review01"));
+        System.out.println(new ProductReviewDAO().getReviewByUserId("qwvKl", "prod002"));
     }
 }
 
