@@ -643,12 +643,16 @@
                 <div class="box">
                     <div class="box1">
                         <h1 style="margin-top:12px">Thêm Đánh giá</h1>
-                        <button class="butt1">Đăng nhập để đánh giá</button>
+                        <button class="butt1">
+                            <a href="Login.jsp" style="text-decoration: none">
+                                Đăng nhập để đánh giá
+                            </a>
+                        </button>
                     </div>
                 </div>
                 <% } else {%>
                 <div class="container container-rate-tab">
-                    <%if (ProductReviewService.getInstance().getReviewByUserId(user.getId()) != null) { %>
+                    <%if (ProductReviewService.getInstance().getReviewByUserId(user.getId(), product.getId())) { %>
                     <div class="post" style="display: block">
                         <div class="text">Cảm ơn bạn đã đánh giá!</div>
                     </div>
@@ -862,7 +866,7 @@
         const stars = $("input[name='rate']:checked").attr("id").substring(5);
         $.ajax({
             url: "ProductReviewController",
-            type: "post",
+            type: "get",
             data: {
                 id: id,
                 comment: comment,

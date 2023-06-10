@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
 import vn.edu.hcmuaf.fit.DAO.ProductReviewDAO;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.ProductReviewService;
 
 import javax.servlet.*;
@@ -20,6 +21,9 @@ public class DeleteReviewController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
+        String productid = ProductReviewService.getInstance().getProductIdByReview(id);
+        String username = ProductReviewService.getInstance().getUserIdByReview(id);
+        LogService.getInstance().addNewLog(username,"review","customer","Người dùng "+ username + " đã xóa đánh giá " + id + " ở sản phẩm: " + productid);
         ProductReviewService.getInstance().RemoveReview(id);
     }
 }
