@@ -30,6 +30,7 @@
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/static-tables.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/user-editor.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/users-list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/admin-page/vnpay_query.jsp" value="file://$PROJECT_DIR$/src/main/webapp/admin-page" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/ajax/ajax_LoadProduct.jsp" value="file://$PROJECT_DIR$/src/main/webapp/ajax" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/ajax/ajax_QuickView.jsp" value="file://$PROJECT_DIR$/src/main/webapp/ajax" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/cart.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />

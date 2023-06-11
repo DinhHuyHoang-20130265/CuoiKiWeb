@@ -1,16 +1,15 @@
 package vn.edu.hcmuaf.fit.DAO;
 
 import vn.edu.hcmuaf.fit.beans.order.Order;
-import vn.edu.hcmuaf.fit.beans.order.OrderDetail;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 public class OrderDAO {
-
     public List<Order> getOrderListByUserId(String id) {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, " +
                         "o.payment_method, o.payment_status, o.delivered,o.isCanceled, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note, o.code_id, o.transfer_fee, o.transaction_code, o.transaction_date_string" +
@@ -112,6 +111,15 @@ public class OrderDAO {
         });
     }
 
+    public String containTransaction_id(String id) {
+        Optional<String> order = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT transaction_date_string FROM orders WHERE transaction_code = ?")
+                .bind(0, id)
+                .mapTo(String.class)
+                .findFirst()
+        );
+        return order.orElse(null);
+    }
+
     public void hardRemoveOrder(String ord_id) {
         JDBIConnector.get().withHandle(handle -> {
             handle.createUpdate("DELETE FROM order_details WHERE ord_id= ?")
@@ -164,6 +172,13 @@ public class OrderDAO {
 
     public void UpdatePaymentStatus(String id) {
         JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE orders SET payment_status= 1 WHERE ord_id= ?")
+                .bind(0, id)
+                .execute()
+        );
+    }
+
+    public void UpdatePaymentStatusNotPay(String id) {
+        JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE orders SET payment_status= 0 WHERE ord_id= ?")
                 .bind(0, id)
                 .execute()
         );
@@ -240,6 +255,15 @@ public class OrderDAO {
                     .execute();
             return null;
         });
+    }
+
+    public Order getOrderByIdTransaction(String id) {
+        Optional<Order> order = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM orders WHERE transaction_code = ?")
+                .bind(0, id)
+                .mapToBean(Order.class)
+                .findFirst()
+        );
+        return order.orElse(null);
     }
 
     public static void main(String[] args) {

@@ -7,6 +7,7 @@ import vn.edu.hcmuaf.fit.beans.order.OrderDetail;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class OrderService {
@@ -31,12 +32,20 @@ public class OrderService {
         return new OrderDAO().getOrderById(id);
     }
 
+    public Order getOrderByIdTransaction(String id) {
+        return new OrderDAO().getOrderByIdTransaction(id);
+    }
+
     public List<Order> getOrderListCondition(String page, String order_by, String search) {
         return new OrderDAO().getOrderListCondition(page, order_by, search);
     }
 
     public void UpdatePaymentStatus(String id) {
         new OrderDAO().UpdatePaymentStatus(id);
+    }
+
+    public void UpdatePaymentStatusNotPay(String id) {
+        new OrderDAO().UpdatePaymentStatusNotPay(id);
     }
 
     public void UpdateOrderStatus(String id) {
@@ -53,6 +62,10 @@ public class OrderService {
 
     public List<Order> getDeletedOrderListCondition(String page, String order, String search) {
         return new OrderDAO().getDeletedOrderListCondition(page, order, search);
+    }
+
+    public String containTransaction_id(String id) {
+        return new OrderDAO().containTransaction_id(id);
     }
 
     public static void main(String[] args) {
