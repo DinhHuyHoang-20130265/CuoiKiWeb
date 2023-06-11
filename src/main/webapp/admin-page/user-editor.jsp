@@ -302,17 +302,18 @@
                                     </option>
                                     <option value="sales" <%=table.equals("sales") ? "selected" : ""%>>Giảm giá
                                     </option>
-                                    <option value="query" <%=table.equals("query") ? "selected" : ""%>>Giảm giá
+                                    <option value="query" <%=table.equals("query") ? "selected" : ""%>>Truy vấn giao
+                                        dịch
                                     </option>
-                                    <option value="contact" <%=table.equals("contact") ? "selected" : ""%>>Giảm giá
+                                    <option value="contact" <%=table.equals("contact") ? "selected" : ""%>>Liên hệ
                                     </option>
-                                    <option value="notify" <%=table.equals("notify") ? "selected" : ""%>>Giảm giá
+                                    <option value="notify" <%=table.equals("notify") ? "selected" : ""%>>Thông báo
                                     </option>
-                                    <option value="import" <%=table.equals("import") ? "selected" : ""%>>Giảm giá
+                                    <option value="import" <%=table.equals("import") ? "selected" : ""%>>Nhập hàng
                                     </option>
-                                    <option value="log" <%=table.equals("log") ? "selected" : ""%>>Giảm giá
+                                    <option value="log" <%=table.equals("log") ? "selected" : ""%>>Log
                                     </option>
-                                    <option value="refund" <%=table.equals("refund") ? "selected" : ""%>>Giảm giá
+                                    <option value="refund" <%=table.equals("refund") ? "selected" : ""%>>Hoàn tiền
                                     </option>
                                 </select>
                                 <select class="c-select form-control"
