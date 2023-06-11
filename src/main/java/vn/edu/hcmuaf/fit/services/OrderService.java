@@ -7,6 +7,7 @@ import vn.edu.hcmuaf.fit.beans.order.OrderDetail;
 import vn.edu.hcmuaf.fit.db.JDBIConnector;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class OrderService {
@@ -53,6 +54,10 @@ public class OrderService {
 
     public List<Order> getDeletedOrderListCondition(String page, String order, String search) {
         return new OrderDAO().getDeletedOrderListCondition(page, order, search);
+    }
+
+    public String containTransaction_id(String id) {
+        return new OrderDAO().containTransaction_id(id);
     }
 
     public static void main(String[] args) {

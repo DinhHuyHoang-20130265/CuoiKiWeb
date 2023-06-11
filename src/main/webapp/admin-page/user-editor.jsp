@@ -302,6 +302,18 @@
                                     </option>
                                     <option value="sales" <%=table.equals("sales") ? "selected" : ""%>>Giảm giá
                                     </option>
+                                    <option value="query" <%=table.equals("query") ? "selected" : ""%>>Giảm giá
+                                    </option>
+                                    <option value="contact" <%=table.equals("contact") ? "selected" : ""%>>Giảm giá
+                                    </option>
+                                    <option value="notify" <%=table.equals("notify") ? "selected" : ""%>>Giảm giá
+                                    </option>
+                                    <option value="import" <%=table.equals("import") ? "selected" : ""%>>Giảm giá
+                                    </option>
+                                    <option value="log" <%=table.equals("log") ? "selected" : ""%>>Giảm giá
+                                    </option>
+                                    <option value="refund" <%=table.equals("refund") ? "selected" : ""%>>Giảm giá
+                                    </option>
                                 </select>
                                 <select class="c-select form-control"
                                         id="select-permission<%=i%>">
