@@ -174,7 +174,7 @@
                 </li>
                 <li class="<%=(requestString.indexOf("vnpay") != -1 ) ? "active" : "" %>">
                     <a href="">
-                        <i class="fa fa-area-chart"></i> Giao dịch
+                        <i class="fa fa-money"></i> Giao dịch
                         <i class="fa arrow"></i>
                     </a>
                     <ul class="sidebar-nav">
