@@ -93,21 +93,21 @@
                         </div>
                     </div>
                 </div>
-                <div class="items-search">
-                    <form class="form-inline">
-                        <div class="input-group">
-                            <input type="text" id="order_id" class="form-control boxed rounded-s"
-                                   placeholder="Điền mã hóa đơn giao dịch">
-                            <span class="input-group-btn">
-                                    <button id="query" class="btn btn-secondary rounded-s" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                            </span>
+
+            </div>
+            <div class="card items">
+                <div class="table-responsive">
+                    <form id="formrefund" style="margin: 20px 20px 20px 20px;">
+                        <div class="form-group">
+                            <label for="order_id">Mã hóa đơn</label>
+                            <input class="form-control" id="order_id"
+                                   name="order_id" type="text"/>
+                        </div>
+                        <div class="form-group">
+                            <button id="submit" class="btn btn-primary">Refund</button>
                         </div>
                     </form>
                 </div>
-            </div>
-            <div class="card items">
                 <ul class="item-list striped">
                     <li class="item item-list-header">
                         <div class="item-row">
@@ -121,14 +121,9 @@
                                     <span>Số tiền giao dịch</span>
                                 </div>
                             </div>
-                            <div class="item-col item-col-header item-col-sales">
-                                <div>
-                                    <span>Phí giao dịch</span>
-                                </div>
-                            </div>
                             <div class="item-col item-col-header item-col-stats">
                                 <div class="no-overflow">
-                                    <span>Nội dung giao dịch</span>
+                                    <span>Nội dung hoàn tiền</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-category">
@@ -138,22 +133,12 @@
                             </div>
                             <div class="item-col item-col-header item-col-author">
                                 <div class="no-overflow">
-                                    <span>Ngày giao dịch</span>
+                                    <span>Ngày hoàn</span>
                                 </div>
                             </div>
                             <div class="item-col item-col-header item-col-author">
                                 <div class="no-overflow">
-                                    <span>Mã số thẻ</span>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-header item-col-author">
-                                <div class="no-overflow">
-                                    <span>Tên chủ thẻ</span>
-                                </div>
-                            </div>
-                            <div class="item-col item-col-header item-col-author">
-                                <div class="no-overflow">
-                                    <span>Mã giao dịch số</span>
+                                    <span>Trạng thái</span>
                                 </div>
                             </div>
                         </div>
@@ -173,14 +158,6 @@
                                     <div>
                                         <a style="text-decoration: none">
                                             <h4 class="item-title" id="vnp_Amount">
-                                            </h4>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-sales">
-                                    <div>
-                                        <a style="text-decoration: none" id="vnp_FeeAmount">
-                                            <h4 class="item-title">
                                             </h4>
                                         </a>
                                     </div>
@@ -212,23 +189,7 @@
                                 <div class="item-col item-col-author">
                                     <div class="no-overflow">
                                         <a style="text-decoration: none">
-                                            <h4 class="item-title" id="vnp_CardNumber">
-                                            </h4>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-author">
-                                    <div class="no-overflow">
-                                        <a style="text-decoration: none">
-                                            <h4 class="item-title" id="vnp_CardHolder">
-                                            </h4>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="item-col item-col-author">
-                                    <div class="no-overflow">
-                                        <a style="text-decoration: none">
-                                            <h4 class="item-title" id="vnp_TransactionNo">
+                                            <h4 class="item-title" id="vnp_Message">
                                             </h4>
                                         </a>
                                     </div>
@@ -268,40 +229,37 @@
 <script src="js/vendor.js"></script>
 <script src="js/app.js"></script>
 <script>
-    $("#query").on("click", function (e) {
+    $("#submit").on("click", function (e) {
         e.preventDefault();
         const order_id = $("#order_id").val();
-        $.ajax({
-            url: "../query_transaction",
-            type: "post",
-            data: {
-                order_id: order_id
-            },
-            success: function (resp) {
-                console.log(resp)
-                if (resp.vnp_Message === "Transaction_not_found")
-                    alert(resp.vnp_Message);
-                else {
-                    let fee = new Intl.NumberFormat('vi-VN', {
-                        style: 'currency',
-                        currency: 'VND'
-                    }).format(parseFloat(resp.vnp_Amount) / 100)
-                    let Amountfee = new Intl.NumberFormat('vi-VN', {
-                        style: 'currency',
-                        currency: 'VND'
-                    }).format(parseFloat(resp.vnp_FeeAmount) / 100)
-                    $("#vnp_TxnRef").text(resp.vnp_TxnRef);
-                    $("#vnp_Amount").text(fee);
-                    $("#vnp_FeeAmount").text(Amountfee);
-                    $("#vnp_OrderInfo").text(resp.vnp_OrderInfo);
-                    $("#vnp_BankCode").text(resp.vnp_BankCode);
-                    $("#vnp_PayDate").text(resp.vnp_PayDate);
-                    $("#vnp_CardNumber").text(resp.vnp_CardNumber);
-                    $("#vnp_CardHolder").text(resp.vnp_CardHolder);
-                    $("#vnp_TransactionNo").text(resp.vnp_TransactionNo);
+        if (confirm('Bạn có chắc chắn muốn hoàn tiền cho đơn hàng này ?')) {
+            $.ajax({
+                url: "../refund_transaction",
+                type: "post",
+                data: {
+                    order_id: order_id
+                },
+                success: function (resp) {
+                    console.log(resp)
+                    let check = false;
+                    resp.vnp_ResponseCode === "94" ?
+                        alert("Already refund this order !") :
+                        (resp.vnp_ResponseCode === "91" ? alert("Order Not Found") : check = true)
+                    if (check) {
+                        let fee = new Intl.NumberFormat('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }).format(parseFloat(resp.vnp_Amount) / 100);
+                        $("#vnp_TxnRef").text(resp.vnp_TxnRef);
+                        $("#vnp_Amount").text(fee);
+                        $("#vnp_OrderInfo").text(resp.vnp_OrderInfo);
+                        $("#vnp_BankCode").text(resp.vnp_BankCode);
+                        $("#vnp_PayDate").text(resp.vnp_PayDate);
+                        $("#vnp_Message").text(resp.vnp_Message);
+                    }
                 }
-            }
-        })
+            })
+        }
     })
 </script>
 </body>

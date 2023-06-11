@@ -32,12 +32,20 @@ public class OrderService {
         return new OrderDAO().getOrderById(id);
     }
 
+    public Order getOrderByIdTransaction(String id) {
+        return new OrderDAO().getOrderByIdTransaction(id);
+    }
+
     public List<Order> getOrderListCondition(String page, String order_by, String search) {
         return new OrderDAO().getOrderListCondition(page, order_by, search);
     }
 
     public void UpdatePaymentStatus(String id) {
         new OrderDAO().UpdatePaymentStatus(id);
+    }
+
+    public void UpdatePaymentStatusNotPay(String id) {
+        new OrderDAO().UpdatePaymentStatusNotPay(id);
     }
 
     public void UpdateOrderStatus(String id) {

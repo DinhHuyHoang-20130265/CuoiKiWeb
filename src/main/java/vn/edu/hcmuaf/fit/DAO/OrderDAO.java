@@ -177,6 +177,13 @@ public class OrderDAO {
         );
     }
 
+    public void UpdatePaymentStatusNotPay(String id) {
+        JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE orders SET payment_status= 0 WHERE ord_id= ?")
+                .bind(0, id)
+                .execute()
+        );
+    }
+
     public void UpdateOrderStatus(String id) {
         JDBIConnector.get().withHandle(handle -> handle.createUpdate("UPDATE orders SET status= 1 WHERE ord_id= ?")
                 .bind(0, id)
@@ -248,6 +255,15 @@ public class OrderDAO {
                     .execute();
             return null;
         });
+    }
+
+    public Order getOrderByIdTransaction(String id) {
+        Optional<Order> order = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM orders WHERE transaction_code = ?")
+                .bind(0, id)
+                .mapToBean(Order.class)
+                .findFirst()
+        );
+        return order.orElse(null);
     }
 
     public static void main(String[] args) {

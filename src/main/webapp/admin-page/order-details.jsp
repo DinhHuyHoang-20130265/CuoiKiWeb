@@ -332,6 +332,35 @@
                                             </div>
                                             <div class="ui-information-body pb-4">
                                                 <div class="row">
+                                                    <div class="col">Phương thức thanh toán</div>
+                                                    <%if (order.getPayment_method() == 1) { %>
+                                                    <div class="col-auto text-right">Thẻ ngân hàng</div>
+                                                    <% } else { %>
+                                                    <div class="col-auto text-right">Thanh toán khi nhận hàng</div>
+                                                    <% }%>
+                                                </div>
+                                            </div>
+                                            <% if (order.getPayment_status() == 0 && order.getPayment_method() == 1 && order.getTransaction_code() != null) { %>
+                                            <div class="ui-information-body pb-4">
+                                                <div class="row">
+                                                    <div class="col-auto text-right" style="color: red">Đơn hàng đã được
+                                                        hoàn tiền lại cho khách vì các lý do khách quan
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                            <% if (order.getPayment_method() == 1) { %>
+                                            <div class="ui-information-body pb-4">
+                                                <div class="row">
+                                                    <div class="col">Mã giao dịch thanh toán</div>
+                                                    <div class="col-auto text-right"
+                                                         style="color: darkblue"><%=order.getTransaction_code()%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                            <div class="ui-information-body pb-4">
+                                                <div class="row">
                                                     <div class="col">Đã thanh toán</div>
                                                     <%if (order.getPayment_status() == 0) { %>
                                                     <div class="col-auto text-right">0 ₫</div>
