@@ -27,7 +27,7 @@
                     <a href="index.jsp">
                         <i class="fa fa-home"></i> Tổng quan </a>
                 </li>
-                <li class="<%=(requestString.indexOf("index.jsp") == -1 && requestString.indexOf("charts-morris.jsp") == -1 && requestString.indexOf("static-tables.jsp") == -1) ? "active" : ""%>">
+                <li class="<%=(requestString.indexOf("index.jsp") == -1 && requestString.indexOf("charts-morris.jsp") == -1 && requestString.indexOf("static-tables.jsp") == -1 && requestString.indexOf("vnpay") == -1) ? "active" : ""%>">
                     <a href="#">
                         <i class="fa fa-th-large"></i> Quản Lý Đối Tượng
                         <i class="fa arrow"></i>
@@ -169,6 +169,20 @@
                         </li>
                         <li>
                             <a href="static-tables.jsp"> Bảng </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="<%=(requestString.indexOf("vnpay") != -1 ) ? "active" : "" %>">
+                    <a href="">
+                        <i class="fa fa-money"></i> Giao dịch
+                        <i class="fa arrow"></i>
+                    </a>
+                    <ul class="sidebar-nav">
+                        <li>
+                            <a href="vnpay_query.jsp"> Truy vấn giao dịch đơn hàng </a>
+                        </li>
+                        <li>
+                            <a href="vnpay_refund.jsp"> Hoàn tiền đơn hàng </a>
                         </li>
                     </ul>
                 </li>
