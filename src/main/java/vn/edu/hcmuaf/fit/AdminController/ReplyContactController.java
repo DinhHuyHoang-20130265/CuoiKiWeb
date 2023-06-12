@@ -1,8 +1,7 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
-import vn.edu.hcmuaf.fit.beans.order.Order;
-import vn.edu.hcmuaf.fit.services.OrderDetailService;
-import vn.edu.hcmuaf.fit.services.OrderService;
+import vn.edu.hcmuaf.fit.beans.contact.Contact;
+import vn.edu.hcmuaf.fit.services.ContactService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(name = "ReplyContactController", value = "/ReplyContactController")
 public class ReplyContactController extends HttpServlet {
@@ -22,8 +20,9 @@ public class ReplyContactController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
+        String admin = request.getParameter("admin");
         String content = request.getParameter("content");
-
-
+        String status = request.getParameter("status");
+        ContactService.getInstance().replyContactAdmin(id,admin, content,status);
     }
 }

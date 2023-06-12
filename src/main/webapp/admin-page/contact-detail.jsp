@@ -86,6 +86,9 @@
                 <input type="text" id="userid"
                        value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
                        style="display:none;">
+                <input type="text" id="status"
+                       value="<%=(contact != null) ? contact.getStatus() : "none"%>"
+                       style="display:none;">
                 <div class="card card-block">
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Họ tên : </label>
@@ -114,16 +117,38 @@
                     <div class="form-group row">
                         <label class="col-sm-2 form-control-label text-xs-right"> Mô tả: </label>
                         <div class="col-sm-10">
-                <textarea id="content"
-                          style="width: 100%; height: 300px !important;
-                        white-space: inherit;
-                        font-size: 17px;"
-                          readonly>
-            <%=(contact != null) ? contact.getContent() : ""%>
-                </textarea>
+                            <textarea id="content"
+                                      style="width: 100%; height: 300px !important;
+                                      white-space: inherit;
+                                      font-size: 17px;"
+                                      readonly>
+                                <%=(contact != null) ? contact.getContent() : ""%>
+                            </textarea>
                         </div>
                     </div>
                     <%--        Reply--%>
+                    <%
+                        if (contact.getStatus() == 1 ){
+                    %>
+<%--                    <div class="col-sm-10 col-sm-offset-2">--%>
+<%--                        <button type="button" id="reply" class="btn btn-primary">Trả lời</button>--%>
+<%--                    </div>--%>
+                    <div class="form-group row" id="reply-content"
+                         style="display: flex;">
+                        <label class="col-sm-2 form-control-label text-xs-right"> Reply: </label>
+                        <div class="col-sm-10">
+                            <textarea id="editor"
+                                      class="form-control boxed"
+                                      style="width: 100%; height: 300px !important;
+                                white-space: inherit;
+                                font-size: 17px;"
+                                      readonly><%=contact.getReply_content()%></textarea>
+                        </div>
+<%--                        <div class="col-sm-10 col-sm-offset-2">--%>
+<%--                            <button type="submit" id="reply" class="btn btn-primary">Xác nhận</button>--%>
+<%--                        </div>--%>
+                    </div>
+                          <%} else if(contact.getStatus() == 0){%>
                     <div class="col-sm-10 col-sm-offset-2">
                         <button type="button" id="reply" class="btn btn-primary">Trả lời</button>
                     </div>
@@ -131,19 +156,20 @@
                          style="display: none;">
                         <label class="col-sm-2 form-control-label text-xs-right"> Reply: </label>
                         <div class="col-sm-10">
-                    <textarea id="editor"
-                              class="form-control boxed"
-                              style="width: 100%; height: 300px !important;
-                              white-space: inherit;
-                              font-size: 17px;"
-                              placeholder="Nhập reply của bạn ở đây...."></textarea>
+                        <textarea id="editor"
+                                  class="form-control boxed"
+                                  style="width: 100%; height: 300px !important;
+                                  white-space: inherit;
+                                  font-size: 17px;"
+                                  placeholder="Nhập reply của bạn ở đây...."></textarea>
                         </div>
                         <div class="col-sm-10 col-sm-offset-2">
-                            <button type="submit" class="btn btn-primary">Xác nhận</button>
+                            <button type="submit" id="reply" class="btn btn-primary">Xác nhận</button>
                         </div>
                     </div>
-                    <%--   End reply--%>
+                    <%}%>
                 </div>
+            <%--   End reply--%>
             </form>
         </article>
     </div>
@@ -194,13 +220,21 @@
     $("button[type='submit']").click(function (e) {
         e.preventDefault();
         const id = $("#idEdit").val();
+        const admin = $("#userid").val();
         const content = $("#editor").val();
+        const status = $("#status").val();
+        console.log(id);
+        console.log(admin);
+        console.log(content);
+        console.log(status);
         $.ajax({
             url: "../ReplyContactController",
             type: "GET",
             data: {
                 id: id,
-                content: content
+                admin : admin,
+                content: content,
+                status : status
             },
             success: function () {
                 alert("Trả lời contact thành công");

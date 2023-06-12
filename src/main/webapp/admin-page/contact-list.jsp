@@ -203,7 +203,10 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="trigger">
+                                                <div class="trigger"
+                                                style="
+                                                max-height: 50px;
+                                                overflow: scroll;">
                                                     <span>
                                                         <div class="order_list_customer">
                                                             <p class="mb-0 px-2 align-items-center word-break overtext">
