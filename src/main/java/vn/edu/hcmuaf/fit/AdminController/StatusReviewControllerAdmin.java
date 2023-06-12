@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.NewsCommentService;
 import vn.edu.hcmuaf.fit.services.ProductReviewService;
 
@@ -21,6 +22,8 @@ public class StatusReviewControllerAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         String status = request.getParameter("status");
+        String admin = request.getParameter("admin");
         ProductReviewService.getInstance().ChangeStatusReview(id, status);
+        LogService.getInstance().addNewLog(admin, "review", "admin", "Admin " + admin + " đã chuyển đổi trạng thái review : " + id + "(" + status +")");
     }
 }

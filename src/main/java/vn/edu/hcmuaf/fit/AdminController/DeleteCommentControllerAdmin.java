@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.news.NewsComment;
 import vn.edu.hcmuaf.fit.beans.product.Product;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.NewsCommentService;
 import vn.edu.hcmuaf.fit.services.ProductService;
 
@@ -25,8 +26,10 @@ public class DeleteCommentControllerAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         int page = Integer.parseInt(request.getParameter("page"));
+        String admin = request.getParameter("admin");
         NewsCommentService.getInstance().RemoveComment(id);
         List<NewsComment> list = NewsCommentService.getInstance().getAllCommentByPage(page);
+        LogService.getInstance().addNewLog(admin, "comment", "admin", "Admin " + admin + " đã xóa cmt, mã cmt: " + id );
         request.setAttribute("loadNewsComment", list);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadCommentListAdmin.jsp").forward(request, response);
     }

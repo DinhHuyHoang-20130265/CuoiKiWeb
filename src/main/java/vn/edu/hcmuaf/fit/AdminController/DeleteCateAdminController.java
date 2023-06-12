@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.category.Category;
 import vn.edu.hcmuaf.fit.services.CategoryService;
+import vn.edu.hcmuaf.fit.services.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -22,8 +23,10 @@ public class DeleteCateAdminController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         String page = request.getParameter("page");
+        String admin = request.getParameter("admin");
         CategoryService.getInstance().RemoveCate(id);
         List<Category> categories = CategoryService.getInstance().loadloadCategoryWithConditionContainsStatus(Integer.parseInt(page), 6);
+        LogService.getInstance().addNewLog(admin, "category", "admin", "Admin " + admin + " đã xóa danh mục : " + id );
         request.setAttribute("categories", categories);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadCateListAdmin.jsp").forward(request, response);
     }

@@ -171,6 +171,9 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <input type="text" id="userid"
+                                               value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                                               style="display:none;">
                                         <%
                                             List<Order> orders = OrderService.getInstance().getOrderListCondition("1", "0", null);
                                             NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));
@@ -387,6 +390,7 @@
             const search = $("#searchUser").val();
             const page = parseInt($("#page").text());
             const order = $("#filter").find(':selected').val();
+            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("#yesButton").click(function () {
@@ -397,7 +401,8 @@
                             id: id,
                             search: search,
                             page: page,
-                            order: order
+                            order: order,
+                            admin: admin
                         },
                         success: function (data) {
                             $("#appendItem tbody").html(data);

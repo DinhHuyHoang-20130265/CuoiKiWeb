@@ -112,6 +112,10 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
+                    <input type="text" id="userid"
+                           value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                           style="display:none;">
+
                     <%List<Category> cates = CategoryService.getInstance().loadloadCategoryWithConditionContainsStatus(1, 6);%>
                     <div id="appendItem">
                         <%
@@ -294,6 +298,7 @@
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
             const page = parseInt($("#page").text());
+            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
@@ -303,6 +308,7 @@
                         data: {
                             id: id,
                             page: page,
+                            admin : admin
                         },
                         success: function (data) {
                             $("#appendItem").html(data);
@@ -329,8 +335,8 @@
                     success: function (data) {
                         $("#appendItem").html(data);
                         $("#page").text(page)
-                        deleteCate();
                         reloadScript();
+                        deleteCate();
                     }
                 })
             }
@@ -345,12 +351,11 @@
                     page: page,
                 },
                 success: function (data) {
-                    console.log(data)
                     if ($.trim(data)) {
                         $("#appendItem").html(data);
                         $("#page").text(page)
-                        deleteCate();
                         reloadScript();
+                        deleteCate();
                     }
                 },
                 error: function (data) {

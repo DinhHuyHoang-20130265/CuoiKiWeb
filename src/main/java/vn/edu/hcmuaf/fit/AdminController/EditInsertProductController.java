@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.product.Product;
 import vn.edu.hcmuaf.fit.beans.product.ProductImage;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.ProductService;
 
 import javax.servlet.*;
@@ -39,10 +40,12 @@ public class EditInsertProductController extends HttpServlet {
             ProductService.getInstance().InsertNewProduct(name, price, status, userid, quantity, stringSize, stringColor, idCate, desc, content, imgFile);
             removeOldImg(oldImg, request);
             copyImage(request, imgFile);
+            LogService.getInstance().addNewLog(userid, "product", "admin", "Admin " + userid + " đã thêm sản phẩm mới : " + name );
         } else {
             ProductService.getInstance().UpdateProduct(id, name, price, status, userid, quantity, stringSize, stringColor, idCate, desc, content, imgFile);
             removeOldImg(oldImg, request);
             copyImage(request, imgFile);
+            LogService.getInstance().addNewLog(userid, "product", "admin", "Admin " + userid + " đã chỉnh sửa sản phẩm : " + id );
         }
     }
 

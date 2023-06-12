@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.DAO.OrderDAO;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.OrderService;
 
 import javax.servlet.*;
@@ -20,6 +21,8 @@ public class UpdatePaymentStatus extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
+        String admin = request.getParameter("admin");
         OrderService.getInstance().UpdatePaymentStatus(id);
+        LogService.getInstance().addNewLog(admin, "order", "admin", "Admin " + admin + " đã cập nhật trạng thái thanh toán : " + id);
     }
 }

@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.AdminUser;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.NewsService;
 import vn.edu.hcmuaf.fit.services.SlideService;
 
@@ -37,10 +38,12 @@ public class EditInsertNewsController extends HttpServlet {
             NewsService.getInstance().InsertNewNews(title,description,content,fullnameFile,userID);
             removeOldImg(oldImg, request);
             copyImage(request, nameFile);
+            LogService.getInstance().addNewLog(userID, "news", "admin", "Admin " + userID + " đã thêm tin tức mới : " + title );
         } else {
             NewsService.getInstance().UpdateNews(id,title,description,content,fullnameFile,userID);
             removeOldImg(oldImg, request);
             copyImage(request, nameFile);
+            LogService.getInstance().addNewLog(userID, "news", "admin", "Admin " + userID + " đã chỉnh sửa tin tức : " + id );
         }
     }
     private void removeOldImg(String oldImg, HttpServletRequest request) {

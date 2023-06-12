@@ -163,9 +163,9 @@
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
-        boolean check = false;
+        boolean check = true;
         for (AdminRole role : admin.getRole()) {
-            if (role.getTable().equals("slider") || role.getTable().equals("admin")) {
+            if (role.getTable().equals("slide") || role.getTable().equals("admin")) {
                 check = true;
                 break;
             }
@@ -229,6 +229,9 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
+                    <input type="text" id="userid"
+                           value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                           style="display:none;">
                     <% int numb = -1;
                         List<Slide> list = SlideService.getInstance().getAllSlideByPage(1);
                         if (list.size() > 6)
@@ -294,7 +297,7 @@
                                             <ul class="item-actions-list">
                                                 <%
                                                     for (AdminRole role : admin.getRole()) {
-                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("slider") && role.getPermission().equals("delete")) {
+                                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("slide") && role.getPermission().equals("delete")) {
                                                 %>
                                                 <li>
                                                     <a class="remove" id="remove<%=list.get(i).getSlide_id()%>"
@@ -305,7 +308,7 @@
                                                 </li>
                                                 <%
                                                     }
-                                                    if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("slider") && role.getPermission().equals("update")) {
+                                                    if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("slide") && role.getPermission().equals("update")) {
                                                 %>
                                                 <li>
                                                     <a class="edit"
@@ -427,6 +430,7 @@
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
             const page = parseInt($("#page").text());
+            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("#yes").click(function () {
@@ -437,6 +441,7 @@
                         data: {
                             id: id,
                             page: page,
+                            admin : admin
                         },
                         success: function (data) {
                             $("#appendItem").html(data);

@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.order.Order;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.OrderDetailService;
 import vn.edu.hcmuaf.fit.services.OrderService;
 
@@ -28,8 +29,10 @@ public class RollbackOrderController extends HttpServlet {
         String search = request.getParameter("search");
         String order = request.getParameter("order");
         String id = request.getParameter("id");
+        String admin = request.getParameter("admin");
         OrderDetailService.getInstance().rollbackOrder(id);
         List<Order> orderList = OrderService.getInstance().getDeletedOrderListCondition(page, order, search);
+        LogService.getInstance().addNewLog(admin, "deleted_order", "admin", "Admin " + admin + " đã rollback lại đơn hàng : " + id );
         request.setAttribute("Deletedorders", orderList);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadDeletedOrderListAdmin.jsp").forward(request, response);
     }

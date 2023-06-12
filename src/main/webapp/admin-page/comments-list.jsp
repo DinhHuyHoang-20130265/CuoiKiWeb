@@ -235,6 +235,9 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
+                    <input type="text" id="userid"
+                           value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                           style="display:none;">
                     <% int numb = -1;
                         List<NewsComment> list = NewsCommentService.getInstance().getAllCommentByPage(1);
                         numb = Math.min(list.size(), 6);
@@ -440,19 +443,20 @@
             $thisActionList.toggleClass('active');
         });
     }
-
     function toggle() {
         $(".toggle").each(function () {
             $(this).click(function (e) {
                 e.preventDefault();
                 const id = $(this).attr("id").substring(6);
                 const status = $("#status" + id).val();
+                const admin = $("#userid").val();
                 $.ajax({
                     url: "../StatusCommentControllerAdmin",
                     type: "post",
                     data: {
                         id: id,
-                        status: status
+                        status: status,
+                        admin: admin
                     },
                     success: function () {
                         if (status === "0") {
@@ -478,6 +482,7 @@
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
             const page = parseInt($("#page").text());
+            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("#yes").click(function () {
@@ -488,6 +493,7 @@
                         data: {
                             id: id,
                             page: page,
+                            admin: admin
                         },
                         success: function (data) {
                             $("#appendItem").html(data);

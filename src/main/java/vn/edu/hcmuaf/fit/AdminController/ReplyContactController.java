@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.contact.Contact;
 import vn.edu.hcmuaf.fit.services.ContactService;
+import vn.edu.hcmuaf.fit.services.LogService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,5 +25,6 @@ public class ReplyContactController extends HttpServlet {
         String content = request.getParameter("content");
         String status = request.getParameter("status");
         ContactService.getInstance().replyContactAdmin(id,admin, content,status);
+        LogService.getInstance().addNewLog(admin, "contact", "admin", "Admin " + admin + " đã reply contact : " + id );
     }
 }

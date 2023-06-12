@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.services.AccountService;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.ProductService;
 
 import javax.servlet.*;
@@ -41,10 +42,12 @@ public class EditInsertAccountController extends HttpServlet {
             AccountService.getInstance().AddNewAccount(id, fullname, email, username, password, address, status, role, permission, nameFile, adminId);
             removeOldImg(oldImg, request);
             copyImage(request, nameFile);
+            LogService.getInstance().addNewLog(adminId, "account", "admin", "Admin " + admin + " đã thêm tài khoản mới : " + id );
         } else {
             AccountService.getInstance().UpdateAccount(id, fullname, email, username, password, address, status, role, permission, nameFile, adminId);
             removeOldImg(oldImg, request);
             copyImage(request, nameFile);
+            LogService.getInstance().addNewLog(adminId, "account", "admin", "Admin " + admin + " đã cập nhật tài khoản : " + id );
         }
     }
 

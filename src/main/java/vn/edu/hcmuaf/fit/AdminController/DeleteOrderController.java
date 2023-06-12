@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.order.Order;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.OrderDetailService;
 import vn.edu.hcmuaf.fit.services.OrderService;
 
@@ -24,9 +25,11 @@ public class DeleteOrderController extends HttpServlet {
         String page = request.getParameter("page");
         String search = request.getParameter("search");
         String order = request.getParameter("order");
+        String admin = request.getParameter("admin");
         String id = request.getParameter("id");
         OrderDetailService.getInstance().removeOrder(id);
         List<Order> orderList = OrderService.getInstance().getOrderListCondition(page, order, search);
+        LogService.getInstance().addNewLog(admin, "order", "admin", "Admin " + admin + " đã xóa đơn hàng : " + id );
         request.setAttribute("orders", orderList);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadOrderListAdmin.jsp").forward(request, response);
     }

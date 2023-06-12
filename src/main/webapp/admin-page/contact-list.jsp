@@ -144,6 +144,9 @@
                                             numb = Math.min(list.size(), 6);
                                             if (list != null)
                                                 for (int i = 0; i < numb; i++) {%>
+                                        <input type="text" id="userid"
+                                               value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                                               style="display:none;">
                                         <tr class="order" id="order<%=list.get(i).getEmail()%>">
                                             <td class="cursor-pointer">
                                                 <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"
@@ -340,6 +343,7 @@
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
             const page = parseInt($("#page").text());
+            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("#yesButton").click(function () {
@@ -349,6 +353,7 @@
                         data: {
                             id: id,
                             page: page,
+                            admin: admin
                         },
                         success: function (data) {
                             $("#appendItem tbody").html(data);

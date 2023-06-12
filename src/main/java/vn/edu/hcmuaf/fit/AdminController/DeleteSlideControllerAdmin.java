@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.product.ProductReview;
 import vn.edu.hcmuaf.fit.beans.slide.Slide;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.ProductReviewService;
 import vn.edu.hcmuaf.fit.services.SlideService;
 
@@ -24,8 +25,10 @@ public class DeleteSlideControllerAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         int page = Integer.parseInt(request.getParameter("page"));
+        String admin = request.getParameter("admin");
         SlideService.getInstance().RemoveSlide(id);
         List<Slide> loadSlide = SlideService.getInstance().getAllSlideByPage(page);
+        LogService.getInstance().addNewLog(admin, "slide", "admin", "Admin " + admin + " đã xóa ảnh slide : " + id );
         request.setAttribute("loadSlide", loadSlide);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadSlideListAdmin.jsp").forward(request, response);
     }

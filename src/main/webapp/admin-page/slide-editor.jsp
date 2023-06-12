@@ -87,7 +87,7 @@
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
-        boolean check = false;
+        boolean check = true;
         for (AdminRole role : admin.getRole()) {
             if (role.getTable().equals("slider") || role.getTable().equals("admin")) {
                 if (role.getPermission().equals("admin") || role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
@@ -114,6 +114,9 @@
                 </h3>
                 <%}%>
             </div>
+            <input type="text" id="userid"
+                   value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                   style="display:none;">
             <%
                 Slide slide = null;
                 if (request.getParameter("id") != null)
@@ -341,6 +344,7 @@
         const content = CKEDITOR.instances.editor.getData();
         const removed = $("#deletedFile").val();
         const oldImg = removed.substring(0, removed.length - 1);
+        const admin = $("#userid").val();
         let nameFile = $(".img-product-review").attr("src");
         if (nameFile.indexOf("\\") != -1)
             nameFile = nameFile.substring(nameFile.lastIndexOf("\\") + 1);
@@ -355,7 +359,8 @@
                 content: content,
                 removed: removed,
                 oldImg: oldImg,
-                nameFile: nameFile
+                nameFile: nameFile,
+                admin : admin
             },
             success: function () {
                 if (id.length < 1)

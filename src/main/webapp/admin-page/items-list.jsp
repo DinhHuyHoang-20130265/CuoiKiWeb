@@ -146,7 +146,10 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
-                    <%List<Product> products = ProductService.getInstance().loadProductWithConditionContainsStatus(1, 6, "0", "all", null, null, null, null);%>
+                    <input type="text" id="userid"
+                           value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                           style="display:none;">
+                   <%List<Product> products = ProductService.getInstance().loadProductWithConditionContainsStatus(1, 6, "0", "all", null, null, null, null);%>
                     <div id="appendItem">
                         <%for (Product p : products) {%>
                         <li class="item">
@@ -338,6 +341,7 @@
             const search = $("#searchProduct").val();
             const page = parseInt($("#page").text());
             const orderby = $("#filter").find(':selected').val();
+            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
@@ -348,7 +352,8 @@
                             id: id,
                             search: search,
                             page: page,
-                            orderby: orderby
+                            orderby: orderby,
+                            admin: admin
                         },
                         success: function (data) {
                             $("#appendItem").html(data);
