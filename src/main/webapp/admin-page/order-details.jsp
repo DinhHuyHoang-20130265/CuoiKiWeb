@@ -535,7 +535,6 @@
     const id = $("#ordId").val();
     $("#orderStatus").click(function (e) {
         e.preventDefault();
-        const admin = $("#userid").val();
         $(".yes").click(function () {
             if (parseInt($("#isCanceled-status").val()) === 0) {
                 alert("Đơn hàng hiện đã bị xóa, hãy khôi phục để có thể cập nhật đơn hàng")
@@ -556,7 +555,6 @@
     })
     $("#deliveryStatus").change(function (e) {
         e.preventDefault();
-        const admin = $("#userid").val();
         const status = $(this).find(":selected").val();
         if ($("#order-status").val() === "0") {
             alert("Đơn hàng phải ở trạng thái xác nhận mới có thể thay đổi các trạng thái khác");
@@ -568,8 +566,7 @@
                 type: "post",
                 data: {
                     id: id,
-                    status: status,
-                    admin: admin
+                    status: status
                 },
                 success: function () {
                     alert("Cập nhật trạng thái đơn hàng thành công");
@@ -605,7 +602,6 @@
     })
     $("#paymentStatus").click(function (e) {
         e.preventDefault();
-        const admin = $("#userid").val();
         if ($("#order-status").val() === "0") {
             alert("Đơn hàng phải ở trạng thái xác nhận mới có thể thay đỏi các trạng thái khác");
         } else if (parseInt($("#isCanceled-status").val()) === 0) {
@@ -615,8 +611,7 @@
                 url: "../UpdatePaymentStatus",
                 type: "post",
                 data: {
-                    id: id,
-                    admin: admin
+                    id: id
                 },
                 success: function () {
                     alert("Cập nhật trạng thái đơn hàng thành công");

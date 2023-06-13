@@ -1,9 +1,11 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.AdminUser;
+import vn.edu.hcmuaf.fit.beans.MailConfiguration;
 import vn.edu.hcmuaf.fit.beans.contact.Contact;
 import vn.edu.hcmuaf.fit.services.ContactService;
 import vn.edu.hcmuaf.fit.services.LogService;
+import vn.edu.hcmuaf.fit.services.MailService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,7 +28,11 @@ public class ReplyContactController extends HttpServlet {
         String admin = admin_user.getId();
         String content = request.getParameter("content");
         String status = request.getParameter("status");
-        ContactService.getInstance().replyContactAdmin(id,admin, content,status);
-        LogService.getInstance().addNewLog(admin, "contact", "admin", "Admin " + admin + " đã reply contact : " + id );
+        ContactService.getInstance().replyContactAdmin(id, admin, content, status);
+
+        MailService.getInstance().initializedSesstion(MailConfiguration.USERNAME_PNTSHOP, MailConfiguration.PASSWORD_PNTSHOP);
+        MailService.getInstance().sendMail("PNTSHOP", ContactService.getInstance().getContactById(id).getEmail(), "Trả lời liên hệ từ P&T Shop", content, MailConfiguration.MAIL_HTML);
+
+        LogService.getInstance().addNewLog(admin, "contact", "admin", "Admin " + admin + " đã reply contact : " + id);
     }
 }

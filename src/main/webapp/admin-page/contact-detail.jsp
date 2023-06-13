@@ -83,9 +83,6 @@
                 <input type="text" id="idEdit"
                        value="<%=request.getParameter("id") == null ? "" : request.getParameter("id")%>"
                        style="display: none">
-                <input type="text" id="userid"
-                       value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                       style="display:none;">
                 <input type="text" id="status"
                        value="<%=(contact != null) ? contact.getStatus() : "none"%>"
                        style="display:none;">
@@ -220,11 +217,9 @@
     $("button[type='submit']").click(function (e) {
         e.preventDefault();
         const id = $("#idEdit").val();
-        const admin = $("#userid").val();
         const content = $("#editor").val();
         const status = $("#status").val();
         console.log(id);
-        console.log(admin);
         console.log(content);
         console.log(status);
         $.ajax({
@@ -232,7 +227,6 @@
             type: "GET",
             data: {
                 id: id,
-                admin : admin,
                 content: content,
                 status : status
             },

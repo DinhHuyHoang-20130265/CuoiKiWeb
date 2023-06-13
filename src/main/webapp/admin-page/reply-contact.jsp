@@ -7,7 +7,6 @@
 --%>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Locale" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.contact.Contact" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.ContactService" %>
@@ -136,9 +135,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <input type="text" id="userid"
-                           value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                           style="display:none;">
                     <% int numb = -1;
                       List<Contact> list = ContactService.getInstance().loadReplyContactWithPage(1);
                       numb = Math.min(list.size(), 6);
@@ -330,7 +326,6 @@
     $(".remove").each(function () {
       const id = $(this).attr("id").substring(6);
       const page = parseInt($("#page").text());
-      const admin = $("#userid").val();
       $(this).on("click", function (e) {
         e.preventDefault();
         $("#yesButton").click(function () {
@@ -339,8 +334,7 @@
             type: "post",
             data: {
               id: id,
-              page: page,
-              admin: admin
+              page: page
             },
             success: function (data) {
               $("#appendItem tbody").html(data);

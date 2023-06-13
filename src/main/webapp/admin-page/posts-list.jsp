@@ -295,7 +295,6 @@
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
             const pageNumb = parseInt($("#pageNumb").text());
-            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("#yes").click(function () {

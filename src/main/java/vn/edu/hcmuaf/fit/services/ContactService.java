@@ -46,5 +46,9 @@ public class ContactService {
         ContactDAO DAO = new ContactDAO();
         DAO.updateContactAdmin(admin_id, content,id,status);
     }
+
+    public Contact getContactById(String id) {
+        return new ContactDAO().getContactById(id);
+    }
 }
 
