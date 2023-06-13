@@ -34,7 +34,7 @@ public class LogAdminDAO {
         return temp;
     }
     public static String generateIdLog() {
-        List<String> id = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT ord_id FROM orders")
+        List<String> id = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT id FROM log_admin")
                 .mapTo(String.class)
                 .stream()
                 .collect(Collectors.toList()));

@@ -36,7 +36,7 @@ public class UpdateAdminController extends HttpServlet {
         String oldImg = request.getParameter("oldImg");
 
         AccountService.getInstance().UpdateAdminAccount(id, fullname, email, password, address, phone, nameFile);
-        LogService.getInstance().addNewLog(id, "account", "admin", "Admin " + admin + " đã cập nhật tài khoản");
+        LogService.getInstance().addNewLog(id, "account", "admin", "Admin " + id + " đã cập nhật tài khoản");
         removeOldImg(oldImg, request);
         copyImage(request, nameFile);
     }
