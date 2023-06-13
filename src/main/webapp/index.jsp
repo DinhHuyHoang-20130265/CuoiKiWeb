@@ -154,7 +154,7 @@
                 <div class="row">
                     <div class="col-lg-6 col-sm-12 mb-20" style="justify-content: center; display: flex">
                         <div class="card" style="width: 75%">
-                            <img class="card-img-top" src="./assets/imgProduct/images/men/1.jpg" alt="Card image"
+                            <img class="card-img-top" src="./assets/imgProduct/images/m1.jpg" alt="Card image"
                                  style="width: 100%"/>
                             <div class="card-body">
                                 <h4 class="card-title">Áo len sọc lớn màu</h4>
@@ -166,11 +166,11 @@
                     </div>
                     <div class="col-lg-6 col-sm-12 mb-20" style="justify-content: center; display: flex">
                         <div class="card" style="width: 75%">
-                            <img class="card-img-top" src="./assets/imgProduct/images/men/3.jpg" alt="Card image"
+                            <img class="card-img-top" src="./assets/imgProduct/images/m3.jpg" alt="Card image"
                                  style="width: 100%"/>
                             <div class="card-body">
                                 <h4 class="card-title">Áo len traffic</h4>
-                                <a href="ProductDetail.jsp?id=prod001" class="btn btn-buynow">Xem ngay
+                                <a href="ProductDetail.jsp?id=prod003" class="btn btn-buynow">Xem ngay
                                     <i class="fas fa-arrow-right" style="font-size: 16px"></i></a>
                             </div>
                         </div>

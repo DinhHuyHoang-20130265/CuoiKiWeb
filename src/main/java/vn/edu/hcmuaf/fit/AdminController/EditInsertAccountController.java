@@ -20,6 +20,7 @@ public class EditInsertAccountController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
+
     /*
        Thêm/sửa account trong admin - Đinh Huy Hoàng 20130265
     */
@@ -42,12 +43,12 @@ public class EditInsertAccountController extends HttpServlet {
             AccountService.getInstance().AddNewAccount(id, fullname, email, username, password, address, status, role, permission, nameFile, adminId);
             removeOldImg(oldImg, request);
             copyImage(request, nameFile);
-            LogService.getInstance().addNewLog(adminId, "account", "admin", "Admin " + admin + " đã thêm tài khoản mới : " + id );
+            LogService.getInstance().addNewLog(adminId, "account", "admin", "Admin " + adminId + " đã thêm tài khoản mới : " + id);
         } else {
             AccountService.getInstance().UpdateAccount(id, fullname, email, username, password, address, status, role, permission, nameFile, adminId);
             removeOldImg(oldImg, request);
             copyImage(request, nameFile);
-            LogService.getInstance().addNewLog(adminId, "account", "admin", "Admin " + admin + " đã cập nhật tài khoản : " + id );
+            LogService.getInstance().addNewLog(adminId, "account", "admin", "Admin " + adminId + " đã cập nhật tài khoản : " + id);
         }
     }
 

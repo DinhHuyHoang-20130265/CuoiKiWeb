@@ -16,6 +16,7 @@ public class EditInsertPromotionController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }
+
     /*
        Thêm/sửa giảm giá trong admin - Nguyễn Huy Hiệp 20130258
     */
@@ -33,10 +34,10 @@ public class EditInsertPromotionController extends HttpServlet {
         String admin_id = admin.getId();
         if (id.length() < 1) {
             PromotionService.getInstance().InsertNewPromotion(idProduct, name, content, discount_rate, status, start_date, end_date);
-            LogService.getInstance().addNewLog(admin_id, "promotion", "admin", "Admin " + admin + " đã thêm promo mới : " + name );
+            LogService.getInstance().addNewLog(admin_id, "promotion", "admin", "Admin " + admin_id + " đã thêm promo mới : " + name);
         } else {
             PromotionService.getInstance().UpdatePromotion(id, idProduct, name, content, discount_rate, status, start_date, end_date);
-            LogService.getInstance().addNewLog(admin_id, "promotion", "admin", "Admin " + admin + " đã chỉnh sửa promo : " + id );
+            LogService.getInstance().addNewLog(admin_id, "promotion", "admin", "Admin " + admin_id + " đã chỉnh sửa promo : " + id);
         }
     }
 }
