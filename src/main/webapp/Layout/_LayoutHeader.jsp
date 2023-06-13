@@ -204,7 +204,7 @@
                     </div>
                 </div>
                 <div class="col-3 m-auto hidden-sm hidden-xs">
-                    <div class="item-car clearfix">
+                    <div class="item-car clearfix" style="margin-left: 40px">
                         <% if (user == null) {%>
                         <a href="Login.jsp" class="header__second__cart--icon">
                             <i class="fas fa-shopping-cart"></i>
@@ -217,7 +217,7 @@
                         </a>
                         <%}%>
                     </div>
-                    <div class="item-like clearfix">
+                    <div class="item-like clearfix" style="">
                         <% if (user == null) {%>
                         <a href="Login.jsp" class="header__second__like--icon">
                             <i class="far fa-heart"></i>
@@ -230,11 +230,11 @@
                         </a>
                         <%}%>
                     </div>
-                    <button class="item-history clearfix open-history" style="margin-left: 35px; border: none">
-                        <a class="header__second__like--icon">
+                    <div class="item-history clearfix open-history" style="border: none; float:right; margin-right: 35px">
+                        <a class="header__second__like--icon" style="cursor: pointer">
                             <i class="fas fa-history"></i>
                         </a>
-                    </button>
+                    </div>
                 </div>
             </div>
         </div>
