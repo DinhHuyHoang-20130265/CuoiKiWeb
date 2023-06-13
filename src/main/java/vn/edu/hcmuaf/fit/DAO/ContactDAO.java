@@ -15,6 +15,7 @@ public class ContactDAO {
                 .stream().
                 collect(Collectors.toList()));
     }
+
     public List<Contact> loadContactWithPage(int page) {
         List<Contact> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM contact ORDER BY created_date DESC ")
                 .mapToBean(Contact.class)
@@ -33,6 +34,7 @@ public class ContactDAO {
         }
         return temp;
     }
+
     public static String generateIdContact() {
         List<String> id = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT ord_id FROM orders")
                 .mapTo(String.class)
@@ -57,6 +59,7 @@ public class ContactDAO {
         if (id.contains(sb.toString())) return generateIdContact();
         else return sb.toString();
     }
+
     public List<Contact> loadNewestContact() {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("" +
                         "SELECT * FROM contact ORDER BY created_date DESC LIMIT 6")
@@ -64,7 +67,8 @@ public class ContactDAO {
                 .stream()
                 .collect(Collectors.toList()));
     }
-    public String addNewContact(String fullname, String email,String phone,String content) {
+
+    public String addNewContact(String fullname, String email, String phone, String content) {
         String idContact = generateIdContact();
         JDBIConnector.get().withHandle(handle -> {
                     handle.createUpdate("INSERT INTO contact values (?,?,?,?,?,null,null,CURDATE(),0)")
@@ -72,24 +76,26 @@ public class ContactDAO {
                             .bind(1, fullname)
                             .bind(2, email)
                             .bind(3, phone)
-                            .bind(4,content)
+                            .bind(4, content)
                             .execute();
                     return true;
                 }
         );
         return idContact;
     }
-    public void updateContactAdmin(String id,String admin_id, String admin_reply, String status) {
+
+    public void updateContactAdmin(String id, String admin_id, String admin_reply, String status) {
         JDBIConnector.get().withHandle(handle -> {
-                    handle.createUpdate("UPDATE contact c SET c.id_admin = ? ,c.reply_content = ?, c.status =? WHERE c.id = ?")
-                            .bind(0, admin_id)
-                            .bind(1, admin_reply)
-                            .bind(2, status.equals("0") ? 1 : 0)
-                            .bind(3, id)
-                            .execute();
-                    return null;
+            handle.createUpdate("UPDATE contact c SET c.id_admin = ? ,c.reply_content = ?, c.status =? WHERE c.id = ?")
+                    .bind(0, admin_id)
+                    .bind(1, admin_reply)
+                    .bind(2, status.equals("0") ? 1 : 0)
+                    .bind(3, id)
+                    .execute();
+            return null;
         });
     }
+
     public void removeContact(String id) {
         JDBIConnector.get().withHandle(handle -> {
                     handle.createUpdate("DELETE FROM contact WHERE id = ?")
@@ -99,13 +105,15 @@ public class ContactDAO {
                 }
         );
     }
-    public Contact getContactById(String id){
+
+    public Contact getContactById(String id) {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM contact WHERE id = ?")
                 .bind(0, id)
                 .mapToBean(Contact.class)
                 .first()
         );
     }
+
     public List<Contact> loadReplyContactWithPage(int page) {
         List<Contact> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM contact c WHERE c.status = 1 ORDER BY created_date DESC ")
                 .mapToBean(Contact.class)
@@ -124,6 +132,7 @@ public class ContactDAO {
         }
         return temp;
     }
+
     public static void main(String[] args) {
         System.out.println(new ContactDAO().loadReplyContactWithPage(1));
     }

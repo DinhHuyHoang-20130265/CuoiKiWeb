@@ -144,9 +144,6 @@
                                             numb = Math.min(list.size(), 6);
                                             if (list != null)
                                                 for (int i = 0; i < numb; i++) {%>
-                                        <input type="text" id="userid"
-                                               value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                                               style="display:none;">
                                         <tr class="order" id="order<%=list.get(i).getEmail()%>">
                                             <td class="cursor-pointer">
                                                 <svg class="svg-next-icon animate-transition svg-next-icon-size-20 svg-next-icon-rotate-90"

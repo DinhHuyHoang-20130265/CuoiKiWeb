@@ -338,7 +338,6 @@
             const search = $("#searchProduct").val();
             const page = parseInt($("#page").text());
             const orderby = $("#filter").find(':selected').val();
-            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
