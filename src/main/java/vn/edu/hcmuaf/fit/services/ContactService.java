@@ -41,5 +41,10 @@ public class ContactService {
     public List<Contact> loadReplyContactWithPage(int page){
         return new ContactDAO().loadReplyContactWithPage(page);
     }
+
+    public void replyContactAdmin(String admin_id, String content, String id,String status) {
+        ContactDAO DAO = new ContactDAO();
+        DAO.updateContactAdmin(admin_id, content,id,status);
+    }
 }
 

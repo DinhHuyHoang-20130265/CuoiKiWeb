@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.NewsCommentService;
 
 import javax.servlet.*;
@@ -20,6 +22,9 @@ public class StatusCommentControllerAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         String status = request.getParameter("status");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         NewsCommentService.getInstance().ChangeStatusComment(id, status);
+        LogService.getInstance().addNewLog(admin, "comment", "admin", "Admin " + admin + " đã chuyển đổi trạng thái bình luận : " + id + "(" + status +")");
     }
 }

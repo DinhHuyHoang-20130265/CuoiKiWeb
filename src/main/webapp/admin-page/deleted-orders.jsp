@@ -396,6 +396,7 @@
             const search = $("#searchUser").val();
             const page = parseInt($("#page").text());
             const order = $("#filter").find(':selected').val();
+            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("#yesButton").click(function () {
@@ -425,6 +426,7 @@
             const search = $("#searchUser").val();
             const page = parseInt($("#page").text());
             const order = $("#filter").find(':selected').val();
+            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("#yesButton").click(function () {

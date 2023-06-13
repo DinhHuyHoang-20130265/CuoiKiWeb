@@ -259,7 +259,8 @@
     function deleteImport() {
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
-            console.log(id)
+            const admin = $("#userid").val();
+            // console.log(id)
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {

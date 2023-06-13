@@ -114,6 +114,9 @@
                 </h3>
                 <%}%>
             </div>
+            <input type="text" id="userid"
+                   value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                   style="display:none;">
             <%
                 Slide slide = null;
                 if (request.getParameter("id") != null)
@@ -341,6 +344,7 @@
         const content = CKEDITOR.instances.editor.getData();
         const removed = $("#deletedFile").val();
         const oldImg = removed.substring(0, removed.length - 1);
+        const admin = $("#userid").val();
         let nameFile = $(".img-product-review").attr("src");
         if (nameFile.indexOf("\\") != -1)
             nameFile = nameFile.substring(nameFile.lastIndexOf("\\") + 1);

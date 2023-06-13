@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
-import vn.edu.hcmuaf.fit.services.CategoryService;
+import vn.edu.hcmuaf.fit.beans.AdminUser;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.PromotionService;
 
 import javax.servlet.*;
@@ -28,10 +29,14 @@ public class EditInsertPromotionController extends HttpServlet {
         int discount_rate = Integer.parseInt(request.getParameter("discount_rate"));
         String start_date = request.getParameter("start_date");
         String end_date = request.getParameter("end_date");
+        AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin_id = admin.getId();
         if (id.length() < 1) {
             PromotionService.getInstance().InsertNewPromotion(idProduct, name, content, discount_rate, status, start_date, end_date);
+            LogService.getInstance().addNewLog(admin_id, "promotion", "admin", "Admin " + admin + " đã thêm promo mới : " + name );
         } else {
             PromotionService.getInstance().UpdatePromotion(id, idProduct, name, content, discount_rate, status, start_date, end_date);
+            LogService.getInstance().addNewLog(admin_id, "promotion", "admin", "Admin " + admin + " đã chỉnh sửa promo : " + id );
         }
     }
 }

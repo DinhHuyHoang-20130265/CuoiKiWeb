@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.services.AccountService;
+import vn.edu.hcmuaf.fit.services.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -35,6 +36,7 @@ public class UpdateAdminController extends HttpServlet {
         String oldImg = request.getParameter("oldImg");
 
         AccountService.getInstance().UpdateAdminAccount(id, fullname, email, password, address, phone, nameFile);
+        LogService.getInstance().addNewLog(id, "account", "admin", "Admin " + admin + " đã cập nhật tài khoản");
         removeOldImg(oldImg, request);
         copyImage(request, nameFile);
     }

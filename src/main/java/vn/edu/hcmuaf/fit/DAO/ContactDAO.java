@@ -79,11 +79,13 @@ public class ContactDAO {
         );
         return idContact;
     }
-    public void updateContactAdmin(String admin_id, String admin_reply) {
+    public void updateContactAdmin(String id,String admin_id, String admin_reply, String status) {
         JDBIConnector.get().withHandle(handle -> {
-                    handle.createUpdate("UPDATE contact SET id_admin = ? ,reply_content = ?")
+                    handle.createUpdate("UPDATE contact c SET c.id_admin = ? ,c.reply_content = ?, c.status =? WHERE c.id = ?")
                             .bind(0, admin_id)
                             .bind(1, admin_reply)
+                            .bind(2, status.equals("0") ? 1 : 0)
+                            .bind(3, id)
                             .execute();
                     return null;
         });
@@ -122,7 +124,6 @@ public class ContactDAO {
         }
         return temp;
     }
-
     public static void main(String[] args) {
         System.out.println(new ContactDAO().loadReplyContactWithPage(1));
     }

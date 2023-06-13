@@ -1,7 +1,9 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.beans.*;
+import vn.edu.hcmuaf.fit.services.AccountService;
 import vn.edu.hcmuaf.fit.services.AdminLoginService;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.ReCAPTCHAService;
 
 import javax.servlet.*;
@@ -61,7 +63,6 @@ public class LoginAdminController extends HttpServlet {
                 } else {
                     //  Tới đây thì tài khoản của bạn đã oke rồi
                     AdminUser admin = AdminLoginService.getInstance().getAccountAdminUser(username, password);
-
                     //  Nếu không đúng mật khẩu thì lưu lại tài khoản
                     if (admin == null) {
                         notify = true;
@@ -76,6 +77,8 @@ public class LoginAdminController extends HttpServlet {
         if (notify) {
             // Tới trang đăng nhập thì ta xóa remember account khỏi sesstion
             request.getSession().removeAttribute("rememberAccount");
+            //lưu lại vào log
+            LogService.getInstance().addNewLog(null,"error","admin","CẢNH BÁO Admin "+ username + " đã cố đăng nhập vào hệ thống thất bại");
             // Lưu vô session rồi sendRedirect
             request.getSession().setAttribute("loginAdmin", loginAdmin);
             response.sendRedirect("admin-page/login.jsp");
@@ -92,6 +95,10 @@ public class LoginAdminController extends HttpServlet {
 
             //  Tạo đối tượng admin rồi lưu vào session
             request.getSession().setAttribute("userAdmin", account);
+
+            // lấy id của admin rồi lưu lại trong log
+            String admin_id = account.getId();
+            LogService.getInstance().addNewLog(admin_id,"login","admin","Admin "+ admin_id + " đã đăng nhập vào hệ thống thành công");
 
             //  Kiểm tra xem thứ có nhớ mật khẩu hay không. có thì tạo một đối tượng rememberAccount lưu vào session
             if (remember != null) {

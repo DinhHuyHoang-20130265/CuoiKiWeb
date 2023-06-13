@@ -366,7 +366,7 @@
                         data: {
                             id: id,
                             search: search,
-                            page: page,
+                            page: page
                         },
                         success: function (data) {
                             $("#appendItem").html(data);
