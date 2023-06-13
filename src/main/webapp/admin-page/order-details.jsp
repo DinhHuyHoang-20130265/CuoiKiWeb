@@ -83,9 +83,6 @@
                     </div>
                 </div>
             </div>
-            <input type="text" id="userid"
-                   value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                   style="display:none;">
             <%
                 Order order = OrderService.getInstance().getOrderById(request.getParameter("id"));
                 List<OrderDetail> details = OrderDetailService.getInstance().getListDetailsFromOrdId(request.getParameter("id"));
@@ -547,8 +544,7 @@
                     url: "../UpdateOrderStatus",
                     type: "post",
                     data: {
-                        id: id,
-                        admin: admin
+                        id: id
                     },
                     success: function () {
                         $("#order-status").val("1")

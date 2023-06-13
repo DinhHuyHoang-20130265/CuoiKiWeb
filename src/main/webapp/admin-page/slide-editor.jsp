@@ -87,7 +87,7 @@
 
     } else {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("userAdmin");
-        boolean check = true;
+        boolean check = false;
         for (AdminRole role : admin.getRole()) {
             if (role.getTable().equals("slider") || role.getTable().equals("admin")) {
                 if (role.getPermission().equals("admin") || role.getPermission().equals("insert") || (role.getPermission().equals("update") && request.getParameter("id") != null))
@@ -359,8 +359,7 @@
                 content: content,
                 removed: removed,
                 oldImg: oldImg,
-                nameFile: nameFile,
-                admin : admin
+                nameFile: nameFile
             },
             success: function () {
                 if (id.length < 1)

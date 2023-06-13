@@ -100,9 +100,6 @@
               <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
             </div>
           </li>
-          <input type="text" id="userid"
-                 value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                 style="display:none;">
           <% int pageNumb = -1;
             List<Notify_Admin> list = NotifyService.getInstance().loadNotifyWithPage(1);
             if (list.size() > 4)
@@ -279,8 +276,7 @@
             type: "post",
             data: {
               id: id,
-              page: page,
-              admin:admin
+              page: page
             },
             success: function (data) {
               $("#appendItem").html(data);

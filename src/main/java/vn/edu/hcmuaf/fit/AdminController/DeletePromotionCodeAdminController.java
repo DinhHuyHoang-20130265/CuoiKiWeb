@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.DAO.PromotionCodeDAO;
 import vn.edu.hcmuaf.fit.DAO.PromotionDAO;
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.beans.promotion.Promotion;
 import vn.edu.hcmuaf.fit.beans.promotion_code.PromotionCode;
 import vn.edu.hcmuaf.fit.services.LogService;
@@ -25,7 +26,8 @@ public class DeletePromotionCodeAdminController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         String page = request.getParameter("page");
-        String admin = request.getParameter("admin");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         PromotionCodeService.getInstance().RemovePromotionCode(id);
         List<PromotionCode> codes = PromotionCodeService.getInstance().loadPromotionWithConditionContainsStatus(Integer.parseInt(page), 6);
         LogService.getInstance().addNewLog(admin, "promotion", "admin", "Admin " + admin + " đã xóa mã promotion : " + id );

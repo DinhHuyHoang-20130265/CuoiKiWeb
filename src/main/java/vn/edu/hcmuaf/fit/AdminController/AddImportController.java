@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
 import vn.edu.hcmuaf.fit.services.ImportProductService;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.ProductService;
 
 import javax.servlet.*;
@@ -28,6 +29,7 @@ public class AddImportController extends HttpServlet {
         if (ImportProductService.getInstance().checkIdProduct(idProd)){
             String productName = ProductService.getInstance().getProductHiddenAndDetails(idProd).getProd_name();
             ImportProductService.getInstance().insertImport(idProd, productName, quantity, id_admin);
+            LogService.getInstance().addNewLog(id_admin, "import", "admin", "Admin " + id_admin + " đã nhập thêm sản phẩm: "+ idProd + "( " + quantity +" )");
             writer.write("Đã nhập hàng thành công sản phẩm "+ productName +" với số lượng "+quantity);
         }else {
             writer.write("Sản phẩm chưa có trong kho, vui lòng thêm sản phẩm sau đó quay lại nhập hàng!");

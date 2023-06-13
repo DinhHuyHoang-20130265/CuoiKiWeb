@@ -157,9 +157,6 @@
                         </div>
                     </li>
                     <div id="appendItem">
-                        <input type="text" id="userid"
-                               value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                               style="display:none;">
                         <% List<SiteUser> accounts = AccountService.getInstance().loadAccountWithConditions(1, 6, null);%>
                         <% for (SiteUser user : accounts) {
                             if (!user.getId().equals(admin.getId())) {
@@ -360,7 +357,6 @@
             const id = $(this).attr("id").substring(6);
             const search = $("#searchUser").val();
             const page = parseInt($("#page").text());
-            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
@@ -370,8 +366,7 @@
                         data: {
                             id: id,
                             search: search,
-                            page: page,
-                            admin: admin
+                            page: page
                         },
                         success: function (data) {
                             $("#appendItem").html(data);

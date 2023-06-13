@@ -117,9 +117,6 @@
                 </h3>
                 <%}%>
             </div>
-            <input type="text" id="userid"
-                   value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                   style="display:none;">
             <%
                 Promotion promo = null;
                 if (request.getParameter("id") != null)
@@ -287,7 +284,6 @@
         const content = CKEDITOR.instances.editor.getData();
         const start_date = $("#start_date").val();
         const end_date = $("#end_date").val();
-        const admin = $("#userid").val();
         if (start_date > end_date) {
             alert("Ngày kết thúc không được bé hơn ngày bắt đầu!!")
             return false;
@@ -303,8 +299,7 @@
                 idProduct: idProduct,
                 content: content,
                 start_date: start_date,
-                end_date: end_date,
-                admin : admin
+                end_date: end_date
             },
             success: function () {
                 if (id.length < 1)

@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.beans.order.Order;
 import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.OrderDetailService;
@@ -25,7 +26,8 @@ public class DeleteOrderController extends HttpServlet {
         String page = request.getParameter("page");
         String search = request.getParameter("search");
         String order = request.getParameter("order");
-        String admin = request.getParameter("admin");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         String id = request.getParameter("id");
         OrderDetailService.getInstance().removeOrder(id);
         List<Order> orderList = OrderService.getInstance().getOrderListCondition(page, order, search);

@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.ProductService;
 import vn.edu.hcmuaf.fit.services.SlideService;
@@ -29,7 +30,8 @@ public class EditInsertSlideController extends HttpServlet {
         String content = request.getParameter("content");
         String oldImg = request.getParameter("oldImg");
         String nameFile = request.getParameter("nameFile");
-        String admin = request.getParameter("admin");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         String fullnameFile = "http://localhost:8080/CuoiKiWeb_war/assets/img/logo/" + nameFile;
         if (id == null || id.length() < 1) {
             SlideService.getInstance().InsertNewSlide(content, fullnameFile, status);

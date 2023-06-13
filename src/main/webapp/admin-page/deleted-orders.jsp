@@ -175,9 +175,6 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <input type="text" id="userid"
-                                               value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                                               style="display:none;">
                                         <%
                                             List<Order> orders = OrderService.getInstance().getDeletedOrderListCondition("1", "0", null);
                                             NumberFormat formatter = NumberFormat.getInstance(new Locale("vn", "VN"));
@@ -410,8 +407,7 @@
                             id: id,
                             search: search,
                             page: page,
-                            order: order,
-                            admin: admin
+                            order: order
                         },
                         success: function (data) {
                             $("#appendItem tbody").html(data);
@@ -441,8 +437,7 @@
                             id: id,
                             search: search,
                             page: page,
-                            order: order,
-                            admin: admin
+                            order: order
                         },
                         success: function (data) {
                             $("#appendItem tbody").html(data);

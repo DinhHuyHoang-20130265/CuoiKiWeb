@@ -125,9 +125,6 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
-                    <input type="text" id="userid"
-                           value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                           style="display:none;">
                     <%List<Promotion> promotions = PromotionService.getInstance().loadPromotionWithConditionContainsStatus(1, 6);%>
                     <div id="appendItem">
                         <%for (Promotion p : promotions) {%>
@@ -320,7 +317,6 @@
         $(".remove").each(function () {
             const id = $(this).attr("id").substring(6);
             const page = parseInt($("#page").text());
-            const admin = $("#userid").val();
             $(this).on("click", function (e) {
                 e.preventDefault();
                 $("button[type='button'].yes").on("click", function () {
@@ -329,8 +325,7 @@
                         type: "post",
                         data: {
                             id: id,
-                            page: page,
-                            admin: admin
+                            page: page
                         },
                         success: function (data) {
                             $("#appendItem").html(data);

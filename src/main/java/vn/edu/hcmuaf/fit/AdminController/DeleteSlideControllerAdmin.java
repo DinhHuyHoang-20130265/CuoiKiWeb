@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.beans.product.ProductReview;
 import vn.edu.hcmuaf.fit.beans.slide.Slide;
 import vn.edu.hcmuaf.fit.services.LogService;
@@ -25,7 +26,8 @@ public class DeleteSlideControllerAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         int page = Integer.parseInt(request.getParameter("page"));
-        String admin = request.getParameter("admin");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         SlideService.getInstance().RemoveSlide(id);
         List<Slide> loadSlide = SlideService.getInstance().getAllSlideByPage(page);
         LogService.getInstance().addNewLog(admin, "slide", "admin", "Admin " + admin + " đã xóa ảnh slide : " + id );

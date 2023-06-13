@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.beans.category.Category;
 import vn.edu.hcmuaf.fit.services.CategoryService;
 import vn.edu.hcmuaf.fit.services.LogService;
@@ -23,7 +24,8 @@ public class DeleteCateAdminController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         String page = request.getParameter("page");
-        String admin = request.getParameter("admin");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         CategoryService.getInstance().RemoveCate(id);
         List<Category> categories = CategoryService.getInstance().loadloadCategoryWithConditionContainsStatus(Integer.parseInt(page), 6);
         LogService.getInstance().addNewLog(admin, "category", "admin", "Admin " + admin + " đã xóa danh mục : " + id );

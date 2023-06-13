@@ -108,9 +108,6 @@
                             <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                         </div>
                     </li>
-                    <input type="text" id="userid"
-                           value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                           style="display:none;">
                     <% int pageNumb = -1;
                         List<News> list = NewsService.getInstance().getListNewsByPage(1);
                         if (list.size() > 4)
@@ -308,8 +305,7 @@
                         type: "post",
                         data: {
                             id: id,
-                            pageNumb: pageNumb,
-                            admin: admin
+                            pageNumb: pageNumb
                         },
                         success: function (data) {
                             $("#appendItem").html(data);

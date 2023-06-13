@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.services.CategoryService;
 import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.ProductService;
@@ -22,7 +23,8 @@ public class EditInsertCategoryController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         String name = request.getParameter("name");
-        String admin = request.getParameter("admin");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         int status = Integer.parseInt(request.getParameter("status"));
         String idCateParent = request.getParameter("idCateParent");
         String content = request.getParameter("content");

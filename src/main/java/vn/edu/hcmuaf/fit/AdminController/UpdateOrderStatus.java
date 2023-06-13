@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.OrderService;
 
@@ -20,7 +21,8 @@ public class UpdateOrderStatus extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        String admin = request.getParameter("admin");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         OrderService.getInstance().UpdateOrderStatus(id);
         LogService.getInstance().addNewLog(admin, "order", "admin", "Admin " + admin + " đã xác thực đơn hàng : " + id);
     }

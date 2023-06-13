@@ -123,9 +123,6 @@
                     </tr>
                     </thead>
                     <tbody class="appendItem">
-                    <input type="text" id="userid"
-                           value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                           style="display:none;">
                     <% List<ImportProduct> importProductList = ImportProductService.getInstance().getListImport();
                         for (ImportProduct importProduct : importProductList) { %>
                     <tr class="item">
@@ -271,8 +268,7 @@
                         url: "../DeleteImportAdminController",
                         type: "post",
                         data: {
-                            id: id,
-                            admin: admin
+                            id: id
                         },
                         success: function (data) {
                             window.location.href = "/CuoiKiWeb_war/admin-page/import-product-list.jsp"

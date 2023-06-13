@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.beans.news.News;
 import vn.edu.hcmuaf.fit.beans.news.NewsComment;
 import vn.edu.hcmuaf.fit.services.LogService;
@@ -25,7 +26,8 @@ public class DeleteNewsControllerAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         int pageNumb = Integer.parseInt(request.getParameter("pageNumb"));
-        String admin = request.getParameter("admin");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         NewsService.getInstance().RemoveNews(id);
         List<News> list = NewsService.getInstance().getListNewsByPage(pageNumb);
         LogService.getInstance().addNewLog(admin, "news", "admin", "Admin " + admin + " đã xóa tin tức: " + id );

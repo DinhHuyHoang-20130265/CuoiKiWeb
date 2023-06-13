@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.beans.contact.Contact;
 import vn.edu.hcmuaf.fit.services.ContactService;
 import vn.edu.hcmuaf.fit.services.LogService;
@@ -21,7 +22,8 @@ public class ReplyContactController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
-        String admin = request.getParameter("admin");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         String content = request.getParameter("content");
         String status = request.getParameter("status");
         ContactService.getInstance().replyContactAdmin(id,admin, content,status);

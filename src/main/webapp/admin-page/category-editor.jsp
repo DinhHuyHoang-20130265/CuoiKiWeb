@@ -111,9 +111,6 @@
                 </h3>
                 <%}%>
             </div>
-            <input type="text" id="userid"
-                   value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
-                   style="display:none;">
             <%
                 Category cate = null;
                 if (request.getParameter("id") != null)
@@ -259,7 +256,6 @@
         const idCateParent = $('#select-cate').find(":selected").val();
         const status = $("#select-status").find(":selected").val();
         const content = CKEDITOR.instances.editor.getData();
-        const admin = $("#userid").val();
         $.ajax({
             url: "../EditInsertCategoryController",
             type: "GET",
@@ -268,8 +264,7 @@
                 name: name,
                 status: status,
                 idCateParent: idCateParent,
-                content: content,
-                admin: admin
+                content: content
             },
             success: function () {
                 if (id.length < 1)
