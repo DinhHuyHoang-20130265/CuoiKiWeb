@@ -121,7 +121,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="<%=(requestString.indexOf("slide") != -1) ? "active open" : "" %>">
+                        <li class="<%=(requestString.indexOf("slider") != -1) ? "active open" : "" %>">
                             <a href="#"> Slide trang chủ <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>
@@ -140,7 +140,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="<%=(requestString.indexOf("notify") != -1) ? "active open" : "" %>">
+                        <li class="<%=(requestString.indexOf("log") != -1) ? "active open" : "" %>">
                             <a href="#"> Log <i class="fa arrow"></i></a>
                             <ul class="sidebar-nav">
                                 <li>

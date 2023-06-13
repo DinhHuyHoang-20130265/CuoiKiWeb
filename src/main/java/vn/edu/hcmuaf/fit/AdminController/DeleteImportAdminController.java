@@ -1,9 +1,11 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.beans.category.Category;
 import vn.edu.hcmuaf.fit.beans.import_product.ImportProduct;
 import vn.edu.hcmuaf.fit.services.CategoryService;
 import vn.edu.hcmuaf.fit.services.ImportProductService;
+import vn.edu.hcmuaf.fit.services.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -21,8 +23,11 @@ public class DeleteImportAdminController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         ImportProductService.getInstance().removeImport(id);
         List<ImportProduct> imports = ImportProductService.getInstance().getListImport();
+        LogService.getInstance().addNewLog(admin, "import_product", "admin", "Admin " + admin + " đã sản phẩm: " + id );
         request.setAttribute("imports", imports);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadImportListAdmin.jsp").forward(request, response);
     }

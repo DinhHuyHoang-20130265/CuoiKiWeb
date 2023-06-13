@@ -23,7 +23,7 @@
         <div class="item-col fixed pull-left item-col-title" style="text-align: center;">
             <div class="item-heading">Tiêu đề</div>
             <div>
-                <a href="item-editor.jsp?id=<%=news.getNews_id()%>" class="" style="margin-left: 30px !important;">
+                <a href="post-editor.jsp?id=<%=news.getNews_id()%>" class="" style="margin-left: 30px !important;">
                     <h4 class="item-title"><%=news.getNews_title()%>
                     </h4>
                 </a>

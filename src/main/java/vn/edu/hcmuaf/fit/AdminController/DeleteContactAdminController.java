@@ -2,8 +2,10 @@ package vn.edu.hcmuaf.fit.AdminController;
 
 
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.beans.contact.Contact;
 import vn.edu.hcmuaf.fit.services.ContactService;
+import vn.edu.hcmuaf.fit.services.LogService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -22,8 +24,11 @@ public class DeleteContactAdminController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         int page = Integer.parseInt(request.getParameter("page"));
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         ContactService.getInstance().removeContact(id);
         List<Contact> list = ContactService.getInstance().loadContactWithPage(page);
+        LogService.getInstance().addNewLog(admin, "contact", "admin", "Admin " + admin + " đã xóa contact, mã contact: " + id );
         request.setAttribute("loadContact", list);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadContactAdmin.jsp").forward(request, response);
     }

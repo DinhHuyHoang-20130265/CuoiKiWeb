@@ -266,6 +266,7 @@
     $(".remove").each(function () {
       const id = $(this).attr("id").substring(6);
       const page = parseInt($("#page").text());
+      const admin = $("#userid").val();
       $(this).on("click", function (e) {
         e.preventDefault();
         $("button[type='button'].yes").on("click", function () {
@@ -275,7 +276,7 @@
             type: "post",
             data: {
               id: id,
-              page: page,
+              page: page
             },
             success: function (data) {
               $("#appendItem").html(data);

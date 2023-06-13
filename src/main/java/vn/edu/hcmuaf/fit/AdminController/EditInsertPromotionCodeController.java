@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.PromotionCodeService;
 import vn.edu.hcmuaf.fit.services.PromotionService;
 
@@ -29,8 +30,10 @@ public class EditInsertPromotionCodeController extends HttpServlet {
         String admin_id = request.getParameter("admin_id");
         if (id_edit.length() < 1) {
             PromotionCodeService.getInstance().InsertNewPromotionCode(id_code, code_name, description, type_code, discount_money, status, start_date, end_date, admin_id);
+            LogService.getInstance().addNewLog(admin_id, "promotion_code", "admin", "Admin " + admin_id + " đã thêm mã promo mới : " + code_name );
         } else {
             PromotionCodeService.getInstance().UpdateNewPromotionCode(id_edit, id_code, code_name, description, type_code, discount_money, status, start_date, end_date, admin_id);
+            LogService.getInstance().addNewLog(admin_id, "promotion_code", "admin", "Admin " + admin_id + " đã chỉnh sửa mã promo : " + id_code );
         }
     }
 }

@@ -1,7 +1,9 @@
 package vn.edu.hcmuaf.fit.AdminController;
 
+import vn.edu.hcmuaf.fit.beans.AdminUser;
 import vn.edu.hcmuaf.fit.beans.news.NewsComment;
 import vn.edu.hcmuaf.fit.beans.product.ProductReview;
+import vn.edu.hcmuaf.fit.services.LogService;
 import vn.edu.hcmuaf.fit.services.NewsCommentService;
 import vn.edu.hcmuaf.fit.services.ProductReviewService;
 import vn.edu.hcmuaf.fit.services.ProductService;
@@ -25,8 +27,11 @@ public class DeleteReviewControllerAdmin extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         int page = Integer.parseInt(request.getParameter("page"));
+        AdminUser admin_user = (AdminUser) request.getSession().getAttribute("userAdmin");
+        String admin = admin_user.getId();
         ProductReviewService.getInstance().RemoveReview(id);
         List<ProductReview> list = ProductReviewService.getInstance().loadAllReviewByPage(page);
+        LogService.getInstance().addNewLog(admin, "review", "admin", "Admin " + admin + " đã xóa review : " + id );
         request.setAttribute("loadReview", list);
         request.getRequestDispatcher("/admin-page/ajax/ajax_LoadReviewListAdmin.jsp").forward(request, response);
     }

@@ -110,6 +110,10 @@
                 </h3>
                 <%}%>
             </div>
+            <input type="text" id="userid"
+                   value="<%=((AdminUser) request.getSession().getAttribute("userAdmin")).getId()%>"
+                   style="display:none;">
+
             <%
                 PromotionCode codeo = null;
                 if (request.getParameter("id") != null)
@@ -286,15 +290,6 @@
         const start_date = $("#start_date").val();
         const end_date = $("#end_date").val();
         const admin_id = $("#userid").val();
-        console.log(id_edit)
-        console.log(id_code)
-        console.log(code_name)
-        console.log(description)
-        console.log(discount_money)
-        console.log(type_code)
-        console.log(start_date)
-        console.log(end_date)
-        console.log(admin_id)
         if (start_date > end_date) {
             alert("Ngày kết thúc không được bé hơn ngày bắt đầu!!")
             return false;

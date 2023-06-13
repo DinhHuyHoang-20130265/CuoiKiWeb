@@ -325,7 +325,7 @@
                         type: "post",
                         data: {
                             id: id,
-                            page: page,
+                            page: page
                         },
                         success: function (data) {
                             $("#appendItem").html(data);
