@@ -1,8 +1,6 @@
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminRole" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.AdminUser" %>
-<%@ page import="vn.edu.hcmuaf.fit.beans.Notify_Admin" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.services.NotifyService" %>
 <%@ page import="vn.edu.hcmuaf.fit.beans.Log.LogAdmin" %>
 <%@ page import="vn.edu.hcmuaf.fit.services.LogService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -15,7 +13,6 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Place favicon.ico in the root directory -->
-    <link rel="stylesheet" href="css/log-list.css">
     <link rel="stylesheet" href="css/vendor.css">
     <style>
     .input-group-btn {
@@ -72,18 +69,49 @@
       </div>
       <div class="card item">
         <ul class="item-list striped" id="items">
-          <li class="item item-list-header" id="first-child">
-            <div class="item-row">
-              <div class="item-col item-col-header item-col-category">
-                <div class="no-overflow">
-                  <span>Thông báo</span>
+            <li class="item item-list-header">
+                <div class="item-row">
+                    <div class="item-col fixed item-col-check">
+                        <label class="item-check" id="select-all-items">
+                            <input type="checkbox" class="checkbox">
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="item-col item-col-header fixed item-col-img md"
+                         style="min-width: 100px; text-align: center;margin: 0 10px;">
+                        <div>
+                            <span>Mã Thông Báo</span>
+                        </div>
+                    </div>
+                    <div class="item-col item-col-header item-col-title"
+                         style="padding: 0 !important;max-width: 100px !important; text-align: center">
+                        <div>
+                            <span>Level</span>
+                        </div>
+                    </div>
+                    <div class="item-col item-col-header item-col-sales"
+                         style="text-align: center;margin: 0 5px;">
+                        <div>
+                            <span>Loại Thông Báo</span>
+                        </div>
+                    </div>
+                    <div class="item-col item-col-header item-col-author"
+                         style="text-align: center;margin: 0 10px;">
+                        <div class="no-overflow">
+                            <span>Thông báo</span>
+                        </div>
+                    </div>
+                    <div class="item-col item-col-header item-col-date"
+                         style="text-align: center;margin: 0 20px;">
+                        <div>
+                            <span>Ngày thêm</span>
+                        </div>
+                    </div>
+                    <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
                 </div>
-              </div>
-              <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
-            </div>
-          </li>
-          <% int pageNumb = -1;
-            List<LogAdmin> list = LogService.getInstance().loadLogWithPage(1,9);
+            </li>
+            <% int pageNumb = -1;
+            List<LogAdmin> list = LogService.getInstance().loadLogWithPage(1,10);
             if (list.size() > 9)
               pageNumb = 9;
             else pageNumb = list.size();
@@ -91,60 +119,72 @@
           <div id="appendItem">
             <% if (list != null){
               for (int i = 0; i < pageNumb; i++) {%>
-            <li class="item log-row
-<%=list.get(i).getId()%>
-">
-              <div class="item-row log-container">
-                <div class="log-item">
-                    <div class="log-pic"></div>
-                    <div class="log-content">
-                        <div class="log-msg">
-                      <div class="log-txt" style="text-align: left">
+            <li class="item log-row<%=list.get(i).getId()%>">
+              <div class="item-row">
+                  <div class="item-col fixed item-col-check">
+                      <label class="item-check" id="select-all-items">
+                          <input type="checkbox" class="checkbox">
+                          <span></span>
+                      </label>
+                  </div>
+                  <div class="item-col fixed item-col-img md"
+                       style="justify-content: center;min-width: 100px;margin: 0 10px;">
+                      <span>#<%=list.get(i).getId()%></span>
+                  </div>
+                  <div class="item-col fixed pull-left item-col-title"
+                       style="padding: 0 !important; max-width: 100px; text-align: center;">
+                      <div class="item-heading">Level</div>
+                      <div>
+                          <a>
+                              <h4 class="item-title"><%=list.get(i).getLevel()%>
+                              </h4>
+                          </a>
+                      </div>
+                  </div>
+                  <div class="item-col item-col-sales" style="text-align: center;margin: 0 5px;">
+                      <div class="item-heading">Loại Thông Báo</div>
+                      <div class="sales" style="text-align: center"><%=list.get(i).getType()%>
+                      </div>
+                  </div>
+                  <div class="item-col item-col-author" style="text-align: center;margin: 0 10px;">
+                      <div class="item-heading">Thông báo</div>
+                      <div class="no-overflow" style="text-align: center">
                           <%=list.get(i).getMessage()%>
                       </div>
-                    </div>
-                        <div class="log-date">
-                          <div class="" style="text-align: left;">
-                              <div class="">
-                                  <i>
-                                      Ngày <%=list.get(i).getCreated_date()%>
-                                  </i>
-                              </div>
-                          </div>
+                  </div>
+                  <div class="item-col item-col-date" style="text-align: center;margin: 0 20px;">
+                      <div class="item-heading">Ngày thêm</div>
+                      <div class="no-overflow"><%=list.get(i).getCreated_date()%>
                       </div>
-                    </div>
-<%--                    <div class="log-undisplay"></div>--%>
-                    <div class="item-col fixed item-col-actions-dropdown log-btn"
-                         style="margin-left: auto !important;"
-                    >
-                        <div class="item-actions-dropdown " >
-                            <a class="item-actions-toggle-btn ">
-                                    <span class="inactive">
-                                        <i class="fa fa-cog" style="margin-top: 5px;display: none"></i>
-                                    </span>
-                                <span class="active">
-                                        <i class="fa fa-chevron-circle-right" style="margin-top: 5px"></i>
-                                    </span>
-                            </a>
-                            <div class="item-actions-block" style="margin-top: 1px">
-                                <ul class="item-actions-list" style="margin-top: 1px;">
-                                    <%
-                                      for (AdminRole role : admin.getRole()) {
-                                        if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {
-                                    %>
-                                    <li>
-                                        <a class="remove" id="remove<%=list.get(i).getId()%>"
-                                           data-toggle="modal"
-                                           data-target="#confirm-modal" style="cursor: pointer">
-                                            <i class="fa fa-trash-o "></i>
-                                        </a>
-                                    </li>
-                                    <%
-                                        }
-                                      }
-                                    %>
-                                </ul>
-                            </div>
+                  </div>
+                <div class="item-col fixed item-col-actions-dropdown" style="margin-left: auto !important;">
+                    <div class="item-actions-dropdown " >
+                        <a class="item-actions-toggle-btn ">
+                                <span class="inactive">
+                                    <i class="fa fa-cog" style="margin-top: 5px;"></i>
+                                </span>
+                            <span class="active">
+                                    <i class="fa fa-chevron-circle-right" style="margin-top: 5px"></i>
+                                </span>
+                        </a>
+                        <div class="item-actions-block" style="margin-top: 1px">
+                            <ul class="item-actions-list" style="margin-top: 1px;">
+                                <%
+                                  for (AdminRole role : admin.getRole()) {
+                                    if (role.getTable().equals("admin") && role.getPermission().equals("admin") || role.getTable().equals("log") && role.getPermission().equals("delete")) {
+                                %>
+                                <li>
+                                    <a class="remove" id="remove<%=list.get(i).getId()%>"
+                                       data-toggle="modal"
+                                       data-target="#confirm-modal" style="cursor: pointer">
+                                        <i class="fa fa-trash-o "></i>
+                                    </a>
+                                </li>
+                                <%
+                                    }
+                                  }
+                                %>
+                            </ul>
                         </div>
                     </div>
                 </div>
