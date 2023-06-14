@@ -51,10 +51,10 @@ public class EditInsertSlideController extends HttpServlet {
             String[] splited = oldImg.split(",");
             System.out.println(Arrays.toString(splited));
             for (String split : splited) {
-                File fileInServer = new File(request.getServletContext().getAttribute("TEMPAVATAR_DIR") + File.separator + split);
+                File fileInServer = new File(request.getServletContext().getAttribute("TEMPSLIDE_DIR") + File.separator + split);
                 if (fileInServer.exists())
                     fileInServer.delete();
-                File fileInLocal = new File(request.getServletContext().getAttribute("FILEAVATAR_DIR") + File.separator + split);
+                File fileInLocal = new File(request.getServletContext().getAttribute("FILESLIDE_DIR") + File.separator + split);
                 if (fileInLocal.exists())
                     fileInLocal.delete();
             }
@@ -63,9 +63,9 @@ public class EditInsertSlideController extends HttpServlet {
 
     public void copyImage(HttpServletRequest request, String imgFile) throws IOException {
         if (imgFile != null) {
-            File file = new File(request.getServletContext().getAttribute("TEMPAVATAR_DIR") + File.separator + imgFile);
+            File file = new File(request.getServletContext().getAttribute("TEMPSLIDE_DIR") + File.separator + imgFile);
             FileInputStream fis = new FileInputStream(file);
-            File local = new File(request.getServletContext().getAttribute("FILEAVATAR_DIR") + File.separator + imgFile);
+            File local = new File(request.getServletContext().getAttribute("FILESLIDE_DIR") + File.separator + imgFile);
             FileOutputStream fos = new FileOutputStream(local);
             byte[] bytes = new byte[1024];
             int read;
