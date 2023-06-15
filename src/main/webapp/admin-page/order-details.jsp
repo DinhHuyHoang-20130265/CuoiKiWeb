@@ -361,6 +361,33 @@
                                             <% } %>
                                             <div class="ui-information-body pb-4">
                                                 <div class="row">
+                                                    <div class="col">Mã vận chuyển</div>
+                                                    <div class="col-auto text-right"
+                                                         style="color: darkblue"><%=(order.getId_transport() == null || order.getId_transport().equals("")) ? "" : order.getId_transport()%>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="text" id="id-transport"
+                                                   value="<%=(order.getId_transport() == null || order.getId_transport().equals("")) ? "" : order.getId_transport()%>"
+                                                   style="display: none">
+                                            <div class="ui-information-body pb-4">
+                                                <div class="row">
+                                                    <div class="col">Ngày tạo Mã vận chuyển</div>
+                                                    <div class="col-auto text-right"
+                                                         style="color: darkblue" id="created_date_transport">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="ui-information-body pb-4">
+                                                <div class="row">
+                                                    <div class="col">Cập nhật vận chuyển lần gần nhất</div>
+                                                    <div class="col-auto text-right"
+                                                         style="color: darkblue" id="updated_date_transport">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="ui-information-body pb-4">
+                                                <div class="row">
                                                     <div class="col">Đã thanh toán</div>
                                                     <%if (order.getPayment_status() == 0) { %>
                                                     <div class="col-auto text-right">0 ₫</div>
@@ -531,6 +558,38 @@
 <script src="./js/jquery-3.6.1.min.js"></script>
 <script src="./js/vendor.js"></script>
 <script src="./js/app.js"></script>
+<script>
+    let access_token
+    $.ajax({
+        url: "../API/Login",
+        type: "post",
+        success: function (data) {
+            access_token = data.access_token
+            $.ajax({
+                url: "../API/Transport",
+                data: {
+                    access_token: access_token
+                },
+                type: "post",
+                success: function (data) {
+                    if ($("#id-transport").val() !== null && $("#id-transport").val() !== "") {
+                        const detect = data.find(item => item.id === $("#id-transport").val());
+                        if (detect) {
+                            $("#created_date_transport").text(detect.created_at);
+                            $("#updated_date_transport").text(detect.updated_at);
+                        }
+                    }
+                },
+                error: function (data) {
+                    console.log(data)
+                }
+            })
+        },
+        error: function (data) {
+            console.log(data)
+        }
+    })
+</script>
 <script>
     const id = $("#ordId").val();
     $("#orderStatus").click(function (e) {

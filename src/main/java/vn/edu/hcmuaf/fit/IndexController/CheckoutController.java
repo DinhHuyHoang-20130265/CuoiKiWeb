@@ -1,8 +1,10 @@
 package vn.edu.hcmuaf.fit.IndexController;
 
+import vn.edu.hcmuaf.fit.APIController.api;
 import vn.edu.hcmuaf.fit.DAO.OrderDAO;
 import vn.edu.hcmuaf.fit.DAO.PromotionCodeDAO;
 import vn.edu.hcmuaf.fit.beans.MailConfiguration;
+import vn.edu.hcmuaf.fit.beans.Transport;
 import vn.edu.hcmuaf.fit.beans.cart.Cart;
 import vn.edu.hcmuaf.fit.beans.cart.CartKey;
 import vn.edu.hcmuaf.fit.beans.promotion_code.PromotionCode;
@@ -38,6 +40,12 @@ public class CheckoutController extends HttpServlet {
         String customer_id = request.getParameter("customer_id");
         String sale_code = request.getParameter("sale_code");
         double transferFee = Double.parseDouble(request.getParameter("transferFee"));
+        String district = request.getParameter("district");
+        String ward = request.getParameter("ward");
+        String token = request.getParameter("token");
+        request.getSession().setAttribute("district", district);
+        request.getSession().setAttribute("ward", ward);
+        request.getSession().setAttribute("token", token);
 
         Cart cart = (Cart) request.getSession().getAttribute("cart");
         OrderService.getInstance().insertOrder(ord_id, payment_method, total, address, receive_name, email, phone_number, note, customer_id, sale_code, transferFee);
@@ -117,7 +125,11 @@ public class CheckoutController extends HttpServlet {
                 response.getWriter().println("Đơn hàng của bạn đã được tạo thành công và đang chờ cửa hàng xử lý");
                 NotifyService.getInstance().addNewNotify("Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id, ord_id);
                 LogService.getInstance().addNewLog(customer_id, "order", "customer", "Tài khoản " + customer_id + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id);
+                Transport transport = api.getInstance().registerTransport(token, district, ward);
+                OrderService.getInstance().setID_transport(ord_id, transport.getId());
                 request.getSession().setAttribute("cart", new Cart());
+                request.getSession().removeAttribute("district");
+                request.getSession().removeAttribute("ward");
             } else {
 //            MailService.getInstance().initializedSesstion(MailConfiguration.USERNAME_PNTSHOP, MailConfiguration.PASSWORD_PNTSHOP);
 //            MailService.getInstance().sendMail("PNTSHOP", email, subject, text, MailConfiguration.MAIL_HTML);

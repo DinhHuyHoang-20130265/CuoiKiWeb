@@ -68,6 +68,10 @@ public class OrderService {
         return new OrderDAO().containTransaction_id(id);
     }
 
+    public void setID_transport(String ord_id, String id) {
+        new OrderDAO().setID_Transport(ord_id, id);
+    }
+
     public static void main(String[] args) {
         String id = new OrderDAO().generateIdOrder();
     }

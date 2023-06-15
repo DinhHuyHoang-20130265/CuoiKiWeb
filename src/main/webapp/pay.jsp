@@ -477,7 +477,10 @@
                 total: total,
                 customer_id: customer_id,
                 sale_code: sale_code,
-                transferFee: transferFee
+                transferFee: transferFee,
+                district: districtCode,
+                ward: wardCode,
+                token: access_token
             },
             success: function (data) {
                 if (!$.trim(data))

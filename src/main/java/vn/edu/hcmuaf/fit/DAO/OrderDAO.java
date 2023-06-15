@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class OrderDAO {
     public List<Order> getOrderListByUserId(String id) {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, " +
-                        "o.payment_method, o.payment_status, o.delivered,o.isCanceled, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note, o.code_id, o.transfer_fee, o.transaction_code, o.transaction_date_string" +
+                        "o.payment_method, o.payment_status, o.delivered,o.isCanceled, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note, o.code_id, o.transfer_fee, o.transaction_code, o.transaction_date_string, o.id_transport" +
                         " FROM orders o WHERE o.customer_id =?")
                 .bind(0, id)
                 .mapToBean(Order.class)
@@ -94,7 +94,7 @@ public class OrderDAO {
 
     public Order getOrderById(String id) {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, o.isCanceled, " +
-                        "o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note, o.code_id, o.transfer_fee, o.transaction_code, o.transaction_date_string" +
+                        "o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note, o.code_id, o.transfer_fee, o.transaction_code, o.transaction_date_string, o.id_transport" +
                         " FROM orders o WHERE o.ord_id =?")
                 .bind(0, id)
                 .mapToBean(Order.class)
@@ -133,7 +133,7 @@ public class OrderDAO {
     }
 
     public List<Order> getOrderListCondition(String page, String orderBy, String search) {
-        String sql = "SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, o.isCanceled, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note, o.code_id, o.transfer_fee, o.transaction_code, o.transaction_date_string FROM orders o WHERE o.isCanceled = 1";
+        String sql = "SELECT o.ord_id, o.ord_date, o.status, o.payment_method, o.payment_status, o.delivered, o.isCanceled, o.total, o.delivery_date, o.customer_id, o.address, o.receive_name, o.email, o.phone_number, o.note, o.code_id, o.transfer_fee, o.transaction_code, o.transaction_date_string, o.id_transport FROM orders o WHERE o.isCanceled = 1";
         if (search != null) {
             if (search.length() > 0) {
                 sql += " WHERE o.ord_id LIKE '%" + search + "%'";
@@ -257,6 +257,16 @@ public class OrderDAO {
         });
     }
 
+    public void setID_Transport(String ord_id, String id) {
+        JDBIConnector.get().withHandle(handle -> {
+            handle.createUpdate("UPDATE orders SET id_transport= ? WHERE ord_id= ?")
+                    .bind(0, id)
+                    .bind(1, ord_id)
+                    .execute();
+            return null;
+        });
+    }
+
     public Order getOrderByIdTransaction(String id) {
         Optional<Order> order = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM orders WHERE transaction_code = ?")
                 .bind(0, id)
@@ -268,6 +278,5 @@ public class OrderDAO {
 
     public static void main(String[] args) {
         System.out.println(new OrderDAO().getOrderById("DAZjPVy0OT"));
-
     }
 }
