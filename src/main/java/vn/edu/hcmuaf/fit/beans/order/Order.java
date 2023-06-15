@@ -24,11 +24,12 @@ public class Order implements Serializable {
     private String transaction_code;
 
     private String transaction_date_string;
+    private String id_transport;
 
     public Order() {
     }
 
-    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, int isCanceled, double total, String delivery_date, String customer_id, String address, String receive_name, String email, String phone_number, String note, String code_id, double transfer_fee, String transaction_code, String transaction_date_string) {
+    public Order(String ord_id, String ord_date, int status, int payment_method, int payment_status, int delivered, int isCanceled, double total, String delivery_date, String customer_id, String address, String receive_name, String email, String phone_number, String note, String code_id, double transfer_fee, String transaction_code, String transaction_date_string, String id_transport) {
         this.ord_id = ord_id;
         this.ord_date = ord_date;
         this.status = status;
@@ -48,6 +49,7 @@ public class Order implements Serializable {
         this.transfer_fee = transfer_fee;
         this.transaction_code = transaction_code;
         this.transaction_date_string = transaction_date_string;
+        this.id_transport = id_transport;
     }
 
     public String getOrd_id() {
@@ -202,6 +204,14 @@ public class Order implements Serializable {
         this.transaction_date_string = transaction_date_string;
     }
 
+    public String getId_transport() {
+        return id_transport;
+    }
+
+    public void setId_transport(String id_transport) {
+        this.id_transport = id_transport;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -224,6 +234,7 @@ public class Order implements Serializable {
                 ", transfer_fee='" + transfer_fee + '\'' +
                 ", transaction_code='" + transaction_code + '\'' +
                 ", transaction_date_string='" + transaction_date_string + '\'' +
+                ", id_transport='" + id_transport + '\'' +
                 '}';
     }
 }

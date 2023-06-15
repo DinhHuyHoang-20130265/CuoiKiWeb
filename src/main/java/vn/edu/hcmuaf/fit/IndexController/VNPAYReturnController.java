@@ -67,6 +67,7 @@ public class VNPAYReturnController extends HttpServlet {
                 NotifyService.getInstance().addNewNotify("Có Tài khoản đã đặt một đơn hàng mới, mã vận đơn: " + ord_id_return, ord_id_return);
                 LogService.getInstance().addNewLog(id_user, "order", "customer", "Tài khoản " + id_user + " đã đặt một đơn hàng mới, mã vận đơn: " + ord_id_return);
                 request.getSession().setAttribute("cart", new Cart());
+
                 OrderService.getInstance().UpdatePaymentStatus(ord_id_return);
                 OrderService.getInstance().UpdateOrderStatus(ord_id_return);
                 OrderService.getInstance().setTransactionVNPAY(ord_id_return, vnp_TxnRef, vnp_PayDate);

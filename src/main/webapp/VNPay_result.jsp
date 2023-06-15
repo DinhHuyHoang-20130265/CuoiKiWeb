@@ -16,6 +16,29 @@
 <script src="./assets/js/jquery-3.6.1.min.js"></script>
 <script>
     if ($("#result").val() === "Success") {
+        let access_token
+        $.ajax({
+            url: "./API/Login",
+            type: "post",
+            success: function (data) {
+                access_token = data.access_token
+                $.ajax({
+                    url: "./API/Register",
+                    data: {
+                        access_token: access_token
+                    },
+                    type: "post",
+                    success: function (data) {
+                    },
+                    error: function (data) {
+                        console.log(data)
+                    }
+                })
+            },
+            error: function (data) {
+                console.log(data)
+            }
+        })
         alert("Thanh toán thành công, cảm ơn bạn đã mua hàng tại P&T Shop !")
         window.location.href = 'index.jsp'
     } else if ($("#result").val() === "Failed") {
