@@ -167,12 +167,12 @@
                             style="font-size: 16px;margin-left: 10px;"></i></button>
                     <h4>HOẶC ĐĂNG NHẬP BẰNG</h4>
                     <div class="form-social">
-                        <a href="https://www.facebook.com/dialog/oauth?client_id=2000376943622419&redirect_uri=https://redirectmeto.com/http://34.142.249.189/CuoiKiWeb/login-facebook"
+                        <a href="https://www.facebook.com/dialog/oauth?client_id=2000376943622419&redirect_uri=https://redirectmeto.com/https://localhost:8443/CuoiKiWeb_war/login-facebook"
                            class="form-submit-social btn-blocker" id="facebook-login">
                             <span>Facebook</span>
                             <img src="./assets/icon/facebook.svg" alt="" class="form-submit-social--img">
                         </a>
-                        <a href="https://accounts.google.com/o/oauth2/auth?scope=profile+email&redirect_uri=https://redirectmeto.com/http://34.142.249.189/CuoiKiWeb/login-google&response_type=code
+                        <a href="https://accounts.google.com/o/oauth2/auth?scope=profile+email&redirect_uri=https://redirectmeto.com/https://localhost:8443/CuoiKiWeb_war/login-google&response_type=code
                         &client_id=910519969681-toe1jki11dlo6blotqtm47npbu31t6rd.apps.googleusercontent.com&approval_prompt=force"
                            class="form-submit-social btn-blocker">
                             <span>GOOGLE</span>
