@@ -275,6 +275,11 @@
                                                 class="fas fa-spinner fa-spin" aria-hidden="true"></i></span></div>
                                     </div>
                                     <input type="text" id="cal-fee" value="0" style="display: none">
+                                    <div class="row row-sliderbar-footer">
+                                        <div class="col-6"><span>Giảm giá:</span></div>
+                                        <div class="col-6 text-right"><span class="discount"></span></div>
+                                    </div>
+                                    <input type="text" id="discount-fee" value="0" style="display: none">
                                 </div>
                                 <div class="total">
                                     <div class="row row-sliderbar-footer">
@@ -500,6 +505,7 @@
         $(".codebutt").click(function (e) {
             if ($(".sale_code").val() == null || $(".sale_code").val().length < 1) {
                 alert("Mã ưu đãi rỗng !")
+                return false
             } else {
                 e.preventDefault();
                 const sale_code = $(".sale_code").val();
@@ -510,12 +516,22 @@
                         sale_code: sale_code
                     },
                     success: function (data) {
-                        $(".slider-footer").each(function () {
-                            $(this).html(data);
-                        })
+                        $("#discount-fee").val(parseInt(data))
+                        $(".sale_code_hidden").val($(".sale_code").val());
+                        let discount = new Intl.NumberFormat('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }).format(data);
+                        $(".discount").text(discount);
+                        $(".total_input").val((parseInt($("#cal-fee").val()) === 0 ? 0 : parseFloat($("#cal-fee").val())) + parseFloat($("#total-not-contain-fee").val()) - parseFloat($("#discount-fee").val()))
+                        $("#total-display").html(new Intl.NumberFormat('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        }).format((parseInt($("#cal-fee").val()) === 0 ? 0 : parseFloat($("#cal-fee").val())) + parseFloat($("#total-not-contain-fee").val()) - parseFloat($("#discount-fee").val())));
                     },
                     error: function (data) {
                         alert("Mã của bạn đã hết hạn hoặc không thể sử dụng");
+                        return false
                     }
                 })
             }
@@ -634,11 +650,12 @@
                 }).format(transferFee)
                 $("#transfer-fee").text(fee)
                 $("#cal-fee").val(transferFee)
-                $(".total_input").val(transferFee + parseFloat($("#total-not-contain-fee").val()))
+                const discount = $("#discount-fee").val();
+                $(".total_input").val(transferFee + parseFloat($("#total-not-contain-fee").val()) - (discount !== "0" && discount !== null ? parseFloat(discount) : parseFloat("0")))
                 $("#total-display").html(new Intl.NumberFormat('vi-VN', {
                     style: 'currency',
                     currency: 'VND'
-                }).format(transferFee + parseFloat($("#total-not-contain-fee").val())))
+                }).format(transferFee + parseFloat($("#total-not-contain-fee").val()) - (discount !== "0" && discount !== null ? parseFloat(discount) : parseFloat("0"))));
             },
             error: function (data) {
                 console.log(data)
