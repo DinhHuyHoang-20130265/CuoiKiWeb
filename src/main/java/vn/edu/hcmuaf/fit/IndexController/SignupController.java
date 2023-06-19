@@ -73,6 +73,7 @@ public class SignupController extends HttpServlet {
                             } else request.getSession().setAttribute("errorCode", "Mã đã hết hạn");
                         } else request.getSession().setAttribute("errorCode", "Mã xác nhận không đúng");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         request.getSession().setAttribute("errorCode", "Mã xác nhận phải là số");
                     }
                 }
