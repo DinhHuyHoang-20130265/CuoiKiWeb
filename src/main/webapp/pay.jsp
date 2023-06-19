@@ -131,7 +131,7 @@
     SiteUser user = (SiteUser) request.getSession().getAttribute("user");
     Cart cart = (Cart) request.getSession().getAttribute("cart");
     UserInformation userInformation = null;
-    if (user == null) {
+    if (user == null || cart.getData().isEmpty()) {
         response.sendRedirect("Login.jsp");
     } else {
         userInformation = UserInformationService.getInstance().getUserInfo(user.getId());

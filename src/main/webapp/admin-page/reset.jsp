@@ -114,7 +114,7 @@
             },
             success: function (response) {
                 if (response.includes("complete"))
-                    window.location.href = "../admin-page/login.jsp"
+                    window.location.href = "login.jsp"
                 else {
                     $("#reset-form-reset").html(response);
                 }
