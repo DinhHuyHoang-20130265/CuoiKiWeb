@@ -447,7 +447,7 @@
         const total = $(".total_input").val();
         const customer_id = $(".user_id").val();
         const sale_code = $(".sale_code_hidden").val();
-        if (address === '' || address == null) {
+        if (address === '' || address == null || address === "null") {
             alert("Bạn cần điền địa chỉ giao hàng")
             return false;
         }
@@ -503,9 +503,9 @@
 
     function applyCode() {
         $(".codebutt").click(function (e) {
-            if ($(".sale_code").val() == null || $(".sale_code").val().length < 1) {
-                alert("Mã ưu đãi rỗng !")
-                return false
+            const address = $("#diachi").val();
+            if ($(".sale_code").val() == null || $(".sale_code").val().length < 1 || address === '' || address == null || address === "null") {
+                alert("Mã ưu đãi rỗng hoặc bạn chưa điền địa chỉ giao hàng !")
             } else {
                 e.preventDefault();
                 const sale_code = $(".sale_code").val();
@@ -516,22 +516,24 @@
                         sale_code: sale_code
                     },
                     success: function (data) {
-                        $("#discount-fee").val(parseInt(data))
-                        $(".sale_code_hidden").val($(".sale_code").val());
-                        let discount = new Intl.NumberFormat('vi-VN', {
-                            style: 'currency',
-                            currency: 'VND'
-                        }).format(data);
-                        $(".discount").text(discount);
-                        $(".total_input").val((parseInt($("#cal-fee").val()) === 0 ? 0 : parseFloat($("#cal-fee").val())) + parseFloat($("#total-not-contain-fee").val()) - parseFloat($("#discount-fee").val()))
-                        $("#total-display").html(new Intl.NumberFormat('vi-VN', {
-                            style: 'currency',
-                            currency: 'VND'
-                        }).format((parseInt($("#cal-fee").val()) === 0 ? 0 : parseFloat($("#cal-fee").val())) + parseFloat($("#total-not-contain-fee").val()) - parseFloat($("#discount-fee").val())));
+                        if (!$.trim(data)) {
+                            alert("Mã của bạn đã hết hạn hoặc không thể sử dụng");
+                        } else {
+                            $("#discount-fee").val(parseInt(data))
+                            $(".sale_code_hidden").val($(".sale_code").val());
+                            let discount = new Intl.NumberFormat('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND'
+                            }).format(data);
+                            $(".discount").text(discount);
+                            $(".total_input").val((parseInt($("#cal-fee").val()) === 0 ? 0 : parseFloat($("#cal-fee").val())) + parseFloat($("#total-not-contain-fee").val()) - parseFloat($("#discount-fee").val()))
+                            $("#total-display").html(new Intl.NumberFormat('vi-VN', {
+                                style: 'currency',
+                                currency: 'VND'
+                            }).format((parseInt($("#cal-fee").val()) === 0 ? 0 : parseFloat($("#cal-fee").val())) + parseFloat($("#total-not-contain-fee").val()) - parseFloat($("#discount-fee").val())));
+                        }
                     },
                     error: function (data) {
-                        alert("Mã của bạn đã hết hạn hoặc không thể sử dụng");
-                        return false
                     }
                 })
             }
