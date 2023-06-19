@@ -310,7 +310,7 @@
                 admin_id: admin_id
             },
             success: function () {
-                if (id.length < 1)
+                if (id_edit.length < 1)
                     alert("Thêm mã khuyến mãi thành công");
                 else
                     alert("Cập nhật mã khuyến mãi thành công");

@@ -35,6 +35,6 @@ public class PromotionCodeService {
         new PromotionCodeDAO().InsertNewPromotionCode(code_id, name_code, desc_code, type_code, discount_money, status, start_date, end_date, created_by);
     }
     public void UpdateNewPromotionCode(String code_edit, String code_id, String name_code, String desc_code, String type_code, int discount_money, int status, String start_date, String end_date, String created_by) {
-        new PromotionCodeDAO().InsertNewPromotionCode(code_id, name_code, desc_code, type_code, discount_money, status, start_date, end_date, created_by);
+        new PromotionCodeDAO().UpdatePromotionCode(code_edit, code_id, name_code, desc_code, type_code, discount_money, status, start_date, end_date, created_by);
     }
 }

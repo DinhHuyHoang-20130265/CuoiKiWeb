@@ -30,8 +30,8 @@ public class DeletePromotionCodeAdminController extends HttpServlet {
         String admin = admin_user.getId();
         PromotionCodeService.getInstance().RemovePromotionCode(id);
         List<PromotionCode> codes = PromotionCodeService.getInstance().loadPromotionWithConditionContainsStatus(Integer.parseInt(page), 6);
-        LogService.getInstance().addNewLog(admin, "promotion", "admin", "Admin " + admin + " đã xóa mã promotion : " + id );
+        LogService.getInstance().addNewLog(admin, "promotion", "admin", "Admin " + admin + " đã xóa mã promotion : " + id);
         request.setAttribute("codes", codes);
-        request.getRequestDispatcher("/admin-page/ajax/ajax_LoadPromotionListAdmin.jsp").forward(request, response);
+        request.getRequestDispatcher("/admin-page/ajax/ajax_LoadPromotionCodeListAdmin.jsp").forward(request, response);
     }
 }
