@@ -74,7 +74,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <h3 class="title"> Danh sách mã khuyến mãi
-                                <a href="promotion-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm mã khuyến mãi
+                                <a href="code-editor.jsp" class="btn btn-primary btn-sm rounded-s"> Thêm mã khuyến mãi
                                 </a>
                             </h3>
                         </div>
