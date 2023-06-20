@@ -238,6 +238,19 @@
                                     </option>
                                     <option value="admin" <%=table.equals("admin") ? "selected" : ""%>>Admin
                                     </option>
+                                    <option value="query" <%=table.equals("query") ? "selected" : ""%>>Truy vấn giao
+                                        dịch
+                                    </option>
+                                    <option value="contact" <%=table.equals("contact") ? "selected" : ""%>>Liên hệ
+                                    </option>
+                                    <option value="notify" <%=table.equals("notify") ? "selected" : ""%>>Thông báo
+                                    </option>
+                                    <option value="import" <%=table.equals("import") ? "selected" : ""%>>Nhập hàng
+                                    </option>
+                                    <option value="log" <%=table.equals("log") ? "selected" : ""%>>Log
+                                    </option>
+                                    <option value="refund" <%=table.equals("refund") ? "selected" : ""%>>Hoàn tiền
+                                    </option>
                                 </select>
                                 <select class="c-select form-control" disabled>
                                     <option value="null">Không
