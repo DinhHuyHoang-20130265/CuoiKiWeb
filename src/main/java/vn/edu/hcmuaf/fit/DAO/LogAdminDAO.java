@@ -16,7 +16,7 @@ public class LogAdminDAO {
                 collect(Collectors.toList()));
     }
     public List<LogAdmin> loadLogWithPage(int page,int logs) {
-        List<LogAdmin> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM log_admin ORDER BY created_date DESC ")
+        List<LogAdmin> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT l.id, l.user_id, l.level, l.type, l.message, l.created_date FROM log_admin l ORDER BY l.created_date DESC ")
                 .mapToBean(LogAdmin.class)
                 .stream()
                 .collect(Collectors.toList()));
@@ -59,7 +59,7 @@ public class LogAdminDAO {
     }
     public List<LogAdmin> loadNewestLogs() {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("" +
-                        "SELECT * FROM log_admin ORDER BY created_date DESC LIMIT 6")
+                        "SELECT l.id, l.user_id, l.level, l.type, l.message, l.created_date FROM log_admin l ORDER BY l.created_date DESC LIMIT 6")
                 .mapToBean(LogAdmin.class)
                 .stream()
                 .collect(Collectors.toList()));
@@ -89,6 +89,7 @@ public class LogAdminDAO {
         );
     }
     public static void main(String[] args) {
-        System.out.println(new LogAdminDAO().loadNewestLogs());
+//        System.out.println(new LogAdminDAO().loadNewestLogs());
+        System.out.println(new LogAdminDAO().loadLogWithPage(1,5));
     }
 }
