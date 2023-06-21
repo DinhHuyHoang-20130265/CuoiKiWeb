@@ -20,7 +20,7 @@ public class ProductDAO {
     }
 
     public void loadAllProduct() {
-        listProduct = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product WHERE prod_status = 1").mapToBean(Product.class).stream().collect(Collectors.toList()));
+        listProduct = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, p.prod_status, p.main_img_link, p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count, p.updated_date, p.updated_by FROM product p WHERE p.prod_status = 1").mapToBean(Product.class).stream().collect(Collectors.toList()));
     }
 
     public int getProductSaled(String id) {
@@ -28,7 +28,10 @@ public class ProductDAO {
     }
 
     public List<Product> loadAllProductContainStatus() {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product").mapToBean(Product.class).stream().collect(Collectors.toList()));
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT p.id, p.prod_name, p.prod_desc, p.content, " +
+                "p.prod_status, p.main_img_link, p.price, p.released_date, p.released_by, p.quantity, p.warranty_day, p.view_count, " +
+                "p.updated_date, p.updated_by FROM product p")
+                .mapToBean(Product.class).stream().collect(Collectors.toList()));
     }
 
     public List<Product> loadProductWithCondition(int page, int num_per_page, String order_by, String cate_id, String color, String price, String size, String search) {
@@ -338,6 +341,7 @@ public class ProductDAO {
     }
 
     public static void main(String[] args) {
-        new ProductDAO().AddViewCount("es7eiZnBwf");
+        System.out.println("---------");
+        System.out.println(new ProductDAO().loadAllProductContainStatus());
     }
 }

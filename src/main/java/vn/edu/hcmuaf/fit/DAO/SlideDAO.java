@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 
 public class SlideDAO {
     public  List<Slide> LoadAllSlide() {
-      return  JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM slide WHERE slide_status = 1")
+      return  JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT s.slide_id, s.slide_link, s.slide_desc, s.slide_status FROM slide s WHERE s.slide_status = 1")
                 .mapToBean(Slide.class)
                 .stream()
                 .collect(Collectors.toList()));
     }
     public List<Slide> getAllSlideByPage(int page) {
-        List<Slide> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM slide")
+        List<Slide> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT s.slide_id, s.slide_link, s.slide_desc, s.slide_status FROM slide s")
                 .mapToBean(Slide.class)
                 .stream()
                 .collect(Collectors.toList())
@@ -101,7 +101,7 @@ public class SlideDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new SlideDAO().getAllSlideByPage(1));
+        System.out.println(new SlideDAO().getAllSlideByPage(2));
         System.out.println(new SlideDAO().LoadAllSlide());
     }
 }

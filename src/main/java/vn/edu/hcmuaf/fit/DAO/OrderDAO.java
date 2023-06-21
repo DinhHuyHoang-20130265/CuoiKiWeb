@@ -268,7 +268,10 @@ public class OrderDAO {
     }
 
     public Order getOrderByIdTransaction(String id) {
-        Optional<Order> order = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM orders WHERE transaction_code = ?")
+        Optional<Order> order = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT od.ord_id, od.ord_date, od.status, " +
+                        " od.payment_method, od.payment_status, od.delivered, od.isCanceled, od.total, od.delivery_date, od.customer_id, " +
+                        " od.address, od.receive_name, od.email, od.phone_number, od.note, od.code_id, od.transfer_fee, " +
+                        " od.transaction_code, od.transaction_date_string, od.id_transport FROM orders od WHERE od.transaction_code = ?")
                 .bind(0, id)
                 .mapToBean(Order.class)
                 .findFirst()
@@ -277,6 +280,6 @@ public class OrderDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new OrderDAO().getOrderById("DAZjPVy0OT"));
+        System.out.println(new OrderDAO().getOrderByIdTransaction("16171078"));
     }
 }

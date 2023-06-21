@@ -22,7 +22,7 @@ public class ProductReviewDAO {
     }
 
     public ProductReview getReviewByUserId(String id) {
-        Optional<ProductReview> review = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review WHERE review_by = ?")
+        Optional<ProductReview> review = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT pr.review_id, pr.review_prod, pr.review_by, pr.vote_star, pr.review_desc, pr.review_status, pr.review_date FROM product_review pr WHERE pr.review_by = ?")
                 .bind(0, id)
                 .mapToBean(ProductReview.class)
                 .findFirst()
@@ -40,7 +40,9 @@ public class ProductReviewDAO {
     }
 
     public ProductReview getReviewByIdReview(String id) {
-        Optional<ProductReview> review = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review WHERE review_id = ?")
+        Optional<ProductReview> review = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT pr.review_id, " +
+                        "pr.review_prod, pr.review_by, pr.vote_star, pr.review_desc, pr.review_status, pr.review_date " +
+                        "FROM product_review pr WHERE pr.review_id = ?")
                 .bind(0, id)
                 .mapToBean(ProductReview.class)
                 .findFirst()
@@ -135,7 +137,8 @@ public class ProductReviewDAO {
     }
 
     public List<ProductReview> loadAllReviewByPage(int page) {
-        List<ProductReview> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review ")
+        List<ProductReview> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT pr.review_id, pr.review_prod, " +
+                        "pr.review_by, pr.vote_star, pr.review_desc, pr.review_status, pr.review_date FROM product_review pr ")
                 .mapToBean(ProductReview.class)
                 .stream().collect(Collectors.toList())
         );
@@ -163,7 +166,9 @@ public class ProductReviewDAO {
 
 
     public boolean getReviewByUserId(String id, String prodId) {
-        Optional<ProductReview> review = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM product_review WHERE review_by = ? AND review_prod=?")
+        Optional<ProductReview> review = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT pr.review_id, " +
+                        "pr.review_prod, pr.review_by, pr.vote_star, pr.review_desc, pr.review_status, pr.review_date " +
+                        "FROM product_review pr WHERE pr.review_by = ? AND pr.review_prod=?")
                 .bind(0, id)
                 .bind(1, prodId)
                 .mapToBean(ProductReview.class)
@@ -177,10 +182,11 @@ public class ProductReviewDAO {
     }
 
     public static void main(String[] args) {
-//        System.out.println(new ProductReviewDAO().loadAllReviewByPage(3));
-        System.out.println(new ProductReviewDAO().getUserIdByReview("review01"));
-        System.out.println(new ProductReviewDAO().getProductIdByReview("review01"));
-        System.out.println(new ProductReviewDAO().getReviewByUserId("qwvKl", "prod002"));
+//        System.out.println(new ProductReviewDAO().getReviewByUserId("user2"));
+//        System.out.println(new ProductReviewDAO().getReviewByIdReview("review01"));
+//        System.out.println(new ProductReviewDAO().loadAllReviewByPage(2));
+        System.out.println(new ProductReviewDAO().getReviewByUserId("user2","prod001"));
+        System.out.println(new ProductReviewDAO().getReviewByUserId("user1","prod004"));
     }
 }
 

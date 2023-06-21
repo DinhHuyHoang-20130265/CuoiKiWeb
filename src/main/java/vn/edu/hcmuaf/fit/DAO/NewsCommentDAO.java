@@ -91,7 +91,8 @@ public class NewsCommentDAO {
     }
 
     public NewsComment getCommentByIdComment(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news_comment WHERE comment_id = ?")
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT nc.comment_id, nc.news_id, nc.comment_by, nc.description, nc.commented_date, nc.comment_status " +
+                        "FROM news_comment nc WHERE nc.comment_id = ?")
                 .bind(0, id)
                 .mapToBean(NewsComment.class)
                 .first()
@@ -99,7 +100,8 @@ public class NewsCommentDAO {
     }
 
     public List<NewsComment> getAllCommentFromNews(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news_comment WHERE news_id = ?")
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT nc.comment_id, nc.news_id, nc.comment_by, nc.description, nc.commented_date, nc.comment_status " +
+                        "FROM news_comment nc WHERE nc.news_id = ?")
                 .bind(0, id)
                 .mapToBean(NewsComment.class)
                 .stream().collect(Collectors.toList())
@@ -107,7 +109,8 @@ public class NewsCommentDAO {
     }
 
     public List<NewsComment> getAllCommentByPage(int page) {
-        List<NewsComment> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news_comment")
+        List<NewsComment> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT nc.comment_id, nc.news_id, nc.comment_by, nc.description, nc.commented_date, nc.comment_status " +
+                        "FROM news_comment nc")
                 .mapToBean(NewsComment.class)
                 .stream().collect(Collectors.toList())
 
@@ -142,7 +145,9 @@ public class NewsCommentDAO {
         return user.getComment_by().toString();
     }
     public static void main(String[] args) {
-//        System.out.println(new NewsCommentDAO().getAllCommentByPage(1));
-        System.out.println(new NewsCommentDAO().getUserByIdComment("cmt10"));
+        System.out.println(new NewsCommentDAO().getCommentByIdComment("cmt10"));
+        System.out.println("-------");
+        System.out.println(new NewsCommentDAO().getAllCommentFromNews("news001"));
+
     }
 }

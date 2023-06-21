@@ -11,13 +11,14 @@ import java.util.stream.Collectors;
 public class NewsDAO {
     private List<News> listNews;
     public List<News> loadAllNews() {
-        return listNews = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news ")
+        return listNews = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT n.news_id, n.news_title, n.description" +
+                        ", n.content, n.news_img_link, n.posted_date, n.posted_by, n.updated_date, n.updated_by FROM news n")
                 .mapToBean(News.class)
                 .stream()
                 .collect(Collectors.toList()));
     }
     public List<News> loadAllNewsWithPage(int pageNumb) {
-        List<News> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news")
+        List<News> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT n.news_id, n.news_title, n.description, n.content, n.news_img_link, n.posted_date, n.posted_by, n.updated_date, n.updated_by FROM news n")
                 .mapToBean(News.class)
                 .stream()
                 .collect(Collectors.toList()));
@@ -35,7 +36,9 @@ public class NewsDAO {
         return temp;
     }
     public News getNewsById(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM news WHERE news_id = ?")
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT n.news_id, n.news_title, n.description, " +
+                        "n.content, n.news_img_link, n.posted_date, n.posted_by, n.updated_date, n.updated_by " +
+                        "FROM news n WHERE n.news_id = ?")
                 .bind(0, id)
                 .mapToBean(News.class)
                 .first()
@@ -108,6 +111,8 @@ public class NewsDAO {
     }
 
     public static void main(String[] args) {
+        System.out.println(new NewsDAO().loadAllNews());
+        System.out.println(new NewsDAO().getNewsById("news003"));
         System.out.println(new NewsDAO().loadAllNewsWithPage(2));
     }
 }

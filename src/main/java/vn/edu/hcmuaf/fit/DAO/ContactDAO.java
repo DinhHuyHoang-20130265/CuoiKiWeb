@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 
 public class ContactDAO {
     public static List<Contact> getAllContact() {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM contact")
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT c.id, c.name, c.email, c.phone, c.content, c.reply_content, c.id_admin, c.created_date, c.status FROM contact c")
                 .mapToBean(Contact.class)
                 .stream().
                 collect(Collectors.toList()));
     }
 
     public List<Contact> loadContactWithPage(int page) {
-        List<Contact> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM contact ORDER BY created_date DESC ")
+        List<Contact> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT c.id, c.name, c.email, c.phone, c.content, c.reply_content, c.id_admin, c.created_date, c.status FROM contact c ORDER BY c.created_date DESC ")
                 .mapToBean(Contact.class)
                 .stream()
                 .collect(Collectors.toList()));
@@ -62,7 +62,8 @@ public class ContactDAO {
 
     public List<Contact> loadNewestContact() {
         return JDBIConnector.get().withHandle(handle -> handle.createQuery("" +
-                        "SELECT * FROM contact ORDER BY created_date DESC LIMIT 6")
+                        "SELECT c.id, c.name, c.email, c.phone, c.content, c.reply_content, c.id_admin, c.created_date, c.status " +
+                        "FROM contact c ORDER BY c.created_date DESC LIMIT 6")
                 .mapToBean(Contact.class)
                 .stream()
                 .collect(Collectors.toList()));
@@ -107,7 +108,8 @@ public class ContactDAO {
     }
 
     public Contact getContactById(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM contact WHERE id = ?")
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT c.id, c.name, c.email, c.phone, c.content, " +
+                        "c.reply_content, c.id_admin, c.created_date, c.status FROM contact c WHERE c.id = ?")
                 .bind(0, id)
                 .mapToBean(Contact.class)
                 .first()
@@ -115,7 +117,8 @@ public class ContactDAO {
     }
 
     public List<Contact> loadReplyContactWithPage(int page) {
-        List<Contact> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM contact c WHERE c.status = 1 ORDER BY created_date DESC ")
+        List<Contact> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT c.id, c.name, c.email, c.phone, c.content, " +
+                        "c.reply_content, c.id_admin, c.created_date, c.status FROM contact c WHERE c.status = 1 ORDER BY c.created_date DESC ")
                 .mapToBean(Contact.class)
                 .stream()
                 .collect(Collectors.toList()));
@@ -134,6 +137,8 @@ public class ContactDAO {
     }
 
     public static void main(String[] args) {
+        System.out.println(new ContactDAO().loadNewestContact());
+        System.out.println("-----------");
         System.out.println(new ContactDAO().loadReplyContactWithPage(1));
     }
 }

@@ -10,13 +10,15 @@ import java.util.stream.Collectors;
 
 public class NotifyDAO {
     public static List<Notify_Admin> getAllNotify() {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT n.id, n.content, n.order_id, n.created_date FROM notify_admin n")
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT n.id, n.content, n.order_id, " +
+                        "n.created_date FROM notify_admin n")
                 .mapToBean(Notify_Admin.class)
                 .stream().
                 collect(Collectors.toList()));
     }
     public List<Notify_Admin> loadNotifyWithPage(int page) {
-        List<Notify_Admin> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM notify_admin ")
+        List<Notify_Admin> list = JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT  na.id, na.content," +
+                        " na.order_id, na.created_date FROM notify_admin na")
                 .mapToBean(Notify_Admin.class)
                 .stream()
                 .collect(Collectors.toList()));
@@ -59,7 +61,8 @@ public class NotifyDAO {
     }
     public List<Notify_Admin> loadNewestNotifies() {
          return JDBIConnector.get().withHandle(handle -> handle.createQuery("" +
-                         "SELECT * FROM notify_admin ORDER BY created_date DESC LIMIT 6")
+                         "SELECT  na.id, na.content, na.order_id, na.created_date FROM notify_admin na " +
+                         "ORDER BY na.created_date DESC LIMIT 6")
                 .mapToBean(Notify_Admin.class)
                 .stream()
                 .collect(Collectors.toList()));
@@ -87,13 +90,15 @@ public class NotifyDAO {
         );
     }
     public Notify_Admin getNotifyById(String id) {
-        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT * FROM notify_admin WHERE id = ?")
+        return JDBIConnector.get().withHandle(handle -> handle.createQuery("SELECT  na.id, na.content, na.order_id, na.created_date FROM notify_admin na WHERE na.id = ?")
                             .bind(0, id)
                             .mapToBean(Notify_Admin.class)
                             .first()
         );
     }
     public static void main(String[] args) {
-        System.out.println(new NotifyDAO().loadNewestNotifies());
+        System.out.println(getAllNotify());
+        System.out.println(new NotifyDAO().getNotifyById("FuXyd"));
+        System.out.println(new NotifyDAO().loadNotifyWithPage(2));
     }
 }
